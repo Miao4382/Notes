@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{try}\PYG{p}{:}
+    \PYG{n}{number} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Enter a number: \PYGZdq{}}\PYG{p}{))}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{number}\PYG{p}{)}
+\PYG{k}{except}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Invalid input\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

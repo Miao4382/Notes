@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{file\PYGZus{}object} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}pi\PYGZus{}digits.txt\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n}{file\PYGZus{}object}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{line}\PYG{p}{)}
+
+\PYG{n}{file\PYGZus{}object}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+\end{Verbatim}

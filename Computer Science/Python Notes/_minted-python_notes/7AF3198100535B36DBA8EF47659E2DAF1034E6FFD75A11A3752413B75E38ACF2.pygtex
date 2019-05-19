@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{title} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Alice in Wonderland!\PYGZdq{}}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{title}\PYG{o}{.}\PYG{n}{split}\PYG{p}{())}
+\end{Verbatim}

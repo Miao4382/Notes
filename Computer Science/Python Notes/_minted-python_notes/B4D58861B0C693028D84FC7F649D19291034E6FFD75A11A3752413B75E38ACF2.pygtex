@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{print\PYGZus{}info}\PYG{p}{(}\PYG{n}{name}\PYG{p}{,} \PYG{n}{age}\PYG{p}{,} \PYG{n}{field}\PYG{p}{):}
+    \PYG{n}{info\PYGZus{}dict} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{n}{info\PYGZus{}dict}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{name}
+    \PYG{n}{info\PYGZus{}dict}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}age\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{age}\PYG{p}{)}
+    \PYG{n}{info\PYGZus{}dict}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}field\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{field}
+
+    \PYG{k}{for} \PYG{n}{key}\PYG{p}{,} \PYG{n}{value} \PYG{o+ow}{in} \PYG{n}{info\PYGZus{}dict}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+	\PYG{k}{print}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}:\PYGZdq{}}\PYG{p}{,} \PYG{n}{value}\PYG{p}{)}
+
+
+\PYG{n}{print\PYGZus{}info}\PYG{p}{(}\PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Yu Miao\PYGZdq{}}\PYG{p}{,} \PYG{n}{age}\PYG{o}{=}\PYG{l+m+mi}{29}\PYG{p}{,} \PYG{n}{field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Computer Science\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

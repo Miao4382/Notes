@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{string} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}abcdede\PYGZdq{}}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Counting result : \PYGZdq{}}\PYG{p}{,} \PYG{n}{string}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}de\PYGZdq{}}\PYG{p}{))}
+\end{Verbatim}

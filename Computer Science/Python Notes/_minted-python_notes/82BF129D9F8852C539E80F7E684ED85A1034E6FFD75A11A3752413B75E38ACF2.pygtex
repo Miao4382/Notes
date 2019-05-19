@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dic1} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}First element\PYGZdq{}}\PYG{p}{,}
+    \PYG{l+s+s2}{\PYGZdq{}b\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Second element\PYGZdq{}}\PYG{p}{,}
+    \PYG{l+s+s2}{\PYGZdq{}c\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}What is this?\PYGZdq{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{dic1}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}d\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Fourth element\PYGZdq{}}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{dic1}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}set2} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{my\PYGZus{}set2}\PYG{p}{)}
+\end{Verbatim}

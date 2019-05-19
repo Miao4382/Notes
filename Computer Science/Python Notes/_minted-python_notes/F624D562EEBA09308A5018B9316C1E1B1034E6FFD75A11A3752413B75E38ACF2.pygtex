@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{if} \PYG{n}{expression\PYGZus{}1} \PYG{o+ow}{and} \PYG{n}{expression\PYGZus{}2}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}1 and 2 are both True!\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{elif} \PYG{n}{expression\PYGZus{}1}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}1 is True and 2 is False\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{elif} \PYG{n}{expression\PYGZus{}2}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}1 is False and 2 is True\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{else}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}1 and 2 are both False\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

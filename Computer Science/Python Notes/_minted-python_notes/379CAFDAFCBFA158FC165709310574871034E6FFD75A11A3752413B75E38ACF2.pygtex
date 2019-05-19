@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{t1} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{n}{t2} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}abc\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}today\PYGZdq{}}
+\PYG{n}{t3} \PYG{o}{=} \PYG{n}{t2}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{t1}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{t3}\PYG{p}{)}
+\end{Verbatim}

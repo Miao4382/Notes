@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{x}\PYG{p}{:}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{string}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}search\PYGZus{}key\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}replace\PYGZus{}key\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

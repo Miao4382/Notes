@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}You have inputted: \PYGZdq{}} \PYG{o}{+}
+\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Please input first number: \PYGZdq{}}\PYG{p}{)} \PYG{o}{+}
+\PYG{l+s+s2}{\PYGZdq{} and \PYGZdq{}} \PYG{o}{+}
+\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Please input second number: \PYGZdq{}}\PYG{p}{))}
+\end{Verbatim}

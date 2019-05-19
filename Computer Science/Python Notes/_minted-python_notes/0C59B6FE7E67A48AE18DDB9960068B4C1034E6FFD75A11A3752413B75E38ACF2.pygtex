@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{n}{letter} \PYG{o+ow}{in} \PYG{l+s+s2}{\PYGZdq{}abcde\PYGZdq{}}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{letter}\PYG{p}{)}
+\end{Verbatim}

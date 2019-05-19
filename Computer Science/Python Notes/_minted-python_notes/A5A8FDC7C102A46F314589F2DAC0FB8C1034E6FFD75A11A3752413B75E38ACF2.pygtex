@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}This is a module\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{def} \PYG{n+nf}{roll\PYGZus{}dice}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num}\PYG{p}{)}
+\end{Verbatim}

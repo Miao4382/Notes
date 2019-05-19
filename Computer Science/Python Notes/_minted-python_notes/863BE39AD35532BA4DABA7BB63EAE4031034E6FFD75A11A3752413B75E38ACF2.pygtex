@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{nums} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{]}
+\PYG{n}{name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}what\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}big\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}apple\PYGZdq{}}\PYG{p}{]}
+\PYG{n}{nums}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Before removing: \PYGZdq{}}\PYG{p}{,} \PYG{n}{nums}\PYG{p}{)}
+\PYG{n}{nums}\PYG{o}{.}\PYG{n}{remove}\PYG{p}{(}\PYG{n}{name}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}After removing: \PYGZdq{}}\PYG{p}{,} \PYG{n}{nums}\PYG{p}{)}
+\end{Verbatim}

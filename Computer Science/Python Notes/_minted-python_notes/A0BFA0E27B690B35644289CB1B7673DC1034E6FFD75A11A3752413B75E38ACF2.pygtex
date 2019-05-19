@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{unittest}
+\PYG{k+kn}{from} \PYG{n+nn}{survey} \PYG{k+kn}{import} \PYG{n}{AnonymousSurvey}
+
+
+\PYG{k}{class} \PYG{n+nc}{SurveyTestCase}\PYG{p}{(}\PYG{n}{unittest}\PYG{o}{.}\PYG{n}{TestCase}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}test for language survey\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def} \PYG{n+nf}{setUp}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+	\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Create objects needed for testing:}
+\PYG{l+s+sd}{	    \PYGZhy{} an AnonymousSurvey object}
+\PYG{l+s+sd}{	    \PYGZhy{} a list containing three dummy responses}
+\PYG{l+s+sd}{	\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{survey} \PYG{o}{=} \PYG{n}{AnonymousSurvey}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}dummy\PYGZus{}question\PYGZdq{}}\PYG{p}{)}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dummy\PYGZus{}responses} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}response1\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}response2\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}response3\PYGZdq{}}\PYG{p}{]}
+
+    \PYG{k}{def} \PYG{n+nf}{test\PYGZus{}single\PYGZus{}response\PYGZus{}storage}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+	\PYG{c+c1}{\PYGZsh{} try to store strings in dummy\PYGZus{}responses to the survey.responses list}
+	\PYG{k}{for} \PYG{n}{response} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dummy\PYGZus{}responses}\PYG{p}{:}
+	    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{survey}\PYG{o}{.}\PYG{n}{store\PYGZus{}response}\PYG{p}{(}\PYG{n}{response}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{} use assertIn() to verify storing of \PYGZdq{}dummy\PYGZus{}response\PYGZdq{}}
+	\PYG{k}{for} \PYG{n}{response} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dummy\PYGZus{}responses}\PYG{p}{:}
+	    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{assertIn}\PYG{p}{(}\PYG{n}{response}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{survey}\PYG{o}{.}\PYG{n}{responses}\PYG{p}{)}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{unittest}\PYG{o}{.}\PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}

@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{survey} \PYG{k+kn}{import} \PYG{n}{AnonymousSurvey}
+
+\PYG{c+c1}{\PYGZsh{} Define a question, and use this question to make a survey}
+\PYG{n}{question} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}What language did you first learn to code?\PYGZdq{}}
+\PYG{n}{my\PYGZus{}survey} \PYG{o}{=} \PYG{n}{AnonymousSurvey}\PYG{p}{(}\PYG{n}{question}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Show the question, and store the result of the question}
+\PYG{k}{while} \PYG{n+nb+bp}{True}\PYG{p}{:}
+    \PYG{n}{my\PYGZus{}survey}\PYG{o}{.}\PYG{n}{show\PYGZus{}question}\PYG{p}{()}
+    \PYG{n}{answer} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Input your answer, input q to quit: \PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{answer} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZsq{}}\PYG{p}{:}
+	\PYG{k}{break}
+    \PYG{k}{else}\PYG{p}{:}
+	\PYG{n}{my\PYGZus{}survey}\PYG{o}{.}\PYG{n}{store\PYGZus{}response}\PYG{p}{(}\PYG{n}{answer}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} show the survey result}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Survey completed, thank you!\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{my\PYGZus{}survey}\PYG{o}{.}\PYG{n}{show\PYGZus{}results}\PYG{p}{()}
+\end{Verbatim}

@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{num} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{5.35}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{num}\PYG{p}{))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{num}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}abs\PYGZus{}\PYGZus{}}\PYG{p}{())}
+\end{Verbatim}

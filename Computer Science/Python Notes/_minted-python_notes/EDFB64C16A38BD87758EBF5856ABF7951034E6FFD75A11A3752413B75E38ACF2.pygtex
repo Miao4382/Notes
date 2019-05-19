@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{A}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{()}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{B}\PYG{p}{)}
+\end{Verbatim}

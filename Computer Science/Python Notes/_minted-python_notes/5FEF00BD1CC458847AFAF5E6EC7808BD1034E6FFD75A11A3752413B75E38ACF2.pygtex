@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{make}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{year}\PYG{p}{,} \PYG{n}{odometer}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{):}
+    \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{make}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{year}\PYG{p}{,} \PYG{n}{odometer}\PYG{p}{)}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{battery\PYGZus{}level} \PYG{o}{=} \PYG{l+m+mi}{100}
+\end{Verbatim}

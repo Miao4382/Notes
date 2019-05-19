@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}what\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}big\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}apple\PYGZdq{}}\PYG{p}{]}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The index : \PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{o}{.}\PYG{n}{index}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}apple\PYGZdq{}}\PYG{p}{))}
+\end{Verbatim}

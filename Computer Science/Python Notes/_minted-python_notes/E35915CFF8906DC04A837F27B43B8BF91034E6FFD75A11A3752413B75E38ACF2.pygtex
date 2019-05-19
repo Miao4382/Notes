@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{string} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{this is a title    \PYGZdq{}}\PYG{p}{]}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Before: \PYGZdq{}}\PYG{p}{,} \PYG{n}{string}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}After .rstrip(): \PYGZdq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{string}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{rstrip}\PYG{p}{()])}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}After .lstrip(): \PYGZdq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{string}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{lstrip}\PYG{p}{()])}
+\end{Verbatim}

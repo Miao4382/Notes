@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{matrix}\PYG{p}{)):}
+    \PYG{k}{for} \PYG{n}{column} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{matrix}\PYG{p}{[}\PYG{n}{row}\PYG{p}{])):}
+	\PYG{k}{print}\PYG{p}{(}\PYG{n}{matrix}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{column}\PYG{p}{])}
+\end{Verbatim}

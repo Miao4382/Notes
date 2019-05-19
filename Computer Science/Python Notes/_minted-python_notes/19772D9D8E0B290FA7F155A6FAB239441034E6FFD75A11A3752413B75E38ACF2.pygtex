@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{a} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{b} \PYG{o}{=} \PYG{l+m+mi}{3}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{bin}\PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZca{}} \PYG{n}{b}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{string} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}abcde\PYGZdq{}}
+\PYG{n}{string}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}a\PYGZsq{}}
+\end{Verbatim}

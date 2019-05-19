@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{unittest}
+\PYG{k+kn}{from} \PYG{n+nn}{survey} \PYG{k+kn}{import} \PYG{n}{AnonymousSurvey}
+
+
+\PYG{k}{class} \PYG{n+nc}{SurveyTestCase}\PYG{p}{(}\PYG{n}{unittest}\PYG{o}{.}\PYG{n}{TestCase}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}test for language survey\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def} \PYG{n+nf}{test\PYGZus{}single\PYGZus{}response\PYGZus{}storage}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+	\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}test if single response is stored properly\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+	\PYG{n}{survey} \PYG{o}{=} \PYG{n}{AnonymousSurvey}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}question\PYGZdq{}}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{} try to store a string to the survey.responses list}
+	\PYG{n}{survey}\PYG{o}{.}\PYG{n}{store\PYGZus{}response}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}dummy\PYGZus{}response\PYGZdq{}}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{} use assertIn() to verify storing of \PYGZdq{}dummy\PYGZus{}response\PYGZdq{}}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{assertIn}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}dummy\PYGZus{}response\PYGZdq{}}\PYG{p}{,} \PYG{n}{survey}\PYG{o}{.}\PYG{n}{responses}\PYG{p}{)}
+
+
+\PYG{c+c1}{\PYGZsh{} unittest.main()}
+\end{Verbatim}

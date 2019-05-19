@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Dictionary} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{n}{key\PYGZus{}1}\PYG{p}{:} \PYG{n}{value\PYGZus{}1}\PYG{p}{,}
+    \PYG{n}{key\PYGZus{}2}\PYG{p}{:} \PYG{n}{value\PYGZus{}2}\PYG{p}{,}
+    \PYG{o}{...}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

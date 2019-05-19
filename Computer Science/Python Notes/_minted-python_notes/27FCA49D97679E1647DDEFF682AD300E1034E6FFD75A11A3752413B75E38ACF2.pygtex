@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{matrix}\PYG{p}{:}
+    \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n}{row}\PYG{p}{:}
+	\PYG{k}{print}\PYG{p}{(}\PYG{n}{col}\PYG{p}{)}
+\end{Verbatim}

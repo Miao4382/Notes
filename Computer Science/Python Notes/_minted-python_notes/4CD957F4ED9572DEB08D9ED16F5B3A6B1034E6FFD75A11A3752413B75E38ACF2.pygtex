@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{time\PYGZus{}file} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}time.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{file\PYGZus{}content} \PYG{o}{=} \PYG{n}{time\PYGZus{}file}\PYG{o}{.}\PYG{n}{readlines}\PYG{p}{()[}\PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{file\PYGZus{}content}\PYG{p}{)}
+
+\PYG{n}{time\PYGZus{}file}\PYG{o}{.}\PYG{n}{seek}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{n}{file\PYGZus{}content} \PYG{o}{=} \PYG{n}{time\PYGZus{}file}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{file\PYGZus{}content}\PYG{p}{)}
+
+\PYG{n}{time\PYGZus{}file}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+\end{Verbatim}

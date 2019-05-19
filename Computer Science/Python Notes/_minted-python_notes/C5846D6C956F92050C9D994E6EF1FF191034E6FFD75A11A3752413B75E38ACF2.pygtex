@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{round}\PYG{p}{(}\PYG{l+m+mf}{2.36}\PYG{p}{))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{round}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{2.45}\PYG{p}{))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{round}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{3.1}\PYG{p}{))}
+\end{Verbatim}

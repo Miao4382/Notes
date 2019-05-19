@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{make}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{year}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}initialize attributes to describe a car\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{make} \PYG{o}{=} \PYG{n}{make}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model} \PYG{o}{=} \PYG{n}{model}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{year} \PYG{o}{=} \PYG{n}{year}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{odometer} \PYG{o}{=} \PYG{l+m+mi}{0}
+\end{Verbatim}

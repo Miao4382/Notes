@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{build\PYGZus{}profile}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,} \PYG{n}{last}\PYG{p}{,} \PYG{n}{location}\PYG{p}{,} \PYG{n}{field}\PYG{p}{,} \PYG{n}{age}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} function body goes here}
+\end{Verbatim}

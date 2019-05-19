@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{unittest}
+\PYG{k+kn}{from} \PYG{n+nn}{name\PYGZus{}function} \PYG{k+kn}{import} \PYG{n}{get\PYGZus{}formatted\PYGZus{}name}
+
+
+\PYG{k}{class} \PYG{n+nc}{NamesTestCase}\PYG{p}{(}\PYG{n}{unittest}\PYG{o}{.}\PYG{n}{TestCase}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Test for \PYGZsq{}name\PYGZus{}function.py\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def} \PYG{n+nf}{test\PYGZus{}first\PYGZus{}last\PYGZus{}name}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+	\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Check combining and title()\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+	\PYG{n}{formatted\PYGZus{}name} \PYG{o}{=} \PYG{n}{get\PYGZus{}formatted\PYGZus{}name}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}yu\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}miao\PYGZsq{}}\PYG{p}{)}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{assertEqual}\PYG{p}{(}\PYG{n}{formatted\PYGZus{}name}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Yu Miao\PYGZsq{}}\PYG{p}{)}
+
+
+\PYG{n}{unittest}\PYG{o}{.}\PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}

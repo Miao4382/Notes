@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{n}{key} \PYG{o+ow}{in} \PYG{n}{dic1}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{key}\PYG{p}{)}
+\end{Verbatim}

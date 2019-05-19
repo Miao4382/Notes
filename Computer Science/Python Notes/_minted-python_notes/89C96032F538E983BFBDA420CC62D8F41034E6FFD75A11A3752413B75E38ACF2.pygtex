@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{num1} \PYG{o}{=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Enter first number: \PYGZdq{}}\PYG{p}{))}
+\PYG{n}{num2} \PYG{o}{=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Enter second number: \PYGZdq{}}\PYG{p}{))}
+
+\PYG{k}{try}\PYG{p}{:}
+    \PYG{n}{answer} \PYG{o}{=} \PYG{n}{num1} \PYG{o}{/} \PYG{n}{num2}
+\PYG{k}{except} \PYG{n+ne}{ZeroDivisionError}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Can\PYGZsq{}t divide by 0!\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{else}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{num1}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}}\PYG{p}{,} \PYG{n}{num2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{} = \PYGZdq{}}\PYG{p}{,} \PYG{n}{answer}\PYG{p}{)}
+\end{Verbatim}

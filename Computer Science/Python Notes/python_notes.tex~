@@ -1,0 +1,2815 @@
+% Created 2019-05-18 Sat 20:08
+% Intended LaTeX compiler: pdflatex
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[margin=1in] {geometry}
+\usepackage{parskip}
+\linespread {1.5}
+\setcounter{tocdepth} {6}
+\setcounter{secnumdepth} {6}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+
+\part{Python Basics}
+\label{sec:orgb823696}
+\chapter{Python Basics}
+\label{sec:orge120227}
+Here will list many trivias when I start to learn Python systematically
+\begin{itemize}
+\item Order of instructions in python code is interpreted line by line.
+\item There is no ";" after the end of each line. When you finish each line, just print "Enter" to proceed to next line.
+\end{itemize}
+\chapter{Data Types}
+\label{sec:org793efe4}
+\section{General Idea}
+\label{sec:org7d41e20}
+\subsection{Variable Declaration}
+\label{sec:org3443574}
+When you declare a variable with some initializing value:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+character_name = "Mike"
+\end{minted}
+You don't have to define the type of variable. The variable will be the type that following the assignment operator. For example, in the above code, the type of \texttt{character\_name} is string. Another point derived from this is, you can use a variable to store another data type value. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+character_name = "Mike"
+print(character_name)
+character_name = 123
+print(character_name) + 3
+\end{minted}
+The result would be:
+\begin{verbatim}
+Mike
+126
+\end{verbatim}
+\subsection{Python Names and Values}
+\label{sec:orge8fc03e}
+Ned Batchelder has a very neat \href{https://nedbatchelder.com/text/names.html}{introduction} on the basic behavior of python's names and values. Check it out first. A video presentation is \href{https://www.youtube.com/watch?v=\_AEJHKGk9ns}{here}.
+\subsubsection{Example 1: try to change value refered in list}
+\label{sec:orgc45bb3d}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3]
+for num in nums[:3]:
+    num += 1
+    print(num)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+2
+3
+4
+[1, 2, 3]
+\end{verbatim}
+
+In this example, \texttt{num} in each iteration is first referred to the value where the list element is referring to. However, the assignment step will create a new value and refer to \texttt{num}, not the same value referred by list element. The process can be shown below:
+\begin{center}
+\includegraphics[width=250px]{./img/name_value_1.pdf}
+\captionof{figure}{\label{fig:orgb404e63}
+Try to change value referenced in list}
+\end{center}
+\subsubsection{Example 2}
+\label{sec:org3bfc99c}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [[1], [2], [3]]
+
+for num in nums:
+    num[0] += 1
+    print(num)
+print(nums)
+
+\end{minted}
+Output:
+\begin{verbatim}
+[2]
+[3]
+[4]
+[[2], [3], [4]]
+\end{verbatim}
+
+The process can be shown below:
+\begin{center}
+\includegraphics[width=500px]{./img/name_value_2.pdf}
+\captionof{figure}{\label{fig:org89c708e}
+Try to change value referenced in list of list}
+\end{center}
+
+An unreferenced value will be reclaimed by python. To demonstrate this, we can use another variable to reference one of the value originally referenced by the list of list:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [[1], [2], [3]]
+first_num = nums[0][0]  # keep reference
+
+for num in nums:
+    num[0] += 1
+    print(num)
+print(nums)
+
+print(first_num)  # check original value's existence
+\end{minted}
+Output:
+\begin{verbatim}
+[2]
+[3]
+[4]
+[[2], [3], [4]]
+1
+\end{verbatim}
+
+The process is shown below:
+\begin{center}
+\includegraphics[width=500px]{./img/name_value_3.pdf}
+\captionof{figure}{\label{fig:orgab7bcf9}
+Try to keep value from being reclaimed}
+\end{center}
+
+\section{Bool Value}
+\label{sec:orge024df4}
+In Python, the two bool values are:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+True
+False
+\end{minted}
+Notice that, the first letter is capitalized. Unlike in C++ (\texttt{true, false}).
+\section{String}
+\label{sec:org0f1fbc9}
+\subsection{Chinese Support in Python String}
+\label{sec:org372e0de}
+Unlike C++'s string class which needs to specify different encoding system in order to hold Chinese characters, you can directly assign Chinese character to a python variable.
+\subsection{Access Single Character by []}
+\label{sec:orgc417589}
+Just like string in C++, you can access the individual character in a string by using \texttt{[]}. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+content = "abcde"
+print(content[0])
+\end{minted}
+Output:
+\begin{verbatim}
+a
+\end{verbatim}
+
+The indexing of string also supports negative index. Check List section in this notes for more details. For example:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+content = "abcde"
+print(content[-1])
+print(content[-3])
+\end{minted}
+Output:
+\begin{verbatim}
+e
+c
+\end{verbatim}
+
+One key difference between python string and C++ string is that, you can't modify the single character in string by the bracket operator. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+string[0] = 'a'
+\end{minted}
+Output:
+\begin{verbatim}
+TypeError: 'str' object does not support item assignment
+\end{verbatim}
+
+\subsection{Functions}
+\label{sec:org3c02792}
+\subsubsection{General Idea}
+\label{sec:orgc1475a7}
+Just like string class in C++, a data type in python has member functions. This is even true for primitive types in C++ (for example, \texttt{int, double}), i.e. these "primitive" types also have their own member functions.
+
+To call the member function in python's data type, you use \texttt{.} operator (same as C++):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+content = "abc"
+print(content.isupper())
+\end{minted}
+In the above code, the function \texttt{isupper()} will return a Boolean value indicating whether the string variable contains all upper case letters. In this case, the result would be:
+\begin{verbatim}
+False
+\end{verbatim}
+
+You can concatenate the calling of member functions. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+content = "abc123"
+print(content.upper().isupper())
+print(content)
+\end{minted}
+In line 2, the member function \texttt{upper()} of the string variable \texttt{content} is called first. This function will return a string variable which contains the copy of \texttt{content} variable, except that all lower case letters are transformed to upper case letters. Then, the member function \texttt{isupper()} of this \textbf{RETURNED} variable will be called to check if all letters in this \textbf{RETURNED} variable are upper case. After this, in line 3, \texttt{content} will be printed again to show the data stored in \texttt{content} hasn't been changed by the \texttt{upper()} member function. The output is:
+\begin{verbatim}
+True
+abc123
+\end{verbatim}
+
+Some often used member functions and global functions are listed in the following sections.
+\subsubsection{\texttt{float()}}
+\label{sec:orga830b2f}
+This global function will convert a string into a float number, and will return this number. The input string must be only in the format of a float number, i.e. either x or x.x, where x can be only digit, otherwise, errors will be thrown.
+
+Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num = input("Enter a number: ")
+print(float(num))
+\end{minted}
+Output:
+\begin{verbatim}
+Enter a number; 5.5
+5.5
+\end{verbatim}
+\subsubsection{\texttt{int()}}
+\label{sec:org003c6ae}
+This global function will convert a string into an integer number, and will return this number. The input string must contain only digit, otherwise, errors will be thrown.
+
+Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num = input("Enter a number: ")
+print(int(num))
+\end{minted}
+Output:
+\begin{verbatim}
+Enter a number; 5
+5
+\end{verbatim}
+\subsubsection{\texttt{len()}}
+\label{sec:orgc60ffd0}
+This function will return an integer that indicates the length of a string variable \texttt{string}. It is \textbf{not} a member function of string, but a global function, which accepts "sized" parameter in python (iterable object).
+\subsubsection{\texttt{.count()}}
+\label{sec:orgce771aa}
+This function accepts a string, it will return an integer that indicates the number of times the string appeared in the calling string. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcdede"
+print("Counting result : ", string.count("de"))
+\end{minted}
+Output:
+\begin{verbatim}
+Counting result :  2
+\end{verbatim}
+\subsubsection{\texttt{.index()}}
+\label{sec:org6c4c1fb}
+This member function will return the starting index value of a character or sub-string in the string (first appearing position). For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcd 123 apple"
+print(string.index(" "))
+print(string.index(" ap"))
+\end{minted}
+Output:
+\begin{verbatim}
+4
+8
+\end{verbatim}
+
+When the parameter (character or substring) is not in the string, an error will be thrown:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcd 123 apple"
+print(string.index("pee"))
+\end{minted}
+Output:
+\begin{verbatim}
+ValueError: substring not found
+\end{verbatim}
+The code lines that are after this line will not be executed, program will stop.
+\subsubsection{\texttt{.islower()}}
+\label{sec:orga84600d}
+This function will return a Boolean value to check if \textbf{ALL} letters in \texttt{string} are lowercase. Its a member function of string.
+\subsubsection{\texttt{.isupper()}}
+\label{sec:org6d1a21d}
+This function will return a Boolean value to check if \textbf{ALL} letters in \texttt{string} are uppercase. Its a member function of string.
+\subsubsection{\texttt{.lower()}}
+\label{sec:orgbce0781}
+This function will return a copy of \texttt{string} with all letters lower cased. It is useful for storing data: transform your string data into lower case so you can manage them with ease.
+\subsubsection{\texttt{.replace()}}
+\label{sec:org333d5c6}
+This function accepts two string parameters:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+string.replace("search_key", "replace_key")
+\end{minted}
+
+It will search for the existence of \texttt{"search\_key"} in the string. If the key being found, it will be replaced by \texttt{"replace\_key"}. This "replaced" version of the string will be returned by this function (as a copy of the original string). For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+content = "accab"
+print(content.replace("a", "c"))
+print(content)
+\end{minted}
+Output:
+\begin{verbatim}
+ccccb
+accab
+\end{verbatim}
+When no match found, no error will be thrown. Code lines followed will be executed.
+\subsubsection{\texttt{.title()}}
+\label{sec:orgae79c79}
+Change the first letter of each word into upper case. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "this is a title"
+print(string.title())
+\end{minted}
+Output:
+\begin{verbatim}
+This Is A Title
+\end{verbatim}
+
+\subsubsection{\texttt{.rstrip()} and \texttt{.lstrip()}}
+\label{sec:org5474e28}
+This function will return a string that stripped any whitespaces on the right or left side of the \texttt{self} string. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = ["\tthis is a title    "]
+print("Before: ", string)
+print("After .rstrip(): ", [string[0].rstrip()])
+print("After .lstrip(): ", [string[0].lstrip()])
+\end{minted}
+Output:
+\begin{verbatim}
+Before:  ['\tthis is a title    ']
+After .rstrip():  ['\tthis is a title']
+After .lstrip():  ['this is a title    ']
+After both:  ['this is a title']
+\end{verbatim}
+
+To strip the whitespaces at right end and left end simultaneously, you can use \texttt{.strip()}. In the real world, these stripping functions are used most often to clean up user input before it’s stored in a program.
+\subsubsection{\texttt{.split()}}
+\label{sec:orgf311cd9}
+This method separates the string into substrings wherever it finds a space and stores all the substrings in a list. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+title = "Alice in Wonderland!"
+print(title.split())
+\end{minted}
+Output:
+\begin{verbatim}
+['Alice', 'in', 'Wonderland!']
+\end{verbatim}
+
+\subsubsection{\texttt{.upper()}}
+\label{sec:org1e686c5}
+This function will return a copy of \texttt{string} with all letters upperized. Its a member function of string.
+
+\section{Number}
+\label{sec:org90f4608}
+\subsection{Functions}
+\label{sec:orgd32b957}
+\subsubsection{\texttt{str(num)}}
+\label{sec:org5411e3e}
+You can use this global function to convert a number variable to a string object. It will return the string version of the number variable. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num = 5.45
+print(str(num).index("."))
+\end{minted}
+
+Output:
+\begin{verbatim}
+1
+\end{verbatim}
+\subsubsection{\texttt{abs(num)}}
+\label{sec:org2e4090a}
+This global function will return a copy of the abusolute value of \texttt{num}. Also, there is a member function can do the same thing:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num = -5.35
+print(abs(num))
+print(num.__abs__())
+\end{minted}
+Output:
+\begin{verbatim}
+5.35
+5.35
+\end{verbatim}
+
+\subsubsection{\texttt{pow()}}
+\label{sec:orgb851c36}
+A global function that accepts two parameters: \texttt{pow(base, exponent)}. It will return the result.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+print(pow(2, 3))
+\end{minted}
+Output:
+\begin{verbatim}
+8
+\end{verbatim}
+
+\subsubsection{\texttt{max()}}
+\label{sec:org43faf26}
+This global function will return a copy of the maximum numbers in the passed in parameter. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+print(max(2, -1, 3, 5, 6, 1, 2, 10))
+\end{minted}
+Output:
+\begin{verbatim}
+10
+\end{verbatim}
+
+\subsubsection{\texttt{min()}}
+\label{sec:org08ce558}
+This global function will return a copy of the minimum numbers in the passed in parameter. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+print(min(2, -1, 3, 5, 6, 1, 2, 10))
+\end{minted}
+Output:
+\begin{verbatim}
+10
+\end{verbatim}
+
+\subsubsection{\texttt{round()}}
+\label{sec:orgadc97b2}
+This global function will return a copy of the closest integer of the number passed in. For example:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+print(round(2.36))
+print(round(-2.45))
+print(round(-3.1))
+\end{minted}
+Output:
+\begin{verbatim}
+2
+-2
+-3
+\end{verbatim}
+
+\subsubsection{\texttt{math::floor()}}
+\label{sec:org979e966}
+This function is defined in \texttt{math} module. It will return the integer that is no larger than the input parameter. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import *
+print(floor(2.4))
+\end{minted}
+Output:
+\begin{verbatim}
+2
+\end{verbatim}
+
+\subsubsection{\texttt{math::ceil()}}
+\label{sec:org3ecce47}
+This function is defined in \texttt{math} module. It will return the integer that is no smaller than the input parameter. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import *
+print(ceil(2.4))
+\end{minted}
+Output:
+\begin{verbatim}
+3
+\end{verbatim}
+
+\subsubsection{\texttt{math::sqrt()}}
+\label{sec:org83218d0}
+This function is defined in \texttt{math} module. It will return the square root of the input parameter. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import *
+print(sqrt(4))
+\end{minted}
+Output:
+\begin{verbatim}
+2
+\end{verbatim}
+
+\chapter{Data Structures}
+\label{sec:org8681c0c}
+\section{List}
+\label{sec:orgf48eb18}
+List is a way of managing data in python. Because a list usually contains more than one element, it’s a good idea to make the name of your list plural, such as letters, digits, or names.
+\subsection{Declaration}
+\label{sec:org53c7af6}
+\subsubsection{Declare by Constructed List}
+\label{sec:org65a3f5f}
+To declare a list:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+friend = ["A", "B", "C"]
+\end{minted}
+The \texttt{[]} will indicate a list structure. So basically the computer knows that a bunch of values will be stored in \texttt{friend}.
+
+Unlike arrays in C++, you can put different types into a same list, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+friend = ["A", "B", 2, 2.5, "C"]
+print(friend[1])
+print(friend[-2])
+\end{minted}
+Output:
+\begin{verbatim}
+B
+2.5
+\end{verbatim}
+
+You can print the whole list by passing the name of the list into \texttt{print()}, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+friend = ["A", "B", 2, 2.5, "C"]
+print(friend)
+\end{minted}
+Output:
+\begin{verbatim}
+['A', 'B', 2, 2.5, 'C']
+\end{verbatim}
+Notice that for non-string element, there is no \texttt{'} (which indicates string object).
+\subsubsection{Declare by another List}
+\label{sec:org7bef976}
+Suppose you have two lists \texttt{A} and \texttt{B}, and \texttt{B} is declared using \texttt{=} directly:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+A = [1, 2, 3, 4, 5]
+B = A
+\end{minted}
+In python, line 2 is actually defining a left-reference of \texttt{A}, named \texttt{B}. They are referencing to the same memory space that hold \texttt{[1, 2, 3, 4, 5]}. So, for example, if \texttt{A} is reversed, then print \texttt{B}, it is also reversed:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+A.reverse()
+print(B)
+\end{minted}
+Output:
+\begin{verbatim}
+[5, 1, 7, 2, 3]
+\end{verbatim}
+
+To copy the content in \texttt{A} to \texttt{B}, you need to use the \texttt{.copy()} member function.
+\subsection{\texttt{operator[]}}
+\label{sec:org2019610}
+The specific element can be accessed by the \texttt{[]} operator. The indexing is similar with C++, from \texttt{0} to \texttt{size - 1}. However, python also supports indexing from \texttt{-1} to \texttt{-size}, the position these negative indexes \texttt{i} refered to is the same as \texttt{size + i}, so \texttt{-1} is the last element, while \texttt{-size} is the first element. 
+
+
+You can select portion of the list by using \texttt{:}. When you type \texttt{array[a:b]}, it will return a subarray, which is portion of the original \texttt{array}, where the subarray contains elements in range \texttt{[a,b)}, notice: not including the ending element. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5, "end"]
+print(nums[2:4])
+\end{minted}
+Output:
+[3, 4]
+\subsection{\texttt{in} keyword}
+\label{sec:org3f54e1b}
+You can use \texttt{in} to determine whether an element is inside the list or not. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 1, 2, 2, 1, 3, 4, 6, 7, 9]
+print(1 in nums)
+\end{minted}
+Output:
+\begin{verbatim}
+True
+\end{verbatim}
+
+This expression can be used in many situations, like \texttt{if} statement, \texttt{while} loop (looping condition).
+
+\subsection{Slice}
+\label{sec:orgf7c993d}
+You can use slice to get a copy of portions of the list by using colon. For example: \texttt{array[a:]}, this will return a sublist that begin at \texttt{a}, all the way to the last element of the array. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5, "end"]
+print(nums[2:])
+\end{minted}
+Output:
+\begin{verbatim}
+[3, 4, 5, 'end']
+\end{verbatim}
+
+If you omit the first index in a slice, python automatically starts your slice at the beginning of the list. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i for i in range(1, 10)]
+print(nums[:5])
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5]
+\end{verbatim}
+
+Slice also works for negative index. If left of the slice is omitted, it means from start to where the negative index refer to. If right of the slice is omitted, it means from where the negative index refer to, to the end. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i for i in range(1, 10)]
+print(nums[:-3])
+print(nums[-3:])
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 6]
+[7, 8, 9]
+\end{verbatim}
+
+Slice can be used in for loop (as the iterated object). For example, to loop through the first three element in a list:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i for i in range(1, 10)]
+for num in nums[:3]:
+    print(num)
+\end{minted}
+Output:
+\begin{verbatim}
+1
+2
+3
+\end{verbatim}
+
+\subsection{List comprehension}
+\label{sec:org32b1c4e}
+A list comprehension combines the \texttt{for} loop and the creation of new elements into one line, so you can make a list in a simple way. The syntax is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i*i for i in range(1, 10)]
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 4, 9, 16, 25, 36, 49, 64, 81]
+\end{verbatim}
+
+\subsection{2D List}
+\label{sec:org28509f9}
+The idea of 2D list is simple. It is a list, whose element object is another list. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [0]
+]
+\end{minted}
+
+Each list object is a row in the 2D matrix. Each object in each row list is the column of the 2D matrix. To access the specific element, we use double bracket operator. For example, assume the above matrix is declared, then \texttt{matrix[0][2] == 3}.
+
+Example: use a nested for loop to traverse the 2D lists defined above. We have two ways, the first one is to use bracket operator:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for row in range(len(matrix)):
+    for column in range(len(matrix[row])):
+	print(matrix[row][column])
+\end{minted}
+Output:
+\begin{verbatim}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+\end{verbatim}
+
+The second way is to use range based idea:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for row in matrix:
+    for col in row:
+	print(col)
+\end{minted}
+Output:
+\begin{verbatim}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+\end{verbatim}
+
+\subsection{Functions}
+\label{sec:orga6364b0}
+\subsubsection{\texttt{.extend()}}
+\label{sec:orgcd4d52c}
+This is a member function of list. It requires two parameters: \texttt{self} and \texttt{iterable}. \texttt{self} is the list object that are calling this function, you generally don't have to pass in again. \texttt{iterable} is an object that is, iterable. For example, a string is iterable in the sense that it consists of multiple components (the characters). Another list is also iterable.
+
+This function will extend the \texttt{self} list by adding the each iterated item in the \texttt{iterable}. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.extend(name)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'what', 'a', 'big', 'apple']
+\end{verbatim}
+
+Pay attention to the idea of "each iterated item". If we extend a list with a string:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+nums.extend(string)
+print(nums)
+\end{minted}
+Output will be:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'a', 'b', 'c', 'd', 'e']
+\end{verbatim}
+This is because in string, each character is stored in one slot, i.e. each iterated item is a character, rather than the whole string. We can, however, to construct a list with just one string element, and extend \texttt{self} with this \textbf{LIST} (rather than the string):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+nums.extend([string])
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'abcde']
+\end{verbatim}
+here, the string is first used to construct a list, and \texttt{nums} is extended using this list.
+
+Another example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.extend(name[2])
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'b', 'i', 'g']
+\end{verbatim}
+The thing is, whatever you put in \texttt{.extend()}, python will interpret it as an \texttt{iterable}, not an actual object. So you can't expect the above code produces result like: \texttt{[1, 2, 3, 4, 5, 'big']}.
+\subsubsection{\texttt{.append()}}
+\label{sec:org1171fdd}
+Unlike \texttt{.extend()}, you can use \texttt{.append()} to append an object to the calling list. Whatever you put in \texttt{.append()}, it will be interpreted as an object, not an \texttt{iterable}. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name[2])
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'abcde', 'big']
+\end{verbatim}
+
+If you pass name of another list into it, you will have nested list structure, i.e. one element of the list is another list. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 'abcde', ['what', 'a', 'big', 'apple']]
+\end{verbatim}
+\subsubsection{\texttt{.insert()}}
+\label{sec:orgf793a1c}
+This member function can insert a data item into certain position in a list. It accepts three parameters: \texttt{self}, \texttt{index} and \texttt{object}.
+\begin{itemize}
+\item \texttt{self} is always the calling list (so you don't have to input).
+\item \texttt{index} is the position you want to insert the data item into. The item will be inserted to the \textbf{FRONT} of the \texttt{list[index]}. You can provide an index that is beyond the range of the calling list. If its too large, item will be inserted to the back. If its too small (e.g. smaller than \texttt{-size}), it will be inserted to the front.
+\item \texttt{object} is the data item you want to insert
+\end{itemize}
+
+For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.insert(-7, name)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[['what', 'a', 'big', 'apple'], 1, 2, 3, 4, 5]
+\end{verbatim}
+
+Elements after the insertion position are shifted one position toward the end (like C++ vector?)
+\subsubsection{\texttt{.remove()}}
+\label{sec:org8180b7f}
+This member function can remove certain element in the list. It accepts two parameters: \texttt{self} and \texttt{object}.
+\begin{itemize}
+\item \texttt{self} is always the calling list (so you don't have to input).
+\item \texttt{object} is the item you wish to remove in the list
+\end{itemize}
+
+For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.insert(3, name)
+print("Before removing: ", nums)
+nums.remove(name)
+print("After removing: ", nums)
+\end{minted}
+Output:
+\begin{verbatim}
+Before removing:  [1, 2, 3, ['what', 'a', 'big', 'apple'], 4, 5]
+After removing:  [1, 2, 3, 4, 5]
+\end{verbatim}
+
+Pay attention that if there the \texttt{object} is not found in the list, an error will be thrown.  
+\subsubsection{\texttt{.pop()}}
+\label{sec:org0d009e6}
+This function will remove the last item in the list (default operation, when no parameters passed in). Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+name = ["what", "a", "big", "apple"]
+print("Before pop: ", name)
+name.pop()
+print("After pop: ", name)
+\end{minted}
+Output:
+\begin{verbatim}
+Before clear:  ['what', 'a', 'big', 'apple']
+After clear:  ['what', 'a', 'big']
+\end{verbatim}
+
+This function will return the popped item, you can declare a variable to hold it and do more stuff with it:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+popped_item = items.pop()
+\end{minted}
+
+When an integer value \texttt{i} is passed in, the item at that index will be popped (and returned):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+items.pop(1)
+\end{minted}
+The second item in the list will be popped.
+\subsubsection{\texttt{del}}
+\label{sec:org503d4be}
+\texttt{del} is not a function, but it is a statement that can remove element in list. you can remove the element with index \texttt{i} using following line:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+del items[i]
+\end{minted}
+\subsubsection{\texttt{.clear()}}
+\label{sec:orgbb81a0d}
+This function will clear the content of the list. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+name = ["what", "a", "big", "apple"]
+print("Before clear: ", name)
+name.clear()
+print("After clear: ", name)
+\end{minted}
+Output:
+\begin{verbatim}
+Before clear:  ['what', 'a', 'big', 'apple']
+After clear:  []
+\end{verbatim}
+\subsubsection{\texttt{.index()}}
+\label{sec:org0a769bb}
+This function accepts an object, and will try to search if there is any match in the calling list. If so, it will return the index of the object, otherwise, an error will be thrown (the same as string's \texttt{index()} member function). Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+name = ["what", "a", "big", "apple"]
+print("The index : ", name.index("apple"))
+\end{minted}
+Output:
+\begin{verbatim}
+The index :  3
+\end{verbatim}
+\subsubsection{\texttt{.count()}}
+\label{sec:org4ab5d20}
+This function accepts an object. It will return an integer showning the number of appearing times in the calling list. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+name = ["what", "a", "big", "apple", 2]
+print("Counting result : ", name.count(2))
+\end{minted}
+Output:
+\begin{verbatim}
+Counting result :  1
+\end{verbatim}
+
+The object type allowed by this function is determined by the type of object the list currently have.
+\subsubsection{\texttt{.sort()}}
+\label{sec:org30027cd}
+This function will sort the list in ascending order. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [3, 2, 7, 1, 5]
+nums.sort()
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 5, 7]
+\end{verbatim}
+
+It will use a compare function to determine the order of the item. The comparator should define ordering information among any two pairs of the elements stored in the list. If not, an error will be thrown. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+name = ["what", "a", "big", "Apple", 2]
+name.sort()
+print(name)
+\end{minted}
+Output:
+\begin{verbatim}
+TypeError: '<' not supported between instances of 'int' and 'str'
+\end{verbatim}
+
+To sort the items reversely (in descending order), you pass \texttt{reverse = True} into the \texttt{sort()} function. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5]
+nums.sort(reverse=True)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[5, 4, 3, 2, 1]
+\end{verbatim}
+\subsubsection{\texttt{sorted()}}
+\label{sec:orgdba186b}
+This function is global function. It accepts an iterable object, and will return a sorted version of the iterable object. It will not modify the original iterable object. We can pass an additional parameter \texttt{reverse=True} to indicate we want reverse sorted version (sorting in descending order). Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4, 5]
+print(nums)
+sorted_num = sorted(nums, reverse=True)
+print(sorted_num)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5]
+[5, 4, 3, 2, 1]
+\end{verbatim}
+\subsubsection{\texttt{.reverse()}}
+\label{sec:org024f673}
+This function will reverse the order of its calling list. example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [3, 2, 7, 1, 5]
+nums.reverse()
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[5, 1, 7, 2, 3]
+\end{verbatim}
+\subsubsection{\texttt{.copy()}}
+\label{sec:orgb1b3e8e}
+This function will return a list, which is the copy of the calling list. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [3, 2, 7, 1, 5]
+nums2 = nums.copy()
+nums.reverse()
+print(nums2)
+\end{minted}
+Output:
+\begin{verbatim}
+[3, 2, 7, 1, 5]
+\end{verbatim}
+
+\textbf{More aboud Copying}
+
+Pay attention to how variable works in python. You can't use \texttt{nums2 = nums} to copy \texttt{nums} to \texttt{nums2}, since \texttt{nums2} will reference to the same memory space that actually store the content of the list (which is also referenced by \texttt{nums}).
+
+Another way of copying a list is to use slice:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+\end{verbatim}
+By not providing begin and end index, the slice will cover the whole list, it will return a \textbf{COPY} of the list (another chunk of memory will hold the copied content). Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+\end{minted}
+Output:
+\begin{verbatim}
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+\end{verbatim}
+\subsubsection{\texttt{len()}}
+\label{sec:org6484899}
+This is a global function. It accepts a list object, and will return the length of the list object (the number of items stored in the list). For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+array = [1, 2, 3, 4, 5]
+print(len(array))
+\end{minted}
+Output:
+\begin{verbatim}
+5
+\end{verbatim}
+\texttt{len()} can accept iterables. Like string, tuple, list, dictionary.
+\subsubsection{Number statistics for number list}
+\label{sec:org61b9196}
+A few python functions are specific to lists of numbers. For example: \texttt{min(), max(), sum()}. They are global functions. They accept list of numbers, and will return numeric type.
+
+\subsection{Tuples}
+\label{sec:org70acf30}
+Tuple is similar with list, but the element in tuple cannot be changed or modified, immutable. You can use tuple as immutable list (constant list).
+\subsubsection{Declaration}
+\label{sec:org604a1b3}
+To declare a tuple in Python, you can use following syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+t1 = (1, 2, 3, 4, 5)
+t2 = 5, "abc", 7, "today"
+t3 = t2
+print(t1)
+print(t2)
+print(t3)
+\end{minted}
+Output:
+\begin{verbatim}
+(1, 2, 3, 4, 5)
+(5, 'abc', 7, 'today')
+(5, 'abc', 7, 'today')
+\end{verbatim}
+\section{Dictionary}
+\label{sec:orgf53281c}
+The data structure Dictionary is similar with \texttt{std::map} in C++ STL. It can store key-value pair, where each pair is located by its key. One difference between a python dictionary and a C++ map is, after the declaration of map, the data type of the key value pair of map is fixed. You can only add the same key-value pair into a specific map. While the dictionary in python allows you add different types of key-value pair
+\subsection{Declaration}
+\label{sec:orgdc35a3c}
+To declare a dictionary, you use the following syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+Dictionary = {
+    key_1: value_1,
+    key_2: value_2,
+    ...
+}
+\end{minted}
+First enter the key, then a colon, then followed by the value corresponding to the key. Pay attention to the comma after each line of key-value pair. For example, declaring the following dictionary:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dictionary = {
+    1: "ONE",
+    "a": 65,
+}
+\end{minted}
+The keys in a dictionary should be unique.
+
+Like \texttt{std::map} in C++, we can access the pair by providing the key directly in \texttt{operator[]}. Assume the above dictionary is defined:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+print(dictionary[1])
+print(dictionary["a"])
+\end{minted}
+Output:
+\begin{verbatim}
+ONE
+65
+\end{verbatim}
+If you provide a nonexist key in \texttt{operator[]} without referencing it to a value, then an error will be thrown. To avoid error thrown, you can use member function \texttt{.get()} (introduced in functions section).
+
+You can modify the value in the dictionary by using \texttt{operator[]} and the corresponding key value. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?"
+}
+
+dic1["c"] = 3
+print(dic1["c"])
+\end{minted}
+Output:
+\begin{verbatim}
+3
+\end{verbatim}
+\subsection{Add New Key-value pair}
+\label{sec:org38e7ebb}
+To add new key-value pair into the dictionary, you would give the name of the dictionary followed by the new key in square brackets along with the new value:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?"
+}
+
+dic1["d"] = "Fourth element"
+print(dic1)
+
+\end{minted}
+Output:
+\begin{verbatim}
+{'a': 'First element', 'b': 'Second element',
+'c': 'What is this?', 'd': 'Fourth element'}
+\end{verbatim}
+\subsection{Loop Through a Dictionary}
+\label{sec:org012aad5}
+\subsubsection{Looping through key-value pairs}
+\label{sec:org182af93}
+A dictionary can be traversed using its key or value, by calling the \texttt{.items()} member function. This function will return a "Dictionary items" object which is iterable, and each iterated item is a tuple containing \texttt{key} and \texttt{value}. You can use a for loop with two "iterating variables" to hold these two values and use them in the body of the for loop. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?",
+}
+
+for key, value in dic1.items():
+    print("Key: " + key + "; Value: " + value)
+\end{minted}
+Output:
+\begin{verbatim}
+Key: a; Value: First element
+Key: b; Value: Second element
+Key: c; Value: What is this?
+\end{verbatim}
+\subsubsection{Looping through keys}
+\label{sec:orgb084ca4}
+To loop through keys, we use another function to return an iterable object which contains all the keys in the dictionary: \texttt{keys()}. The idea is the same as the key-value pair. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?",
+}
+
+for key in dic1.keys():
+    print(key)
+\end{minted}
+Output:
+\begin{verbatim}
+a
+b
+c
+\end{verbatim}
+
+Looping through the keys is actually the default behavior when looping through a dictionary, so this code would have exactly the same output if you wrote:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for key in dic1:
+    print(key)
+\end{minted}
+\subsubsection{Looping through values}
+\label{sec:org84c3df5}
+This is similar with looping through keys, except you use another member function \texttt{.values()} to get the iterable object which contains the list of each values in the dictionary's record. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "b": "First element",
+    "a": "Second element",
+    "c": "What is this?",
+}
+
+for value in dic1.values():
+    print(value)
+\end{minted}
+Output:
+\begin{verbatim}
+First element
+Second element
+What is this?
+\end{verbatim}
+
+\subsection{Functions}
+\label{sec:orga55fa97}
+\subsubsection{\texttt{.get()}}
+\label{sec:orge930dde}
+This function accepts a key in the dictionary, it  will then return the copied value associated with that provided key. If no key found, it will not throw an error, but return a \texttt{None}. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dictionary = {
+    1: "ONE",
+    "a": 65,
+}
+
+print(dictionary.get(1))
+print(dictionary.get("b"))
+\end{minted}
+Output:
+\begin{verbatim}
+ONE
+None
+\end{verbatim}
+
+You can also determine the return value of this \texttt{.get()} function if the provided key is not found in the dictionary (other than None) (like the defaul value). Just put the return value in the second parameter slot when calling member function \texttt{.get()}. The default returned data can be anything legal.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dictionary = {
+    1: "ONE",
+    "a": 65,
+}
+
+print(dictionary.get(2, "No results found"))
+print(dictionary.get("a"))
+print(dictionary.get("c", ['n', 'o', ' ', 'r', 'e', 's', 'u', 'l', 't']))
+\end{minted}
+The default return value in line 6 is a string, while in line 8 is a list. Output:
+\begin{verbatim}
+No results found
+65
+['n', 'o', ' ', 'r', 'e', 's', 'u', 'l', 't']
+\end{verbatim}
+\subsubsection{\texttt{len()}}
+\label{sec:org8fc8a3a}
+This is a global function. It accepts an iterable object, and will return the length of the iterable object (the number of items stored in the object). When passing in a dictionary object, the number of key-value pairs will be returned. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+d = {
+    1: 'a',
+    2: 'b',
+    3: 'c'
+}
+print(len(d))
+\end{minted}
+Output:
+\begin{verbatim}
+3
+\end{verbatim}
+\subsubsection{\texttt{del}}
+\label{sec:org9503d8d}
+\texttt{del} is not a function, it is a statement that can delete a key-value pair in dictionary. The syntax is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+del dic1["key1"]
+\end{minted}
+After the above statement, the key-value pair with key as \texttt{key1} is deleted.
+\subsubsection{\texttt{.items()}}
+\label{sec:org9f43be9}
+This function will return a "dictionary items" type object, which contains all key-value pair in it. It is iterable, each iterated item is a \textbf{TUPLE} containing \texttt{key} and \texttt{value} (they cannot be changed). You can see this using following example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?",
+}
+
+items = list(dic1.items())
+print(items)
+\end{minted}
+Output:
+\begin{verbatim}
+[('a', 'First element'), ('b', 'Second element'), ('c', 'What is this?')]
+\end{verbatim}
+In the above code, the iterable "dictionary items" object has been used to construct a list, and referenced to \texttt{items}.
+
+The iterable "dictionary items" object can be used in for loop to traverse the key-value pair in a dictionary.
+\subsubsection{\texttt{.keys()}}
+\label{sec:org3ec7e85}
+This function will return a \texttt{dict\_keys} type object constructed by a list of keys.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "a": "First element",
+    "b": "Second element",
+    "c": "What is this?",
+}
+
+print(dic1.keys())
+\end{minted}
+Output:
+\begin{verbatim}
+dict_keys(['a', 'b', 'c'])
+\end{verbatim}
+\subsubsection{\texttt{.values()}}
+\label{sec:orgdc9de3f}
+This function will return a \texttt{dict\_values} type object constructed by a list of values.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+dic1 = {
+    "b": "First element",
+    "a": "Second element",
+    "c": "What is this?",
+}
+
+print(dic1.values())
+\end{minted}
+Output:
+\begin{verbatim}
+dict_values(['First element', 'Second element', 'What is this?'])
+\end{verbatim}
+\subsubsection{\texttt{.pop()}}
+\label{sec:org6361cc6}
+This function accepts two parameters: the \texttt{key} and a default \texttt{value} to return if the key is not found in the dictionary. If you only provide the \texttt{key} parameter, you can still run the code, but in the case that the \texttt{key} is not in the dictionary, a \texttt{KeyError} will be thrown.
+\chapter{Logic Control}
+\label{sec:org7bdeb5e}
+\section{\texttt{if} Statement}
+\label{sec:orgf46d769}
+\subsection{Syntax}
+\label{sec:org04c5fc3}
+The syntax for \texttt{if} statement is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+raining = True
+
+if raining:
+    print("It's raining")
+else:
+    print("It's not raining")
+\end{minted}
+Basically, you put the expression after the key word \texttt{if}, followed by a colon. The indentation rule is the same: multiple of four. Keyword \texttt{else} is used in the same way. The C++ \texttt{else if} contemporary in python is \texttt{elif}. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+if A:
+    # do something
+elif B:
+    # do something
+else:
+    # do something
+\end{minted}
+\subsection{Key Word: \texttt{and}, \texttt{or}, \texttt{not}}
+\label{sec:orge15f3f2}
+Unlike C++ using \texttt{operator\&\&} and \texttt{operator||}, python just use keyword \texttt{or} and \texttt{and} to perform the same function. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+if expression_1 and expression_2:
+    print("1 and 2 are both True!")
+elif expression_1:
+    print("1 is True and 2 is False")
+elif expression_2:
+    print("1 is False and 2 is True")
+else:
+    print("1 and 2 are both False")
+\end{minted}
+
+The equivalent of C++'s not operator (\texttt{!}) in python is keyword: \texttt{not()}, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+expression = False
+if not expression:
+    print("The expression is False")
+else:
+    print("The expression is True")
+\end{minted}
+Output:
+\begin{verbatim}
+The expression is False
+\end{verbatim}
+\subsection{Comparison Operators}
+\label{sec:org08384cd}
+The comparison operator is the same as C++:
+\begin{itemize}
+\item eual: \texttt{==}
+\item greater: \texttt{>}
+\item smaller: \texttt{<}
+\item greater than or equal to: \texttt{>=}
+\item smaller than or equal to: \texttt{<=}
+\item not equal: \texttt{!=}
+\end{itemize}
+
+Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def max_num(num1, num2, num3):
+    if num1 >= num2 and num1 >= num3:
+	return num1
+    elif num2 >= num3:
+	return num2
+    else:
+	return num3
+\end{minted}
+\subsection{Check if an object is in a container}
+\label{sec:org23d8801}
+We have a handy way to check if an object is in a container, by using keyword \texttt{in}.` For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+array = [1, 2, 3, 4, 5]
+item = 'a'
+if item in array:
+    print(item, "is in the array!")
+else:
+    print(item, "is not in the array!")
+\end{minted}
+Output:
+\begin{verbatim}
+a is not in the array!
+\end{verbatim}
+
+Similarly, you can use \texttt{not in} to check if an object is not in a container:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+if item not in array:
+    # do something here
+\end{minted}
+
+Another example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = list([2, 3, 4, 5, 13, 6, 8])
+guess_nums = list([5, 7])
+
+for guess_num in guess_nums:
+    if guess_num in nums:
+	print("you got a lucky number: " + str(guess_num))
+    else:
+	print("Sorry, but", guess_num, "is not a lucky number")
+\end{minted}
+Output:
+\begin{verbatim}
+you got a lucky number: 5
+Sorry, but 7 is not a lucky number
+\end{verbatim}
+
+\subsection{Check if a container is empty}
+\label{sec:org1056db5}
+You can use if statement to check if a container is empty. An empty container will be treated as \texttt{False}, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+string = ""
+nums = list()
+
+if string:
+    print(string)
+else:
+    print("The string is empty!")
+
+if nums:
+    print(nums)
+else:
+    print("The list is empty!")
+\end{minted}
+Output:
+\begin{verbatim}
+The string is empty!
+The list is empty!
+\end{verbatim}
+
+\section{\texttt{while} Loop}
+\label{sec:org4aec5eb}
+\subsection{Syntax}
+\label{sec:org1bc6faa}
+The syntax of while loop in python is:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+while expression:
+    # do something here
+    # do something here
+\end{minted}
+Don't forget the colon after the expression!
+
+Example: print integer from i = 1 to 10:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+i = 1
+while i <= 10:
+    print(i)
+    i += 1
+\end{minted}
+
+Similar with C++, python uses \texttt{break} as the keyword to stop the loop, \texttt{continue} as the keyword to stop current iteration and begin next iteration.
+\subsection{\texttt{while} and list}
+\label{sec:org4b7a940}
+The logic expression after the \texttt{while} keyword can be a mutable container, if the size of the container is zero, the while loop will stop. This is true for the list container. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3]
+while nums:
+    print(nums.pop())   
+\end{minted}
+Output:
+\begin{verbatim}
+3
+2
+1
+\end{verbatim}
+
+\section{\texttt{for} loop}
+\label{sec:org727e75f}
+The \texttt{for} loop in python works like the range based for loop in C++.
+\subsection{Syntax}
+\label{sec:org85169f6}
+The \texttt{for} loop's syntax is:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for letter in "abcde":
+    print(letter)
+\end{minted}
+Don't forget the colon at the end of the line.
+
+Basically, the object after the \texttt{in} keyword should be iterable. And the variable right after \texttt{for} keyword will go through the iterable and copy each object in the iterable object to the variable (just like C++'s range based for loop, not referenced). Output of the above loop is:
+\begin{verbatim}
+a
+b
+c
+d
+e
+\end{verbatim}
+
+You can also specify the range of the for loop using integer value, by calling the \href{https://docs.python.org/3/library/stdtypes.html\#range}{\texttt{range()}} function. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for i in range(5):o
+    print(i)
+\end{minted}
+Output:
+\begin{verbatim}
+0
+1
+2
+3
+4
+\end{verbatim}
+\texttt{i} will go through \(0\) to \(N - 1\).
+
+To specify the range, you use comma, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+for i in range(5, 10):
+    print(i)
+\end{minted}
+Output:
+\begin{verbatim}
+5
+6
+7
+8
+9
+\end{verbatim}
+Not including the last limit.
+
+Another example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+d = [1, 2, 'a', 5.5]
+for index in range(len(d)):
+    print(d[index])
+\end{minted}
+Output:
+\begin{verbatim}
+1
+2
+a
+5.5
+\end{verbatim}
+\subsection{More About \texttt{range()}}
+\label{sec:orga5e845f}
+\href{https://docs.python.org/3/library/stdtypes.html\#range}{\texttt{range()}} method will return an iterable \texttt{range} type object. You can convert it into a list by passing this object to \texttt{list()}. \texttt{list()} is type constructor that can accept an iterable object, and return a list that is constructed by each iterated item in the iterable object.
+
+Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+chars = list("abcde")
+nums = list(range(1, 10, 2))
+print(chars)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+['a', 'b', 'c', 'd', 'e']
+[1, 3, 5, 7, 9]
+\end{verbatim}
+\subsection{Traversing a Multi-dimension Iterable Object}
+\label{sec:orgd498ece}
+As discussed in Syntax section, we can use a for loop to easily traverse an iterable object:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+nums = [1, 2, 3, 4]
+for num in nums:
+    print(num)
+\end{minted}
+
+We may encounter situations that each iterated item is itself an iterable, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+coordinates = [(1, 2), (3, 4), (5, 6)]
+
+for x in coordinates:
+    print(x)
+\end{minted}
+In the above code, each iterated item is actually a tuple. The output is as follows:
+\begin{verbatim}
+(1, 2)
+(3, 4)
+(5, 6)
+\end{verbatim}
+Each tuple is printed as a tuple. However, its possible that use two variables to \textbf{UNPACK} the tuple during the for loop, so we can work with each value in the tuple individually, the syntax is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+coordinates = [(1, 2), (3, 4), (5, 6)]
+
+for x, y in coordinates:
+    print("Point", coordinates.index((x, y)) + 1, " x:", x, "y:", y)
+\end{minted}
+\texttt{x} and \texttt{y} will reference to the corresponding element in the Tuple itself! Output:
+\begin{verbatim}
+Point 1  x: 1 y: 2
+Point 2  x: 3 y: 4
+Point 3  x: 5 y: 6
+\end{verbatim}
+
+However, the number of variables used to \textbf{unpack} should be \textbf{equal} to the number of elements in each iterated object. In the above code, each tuple has two elements, so we use two variables to unpack it. If they are not equal, there will be three possible scenario.
+
+\textbf{1}
+
+Number of variable is 1, number of elements in iterated item is more than one. In this case, the object can't be unpacked. The variable will reference the object as a whole (for example, the tuple). This is shown in the leading example.
+
+\textbf{2}
+
+Number of variable is not 1, but less than the number of elements in iterated item. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+coordinates = [(1, 2, 3), (3, 4, 4), (5, 6, 9)]
+
+for x, y in coordinates:
+    print("x:", x, "y:", y)
+\end{minted}
+In this case, a \texttt{ValueError} will be thrown:
+\begin{verbatim}
+ValueError: too many values to unpack (expected 2)
+\end{verbatim}
+Python expects to unpack two values (because there is only two variables to be used to hold the unpacked value), but it encounters three.
+
+\textbf{3}
+
+Number of variable is more than the number of elements in iterated item. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+coordinates = [(1, 2, 3), (3, 4, 4), (5, 6, 9)]
+
+for x, y, z, m in coordinates:
+    print("x:", x, "y:", y)
+\end{minted}
+In this case, a \texttt{ValueError} will be thrown:
+\begin{verbatim}
+ValueError: not enough values to unpack (expected 4, got 3)
+\end{verbatim}
+Python expects to unpack four values (because there are four variables to be used to hold the unpacked value), but it encounters three.
+
+\chapter{Functions}
+\label{sec:orgf50df73}
+\section{Declaration}
+\label{sec:org6b854ba}
+To declare a function, use keyword \texttt{def}, followed by the function name and a \texttt{:}.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def hello():
+\end{minted}
+The parenthese will keep the parameter of the function, followed by the \texttt{:}. Unlike C++, python use indentation to delimit different code block. For example, we can define the following function:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def hello():
+    print("Hello! please input a line: ")
+    string = input()
+    print("You have inputed: ", string)
+\end{minted}
+Pay attention that python uses indentation as a way to define scope. PEP8 requires that indentation is a multiple of 4.
+
+Other rules:
+\begin{itemize}
+\item Function name should be all lower case, connected by under score symbol.
+\item There should be a two empty line between the end of definition of a function and the next code
+\end{itemize}
+
+To declare a function with parameters, you don't have to declare the type of the variable, you directly write the name of the variable you are going to use inside the function definition:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def say_hi(name):
+    print("Hello ", name)
+
+
+say_hi(input("Please input your name: "))
+\end{minted}
+Output:
+\begin{verbatim}
+Please input your name: Miao
+Hello  Miao
+\end{verbatim}
+
+The function can return a value, just use \texttt{return} keyword, similar with C++. You don't have to declare the \textbf{RETURN TYPE} of the function.
+\section{Passing Arguments}
+\label{sec:org22a109b}
+You can pass arguments to functions in a number of ways:
+\begin{itemize}
+\item positional arguments: arguments passed in should be the same order the parameters were written
+\item keyword arguments: each argument consists of a variable name and a value
+\item arguments are lists and dictionaries of values
+\end{itemize}
+
+\subsection{Positional Arguments}
+\label{sec:org04d5e43}
+This is the original way of passing arguments to a function. You provide the variable in the function call's parenthesis. For example, if you defined a function as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def my_function(A, B, C):
+    """sample function"""
+\end{minted}
+and then, you cann the function by:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+my_function(a, b, c)
+\end{minted}
+You just provided three variables in the parenthese. Python will interpret these as the positional arguments, and will relate \texttt{a} to the first parameter: \texttt{A}, relate \texttt{b} to the second parameter: \texttt{B}, relate \texttt{c} to the third parameter: \texttt{C}. Order of the arguments is crucial.
+
+\subsection{Keyword Arguments}
+\label{sec:orgded3d3f}
+A keyword argument is a name-value pair that you pass to a function, i.e. you specify which parameter takes which argument. You have to know the exact name of parameter when defining the function, and use an assignment operator to pass the corresponding argument when calling the function. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_name(name, age):
+    print(name + " is", age, "years old")
+
+print_name(name = "Yu", age = 29)
+print_name(age = 29, name = "Yu")
+\end{minted}
+Output:
+\begin{verbatim}
+Yu is 29 years old
+Yu is 29 years old
+\end{verbatim}
+Keyword argument doesn't require arguments passed in the same order defined in the function, so the output of line 4 and line 5 are the same.
+
+\subsection{Default Arguments for Parameters}
+\label{sec:orge10989f}
+Similar with C++, you can define default value for a function's parameter. Syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_name(age, name="friend"):
+    print(name + " is", age, "years old")
+
+
+print_name(23)
+\end{minted}
+Output:
+\begin{verbatim}
+friend is 23 years old
+\end{verbatim}
+Parameters with default argument should be placed after parameters without default parameter. This allows python to continue interpreting positional arguments correctly. Also, don't include spaces on left and right of the parenthese when defining default value (PEP8).
+
+\subsection{Passing an Arbitrary Number of Arguments}
+\label{sec:orgb51d7f3}
+You can define a function that takes an arbitrary number of arguments. To do this, you use following syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_input(*string):
+    print(string)
+\end{minted}
+The asterisk in the parameter name \texttt{*string} tells python to make an empty tuple called \texttt{string} and pack whatever values it receives into this tuple. You can think of the function receives a tuple filled with arguments, you can work around the tuple to get your desired output. The \texttt{print()} function is an example that accepts an arbitrary number of arguments. If you are using an IDE, when you input the arguments for \texttt{print()} function, you'll notice the prompt of the function parameter has an asterisk, which means you can provide an Arbitrary number of parameters to it.
+
+\subsection{Positional \& Arbitrary Number of Arguments}
+\label{sec:org50af472}
+It is possible to write a function that accepts positional and arbiturary arguments at the same time. You just need to place the parameter that accepts arbitrary number of arguments in the last of the function parameter list. Python matches positional and keyword arguments first and then collects any remaining arguments in the final parameter. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_lucky_number(name, age, *lucky_number):
+    print("The lucky number for " + name + " (" + age + " years old)" + " is:\n")
+    for num in lucky_number:
+	print(num)
+
+
+print_lucky_number("Yu", "29", 5, 3, 1, 9, 8, 7, 55)
+\end{minted}
+Output:
+\begin{verbatim}
+The lucky number for Yu (29 years old) is:
+
+5
+3
+1
+9
+8
+7
+55
+\end{verbatim}
+
+\subsection{Arbitrary Key-Value Pair Arguments}
+\label{sec:org70d18e4}
+Sometimes you’ll want to accept an arbitrary number of arguments, but you won’t know ahead of time what kind of information will be passed to the function. In this case, you can write functions that accept as many key-value pairs as the calling statement provides. The syntax is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def build_profile(first, last, **user_info):
+    """build a dictionary containing everything we know about a user"""
+    profile = {}
+    profile['first_name'] = first
+    profile['last_name'] = last
+    # push in the arbitrary key-value pairs into dictionary
+    for key, value in user_info.items():
+	profile[key] = value
+    return profile
+
+
+user_profile = build_profile("Yu", "Miao",
+			     location='Tallahassee',
+			     field="Computer Science",
+			     age=29)
+print(user_profile)
+
+\end{minted}
+Output:
+\begin{verbatim}
+{'first_name': 'Yu', 'last_name': 'Miao',
+'location': 'Tallahassee',
+'field': 'Computer Science', 'age': 29}
+\end{verbatim}
+The double asterisks before the parameter \texttt{**user\_info} cause python to create an empty dictionary called \texttt{user\_info} and pack whatever name-value pairs it receives into this dictionary. Within the function, you can access the name-value pairs in \texttt{user\_info} just as you would for any dictionary. In the above example, you can think of the following version of \texttt{build\_profile()} function is actually declared in runtime (when calling):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def build_profile(first, last, location, field, age):
+    # function body goes here
+\end{minted}
+
+Another simpler example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_info(**info_dict):
+    for key, value in info_dict.items():
+	print(key, ":", value)
+
+
+print_info(name="Yu Miao", age=29, field="Computer Science")
+\end{minted}
+Output:
+\begin{verbatim}
+name : Yu Miao
+age : 29
+field : Computer Science
+\end{verbatim}
+This function is actually doing the same thing as:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_info(name, age, field):
+    info_dict = {}
+    info_dict['name'] = name
+    info_dict['age'] = int(age)
+    info_dict['field'] = field
+
+    for key, value in info_dict.items():
+	print(key, ":", value)
+
+
+print_info(name="Yu Miao", age=29, field="Computer Science")
+\end{minted}
+Output:
+\begin{verbatim}
+name : Yu Miao
+age : 29
+field : Computer Science
+\end{verbatim}
+
+So you may not think these key-value pairs as parameter-argument pairs and use them as the normal way of parameter-argument pairs do. Because the function doesn't know the type or value that are going to be passed into the function, so there is little the function can do with those passed in key-value pairs except store them as data.
+
+\subsection{Default and Arbitrary Number of Arguments}
+\label{sec:orgd03a9ef}
+May only work with python3. Reference for this section can be found \href{https://stackoverflow.com/questions/46446960/how-to-use-default-values-and-arbitrary-arguments-at-one-function-call-in-python}{here}.
+
+You can mark a parameter with default, and the other parameter as arbitrary number at the same time in a function definition. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def print_info(*favorite_languages, name="Friend"):
+    print(name + "'s favorite languages are: ")
+    for language in favorite_languages:
+	print(language.title())
+
+
+print_info("c++", "python", "c", "matlab")
+\end{minted}
+Output:
+\begin{verbatim}
+Friend's favorite languages are: 
+C++
+Python
+C
+Matlab
+\end{verbatim}
+Notice that you have to put the arbitrary parameter before the default parameter. When you call the function, you pass the arbitrary parameter directly. If you want to pass another value to the default parameter, you have to use the keyword arguments syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+print_info("c++", "python", "c", "matlab", name="Yu")
+\end{minted}
+Output:
+\begin{verbatim}
+Yu's favorite languages are: 
+C++
+Python
+C
+Matlab
+\end{verbatim}
+
+\section{Styling Functions}
+\label{sec:orgb810409}
+There are several styling rules when writting a python function:
+
+\subsection{Use descriptive names}
+\label{sec:orgafb2a02}
+Function names should be clear of what it does.
+
+\subsection{function\_name}
+\label{sec:org3440803}
+Function names should use lowercase letters and underscores only (module names should use these conventions as well). \href{https://www.python.org/dev/peps/pep-0008/}{PEP8} recommends that you limit lines of code to 79 characters so every line is visible in a reasonably sized editor window. If a set of parameters causes a function’s defnition to be longer than 79 characters, press enter after the opening parenthesis on the defnition line. On the next line, press tab twice to separate the list of arguments from the body of the function, which will only be indented one level.
+
+\subsection{docstring}
+\label{sec:org0e292f1}
+Every function should have a docstring immediately after the function definition, which explains concisely what the function does. Others should be able to use your function just by looking at your docstring. They should be able to trust that the code works as described, and as long as they know the name of the function, the arguments it needs, and the kind of value it returns, they should be able to use it in their programs.
+\subsection{spaces between functions}
+\label{sec:org0011ee3}
+If your program or module has more than one function, you can separate each by two blank lines to make it easier to see where one function ends and the next one begins.
+\chapter{Input and Output}
+\label{sec:org23fc6ab}
+\section{Input}
+\label{sec:orgdf967a1}
+To get an input from keyboard, you can just use:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+input("Prompt information goes here")
+\end{minted}
+The string of this function is the message that will show to prompt user to type in the information. This function will return a \textbf{STRING} object which containing what you just inputted from the keyboard. You can declare a variable to hold the content that has been typed in, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num = input("Please input a number:")
+print("You inputted: " + num)
+\end{minted}
+Output:
+\begin{verbatim}
+Please input a number: 5
+You inputted: 5
+\end{verbatim}
+
+Unlike C++'s \texttt{std::cin >>}, which is actually an \texttt{operator>>()} that accepts a \texttt{std::cin} object, \texttt{input()} in python is a function that returns the string you inputted. This makes the following operation possible:
+\begin{minted}[breaklines=true,breakanywhere=true]{python}
+print("You have inputted: " +
+  input("Please input first number: ") +
+  " and " +
+  input("Please input second number: "))
+\end{minted}
+In the above code, the first part \texttt{"You have inputted: "} will not be printed out first. All items will be printed only after all to-be-printed items are determined. The sequence of evaluating un-determined items are from left to right. So, for the above code, the output will be:
+\begin{verbatim}
+Please input first number: 2
+Please input second number: 3
+You have inputted: 2 and 3
+\end{verbatim}
+
+It seems that python somehow \textbf{STORED} the returned string from the \texttt{input()} function somewhere, so they can be used when \texttt{print()} actually execute. This is not like C++, because in C++ if you don't use a container to hold the returned value from a function, it will gone (like rvalue?).
+\chapter{Catching Errors and Exception}
+\label{sec:orge404a77}
+\section{General Idea}
+\label{sec:org30b4ace}
+When an error is thrown, program will stop running. But we have strategy to deal with that. The idea is same as catching exceptions in C++.
+
+We use try and except block to handle this situation. The most basic syntax is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+try:
+    number = int(input("Enter a number: "))
+    print(number)
+except:
+    print("Invalid input")
+\end{minted}
+If any error was thrown in the try block, the control will go into the except block, code in except block will be executed.
+
+When writing python code, we should catch the specific types of error that has been thrown. All we have to do is to specify the kinds of error in the except line. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+try:
+    number = int(input("Enter a number to do a division: "))
+    # if number is zero, ZeroDivisionError will be thrown
+    print("The result of 2 /", number, "is", 2 / number)
+
+    # if non-integer value is entered, ValueError will be thrown
+    number = int(input("Enter an integer to display: "))
+    print(number)
+
+except ZeroDivisionError:
+    print("Can't divide by zero!")
+except ValueError:
+    print("Non-integer value inputted!")
+\end{minted}
+However, once an error is thrown in the try block, the remaining section of the try block will not be executed.
+
+We can store the error thrown by the try block using a variable, and print out the variable directly to show what the error is. Keyword \texttt{as} is used, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+try:
+    number = int(input("Enter a number to do a division: "))
+    # if number is zero, ZeroDivisionError will be thrown
+    print("The result of 2 /", number, "is", 2 / number)
+
+    # if non-integer value is entered, ValueError will be thrown
+    number = int(input("Enter an integer to display: "))
+    print(number)
+
+except ZeroDivisionError as err:
+    print(err)
+except ValueError as err:
+    print(err)
+\end{minted}
+\section{The \texttt{else} Block}
+\label{sec:org2822577}
+We can use following structure to write our try-except block:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+
+try:
+    answer = num1 / num2
+except ZeroDivisionError:
+    print("Can't divide by 0!")
+else:
+    print(num1, "/", num2, " = ", answer)
+\end{minted}
+We have used \texttt{else} to store all the operations we want to do if the \texttt{try} block didn't trigger any error. The only code that should go in a try statement is code that might cause an exception to be raised.
+\section{Failing Silently}
+\label{sec:orgeb5bde2}
+You can add \texttt{pass} in the except block, so python will do nothing once an error is thrown.
+\section{Python Errors}
+\label{sec:org95fff5e}
+\subsection{\texttt{NameError}}
+\label{sec:org2e305cd}
+A name error usually means we either forgot to set a variable’s value before using it, or we made a spelling mistake when entering the variable’s name.
+\subsection{\texttt{SyntaxError}}
+\label{sec:org52ea8ea}
+\subsection{\texttt{TypeError}}
+\label{sec:org42614d0}
+\subsection{\texttt{IndexError}}
+\label{sec:org31ea9b8}
+\subsection{\texttt{IndentationError}}
+\label{sec:orgb7ec017}
+\subsection{\texttt{ZeroDivisionError}}
+\label{sec:org618fd55}
+\subsection{\texttt{FileNotFoundError}}
+\label{sec:org0e5956a}
+\chapter{File Operations}
+\label{sec:org2ec92cd}
+\section{Open a File}
+\label{sec:orgcd19128}
+\subsection{Manually Close}
+\label{sec:org619d83f}
+To work with file, you have to first open a file. Use following syntax to open a file:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+open("time.txt", "r")
+\end{minted}
+\texttt{open()} is a global function, the first parameter is the path of the file to be opened. It can be relative path, exact path or just the file name. The second parameter is the mode you open the file with (similar with C++ file object). Differen meanings are as follows:
+\begin{center}
+\begin{tabular}{ccl}
+parameter & meaning & notes\\
+\hline
+"r" & read only & read only, old info kept\\
+"w" & write only & write only, old info cleared\\
+"a" & write only & writing starts from the end of the old file\\
+"r+" & read \& write & old info kept\\
+"w+" & write \& read & old info cleared\\
+"a+" & write \& read & writing starts from the end of the old file\\
+\hline
+\end{tabular}
+\end{center}
+
+The default mode is read mode.
+
+You can use a variable to hold the file you opened:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+time_file.close()
+\end{minted}
+(or does it act like a file object? like in C++? The \texttt{open()} function will return a constructed file object, and you can "catch" it using a variable) In the above code, you close the file by calling the \texttt{close()} member function of \texttt{time\_file}.
+\subsection{Automatically Close}
+\label{sec:org19b46fc}
+We can use following syntax to open a file, and do things within the same block. We don't have to manually close the file. When the control flow goes out of the block, the file is closed:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+with open("pi_digits.txt") as file_object:
+    content = file_object.readline()
+    print(content)
+\end{minted}
+Output:
+\begin{verbatim}
+3.1415926535
+\end{verbatim}
+\subsection{File Path}
+\label{sec:org38e20eb}
+When open a file, you have to provide the file path. There are three possible ways to provide a file path:
+\begin{enumerate}
+\item by providing the name of the file; this requires the file is at the same folder of the program
+\item by providing the \emph{relative path}
+\item by providing the \emph{absolute path}
+\end{enumerate}
+\subsubsection{File name}
+\label{sec:orgcfa4ef6}
+If the file is in the same folder of the program source code, you can just provide the file name. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("pi_digits.txt")
+\end{minted}
+\subsubsection{Relative path}
+\label{sec:org4cc1bb0}
+If the file is stored in sub-folder that are inside the program's folder, you can provide the \emph{relative path} of where the file is (pinpoint to the file name). The format of file path is different on Windows and OSX or Linux.
+
+Example (Windows):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("text_files\file_name.txt")
+\end{minted}
+Example (OSX or Linux):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("text_files/file_name.txt")
+\end{minted}
+\subsubsection{Absolute path}
+\label{sec:orged318c7}
+Example (Windows):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("C:\Users\My\other_files\text_files\filename.txt")
+\end{minted}
+Example (OSX or Linux):
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("/home/My/other_files/text_files/filename.txt")
+\end{minted}
+\subsection{Check if File Existed or Not}
+\label{sec:org87c4d8c}
+It is quite often that a file is not found when open a file. It is a good practice to use try-except blocks to catch this kind of error. Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_opened = False
+
+while not file_opened:
+    file_path = input("Please input file path to open: ")
+    try:
+	file_object = open(file_path)
+    except FileNotFoundError:
+	print("Invalid path, file open failed")
+    else:
+	file_opened = True
+	print(file_object.read())
+	file_object.close()
+\end{minted}
+\section{Reading Line by Line}
+\label{sec:orge6632a0}
+Aside from using member functions to read the file line by line, you can simply use a for loop to do the job. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("pi_digits.txt")
+
+for line in file_object:
+    print(line)
+
+file_object.close()
+\end{minted}
+Output:
+\begin{verbatim}
+3.1415926535
+
+8979323846
+
+2643383279
+
+\end{verbatim}
+These blank lines appear because there is a \texttt{'\textbackslash{}n'} at the end of each line in the text file. The \texttt{print()} function adds its own newline each time we call it, so we end up with two newline characters. We can use \texttt{.strip()} method to eliminate extra whitespace in the string.
+
+\section{File object functions}
+\label{sec:org3bee604}
+\subsection{Read}
+\label{sec:org1cf9b97}
+When you need to read a file, open it in mode that supports reading (\texttt{"r", "r+", "a+", "w+"}). Following functions can be used to read from the file in different ways. Pay attention to the position of where the file object at.
+\subsubsection{\texttt{.readable()}}
+\label{sec:org4cd5ddb}
+This function will return a Boolean value, which indicates whether the file is readable or not. For example, if a file has been opened in \texttt{"w"} mode, it cannot be read, so following result will be \texttt{False}:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "w")
+print(time_file.readable())
+\end{minted}
+\subsubsection{\texttt{.read()}}
+\label{sec:org0e79d96}
+This function will return the copy of the file (in the form of a long string, including special characters like \texttt{'\textbackslash{}n'}). You can store it in a variable, for example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+file_content = time_file.read()
+print(file_content)
+\end{minted}
+The above code will print the whole content of \texttt{time.txt}.
+
+This function requires the file to be readable (open in right mode).
+\subsubsection{\texttt{.readline()}}
+\label{sec:org859e901}
+This function will read the file one line at a time (read the string until a \texttt{'\textbackslash{}n'} is met, the newline character is read. Unlike \texttt{getline()} function in C++). It will update the position of the file object. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+
+file_content = time_file.readline()
+print(file_content)
+
+file_content = time_file.readline()
+print(file_content)
+
+file_content = time_file.readline()
+print(file_content)
+
+time_file.close()
+\end{minted}
+The first three lines of time.txt will be printed out.
+
+This function requires the file to be readable (open in right mode).
+\subsubsection{\texttt{.readlines()}}
+\label{sec:orgd1eecbc}
+This function will read the file line by line, and construct a list whose elements are each line in the file. When finish reading, it will return this list. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+
+file_content = time_file.readlines()
+print(file_content)
+
+time_file.close()
+\end{minted}
+Output:
+\begin{verbatim}
+['abcde\n', '12345\n']
+\end{verbatim}
+Pay attention that, the newline character is also read.
+
+You can use a bracket operator and an integer to specify the line you want to read. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+file_content = time_file.readlines()[1]
+print(file_content)
+\end{minted}
+Only the second line will be read. Also, after this line, the file object will reach the end of the file, and you can't use \texttt{read()}, \texttt{readline()}, \texttt{readlines()} unless you reset the file pointer to the beginning by calling \texttt{seek(0)}.
+
+Also, the integer value in the bracket is the relative position of the line from the current file object position in the file. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+
+file_content = time_file.readline()
+print(file_content)
+
+file_content = time_file.readlines()[0]
+print(file_content)
+
+time_file.close()
+\end{minted}
+The code \texttt{time\_file.readlines()[0]} will actually return the second line in the file. Because when it is called, the file pointer is already in the beginning of the second line.
+
+This function requires the file to be readable (open in right mode).
+\subsection{Write}
+\label{sec:orge7b9808}
+When you need to write to a file, open it in mode that supports writting (\texttt{"w"}, \texttt{"a"}, \texttt{"w+"}, \texttt{"a+"}). Pay attention to the position of where the file object at.
+\subsubsection{\texttt{.write()}}
+\label{sec:org7625e8e}
+This function accepts a string object, it will write the string to the file. Python can only write strings to a text fle. If you want to store numerical data in a text fle, you’ll have to convert the data to string format frst using the str() function.
+
+This function does not add any newlines to the text you write. You have to add it by yourself.
+\subsection{Navigate}
+\label{sec:orgfb27d93}
+\subsubsection{\texttt{.seek()}}
+\label{sec:org8379dea}
+This function accepts an integer indicating the position of the file object to navigate to. 0 means move to the first character, 1 means move to the second character, etc. For example, the time.txt is:
+\begin{verbatim}
+abcde
+12345
+\end{verbatim}
+We run the following code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+time_file = open("time.txt", "r")
+
+file_content = time_file.readlines()[1]
+print(file_content)
+
+time_file.seek(0)
+
+file_content = time_file.readline()
+print(file_content)
+
+time_file.close()
+\end{minted}
+Output:
+\begin{verbatim}
+12345
+
+abcde
+
+\end{verbatim}
+\texttt{.seek(0)} is called to reset the file object position (which is at end of the file after the calling of \texttt{.readlines()[1]}).
+\section{Storing Data with \texttt{json} Module}
+\label{sec:org927702c}
+The \href{http://json.org/}{JSON} (JavaScript Object Notation) format was originally developed for JavaScript. However, it has since become a common format used by many languages, including Python. The \texttt{json} module allows you to dump simple Python data structures into a file and load the data from that fle the next time the program runs.
+
+There are two methods defined in \texttt{json} module:
+\begin{itemize}
+\item \texttt{json.dump()}: used to write data to a file
+\item \texttt{json.load(): used to load data from a file (created by \textasciitilde{}json.dump()})
+\end{itemize}
+In order to use these methods, you have to import the \texttt{json} module:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import json
+\end{minted}
+\subsection{Write to File}
+\label{sec:orge1a46ea}
+We use \texttt{json.dump()} to write to file. This method accepts two arguments: the first one is the data structure you want to write to file, the second one is the file object which opened the file you wish to write to (in \texttt{"w"} mode). For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import json
+nums = [2, 4, 6, 7, 8]
+file_object = open("nums.json", "w")
+json.dump(nums, file_object)
+file_object.close()
+\end{minted}
+The above code has created a list, and used \texttt{json.dump()} to write the content in the list to a file.
+\subsection{Load from File}
+\label{sec:orgdf2e807}
+We use \texttt{json.load()} to load from file. This method accepts one argument: the file object which opened the file to be read. It will return the data structure contained in the file, which can be "catched" by a variable. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+file_object = open("nums.json")
+nums = json.load(file_object)
+print(nums)
+\end{minted}
+Output:
+\begin{verbatim}
+[2, 4, 6, 7, 8]
+\end{verbatim}
+\subsection{Saving and Reading User-Generated Data}
+\label{sec:org644cc4a}
+We can save our data to disk and retrieve later to do more things. The following example shows a simple application. We can ask a user to input the username, and send greeting information based on the fact that whether or not the name has been encountered before.
+
+The textbook also talks about the idea of \emph{refactoring}, which means divide your program into smaller components, each component should have one clear, concise functionality, described by a clear self-descriptive name. Then the whole program should be clear.
+
+Example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import json
+
+
+def load_user_name():
+    """
+    This function tries to load saved user info (in user_info.json)
+    1. if open successfully, return the stored list using json.load()
+    2. if not, which means no previous record found, return an empty list
+    """
+    try:
+	file_object = open("user_info.json")
+    except FileNotFoundError:
+	return []
+    else:
+	return json.load(file_object)
+
+
+def store_user_name(user_names):
+    """
+    store updated user_names to user_info.json
+    """
+    file_object = open("user_info.json", "w")
+    json.dump(user_names, file_object)
+
+
+def greet_user():
+    """
+    This function will first ask for a user name, then send greeting information
+    based on whether or not user name has encountered before
+    :return: None
+    """
+    user_name = input("Input username: ")
+    user_names = load_user_name()
+    if user_name in user_names:
+	print("Welcome back,", user_name)
+    else:
+	user_names.append(user_name)
+	store_user_name(user_names)
+	print("We'll remember you when you come back,", user_name)
+
+
+greet_user()
+
+\end{minted}
+\chapter{Class}
+\label{sec:org6152df2}
+\section{Declaration}
+\label{sec:org1aaa1fd}
+To declare a class, you use following syntax:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class Student:
+
+    def __init__(self, name, major, gpa, is_on_probation):
+	self.name = name
+	self.major = major
+	self.gpa = gpa
+	self.is_on_probation = is_on_probation
+\end{minted}
+The \texttt{\_\_init\_\_} is a special method in python. It is like constructor in C++, which is called when we create an instance of the class.
+\section{Defining Data Member in Class}
+\label{sec:orgb817e93}
+Unlike C++, we directly define the data member of the class in the body of \texttt{\_\_init\_\_()}. \texttt{\_\_init\_\_()} can accept arguments passed in and use them to declare a data member (in python, its called class's attribute), or it can declare attributes inside its body, just providing some initial values. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def __init__(self, make, model, year):
+    """initialize attributes to describe a car"""
+    self.make = make
+    self.model = model
+    self.year = year
+    self.odometer = 0
+\end{minted}
+In the above example, the attribute \texttt{self.odometer} is defined inside the body of \texttt{\_\_init()\_\_}. You can also:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def __init__(self, make, model, year, odometer=0):
+    """initialize attributes to describe a car"""
+    self.make = make
+    self.model = model
+    self.year = year
+    self.odometer = odometer
+\end{minted}
+
+One thing should be made clear: every attribute in a class needs an initial value, even if that value is 0 or an empty string, or other empty stuff.
+\section{Constructing an Instance}
+\label{sec:orgb34ace4}
+After we declared a class, we use following syntax to construct an instance of the class:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+student1 = Student("Yu", "Computer Science", 4.0, False)
+\end{minted}
+We are calling the \texttt{\_\_init\_\_()} and passing in necessary parameters to build our class object.
+\section{Inheritance}
+\label{sec:orga49c753}
+\subsection{Syntax}
+\label{sec:orgc074a88}
+Assume we have a base class as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class Car:
+    """A simple attempt to represent a car"""
+
+    def __init__(self, make, model, year, odometer=0):
+	"""initialize attributes to describe a car"""
+	self.make = make
+	self.model = model
+	self.year = year
+	self.odometer = odometer
+	# self.odometer = 0
+
+    def get_descriptive_name(self):
+	"""return a formatted descriptive name"""
+	long_name = str(self.year) + ' ' + self.make + ' ' + self.model
+	return long_name.title()
+
+    def read_odometer(self):
+	"""print a statement showing the car's odometer"""
+	print("This car has " + str(self.odometer) + " miles on it")
+\end{minted}
+
+
+Now, we want to define another class \texttt{ElectricCar}. This class can be defined as Inheritance of the base \texttt{Car} class (as its child class). The first line to define it would be:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class ElectricCar(Car):
+\end{minted}
+Pay attention we put the parent class \texttt{Car} into a parenthese followed by the name of child class. You have to make sure the parent class's definition is inside the file where you define \texttt{ElectricCar} class, and should be before the definition of \texttt{ElectricCar} class.
+
+By default, the parent class's \texttt{\_\_init\_\_()} is called and attributes constructed. You don't have to write another \texttt{\_\_init\_\_()} function. However, if you want to define new attributes, you have to write the child class's \texttt{\_\_init\_\_()}. Inside which, you have to explicitly call parent class's \texttt{\_\_init\_\_()}. Assume we want to add one more attribute to the \texttt{ElectricCar} class: \texttt{battery\_level}, which has a default value of 100, then we can write child class's \texttt{\_\_init\_\_()} as:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def __init__(self, make, model, year, odometer=0):
+    super().__init__(make, model, year, odometer)
+    self.battery_level = 100
+\end{minted}
+Notice that on line 2, \texttt{super()}'s member function \texttt{\_\_init\_\_()} is called and arguments passed. \texttt{super()} is actually the parent class of this \texttt{ElectricCar} class, which is \texttt{Car} class. The name \emph{super} comes from a convention of calling the parent class a \emph{superclass} and the child class as a \emph{subclass}.
+\subsection{Overriding Methods from the Parent Class}
+\label{sec:org3f37cd1}
+You can override any method from the parent class that doesn't fit what you're trying to model with the child class. Just redefine the method in the body of child class. Python will disregard the parent class method and only pay attention to the method you define in the child class.
+\section{Styling Classes}
+\label{sec:orgeee96bd}
+\subsection{Class Names}
+\label{sec:org3a746ab}
+Class names should be written in \emph{CamelCaps}.
+\subsection{Docstring}
+\label{sec:org9cead23}
+Every class should have a docstring immediately following the class definition. Also, each module should have a docstring describing what the classes in that module can be used for.
+\subsection{Blank Lines inside Module}
+\label{sec:org75f121a}
+Insert one blank line between methods in the same class.
+
+Insert two blank lines between classes in the same module.
+\chapter{Manage External Code (Module)}
+\label{sec:org03031c7}
+A module is a python file we can import into our current python file.
+\section{\texttt{import}}
+\label{sec:org8513f28}
+You can import external code in your python program. For example, to use some math functions defined in python math, you can type:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import *
+\end{minted}
+In this way you imported the \texttt{math} module into your program, and you can use the functions predefined in the module directly. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import *
+print(floor(2.3))
+\end{minted}
+The \texttt{*} indicates you import the whole module from \texttt{math}. You can also import just one element in the module, by using:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from math import floor
+\end{minted}
+Then, you only import the component named \texttt{floor}.
+
+
+Another way to import the file: assume you have a file named \texttt{useful\_file.py} (in your current working path). To import it to your code, you just need to:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import useful_file
+\end{minted}
+No need to write the extension. Using this method to import, when you have to access members in the file, you have to use dot operator (\texttt{.}). For example, assume in \texttt{useful\_file}, a function named \texttt{roll\_dice()} is defined, then you use the following syntax to use the function in your code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import useful_file
+print(useful_file.roll_dice(10))
+\end{minted}
+
+Another thing should be noticed is that, when importing module, its like copy all the content in the module into where you import it (so after the import line, you can use things defined in the module). When you run the program, anything in the module will also be run through. For example, if your module is like:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import random
+print("This is a module")
+def roll_dice(num):
+    return random.randint(1, num)
+\end{minted}
+Then, if your code is:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import useful_file
+print(useful_file.roll_dice(10))
+\end{minted}
+Then you'll actually have the following output:
+\begin{verbatim}
+This is a module
+5 <generated random number>
+\end{verbatim}
+
+This is not the same as \texttt{\#include ""} in C++, since any call of function happens in the \texttt{main()} function, which is unique in a C++ program. In python, you don't need a \texttt{main()} function to do stuff like \texttt{print()}.
+
+To avoid namespaces corruption, it is better to import the function or functions you want, or import the entire module and use the dor notation.
+
+PEP8: All import statements should be written at the beginning of a fle. The only exception is if you use comments at the beginning of your fle to describe the overall program.
+\subsection{Using as}
+\label{sec:orgfcb09ab}
+\subsubsection{Give an Alias to a Function}
+\label{sec:orgc4b0bfd}
+If the name of a function you're importing might conflict with an existing name in your program or if the function name is long, you can use a short, unique \emph{alias} for the function. You'll give the function this special nickname when you import the function. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from useful_file import roll_dice as rd
+\end{minted}
+Then, you can call \texttt{roll\_dice()} function by \texttt{rd()}.
+\subsubsection{Give an Alias to a Module}
+\label{sec:orgb6f70fc}
+You can also provide an alias for a module name. This allows you to call the module's functions more quickly. For example:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import useful_file as uf
+uf.roll_dice()
+\end{minted}
+Apparently, \texttt{uf.roll\_dice()} is more concise than \texttt{useful\_file.roll\_dice()}.
+\section{\texttt{import} Classes}
+\label{sec:orgf599036}
+You use following syntax to import class in a module:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from module_name import class_name
+\end{minted}
+
+If you want to import multiple classes, do:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from module_name import class_name_1, class_name_2
+\end{minted}
+
+If you want to import all classes, use asterisk:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from module_name import *
+\end{minted}
+However, this is not encouraged, beside the name corruption reason, there is another reason: it is beneficial to actual see which class or method you use in the imported class.
+
+To avoid namespace corruption, you may also want to:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import module_name
+# or:
+import module_name as m_n
+\end{minted}
+and then access the class by using dot operator.
+\section{Using \texttt{pip}}
+\label{sec:orge753184}
+\subsection{\texttt{pip} for python2 and python3}
+\label{sec:orgc5798bd}
+To install modules by pip for python3, use:
+\begin{verbatim}
+sudo python3 -m pip install <package name>
+\end{verbatim}
+(The default python version on my ubuntu is python 2.7)
+
+Or use:
+\begin{verbatim}
+pip3 install <package name>
+\end{verbatim}
+
+To uninstall, just replace the keyword \texttt{install} with \texttt{uninstall}.
+\section{Install packages in pycharm}
+\label{sec:org825a50b}
+To install a package in pycharm, follow:
+\begin{verbatim}
+File -> Setting -> Project: -> Project interpreter -> +
+-> search the packages -> install
+\end{verbatim}
+(For some reason, I can't install by pip and use in pycharm. Maybe its related to path issue)
+\section{Styling}
+\label{sec:org296152f}
+If you need to import a module from the standard library and a module that you wrote, import sequence is:
+\begin{enumerate}
+\item module from the standard library
+\item a blank line
+\item module that you wrote
+\end{enumerate}
+\chapter{Code Test}
+\label{sec:org0769b3a}
+\section{Testing a Function}
+\label{sec:orgf3c32a4}
+Many times you need to test the code using different test cases. The module \texttt{unittest} from the python standard library provides tools for testing your code. A \texttt{unit test} verifies that one specific aspect of a function's behavior is correct. A \texttt{test case} is composed of different \texttt{unit cases} that together prove that a function behaves as its supposed to.
+\subsection{Steps}
+\label{sec:org8cf6501}
+Suppose you have a function to test, the function is defined in module \texttt{name\_function}, its definition is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def get_formatted_name(first, last):
+    """Generate a neatly formatted full name"""
+    full_name = first + " " + last
+    return full_name.title()
+\end{minted}
+
+In your test file (which contains code to run test cases for this function), you first import the \texttt{unittest} module and the module contains your function:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from name_function import get_formatted_name
+\end{minted}
+
+Then, you have to define a child class which is inherited from a class in \texttt{unittest} named \texttt{TestCase}:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class NamesTestCase(unittest.TestCase):
+\end{minted}
+The name of the class is arbitrary, however it is a good practice to choose names that are self-explanatory: the name should be related to the function you are about to test and to use the word \emph{Test}.
+
+Inside the class, we define a single method that tests one aspect of \texttt{get\_formatted\_name()}:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def test_first_last_name(self):
+    """Check combining and title()"""
+    formatted_name = get_formatted_name('yu', 'miao')
+    self.assertEqual(formatted_name, 'Yu Miao')
+\end{minted}
+The name of this method is to indicate that we are testing names that contains only first and last name (no middle name). Any method that starts with \texttt{test\_} will be run automatically when we run the program that containing this test class (for example, the above method is starting with \texttt{test\_} and the full name is \texttt{test\_first\_last\_name}).
+
+In this test method, at line 3, we call the function we want to test and pass in necessary arguments. Then we store the return value from the function. After that, at line 4, we use \texttt{assert} method to check check the returned value by the function. In this case, we call \texttt{assertEqual()} to check the if the returned value is equal to what we expect from the function giving the input at line 2. The first argument of \texttt{assertEqual()} is the returned value from the function, the second argument of \texttt{assertEqual()} is the expected value.
+
+After the definition of the class, we have to use following line to actually run the test:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+unittest.main()
+\end{minted}
+
+The whole test file is shown below:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from name_function import get_formatted_name
+
+
+class NamesTestCase(unittest.TestCase):
+    """Test for 'name_function.py"""
+
+    def test_first_last_name(self):
+	"""Check combining and title()"""
+	formatted_name = get_formatted_name('yu', 'miao')
+	self.assertEqual(formatted_name, 'Yu Miao')
+
+
+unittest.main()
+\end{minted}
+Output:
+\begin{verbatim}
+.
+---------------------------------------
+Ran 1 test in 0.000s
+
+OK
+\end{verbatim}
+The dot on the first line of the output tells us that a single test passed. The next line tells us that python ran one test, and the corresponding time used to test the case. The final \texttt{OK} tells us that all unit tests in the test case passed.
+\subsection{Failing Test}
+\label{sec:org5974b7c}
+A test can fail for different reasons. Take the above as an example. The expected outcome is like "Yu Miao", we can change this to "YuMiao", so we know test will fail. i.e. we rewrite the test file as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from name_function import get_formatted_name
+
+
+class NamesTestCase(unittest.TestCase):
+    """Test for 'name_function.py"""
+
+    def test_first_last_name(self):
+	"""Check combining and title()"""
+	formatted_name = get_formatted_name('yu', 'miao')
+	self.assertEqual(formatted_name, 'Yu Miao')
+
+
+unittest.main()
+\end{minted}
+Output:
+\begin{verbatim}
+F
+======================================================================
+FAIL: test_first_last_name (__main__.NamesTestCase)
+Check combining and title()
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:/Users/silam/PycharmProjects/foundation/foundation.py", line 11, in test_first_last_name
+    self.assertEqual(formatted_name, 'Yu2 Miao')
+AssertionError: 'Yu Miao' != 'Yu2 Miao'
+- Yu Miao
++ Yu2 Miao
+?   +
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+\end{verbatim}
+Above the "\texttt{=====}" line is an "F" which indicates failing occurred in the test file. And we can see exactly which test case method failed below the "\texttt{=====}" line. The docstring of that test method is also presented. The details of the error is also listed below.
+\subsection{Adding New Test}
+\label{sec:org5d96f63}
+Now, let's expand the \texttt{get\_formatted\_name()} method so it also handles middle name case (so we have an additional case to test). The expanded method is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def get_formatted_name(first, last, middle=""):
+    """Generate a neatly formatted full name"""
+    if middle:
+	full_name = first + " " + middle + " " + last
+    else:
+	full_name = first + " " + last
+    return full_name.title()
+\end{minted}
+we should add a new test case method to check cases that including middle name. To do this, we can add another method inside the the \texttt{NamesTestCase} class:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+def test_first_last_middle_name(self):
+    """check name combining with middle name existing"""
+    formatted_name = get_formatted_name('yu', 'miao', 'super')
+    self.assertEqual(formatted_name, 'Yu Super Miao')
+\end{minted}
+Now the test class \texttt{NamesTestCase} has two method, they can test different input cases. If test passed, the output should be:
+\begin{verbatim}
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+\end{verbatim}
+
+The complete test file is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from name_function import get_formatted_name
+
+
+class NamesTestCase(unittest.TestCase):
+    """Test for 'name_function.py"""
+
+    def test_first_last_name(self):
+	"""Check combining and title()"""
+	formatted_name = get_formatted_name('yu', 'miao')
+	self.assertEqual(formatted_name, 'Yu Miao')
+
+    def test_first_last_middle_name(self):
+	"""check name combining with middle name existing"""
+	formatted_name = get_formatted_name('yu', 'miao', 'super')
+	self.assertEqual(formatted_name, 'Yu Super Miao')
+
+
+unittest.main()
+\end{minted}
+\section{\texttt{unittest.assert()} Methods}
+\label{sec:org0655569}
+The \texttt{assert()} methods in \texttt{unittest.TestCase} class contain more than \texttt{assertEqual()}. Following table shows commonly used assert methods that can be used to check the expected behavior of a function or class:
+\begin{center}
+\begin{tabular}{ll}
+ & \\
+Method & Use\\
+\hline
+\texttt{assertEqual(a, b)} & test if \texttt{a == b}\\
+\texttt{assertNotEqual(a, b)} & test if \texttt{a != b}\\
+\texttt{assertTrue(x)} & test if \texttt{x} is \texttt{True}\\
+\texttt{assertFalse(x)} & test if \texttt{x} is \texttt{False}\\
+\texttt{assertIn(item, list)} & test if \texttt{item} is in \texttt{list}\\
+\texttt{assertNotIn(item, list)} & test if \texttt{item} is not in \texttt{list}\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\section{Testing a Class}
+\label{sec:org875a8a2}
+Testing a class is similar to testing a function. The main focus of testing a class is to test the behavior of the methods in the class.
+
+We will use the following class as an example, it is defined in survey.py:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class AnonymousSurvey:
+    """Collect anonymous answers to a survey question."""
+
+    def __init__(self, question):
+	"""Store a question, and prepare to store responses."""
+	self.question = question
+	self.responses = []
+
+    def show_question(self):
+	"""Show the survey question."""
+	print(self.question)
+
+    def store_response(self, new_response):
+	"""Store a single response to the survey."""
+	self.responses.append(new_response)
+
+    def show_results(self):
+	"""Show all the responses that have been given."""
+	print("Survey results:")
+	for response in self.responses:
+	    print('- ' + response)
+\end{minted}
+
+A driver program can be:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+from survey import AnonymousSurvey
+
+# Define a question, and use this question to make a survey
+question = "What language did you first learn to code?"
+my_survey = AnonymousSurvey(question)
+
+# Show the question, and store the result of the question
+while True:
+    my_survey.show_question()
+    answer = input("Input your answer, input q to quit: ")
+    if answer == 'q':
+	break
+    else:
+	my_survey.store_response(answer)
+
+# show the survey result
+print("Survey completed, thank you!")
+my_survey.show_results()
+\end{minted}
+
+Now, we want to write a test that verifies one aspect of the way \texttt{AnonymousSurvey} behaves: wether or not a single response to the survey question is stored properly. We'll use the \texttt{unittest.TestCase.assertIn()} method to verify that the response is in the list of responses after its been stored via \texttt{AnonymousSurvey.store\_response()}. We are actually testing a method inside a class (like its member function), so it is similar with writting test for function. The code is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from survey import AnonymousSurvey
+
+
+class SurveyTestCase(unittest.TestCase):
+    """test for language survey"""
+
+    def test_single_response_storage(self):
+	"""test if single response is stored properly"""
+	survey = AnonymousSurvey("question")
+	# try to store a string to the survey.responses list
+	survey.store_response("dummy_response")
+	# use assertIn() to verify storing of "dummy_response"
+	self.assertIn("dummy_response", survey.responses)
+
+
+# unittest.main()
+\end{minted}
+(The code is named as test\_survey.py)
+
+Pay attention to the last line. In the textbook, this line is added. However, in my environment, I found that if I add this line, and I choose "Run Unittest in test\_survey", I won't be able to run the test. Pycharm will show "No tests were found", and the console output is:
+\begin{verbatim}
+--------------------------------
+Ran 0 tests in 0.000s
+
+Launching unittests with arguments python -m unittest C:/Users/silam/PycharmProjects/foundation/test_survey.py in C:\Users\silam\PycharmProjects\foundation
+OK
+\end{verbatim}
+To solve this problem, you have three ways.
+\begin{enumerate}
+\item don't choose "Run Unittest in test\_survey", press alt+shift+F10 and choose run "test\_survey"
+\item delete \texttt{unittest.main()}, then "Run Unittest in test\_survey"
+\item add \texttt{if \_\_name\_\_ == '\_\_main\_\_':} before the \texttt{unittest.main()}
+\end{enumerate}
+
+Reference for this problem can be found \href{https://stackoverflow.com/questions/46584246/no-tests-were-found-when-running-unittest-main}{here}.
+
+\subsection{The \texttt{setUp()} Method}
+\label{sec:org7fcc527}
+When testing class's method, we have to create instances of the class. If we want to test different aspects of the class, we may have to create many different instances, which is a waste of time and memory space. The \texttt{unittest.TestCase} class has a \texttt{setUp()} method that allows you to create objects needed to test the class once and then use them in each of your test methods. When you include a \texttt{setUp()} method in a \texttt{TestCase} class (or its derived class), python runs the \texttt{setUp()} method before running each method starting with \texttt{test\_}. Any objects created in the setUp()\textasciitilde{} method are then available in each test method you write. This is like defining attributes in the test class. Actually, you define these object in the same way you define attributes in \texttt{\_\_init\_\_()} of a normal class, you have to use \texttt{self.object} to indicate this object is going to be used by all methods inside this class.
+
+To continue the example of \texttt{AnonymousSurvey} class's test, we use \texttt{setUp()} to create object we need to test. The whole code is as follows:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+import unittest
+from survey import AnonymousSurvey
+
+
+class SurveyTestCase(unittest.TestCase):
+    """test for language survey"""
+    def setUp(self):
+	"""Create objects needed for testing:
+	    - an AnonymousSurvey object
+	    - a list containing three dummy responses
+	"""
+	self.survey = AnonymousSurvey("dummy_question")
+	self.dummy_responses = ["response1", "response2", "response3"]
+
+    def test_single_response_storage(self):
+	# try to store strings in dummy_responses to the survey.responses list
+	for response in self.dummy_responses:
+	    self.survey.store_response(response)
+	# use assertIn() to verify storing of "dummy_response"
+	for response in self.dummy_responses:
+	    self.assertIn(response, self.survey.responses)
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+\end{minted}
+Notice how to define objects for testing in the \texttt{setUp()} method.
+
+\subsection{Character Printed to Trace Testing}
+\label{sec:orge4d3680}
+When a test case is running, Python prints one character for each unit test as it is completed. A passing test prints a dot, a test that results in an error prints an E, and a test that results in a failed assertion prints an F. This is why you’ll see a different number of dots and characters on the frst line of output when you run your test cases. If a test case takes a long time to run because it contains many unit tests, you can watch these results to get a sense of how many tests are passing.
+\chapter{place holder}
+\label{sec:orgc9a8225}
+\end{document}

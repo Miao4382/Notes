@@ -1,0 +1,4 @@
+* Python-Notes
+Notes took when learning Python
+
+This is some beginner's notes I took when I learn Python for the *first* time.

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{print\PYGZus{}info}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}c++\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}python\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}c\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}matlab\PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Yu\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

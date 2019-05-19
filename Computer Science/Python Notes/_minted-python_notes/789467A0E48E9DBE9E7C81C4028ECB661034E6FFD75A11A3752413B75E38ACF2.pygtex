@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{build\PYGZus{}profile}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,} \PYG{n}{last}\PYG{p}{,} \PYG{o}{**}\PYG{n}{user\PYGZus{}info}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}build a dictionary containing everything we know about a user\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{profile} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{n}{profile}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}first\PYGZus{}name\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{first}
+    \PYG{n}{profile}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}last\PYGZus{}name\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{last}
+    \PYG{c+c1}{\PYGZsh{} push in the arbitrary key\PYGZhy{}value pairs into dictionary}
+    \PYG{k}{for} \PYG{n}{key}\PYG{p}{,} \PYG{n}{value} \PYG{o+ow}{in} \PYG{n}{user\PYGZus{}info}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+	\PYG{n}{profile}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]} \PYG{o}{=} \PYG{n}{value}
+    \PYG{k}{return} \PYG{n}{profile}
+
+
+\PYG{n}{user\PYGZus{}profile} \PYG{o}{=} \PYG{n}{build\PYGZus{}profile}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Yu\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Miao\PYGZdq{}}\PYG{p}{,}
+			     \PYG{n}{location}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Tallahassee\PYGZsq{}}\PYG{p}{,}
+			     \PYG{n}{field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Computer Science\PYGZdq{}}\PYG{p}{,}
+			     \PYG{n}{age}\PYG{o}{=}\PYG{l+m+mi}{29}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{user\PYGZus{}profile}\PYG{p}{)}
+\end{Verbatim}

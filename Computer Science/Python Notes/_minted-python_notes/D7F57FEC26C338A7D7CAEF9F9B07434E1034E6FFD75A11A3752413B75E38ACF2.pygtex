@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{say\PYGZus{}hi}\PYG{p}{(}\PYG{n}{name}\PYG{p}{):}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Hello \PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
+
+
+\PYG{n}{say\PYGZus{}hi}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Please input your name: \PYGZdq{}}\PYG{p}{))}
+\end{Verbatim}

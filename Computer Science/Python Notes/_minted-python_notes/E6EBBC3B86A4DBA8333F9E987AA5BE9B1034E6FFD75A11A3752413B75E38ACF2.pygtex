@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{GoodStudent}\PYG{p}{(}\PYG{n}{Student}\PYG{p}{):}
+
+    \PYG{k}{def} \PYG{n+nf}{do\PYGZus{}math}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+	\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The student does a good math\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}
