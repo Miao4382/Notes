@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{std}\PYG{o}{::}\PYG{n}{string} \PYG{n}{name}\PYG{p}{;}
+\PYG{k+kt}{double} \PYG{n}{salary}\PYG{p}{;}
+\end{Verbatim}

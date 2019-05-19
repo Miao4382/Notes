@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k}{typename} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator}\PYG{o}{\PYGZam{}} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator}\PYG{o}{::}\PYG{k}{operator}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{n}{current} \PYG{o}{=} \PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev}\PYG{p}{;}
+  \PYG{k}{return} \PYG{o}{*}\PYG{k}{this}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

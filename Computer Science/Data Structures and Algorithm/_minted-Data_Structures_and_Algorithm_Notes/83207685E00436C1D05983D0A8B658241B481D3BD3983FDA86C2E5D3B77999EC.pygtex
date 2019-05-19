@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{p}{,} \PYG{k}{typename} \PYG{n}{Container}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{int} \PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,}\PYG{n}{Container}\PYG{o}{\PYGZgt{}::}\PYG{n}{size}\PYG{p}{()} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{c}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

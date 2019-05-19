@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//print all elements in the list}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{print}\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}} \PYG{n}{os}\PYG{p}{,} \PYG{k+kt}{char} \PYG{n}{ofc}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{n}{const\PYGZus{}iterator} \PYG{n}{itr} \PYG{o}{=} \PYG{n}{begin}\PYG{p}{();} \PYG{n}{itr} \PYG{o}{!=} \PYG{n}{end}\PYG{p}{();} \PYG{o}{++}\PYG{n}{itr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{os} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{o}{*}\PYG{n}{itr} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{ofc}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

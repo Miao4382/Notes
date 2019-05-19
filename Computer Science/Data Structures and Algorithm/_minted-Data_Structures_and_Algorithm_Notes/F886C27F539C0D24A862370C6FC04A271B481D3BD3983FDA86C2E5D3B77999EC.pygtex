@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{pop\PYGZus{}back}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{n}{erase}\PYG{p}{(}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{n}{end}\PYG{p}{());}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

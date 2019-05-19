@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{bool} \PYG{n}{cop4530}\PYG{o}{::}\PYG{k}{operator}\PYG{o}{!=}\PYG{p}{(}\PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{lhs}\PYG{p}{,} \PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{o}{!}\PYG{p}{(}\PYG{n}{lhs} \PYG{o}{==} \PYG{n}{rhs}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

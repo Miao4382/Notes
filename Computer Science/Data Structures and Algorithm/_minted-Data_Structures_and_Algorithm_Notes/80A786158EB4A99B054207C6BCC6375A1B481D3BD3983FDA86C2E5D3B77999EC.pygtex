@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{bool} \PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{insert}\PYG{p}{(}\PYG{k}{const} \PYG{n}{HashedObj}\PYG{o}{\PYGZam{}} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{currentPos} \PYG{o}{=} \PYG{n}{findPos}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{isActive}\PYG{p}{(}\PYG{n}{currentPos}\PYG{p}{))}
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;} \PYG{c+c1}{//already in the table}
+
+  \PYG{n}{array}\PYG{p}{[}\PYG{n}{currentPos}\PYG{p}{].}\PYG{n}{element} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+  \PYG{n}{array}\PYG{p}{[}\PYG{n}{currentPos}\PYG{p}{].}\PYG{n}{info} \PYG{o}{=} \PYG{n}{ACTIVE}\PYG{p}{;}
+
+  \PYG{c+c1}{//rehase}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{++}\PYG{n}{currentSize} \PYG{o}{\PYGZgt{}} \PYG{n}{array}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{rehash}\PYG{p}{();}
+
+  \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;} \PYG{c+c1}{//insertion successful}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

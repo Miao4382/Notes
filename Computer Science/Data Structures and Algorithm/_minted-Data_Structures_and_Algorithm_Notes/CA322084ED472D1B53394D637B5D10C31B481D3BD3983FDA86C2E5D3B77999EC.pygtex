@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{bool} \PYG{n}{BinaryHeap}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{deleteMin}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{//check if the heap is empty}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{isEmpty}\PYG{p}{())}
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+
+  \PYG{c+c1}{//move the last item to the root}
+  \PYG{n}{array}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{array}\PYG{p}{[}\PYG{n}{currentSize}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{]);}
+
+  \PYG{c+c1}{//percolate down}
+  \PYG{n}{percolateDown}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+
+  \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

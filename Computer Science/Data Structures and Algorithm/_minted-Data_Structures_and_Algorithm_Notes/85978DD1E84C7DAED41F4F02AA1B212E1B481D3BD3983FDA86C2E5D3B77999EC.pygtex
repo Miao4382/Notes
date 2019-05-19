@@ -1,0 +1,72 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}pragma once}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}iostream\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}algorithm\PYGZgt{}}
+
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k}{class} \PYG{n+nc}{AVLTree} \PYG{p}{\PYGZob{}}
+\PYG{k}{private}\PYG{o}{:}
+  \PYG{c+c1}{//nested tree node structure}
+  \PYG{k}{struct} \PYG{n}{AvlNode} \PYG{p}{\PYGZob{}} \PYG{c+c1}{// defined later}
+  \PYG{p}{\PYGZcb{};}
+
+\PYG{k}{private}\PYG{o}{:}
+  \PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{root}\PYG{p}{;}
+  \PYG{k}{static} \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{ALLOWED\PYGZus{}IMBALANCE} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+
+\PYG{k}{private}\PYG{o}{:}
+  \PYG{c+cm}{/** private operating functions **/}
+  \PYG{c+c1}{///insert}
+  \PYG{k+kt}{void} \PYG{n}{insert}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{,} \PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}} \PYG{n}{t}\PYG{p}{);} \PYG{c+c1}{//copy}
+  \PYG{k+kt}{void} \PYG{n+nf}{insert}\PYG{p}{(}\PYG{n}{comparable}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{val}\PYG{p}{,} \PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}} \PYG{n}{t}\PYG{p}{);} \PYG{c+c1}{//move}
+
+  \PYG{c+c1}{///remove}
+  \PYG{k+kt}{void} \PYG{n+nf}{remove}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{,} \PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}} \PYG{n}{t}\PYG{p}{);}
+
+  \PYG{c+c1}{///search}
+  \PYG{n}{AvlNode}\PYG{o}{*} \PYG{n+nf}{findMin}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+  \PYG{n}{AvlNode}\PYG{o}{*} \PYG{n+nf}{findMax}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k+kt}{bool} \PYG{n+nf}{contains}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{,} \PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+
+  \PYG{c+c1}{///utility}
+  \PYG{k+kt}{void} \PYG{n+nf}{makeEmpty}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}} \PYG{n}{t}\PYG{p}{);}
+  \PYG{k+kt}{void} \PYG{n+nf}{printTree}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{,} \PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}} \PYG{n}{out}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+  \PYG{n}{AvlNode}\PYG{o}{*} \PYG{n+nf}{clone}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n+nf}{height}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{balance}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);} \PYG{c+c1}{//internal balance routine}
+  \PYG{k+kt}{void} \PYG{n+nf}{rotateWithLeftChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
+  \PYG{k+kt}{void} \PYG{n+nf}{rotateWithRightChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
+  \PYG{k+kt}{void} \PYG{n+nf}{doubleWithLeftChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
+  \PYG{k+kt}{void} \PYG{n+nf}{doubleWithRightChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
+
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{c+cm}{/** Constructor and destructor **/}
+  \PYG{n}{AVLTree}\PYG{p}{();} \PYG{c+c1}{//zero\PYGZhy{}parameter default constructor}
+  \PYG{n}{AVLTree}\PYG{p}{(}\PYG{k}{const} \PYG{n}{AVLTree}\PYG{o}{\PYGZam{}} \PYG{n}{rhs}\PYG{p}{);} \PYG{c+c1}{//copy constructor}
+  \PYG{n}{AVLTree}\PYG{p}{(}\PYG{n}{AVLTree}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{);} \PYG{c+c1}{//move constructor}
+  \PYG{o}{\PYGZti{}}\PYG{n}{AVLTree}\PYG{p}{();} \PYG{c+c1}{//destructor}
+
+  \PYG{c+cm}{/** Assignment operator **/}
+  \PYG{n}{AVLTree}\PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{=}\PYG{p}{(}\PYG{k}{const} \PYG{n}{AVLTree}\PYG{o}{\PYGZam{}} \PYG{n}{rhs}\PYG{p}{);} \PYG{c+c1}{//copy}
+  \PYG{n}{AVLTree}\PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{=}\PYG{p}{(}\PYG{n}{AVLTree}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{);} \PYG{c+c1}{//move}
+
+  \PYG{c+cm}{/** Public Search Interface **/}
+  \PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{findMin}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{findMax}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k+kt}{bool} \PYG{n+nf}{contains}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+
+  \PYG{c+cm}{/** Modification of tree **/}
+  \PYG{k+kt}{void} \PYG{n+nf}{makeEmpty}\PYG{p}{();}
+  \PYG{k+kt}{void} \PYG{n+nf}{insert}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{);}\PYG{c+c1}{//copy version}
+  \PYG{k+kt}{void} \PYG{n+nf}{insert}\PYG{p}{(}\PYG{n}{comparable}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{val}\PYG{p}{);}\PYG{c+c1}{//move version}
+  \PYG{k+kt}{void} \PYG{n+nf}{remove}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{);}
+
+  \PYG{c+cm}{/** Utility **/}
+  \PYG{k+kt}{bool} \PYG{n+nf}{isEmpty}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{printTree}\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}} \PYG{n}{out} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{cout}\PYG{p}{)} \PYG{k}{const}\PYG{p}{;}
+
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{//include implementation here}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}avl.hpp\PYGZdq{}}
+\end{Verbatim}

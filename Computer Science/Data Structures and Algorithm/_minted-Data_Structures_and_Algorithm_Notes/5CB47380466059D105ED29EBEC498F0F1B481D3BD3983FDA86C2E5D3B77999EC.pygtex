@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{BinarySearchTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{printTree}\PYG{p}{(}\PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{,} \PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}} \PYG{n}{out}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{//base case}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{t} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+    \PYG{k}{return}\PYG{p}{;}
+
+  \PYG{c+c1}{//print the tree in inorder traversal}
+  \PYG{n}{printTree}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{,} \PYG{n}{out}\PYG{p}{);}
+  \PYG{n}{out} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{element} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s+sc}{\PYGZsq{} \PYGZsq{}}\PYG{p}{;}
+  \PYG{n}{printTree}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{,} \PYG{n}{out}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

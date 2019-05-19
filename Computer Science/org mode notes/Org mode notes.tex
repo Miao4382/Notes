@@ -1,0 +1,134 @@
+% Created 2019-05-09 Thu 17:08
+% Intended LaTeX compiler: pdflatex
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[margin=1in] {geometry}
+\linespread {1.5}
+\setcounter{tocdepth} {6}
+\setcounter{secnumdepth} {6}
+\setlength\parindent{0pt}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\part{Basic Org Tutorial}
+\label{sec:orgce3b29e}
+\chapter{Insert Image}
+\label{sec:orgb0b1285}
+\section{Insert normal image}
+\label{sec:org27a202a}
+We use a link to insert image. The format is as follows:
+\begin{verbatim}
+[[./img/1.jpg]]
+\end{verbatim}
+
+You include the path of your image file in the double brackts. \texttt{./} means using the current path. \texttt{./img/1.jpg} means you have a folder named img under current path, and you want to insert an image named 1.jpg (which is stored in img) to the file.
+
+You can add captions and name to your file by:
+\begin{verbatim}
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+[[./img/1.jpg]]
+\end{verbatim}
+
+Caption is the title of the image, which will be generated under your image (e.g. Figure x.x "image\_caption", x.x is chapter.figure\_number).
+
+Name is used for internal cross reference. You can create a cross reference inside your file by:
+\begin{verbatim}
+[[fig:"image_name"]]
+\end{verbatim}
+
+You can also adjust the size of your inserted file:
+\begin{verbatim}
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+[[./img/1.jpg]]
+\end{verbatim}
+
+
+\section{Insert vector image}
+\label{sec:org300ca35}
+I use inkscape to create vector image. When I exported as .svg file, I couldn't insert it. However, if I export the vector image as .pdf file, I can:
+\begin{verbatim}
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+[[./img/1.pdf]]
+\end{verbatim}
+
+\section{Change float behavior of Image}
+\label{sec:org1e0ee38}
+If you add a caption of an image using:
+\begin{verbatim}
+#+CAPTION: "image_caption"
+\end{verbatim}
+the LaTex export back-end wraps the image in a floating 'figure' environment. So the relative position of your image and your text may not be the same you wrote. You can avoid this floating behavior by adding the following line before the insertion of the image:
+\begin{verbatim}
+#+ATTR_LATEX: :float nil
+\end{verbatim}
+
+\href{https://orgmode.org/manual/Images-in-LaTeX-export.html}{Reference}
+
+Example:
+\begin{verbatim}
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :float nil
+[[./img/1.pdf]]
+\end{verbatim}
+
+\chapter{Multi-lined Equation}
+\label{sec:org06bf409}
+In latex, \texttt{\textbackslash{}[\textbackslash{}]} is for single line display equation (without number). If you want to input a block that contains Multi-lined equation, you have to use:
+
+\texttt{\textbackslash{}begin\{align*\}}
+
+\texttt{a\textasciicircum{}2 + b\textasciicircum{}2 \&= c\textasciicircum{}2 \textbackslash{}\textbackslash{}}
+
+\texttt{x + y \&= z}
+
+\texttt{\textbackslash{}end\{align*\}}
+
+LaTex align mode can achieve this. The \texttt{*} indicates no indexing of the equation. \texttt{\textbackslash{}\textbackslash{}} means newline, you have to use this to go to next line. \texttt{\&} in front of the \texttt{=} indicates where you want to align these functions.
+
+\chapter{Indentation}
+\label{sec:orgdd4a37b}
+\section{Paragraph indentation}
+\label{sec:org662aad3}
+When exporting by LaTex (to pdf), use following line (at the beginning) to adjust the indentation rule for this whole file:
+\begin{verbatim}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+\end{verbatim}
+
+\href{https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file}{Reference}
+\section{Indent of first line after a title}
+\label{sec:org47da7dc}
+The immediate paragraph after a title may not be indented. Add following line at the beginning to solve this problem:
+\begin{verbatim}
+#+LATEX_HEADER: \usepackage{indentfirst}
+\end{verbatim}
+\end{document}

@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Derived}\PYG{o}{::}\PYG{n}{Derived}\PYG{p}{()} \PYG{o}{:} \PYG{n}{Base}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{// implementation of default constructor}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{Derived}\PYG{o}{::}\PYG{n}{Derived}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{len}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{w}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{h}\PYG{p}{)} \PYG{o}{:} \PYG{n}{Base}\PYG{p}{(}\PYG{n}{len}\PYG{p}{,} \PYG{n}{w}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{// implementation of Derived(len, w, h)}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
+\PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{HashTable}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{size}\PYG{p}{)} \PYG{o}{:} \PYG{n}{array}\PYG{p}{(}\PYG{n}{size}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{currentSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

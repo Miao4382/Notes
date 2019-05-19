@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{bool} \PYG{n}{BinarySearchTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{contains}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{contains}\PYG{p}{(}\PYG{n}{val}\PYG{p}{,} \PYG{n}{root}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

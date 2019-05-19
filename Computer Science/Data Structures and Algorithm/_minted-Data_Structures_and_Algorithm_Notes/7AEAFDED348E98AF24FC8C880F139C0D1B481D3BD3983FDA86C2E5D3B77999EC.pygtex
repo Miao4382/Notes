@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{AVLTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{balance}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{//check nullptr}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{t} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+    \PYG{k}{return}\PYG{p}{;}
+
+  \PYG{c+c1}{//check which branch inserted}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{)} \PYG{o}{+} \PYG{n}{ALLOWED\PYGZus{}IMBALANCE}\PYG{p}{)} \PYG{p}{\PYGZob{}}\PYG{c+c1}{// left subtree of t is higher}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{))} \PYG{c+c1}{//LR case}
+      \PYG{n}{doubleWithLeftChild}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+    \PYG{k}{else} \PYG{c+c1}{//LL case}
+      \PYG{n}{rotateWithLeftChild}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{)} \PYG{o}{+} \PYG{n}{ALLOWED\PYGZus{}IMBALANCE}\PYG{p}{)} \PYG{p}{\PYGZob{}}\PYG{c+c1}{//right subtree of t is higher}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{))} \PYG{c+c1}{//RL case}
+      \PYG{n}{doubleWithRightChild}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+    \PYG{k}{else} \PYG{c+c1}{//RR case}
+      \PYG{n}{rotateWithRightChild}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{c+c1}{//update height of the current node}
+  \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{height} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{max}\PYG{p}{(}\PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{),} \PYG{n}{height}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{))} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//delete all nodes with value equal to val from the list}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{remove}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{n}{iterator} \PYG{n}{itr} \PYG{o}{=} \PYG{n}{begin}\PYG{p}{();} \PYG{n}{itr} \PYG{o}{!=} \PYG{n}{end}\PYG{p}{();} \PYG{o}{++}\PYG{n}{itr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{itr} \PYG{o}{==} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{itr} \PYG{o}{=} \PYG{n}{erase}\PYG{p}{(}\PYG{n}{itr}\PYG{p}{);}
+      \PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{n}{itr}\PYG{p}{;} \PYG{c+c1}{// notice the current position of itr}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

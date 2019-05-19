@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{Node} \PYG{p}{\PYGZob{}}
+  \PYG{n}{T} \PYG{n}{data}\PYG{p}{;}
+  \PYG{n}{Node}\PYG{o}{*} \PYG{n}{prev}\PYG{p}{;}
+  \PYG{n}{Node}\PYG{o}{*} \PYG{n}{next}\PYG{p}{;}
+
+  \PYG{c+c1}{// copy constructor}
+  \PYG{n}{Node}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{n}{d} \PYG{o}{=} \PYG{n}{T}\PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{n}{Node}\PYG{o}{*} \PYG{n}{p} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{,} \PYG{n}{Node}\PYG{o}{*} \PYG{n}{n} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{o}{:} \PYG{n}{data}\PYG{p}{\PYGZob{}}\PYG{n}{d}\PYG{p}{\PYGZcb{},} \PYG{n}{prev}\PYG{p}{\PYGZob{}}\PYG{n}{p}\PYG{p}{\PYGZcb{},} \PYG{n}{next}\PYG{p}{\PYGZob{}}\PYG{n}{n}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+  \PYG{c+c1}{// move constructor}
+  \PYG{n}{Node}\PYG{p}{(}\PYG{n}{T}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{d} \PYG{o}{=} \PYG{n}{T}\PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{n}{Node}\PYG{o}{*} \PYG{n}{p} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{,} \PYG{n}{Node}\PYG{o}{*} \PYG{n}{n} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{o}{:} \PYG{n}{data}\PYG{p}{\PYGZob{}}\PYG{n}{d}\PYG{p}{\PYGZcb{},} \PYG{n}{prev}\PYG{p}{\PYGZob{}}\PYG{n}{p}\PYG{p}{\PYGZcb{},} \PYG{n}{next}\PYG{p}{\PYGZob{}}\PYG{n}{n}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

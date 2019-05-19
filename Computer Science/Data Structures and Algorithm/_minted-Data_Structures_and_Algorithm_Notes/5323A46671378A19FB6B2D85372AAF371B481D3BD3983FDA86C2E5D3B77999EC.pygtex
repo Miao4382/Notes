@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{T} \PYG{n}{tmp} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{array}\PYG{p}{[}\PYG{n}{hole}\PYG{p}{]);}
+\end{Verbatim}

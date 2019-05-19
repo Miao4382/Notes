@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{makeEmpty}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto}\PYG{o}{\PYGZam{}} \PYG{n+nl}{thisList} \PYG{p}{:} \PYG{n}{theLists}\PYG{p}{)}
+    \PYG{n}{thisList}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}
+
+  \PYG{n}{currentSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{c+c1}{// reset value of currentSize}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

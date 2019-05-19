@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{size\PYGZus{}t} \PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{myhash}\PYG{p}{(}\PYG{k}{const} \PYG{n}{HashedObj}\PYG{o}{\PYGZam{}} \PYG{n}{x}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k}{static} \PYG{n}{hash}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}} \PYG{n}{hf}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n+nf}{hf}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{theLists}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

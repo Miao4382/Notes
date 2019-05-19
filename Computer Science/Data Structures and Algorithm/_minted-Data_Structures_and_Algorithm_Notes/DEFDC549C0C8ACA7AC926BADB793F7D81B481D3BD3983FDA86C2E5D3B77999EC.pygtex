@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{n}{AVLTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{AVLTree}\PYG{p}{(}\PYG{n}{AVLTree}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{root} \PYG{o}{=} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{root}\PYG{p}{;}
+  \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{root} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

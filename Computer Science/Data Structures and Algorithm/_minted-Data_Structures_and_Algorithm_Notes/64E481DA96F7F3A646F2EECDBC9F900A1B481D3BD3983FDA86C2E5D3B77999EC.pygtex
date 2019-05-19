@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//delete all the elements in the list}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{clear}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{empty}\PYG{p}{())}
+    \PYG{n}{pop\PYGZus{}front}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

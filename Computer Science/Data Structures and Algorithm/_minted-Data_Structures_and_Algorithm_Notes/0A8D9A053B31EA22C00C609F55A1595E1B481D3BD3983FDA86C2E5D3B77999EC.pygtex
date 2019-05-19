@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k}{class} \PYG{n+nc}{BinarySearchTree} \PYG{p}{\PYGZob{}}
+
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

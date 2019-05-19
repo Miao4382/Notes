@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{List}\PYG{p}{(}\PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{init}\PYG{p}{();}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto}\PYG{o}{\PYGZam{}} \PYG{n+nl}{x} \PYG{p}{:} \PYG{n}{rhs}\PYG{p}{)}
+    \PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

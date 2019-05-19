@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//do nothing; destructor of data member (the container c) will be called automatically}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{p}{,} \PYG{k}{typename} \PYG{n}{Container}\PYG{o}{\PYGZgt{}}
+\PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{Container}\PYG{o}{\PYGZgt{}::\PYGZti{}}\PYG{n}{Stack}\PYG{p}{()} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\end{Verbatim}

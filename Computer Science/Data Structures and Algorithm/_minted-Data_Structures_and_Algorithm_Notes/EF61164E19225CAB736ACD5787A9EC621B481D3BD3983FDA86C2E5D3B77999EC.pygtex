@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// keep value of *p}
+\PYG{k}{auto} \PYG{n}{temp} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{n}{p}\PYG{p}{);}
+\PYG{c+c1}{// define an iterator to hold where *p should go}
+\PYG{k}{auto} \PYG{n}{j} \PYG{o}{=} \PYG{n}{p}\PYG{p}{;}
+\PYG{c+c1}{// looking into the sorted section to see where should *p go}
+\PYG{k}{for} \PYG{p}{(;} \PYG{n}{j} \PYG{o}{\PYGZgt{}=} \PYG{n}{first} \PYG{o}{+} \PYG{n}{h} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{!}\PYG{n}{comp}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{j} \PYG{o}{\PYGZhy{}} \PYG{n}{h}\PYG{p}{),} \PYG{n}{temp}\PYG{p}{);} \PYG{n}{j} \PYG{o}{\PYGZhy{}=} \PYG{n}{h}\PYG{p}{)}
+  \PYG{o}{*}\PYG{n}{j} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{j} \PYG{o}{\PYGZhy{}} \PYG{n}{h}\PYG{p}{));}
+\PYG{c+c1}{// after above for loop, j is where *p should go}
+\PYG{o}{*}\PYG{n}{j} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{temp}\PYG{p}{);}
+\end{Verbatim}

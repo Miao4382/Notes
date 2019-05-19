@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{init}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{n}{theSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{n}{head} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Node}\PYG{p}{;}
+  \PYG{n}{tail} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Node}\PYG{p}{;}
+  \PYG{n}{head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{tail}\PYG{p}{;}
+  \PYG{n}{tail}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev} \PYG{o}{=} \PYG{n}{head}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

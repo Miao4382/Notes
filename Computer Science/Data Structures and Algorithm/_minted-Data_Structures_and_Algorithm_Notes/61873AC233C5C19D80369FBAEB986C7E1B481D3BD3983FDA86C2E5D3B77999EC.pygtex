@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{int} \PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{findPos}\PYG{p}{(}\PYG{k}{const} \PYG{n}{HashedObj}\PYG{o}{\PYGZam{}} \PYG{n}{x}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{stepSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{initialPos} \PYG{o}{=} \PYG{n}{myhash}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);}
+  \PYG{k+kt}{int} \PYG{n}{currentPos} \PYG{o}{=} \PYG{p}{(}\PYG{n}{initialPos} \PYG{o}{+} \PYG{n}{stepSize} \PYG{o}{*} \PYG{n}{stepSize}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{array}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{array}\PYG{p}{[}\PYG{n}{currentPos}\PYG{p}{].}\PYG{n}{info} \PYG{o}{!=} \PYG{n}{EMPTY} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{array}\PYG{p}{[}\PYG{n}{currentPos}\PYG{p}{].}\PYG{n}{element} \PYG{o}{!=} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{stepSize}\PYG{o}{++}\PYG{p}{;}
+    \PYG{n}{currentPos} \PYG{o}{=} \PYG{p}{(}\PYG{n}{initialPos} \PYG{o}{+} \PYG{n}{stepSize} \PYG{o}{*} \PYG{n}{stepSize}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{array}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{return} \PYG{n}{currentPos}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

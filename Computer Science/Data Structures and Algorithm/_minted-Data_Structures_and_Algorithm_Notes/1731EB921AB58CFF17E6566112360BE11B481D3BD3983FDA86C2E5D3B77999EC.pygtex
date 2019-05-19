@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//return reference to the first element in the list}
+\PYG{c+c1}{//reference}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{front}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{o}{*}\PYG{n}{begin}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

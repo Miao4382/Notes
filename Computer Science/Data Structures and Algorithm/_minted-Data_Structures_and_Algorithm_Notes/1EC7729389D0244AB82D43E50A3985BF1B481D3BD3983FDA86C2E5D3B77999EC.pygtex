@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{k}{operator}\PYG{o}{=}\PYG{p}{(}\PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{List} \PYG{n}{copy} \PYG{o}{=} \PYG{n}{rhs}\PYG{p}{;} \PYG{c+c1}{//apply copy constructor}
+  \PYG{n}{std}\PYG{o}{::}\PYG{n}{swap}\PYG{p}{(}\PYG{o}{*}\PYG{k}{this}\PYG{p}{,} \PYG{n}{copy}\PYG{p}{);}
+  \PYG{k}{return} \PYG{o}{*}\PYG{k}{this}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{BinaryNode} \PYG{p}{\PYGZob{}}
+  \PYG{n}{comparable} \PYG{n}{element}\PYG{p}{;}\PYG{c+c1}{//data stored in the node, and it is comparable (at least one comparable routine is defined for this type)}
+  \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{left}\PYG{p}{;}
+  \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{right}\PYG{p}{;}
+
+  \PYG{c+c1}{///constructor}
+  \PYG{c+c1}{//copy}
+  \PYG{n}{BinaryNode}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val} \PYG{o}{=} \PYG{n}{val}\PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{lt} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{,} \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{rt} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{o}{:} \PYG{n}{element} \PYG{p}{\PYGZob{}}\PYG{n}{val}\PYG{p}{\PYGZcb{},} \PYG{n}{left} \PYG{p}{\PYGZob{}}\PYG{n}{lt}\PYG{p}{\PYGZcb{},} \PYG{n}{right} \PYG{p}{\PYGZob{}}\PYG{n}{rt}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
+  \PYG{c+c1}{//move}
+  \PYG{n}{BinaryNode}\PYG{p}{(}\PYG{n}{comparable}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{val} \PYG{o}{=} \PYG{n}{val}\PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{lt} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{,} \PYG{n}{BinaryNode}\PYG{o}{*} \PYG{n}{rt} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{o}{:} \PYG{n}{element} \PYG{p}{\PYGZob{}}\PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{val}\PYG{p}{)\PYGZcb{},} \PYG{n}{left} \PYG{p}{\PYGZob{}}\PYG{n}{lt}\PYG{p}{\PYGZcb{},} \PYG{n}{right} \PYG{p}{\PYGZob{}}\PYG{n}{rt}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

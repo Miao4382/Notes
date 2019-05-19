@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{AVLTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{findMax}\PYG{p}{()} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{p}{(}\PYG{n}{findMax}\PYG{p}{(}\PYG{n}{root}\PYG{p}{))}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{element}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

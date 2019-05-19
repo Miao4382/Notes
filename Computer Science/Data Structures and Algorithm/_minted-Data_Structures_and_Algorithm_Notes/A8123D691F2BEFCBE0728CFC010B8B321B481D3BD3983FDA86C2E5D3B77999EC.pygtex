@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{n}{BinarySearchTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{BinarySearchTree}\PYG{p}{()} \PYG{o}{:} \PYG{n}{root} \PYG{p}{\PYGZob{}}\PYG{k}{nullptr}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\end{Verbatim}

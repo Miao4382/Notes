@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{Iterator}\PYG{p}{,} \PYG{k}{class} \PYG{n+nc}{Compare}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{percolateDown}\PYG{p}{(}\PYG{n}{Iterator} \PYG{n}{first}\PYG{p}{,} \PYG{n}{Iterator} \PYG{n}{class}\PYG{p}{,} \PYG{n}{Compare} \PYG{n}{comp}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{hole} \PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{child}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{currentSize}\PYG{p}{;}
+
+  \PYG{k}{auto} \PYG{n}{tmp} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{hole}\PYG{p}{));}
+
+  \PYG{k}{for} \PYG{p}{(;} \PYG{n}{hole} \PYG{o}{*} \PYG{l+m+mi}{2} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}=} \PYG{n}{currentSize}\PYG{p}{;} \PYG{n}{hole} \PYG{o}{=} \PYG{n}{child}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{child} \PYG{o}{=} \PYG{n}{hole} \PYG{o}{*} \PYG{l+m+mi}{2} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{c+c1}{//left child}
+
+    \PYG{c+c1}{// check right child\PYGZsq{}s existence}
+    \PYG{c+c1}{// if it exists, pick the child according to comp}
+    \PYG{c+c1}{// pay attention that the order is the inverse of what comp() defined}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{child} \PYG{o}{!=} \PYG{n}{currentSize} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{comp}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{child}\PYG{p}{),} \PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{child} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)))}
+      \PYG{o}{++}\PYG{n}{child}\PYG{p}{;}
+
+    \PYG{c+c1}{//if the value in hole violated heap property}
+    \PYG{c+c1}{//percolate hole down}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{comp}\PYG{p}{(}\PYG{n}{tmp}\PYG{p}{,} \PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{child}\PYG{p}{)))}
+      \PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{hole}\PYG{p}{)} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{child}\PYG{p}{));}
+    \PYG{k}{else} \PYG{c+c1}{//heap property not violated, proper position found}
+      \PYG{k}{break}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{o}{*}\PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{n}{hole}\PYG{p}{)} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{tmp}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

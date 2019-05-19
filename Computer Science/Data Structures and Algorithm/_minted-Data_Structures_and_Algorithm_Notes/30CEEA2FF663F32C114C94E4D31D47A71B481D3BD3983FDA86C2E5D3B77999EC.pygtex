@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{n}{BinarySearchTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{BinarySearchTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{k}{operator}\PYG{o}{=}\PYG{p}{(}\PYG{k}{const} \PYG{n}{BinarySearchTree}\PYG{o}{\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{root} \PYG{o}{=} \PYG{n}{clone}\PYG{p}{(}\PYG{n}{rhs}\PYG{p}{.}\PYG{n}{root}\PYG{p}{);}
+  \PYG{k}{return} \PYG{o}{*}\PYG{k}{this}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

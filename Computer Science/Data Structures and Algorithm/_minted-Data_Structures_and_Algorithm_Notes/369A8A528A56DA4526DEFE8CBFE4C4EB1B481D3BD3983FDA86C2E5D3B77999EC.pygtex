@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{bool} \PYG{n}{cop4530}\PYG{o}{::}\PYG{k}{operator}\PYG{o}{==}\PYG{p}{(}\PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{lhs}\PYG{p}{,} \PYG{k}{const} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{lhs}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{!=} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{size}\PYG{p}{())}
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+
+  \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{itr\PYGZus{}lhs} \PYG{o}{=} \PYG{n}{lhs}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{itr\PYGZus{}rhs} \PYG{o}{=} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();} \PYG{n}{itr\PYGZus{}lhs} \PYG{o}{!=} \PYG{n}{lhs}\PYG{p}{.}\PYG{n}{end}\PYG{p}{();} \PYG{o}{++}\PYG{n}{itr\PYGZus{}lhs}\PYG{p}{,} \PYG{o}{++}\PYG{n}{itr\PYGZus{}rhs}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{itr\PYGZus{}lhs} \PYG{o}{!=} \PYG{o}{*}\PYG{n}{itr\PYGZus{}rhs}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
+
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

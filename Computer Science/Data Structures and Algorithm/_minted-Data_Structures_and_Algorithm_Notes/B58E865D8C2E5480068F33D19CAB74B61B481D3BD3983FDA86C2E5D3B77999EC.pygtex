@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{iterator} \PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{++}\PYG{p}{();}
+\PYG{n}{iterator} \PYG{k}{operator}\PYG{o}{++}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{);}
+\PYG{n}{iterator} \PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{();}
+\PYG{n}{iterator} \PYG{k}{operator}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{);}
+\end{Verbatim}

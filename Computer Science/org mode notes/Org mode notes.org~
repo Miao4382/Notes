@@ -1,0 +1,141 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \linespread {1.5}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_CLASS: book
+#+LATEX_CLASS_OPTIONS: [12pt]
+** Basic Org Tutorial
+*** Insert Image
+**** Insert normal image
+We use a link to insert image. The format is as follows:
+#+BEGIN_EXAMPLE
+[[./img/1.jpg]]
+#+END_EXAMPLE
+
+You include the path of your image file in the double brackts. ~./~ means using the current path. ~./img/1.jpg~ means you have a folder named img under current path, and you want to insert an image named 1.jpg (which is stored in img) to the file.
+
+You can add captions and name to your file by:
+#+BEGIN_EXAMPLE
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+[[./img/1.jpg]]
+#+END_EXAMPLE
+
+Caption is the title of the image, which will be generated under your image (e.g. Figure x.x "image_caption", x.x is chapter.figure_number).
+
+Name is used for internal cross reference. You can create a cross reference inside your file by:
+#+BEGIN_EXAMPLE
+[[fig:"image_name"]]
+#+END_EXAMPLE
+
+You can also adjust the size of your inserted file:
+#+BEGIN_EXAMPLE
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+[[./img/1.jpg]]
+#+END_EXAMPLE
+
+
+**** Insert vector image
+I use inkscape to create vector image. When I exported as .svg file, I couldn't insert it. However, if I export the vector image as .pdf file, I can:
+#+BEGIN_EXAMPLE
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+[[./img/1.pdf]]
+#+END_EXAMPLE
+
+**** Change float behavior of Image
+If you add a caption of an image using:
+#+BEGIN_EXAMPLE
+#+CAPTION: "image_caption"
+#+END_EXAMPLE
+the LaTex export back-end wraps the image in a floating 'figure' environment. So the relative position of your image and your text may not be the same you wrote. You can avoid this floating behavior by adding the following line before the insertion of the image:
+#+BEGIN_EXAMPLE
+#+ATTR_LATEX: :float nil
+#+END_EXAMPLE
+
+[[https://orgmode.org/manual/Images-in-LaTeX-export.html][Reference]]
+
+Example:
+#+BEGIN_EXAMPLE
+#+CAPTION: "image_caption"
+#+NAME: fig:"image_name"
+#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :float nil
+[[./img/1.pdf]]
+#+END_EXAMPLE
+
+*** Indentation
+**** Org Indentation Mode
+By adding:
+#+BEGIN_EXAMPLE
+#+STARTUP: indent
+#+END_EXAMPLE
+you'll activate the indentation mode. Different levels of title will now show only one '*', and will be distinguished by colors and different indentations in org mode.
+
+**** Indent of first line after a title
+The immediate paragraph after a title may not be indented. Add following line at the beginning to solve this problem:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{indentfirst}
+#+END_EXAMPLE
+**** Paragraph indentation 
+When exporting by LaTex (to pdf), use following line (at the beginning) to adjust the indentation rule for this whole file:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+END_EXAMPLE
+
+If you want to add an extra line between paragraphs, you can use package:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{parskip}
+#+END_EXAMPLE
+This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the ~#+LATEX_HEADER: \setlength\parindent{0pt}~ line).
+
+[[https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file][Reference]]
+*** Multi-lined Equation
+In latex, ~\[\]~ is for single line display equation (without number). If you want to input a block that contains Multi-lined equation, you have to use:
+
+~\begin{align*}~
+
+~a^2 + b^2 &= c^2 \\~
+
+~x + y &= z~
+
+~\end{align*}~
+
+LaTex align mode can achieve this. The ~*~ indicates no indexing of the equation. ~\\~ means newline, you have to use this to go to next line. ~&~ in front of the ~=~ indicates where you want to align these functions.
+*** Paragraph Skip
+The most common way to quickly add spaces between paragraphs in LaTeX is to use the parskip package. You can tell org-mode to include that in the LaTeX header by adding the following line in beginning:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{parskip}
+#+END_EXAMPLE
+
+[[https://emacs.stackexchange.com/questions/22755/separation-between-paragraphs-when-exporting-to-pdf-from-org-mode][Reference]]
+*** Set Default TeX engine
+You can set the default TeX-engine by adding following line in .emacs file.
+#+BEGIN_EXAMPLE
+(setq-default TeX-engine 'xetex)
+#+END_EXAMPLE
+where ~xetex~ is the name of the engine.
+*** Export LaTex pdf File with Chinese
+[not finished]
+When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{ctex}
+#+END_EXAMPLE
+
+When compiling you have to use XeLaTex to compile the pdf. (not so sure how)
+** Useful links
+[[http://doc.norang.ca/org-mode.html][General ORG tutorial]]
+** Emacs
+*** Prevent editing collapsed subtree
+You have to put following line in your .emacs:
+#+begin_src lisp
+(setq-default org-catch-invisible-edits 'smart)
+#+end_src
+
+[[https://emacs.stackexchange.com/questions/2086/org-mode-prevent-editing-of-text-within-collapsed-subtree][Reference]]

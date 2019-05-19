@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{AVLTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{insert}\PYG{p}{(}\PYG{k}{const} \PYG{n}{comparable}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{,} \PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}} \PYG{n}{t}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{//base case1: t is pointing to nullptr}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{t} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{t} \PYG{o}{=} \PYG{k}{new} \PYG{n}{AvlNode}\PYG{p}{\PYGZob{}}\PYG{n}{val}\PYG{p}{\PYGZcb{};} \PYG{c+c1}{//this step will modify t, so pass the pointer by reference is necessary}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{c+c1}{//determine which branch to insert}
+  \PYG{c+c1}{//when item being inserted is the same as t\PYGZhy{}\PYGZgt{}element, do nothing (don\PYGZsq{}t insert)}
+  \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{val} \PYG{o}{\PYGZlt{}} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{element}\PYG{p}{)}
+    \PYG{n}{insert}\PYG{p}{(}\PYG{n}{val}\PYG{p}{,} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{);}
+  \PYG{k}{else} \PYG{n+nf}{if} \PYG{p}{(}\PYG{n}{val} \PYG{o}{\PYGZgt{}} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{element}\PYG{p}{)}
+    \PYG{n}{insert}\PYG{p}{(}\PYG{n}{val}\PYG{p}{,} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{);}
+
+  \PYG{n}{balance}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

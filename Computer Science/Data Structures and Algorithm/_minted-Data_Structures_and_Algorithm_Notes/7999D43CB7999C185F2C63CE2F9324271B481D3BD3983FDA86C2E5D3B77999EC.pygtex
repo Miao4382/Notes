@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Derived} \PYG{o}{:} \PYG{k}{private} \PYG{n}{Base}\PYG{p}{;}
+\PYG{k}{class} \PYG{n+nc}{Derived} \PYG{o}{:} \PYG{k}{protected} \PYG{n}{Base}\PYG{p}{;}
+\PYG{k}{class} \PYG{n+nc}{Derived} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Base}\PYG{p}{;}
+\end{Verbatim}

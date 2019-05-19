@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// postfix}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k}{typename} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{iterator} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{iterator}\PYG{o}{::}\PYG{k}{operator}\PYG{o}{++}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{iterator} \PYG{n}{old} \PYG{o}{=} \PYG{o}{*}\PYG{k}{this}\PYG{p}{;}
+  \PYG{o}{++}\PYG{p}{(}\PYG{o}{*}\PYG{k}{this}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{old}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

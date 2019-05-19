@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{RandomAccessIterator}\PYG{p}{,} \PYG{k}{class} \PYG{n+nc}{Compare}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{Sort}\PYG{o}{::}\PYG{n}{shellSort}\PYG{p}{(}\PYG{n}{RandomAccessIterator} \PYG{n}{first}\PYG{p}{,} \PYG{n}{RandomAccessIterator} \PYG{n}{last}\PYG{p}{,} \PYG{n}{Compare} \PYG{n}{comp}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{h} \PYG{o}{=} \PYG{p}{(}\PYG{n}{last} \PYG{o}{\PYGZhy{}} \PYG{n}{first}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{;} \PYG{n}{h} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{h} \PYG{o}{/=} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{p} \PYG{o}{=} \PYG{n}{first} \PYG{o}{+} \PYG{n}{h}\PYG{p}{;} \PYG{n}{p} \PYG{o}{!=} \PYG{n}{last}\PYG{p}{;} \PYG{o}{++}\PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{auto} \PYG{n}{temp} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{n}{p}\PYG{p}{);}
+
+      \PYG{k}{auto} \PYG{n}{j} \PYG{o}{=} \PYG{n}{p}\PYG{p}{;}
+
+      \PYG{k}{for} \PYG{p}{(;} \PYG{n}{j} \PYG{o}{\PYGZgt{}=} \PYG{n}{first} \PYG{o}{+} \PYG{n}{h} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{!}\PYG{n}{comp}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{j} \PYG{o}{\PYGZhy{}} \PYG{n}{h}\PYG{p}{),} \PYG{n}{temp}\PYG{p}{);} \PYG{n}{j} \PYG{o}{\PYGZhy{}=} \PYG{n}{h}\PYG{p}{)}
+	\PYG{o}{*}\PYG{n}{j} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{j} \PYG{o}{\PYGZhy{}} \PYG{n}{h}\PYG{p}{));}
+
+      \PYG{o}{*}\PYG{n}{j} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{temp}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

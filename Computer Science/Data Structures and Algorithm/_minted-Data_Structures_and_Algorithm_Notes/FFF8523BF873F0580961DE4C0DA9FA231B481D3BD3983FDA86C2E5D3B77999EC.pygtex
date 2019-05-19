@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{while} \PYG{p}{(}\PYG{o}{*}\PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{pivot}\PYG{p}{)}
+  \PYG{o}{++}\PYG{n}{i}\PYG{p}{;}
+\PYG{k}{while} \PYG{p}{(}\PYG{o}{*}\PYG{n}{j} \PYG{o}{\PYGZgt{}} \PYG{n}{pivot}\PYG{p}{)}
+  \PYG{o}{++}\PYG{n}{j}\PYG{p}{;}
+\end{Verbatim}

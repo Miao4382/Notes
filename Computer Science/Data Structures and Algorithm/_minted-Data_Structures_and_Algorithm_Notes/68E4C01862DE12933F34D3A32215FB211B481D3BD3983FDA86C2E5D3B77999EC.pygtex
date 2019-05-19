@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Derived} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Base} \PYG{p}{\PYGZob{}}
+\PYG{k}{private}\PYG{o}{:}
+  \PYG{c+c1}{// declaration of private member}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{void} \PYG{n}{func}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{num2}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{c+c1}{// define the func() directly}
+
+    \PYG{k+kt}{int} \PYG{n}{num} \PYG{o}{=} \PYG{n}{num2} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{;}
+    \PYG{n}{Base}\PYG{o}{::}\PYG{n}{func}\PYG{p}{(}\PYG{n}{num}\PYG{p}{);} \PYG{c+c1}{// you can call the original func() in Base using scope resolution operator}
+
+    \PYG{c+c1}{// additional definition}
+    \PYG{c+c1}{// goes here}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

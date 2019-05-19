@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{A}\PYG{p}{,} \PYG{k}{typename} \PYG{n}{B}\PYG{o}{\PYGZgt{}}
+\PYG{k}{friend} \PYG{k+kt}{bool} \PYG{k}{operator}\PYG{o}{\PYGZlt{}=}\PYG{p}{(}\PYG{k}{const} \PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{A}\PYG{p}{,} \PYG{n}{B}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{lhs}\PYG{p}{,} \PYG{k}{const} \PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{A}\PYG{p}{,} \PYG{n}{B}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{);}
+\end{Verbatim}

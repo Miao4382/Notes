@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{RandomAccessIterator}\PYG{p}{,} \PYG{k}{class} \PYG{n+nc}{Compare}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{Sort}\PYG{o}{::}\PYG{n}{mergeSort}\PYG{p}{(}\PYG{n}{RandomAccessIterator} \PYG{n}{first}\PYG{p}{,} \PYG{n}{RandomAccessIterator} \PYG{n}{last}\PYG{p}{,} \PYG{n}{Compare} \PYG{n}{comp}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{//base case: only one element in the array}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{first} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{==} \PYG{n}{last}\PYG{p}{)}
+    \PYG{k}{return}\PYG{p}{;}
+
+  \PYG{c+c1}{//as long as element number \PYGZgt{}= 2, we need to sort}
+  \PYG{k}{typename} \PYG{n}{std}\PYG{o}{::}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{std}\PYG{o}{::}\PYG{n}{remove\PYGZus{}reference}\PYG{o}{\PYGZlt{}}\PYG{k}{decltype}\PYG{p}{(}\PYG{o}{*}\PYG{n}{first}\PYG{p}{)}\PYG{o}{\PYGZgt{}::}\PYG{n}{type}\PYG{o}{\PYGZgt{}} \PYG{n}{sorted\PYGZus{}array}\PYG{p}{(}\PYG{n}{last} \PYG{o}{\PYGZhy{}} \PYG{n}{first}\PYG{p}{);}\PYG{c+c1}{// this vector will be used to hold intermediate merged array for all recursively called function}
+
+  \PYG{c+c1}{//call private version of mergeSort to finish the work}
+  \PYG{n}{mergeSort}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,} \PYG{n}{last}\PYG{p}{,} \PYG{n}{comp}\PYG{p}{,} \PYG{n}{sorted\PYGZus{}array}\PYG{p}{);}
+
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//get the size of the range}
+\PYG{k+kt}{int} \PYG{n}{currentSize} \PYG{o}{=} \PYG{n}{last} \PYG{o}{\PYGZhy{}} \PYG{n}{first}\PYG{p}{;}
+\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{currentSize}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{percolateDown}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,} \PYG{n}{last}\PYG{p}{,} \PYG{n}{comp}\PYG{p}{,} \PYG{n}{i}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//move version}
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{push\PYGZus{}front}\PYG{p}{(}\PYG{n}{T}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{insert}\PYG{p}{(}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{std}\PYG{o}{::}\PYG{n}{move}\PYG{p}{(}\PYG{n}{val}\PYG{p}{));}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

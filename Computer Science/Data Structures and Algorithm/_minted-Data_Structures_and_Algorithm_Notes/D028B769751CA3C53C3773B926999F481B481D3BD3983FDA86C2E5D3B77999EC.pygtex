@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{p}{,} \PYG{k}{typename} \PYG{n}{Container} \PYG{o}{=} \PYG{n}{std}\PYG{o}{::}\PYG{n}{deque}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZgt{}}
+\PYG{k}{class} \PYG{n+nc}{Stack} \PYG{p}{\PYGZob{}}
+
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}
