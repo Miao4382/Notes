@@ -2925,3 +2925,7 @@ Notice how to define objects for testing in the ~setUp()~ method.
 **** Character Printed to Trace Testing
 When a test case is running, Python prints one character for each unit test as it is completed. A passing test prints a dot, a test that results in an error prints an E, and a test that results in a failed assertion prints an F. This is why you’ll see a different number of dots and characters on the frst line of output when you run your test cases. If a test case takes a long time to run because it contains many unit tests, you can watch these results to get a sense of how many tests are passing.
 ** place holder
+* Modules
+** ~matplotlib~
+*** Plotting a Simple Line Graph
+

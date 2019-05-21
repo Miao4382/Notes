@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{numJewelsInStones}\PYG{p}{(}\PYG{n}{string} \PYG{n}{J}\PYG{p}{,} \PYG{n}{string} \PYG{n}{S}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{numJewl} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{s} \PYG{p}{:} \PYG{n}{S}\PYG{p}{)}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{isJewels}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,} \PYG{n}{J}\PYG{p}{))}
+	\PYG{n}{numJewl}\PYG{o}{++}\PYG{p}{;}
+    \PYG{k}{return} \PYG{n}{numJewl}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k+kt}{bool} \PYG{n}{isJewels}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n}{s}\PYG{p}{,} \PYG{n}{string} \PYG{n}{J}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{j} \PYG{p}{:} \PYG{n}{J}\PYG{p}{)}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{s} \PYG{o}{==} \PYG{n}{j}\PYG{p}{)}
+	\PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
+
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

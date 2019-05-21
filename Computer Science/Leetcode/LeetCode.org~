@@ -1,0 +1,20 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \linespread {1.0}
+#+LATEX_HEADER: \setcounter{tocdepth} {3}
+#+LATEX_HEADER: \setcounter{secnumdepth} {3}
+#+LATEX_CLASS: book
+#+LATEX_CLASS_OPTIONS: [12pt]
+
+
+** 771. Jewels and Stones
+
+*** Problem Statement
+[[https://leetcode.com/problems/jewels-and-stones/][Link]]
+*** Analysis
+*** Implementation
+**** C++
+***** \(N^2\) solution

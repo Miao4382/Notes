@@ -1,0 +1,197 @@
+% Created 2019-05-20 Mon 14:14
+% Intended LaTeX compiler: pdflatex
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[margin=1in] {geometry}
+\usepackage{parskip}
+\setlength\parindent{0pt}
+\linespread {1.0}
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {3}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+
+
+\part{1. Two Sum}
+\label{sec:org6d37d2a}
+
+\chapter{Problem Statement}
+\label{sec:org9db601d}
+\href{https://leetcode.com/problems/two-sum/}{Link}
+\chapter{Analysis}
+\label{sec:orgd75d2a9}
+
+\chapter{Implementation}
+\label{sec:org9a20933}
+\section{C++}
+\label{sec:orgd886bd6}
+\subsection{\(O(N^2)\) (faster than 35.43\%)}
+\label{sec:org32bace0}
+Idea: traverse the vector. For each encountered value, calculate the corresponding value it needs to add up to the target value. And then traverse the vector to look for this value.
+
+The time complexity is \(O(N^2)\), because for each value in the vector, you'll go through the vector and search its corresponding part so they add up to the target. This is linear searching, which has \(O(N)\) complexity.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  vector<int> twoSum(vector<int>& nums, int target) {
+    for (auto i = nums.begin(); i != nums.end(); ++i) {
+      int other_part = target - (*i);
+      auto itr = find(nums.begin(), nums.end(), other_part);
+
+      if (itr != nums.end() && itr != i)
+	return {static_cast<int>(i - nums.begin()), static_cast<int>(itr - nums.begin())};
+    }
+
+    return {0, 1};
+  }
+};
+\end{minted}
+\subsection{\(O(N\log{N})\) (faster than 99.24\%)}
+\label{sec:org3046dfa}
+Idea: the searching part is optimized. First we sort the vector. In order to keep the original relative order of each element, we sort a vector of iterators that referring each element in the original vector \texttt{nums}. Then, we can use this sorted vector to perform binary search, whose time complexity is \(\log{N}\). The total time complexity is reduced to \(O(N\log{N})\).
+
+I made some bugs when writting this code, because I didn't realize the following assumption:
+\begin{itemize}
+\item duplicates allowed
+\item each input would have \textbf{\emph{exactly}} one solution
+\end{itemize}
+
+Code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  /*Notes: 
+    The compare object used to sort vector of iterators
+  */
+  struct Compare {
+    bool operator()(vector<int>::iterator a, vector<int>::iterator b) {
+      return (*a < *b);      
+    }
+
+  };
+
+  /*Notes: 
+    A binary search to find target value in a vector of iterators;
+    if found: return the index value of that iterator 
+    if not found: return -1
+  */
+  int findTarget(int target, const vector<vector<int>::iterator>& itr_vector, const vector<int>::iterator& current_itr) {
+    int start_index = 0;
+    int end_index = itr_vector.size() - 1;
+    int middle;
+    int result = -1;
+
+    while (start_index <= end_index) {
+      // update middle 
+      middle = (start_index + end_index) / 2;
+      // check value 
+      if (*itr_vector[middle] == target) {
+	if (itr_vector[middle] == current_itr) {
+	  start_index += 1;
+	  end_index += 1;
+	  continue;
+	}
+
+	result = middle;
+	break;
+      }
+
+      else if (*itr_vector[middle] > target) {
+	end_index = middle - 1;
+	continue;
+      }
+
+      else if (*itr_vector[middle] < target) {
+	start_index = middle + 1;
+	continue;
+      }
+
+    }
+
+    return result;
+  }
+
+
+  vector<int> twoSum(vector<int>& nums, int target) {
+    // create a vector of iterators
+    vector<vector<int>::iterator> itr_vector;
+    for (auto i = nums.begin(); i != nums.end(); ++i)
+      itr_vector.push_back(i);
+
+    // sort the vector of iterators, so the values these iterators referred to 
+    // are in ascending order
+    sort(itr_vector.begin(), itr_vector.end(), Compare());
+
+    // go over nums, and find the pair
+    for (auto i = nums.begin(); i != nums.end() - 1; ++i) {
+      int other_part = target - (*i);
+      int other_part_index = findTarget(other_part, itr_vector, i);
+
+      if (other_part_index != -1) // found
+	return {static_cast<int>(i - nums.begin()), static_cast<int>(itr_vector[other_part_index] - nums.begin())};
+    }
+
+    // for syntax
+    return {0, 1};
+
+  }
+};
+\end{minted}
+\part{771. Jewels and Stones}
+\label{sec:org892484d}
+\chapter{Problem Statement}
+\label{sec:org6c02ae4}
+\href{https://leetcode.com/problems/jewels-and-stones/}{Link}
+\chapter{Analysis}
+\label{sec:org9910680}
+\chapter{Implementation}
+\label{sec:orga768b99}
+\section{C++}
+\label{sec:org33cf847}
+\subsection{\(N^2\) solution}
+\label{sec:org9087da6}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int numJewelsInStones(string J, string S) {
+    int numJewl = 0;
+    for (auto s : S)
+      if (isJewels(s, J))
+	numJewl++;
+    return numJewl;
+  }
+
+  bool isJewels(char s, string J) {
+    for (auto j : J)
+      if (s == j)
+	return true;
+
+    return false;
+  }
+};
+\end{minted}
+\end{document}
