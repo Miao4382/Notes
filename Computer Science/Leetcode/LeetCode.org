@@ -9,16 +9,15 @@
 #+LATEX_CLASS: book
 #+LATEX_CLASS_OPTIONS: [12pt]
 
-
+* Arrays
 ** 1. Two Sum
-
 *** Problem Statement
 [[https://leetcode.com/problems/two-sum/][Link]]
 *** Analysis
 
-*** Implementation
+*** Solution
 **** C++
-***** \(O(N^2)\) (faster than 35.43%)
+***** \(O(N^2)\) Time (35.43%)
 Idea: traverse the vector. For each encountered value, calculate the corresponding value it needs to add up to the target value. And then traverse the vector to look for this value.
 
 The time complexity is \(O(N^2)\), because for each value in the vector, you'll go through the vector and search its corresponding part so they add up to the target. This is linear searching, which has \(O(N)\) complexity.
@@ -38,7 +37,7 @@ public:
   }
 };
 #+end_src
-***** \(O(N\log{N})\) (faster than 99.24%)
+***** \(O(N\log{N})\) Time (99.24%)
 Idea: the searching part is optimized. First we sort the vector. In order to keep the original relative order of each element, we sort a vector of iterators that referring each element in the original vector ~nums~. Then, we can use this sorted vector to perform binary search, whose time complexity is \(\log{N}\). The total time complexity is reduced to \(O(N\log{N})\).
 
 I made some bugs when writting this code, because I didn't realize the following assumption:
@@ -126,13 +125,166 @@ public:
   }
 };
 #+end_src
+** 461. Hamming Distance
+*** Problem Statement
+[[https://leetcode.com/problems/hamming-distance/][Link]]
+*** Analysis
+To compare two numbers bitwisely, we may need the fact that a number mod 2 is equal to the last digit of its binary form. For example:
+#+BEGIN_EXAMPLE
+x = 1 (0 0 0 1)
+y = 4 (0 1 0 0)
+x % 2 = 1
+y % 2 = 0
+#+END_EXAMPLE
+*** Solution
+**** C++
+***** Time(14.63%)
+#+begin_src c++ -n
+class Solution {
+public:
+  int hammingDistance(int x, int y) {
+    int result = 0;
+
+    while (x != 0 || y != 0) {
+      if (x % 2 != y % 2)
+        result++;
+
+      x = x >> 1;
+      y = y >> 1;
+    }
+
+    return result;
+  }
+};
+#+end_src
+***** Time(94.5%)
+#+begin_src c++ -n
+class Solution {
+public:
+  int hammingDistance(int x, int y) {
+    int result = 0;
+    x ^= y;
+
+    while (x) {
+      if (x % 2)
+        result++;
+      x = x >> 1;
+    }
+
+    return result;
+  }
+};
+#+end_src
+***** Questions
+Why the second solution is faster than the previous one?
+- Bitwise XOR used.
+**** Python
+***** Faster than 97.37%
+#+begin_src python -n
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        result = 0
+        while x or y:
+            if x % 2 != y % 2:
+                result += 1
+            x = x >> 1
+            y = y >> 1
+        return result
+#+end_src
+However, this algorithm is exactly the same as C++'s first version. Why such huge speed variance?
+** 477. Total Hamming Distance
+*** Problem Statement
+[[https://leetcode.com/problems/total-hamming-distance/][Link]]
+*** Analysis
+This problem is similar with P461, but you can direcly solve it using that idea (see the first solution). The size of the input is large:
+- Elements of the given array are in the range of \(0\) to \(10^9\)
+- Length of the array will not exceed \(10^4\)
+
+You have to work the way other round.
+**** Grouping
+[[https://leetcode.com/problems/total-hamming-distance/discuss/96250/C%2B%2B-O(n)-runtime-O(1)-space][Reference]]
+
+The idea of grouping.
+*** Solution
+**** C++
+***** Not Accepted (too slow)
+This algorithm is too slow.
+#+begin_src c++ -n
+class Solution {
+public:
+  int hammingDistance(const int& x, const int& y) {
+    int result = 0;
+    int a = x ^ y;
+
+    while (a != 0) {
+      if (a % 2)
+        result++;
+      a = a >> 1;
+    }
+
+    return result;
+  }  
+
+  int totalHammingDistance(vector<int>& nums) {
+    int count = 0;
+    for (int i = 0; i < nums.size() - 1; ++i) {
+      for (int j = i + 1; j < nums.size(); ++j)
+        count += hammingDistance(nums[i], nums[j]);
+    }
+    return count;
+  }
+};
+#+end_src
+***** Time (6.59%) Space (5.13%)
+This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted.....
+#+begin_src c++ -n
+class Solution {
+public:
+  int totalHammingDistance(vector<int>& nums) {
+    vector<int> LSB_ones;
+    vector<int> LSB_zeros;
+    int count = 0;
+    int non_zero_count = 1; // loop continue until no non-zero num in nums
+    
+    while (non_zero_count) {
+      // clear temp container, reset non-zero count
+      LSB_ones.clear();
+      LSB_zeros.clear();
+      non_zero_count = 0;
+      
+      // collect number, divide into two groups
+      for (auto& i : nums) {
+        if (i % 2 == 0)
+          LSB_zeros.push_back(i);
+        else 
+          LSB_ones.push_back(i);
+        
+        // update i and non_zero_count
+        i = i >> 1;
+        if (i)
+          non_zero_count++;
+      }
+      
+      // update count 
+      count += LSB_ones.size() * LSB_zeros.size();
+    }
+    
+    return count;
+  }
+};
+#+end_src
+*** Tasks [0/4]
+- [ ] Write the analysis of grouping idea and my code
+- [ ] Read code in reference of grouping idea, make notes
+- [ ] Check other possible solution and make future plan
+- [ ] Try to generalize this problem 
 ** 771. Jewels and Stones
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]
 *** Analysis
-*** Implementation
+*** Solution
 **** C++
-***** \(N^2\) solution
+***** \(N^2\) Time (96.35%) Space (79.64%)
 #+begin_src c++ -n
 class Solution {
 public:

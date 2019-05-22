@@ -2927,5 +2927,178 @@ When a test case is running, Python prints one character for each unit test as i
 ** place holder
 * Modules
 ** ~matplotlib~
-*** Plotting a Simple Line Graph
+*** ~pyplot~
+**** Plotting a Simple Line Graph (~.plot()~)
+***** Pass a sequence of number into ~pyplot.plot()~
+We start with a simple example. Plot a list of numbers.
+#+begin_src python -n
+import matplotlib.pyplot as plt
 
+squares = [1, 4, 9, 16, 25]
+plt.plot(squares)
+plt.show()
+#+end_src
+We first imported a class in ~matplotlib~. The class name is ~pyplot~, we give it an alias ~plt~. Then we created a list of numbers, then call member function ~plt.plot()~ and pass the list into the function. After that, the figure is shown by calling member function ~plt.show()~. This function opens ~matplotlib~'s viewer and displays the plot.
+
+When you give ~pyplot.plot()~ a sequence of numbers, it assumes the first data point corresponds to an x-coordinate value of 0. Thus, in the above example, we are actually plotting following data points:
+#+BEGIN_EXAMPLE
+(0, 1), (1, 4), (2, 9), (3, 16), (4, 25)
+#+END_EXAMPLE
+***** Pass two sequences of number into ~pyplot.plot()~
+We can pass two sequences of number into ~plot()~, which will represent the x value and y value. For example:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, squares, linewidth=5)
+#+end_src
+Two sequences passed into the ~pyplot.plot()~ function should have same dimension, otherwise, a ~ValueError~ will be thrown.
+
+You can plot multiple data sets on the same xy coordinates. Just provide the corresponding x and y sequences. For example:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+cubes = [1, 8, 27, 64, 125]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, squares, x_value, cubes, linewidth=5)
+#+end_src
+
+You can also divide them into two calls of ~pyplot.plot()~:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+cubes = [1, 8, 27, 64, 125]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, cubes, linewidth=5)
+plt.plot(x_value, squares, linewidth=5)
+#+end_src
+They will still be ploted into the same figure. You have to mannualy arrange different data set. The first and second data set will be evaluated as ~x1~ and ~y1~, if only one data set is provided, it will be evaluated as ~y~, and use default ~[0, 1, 2, 3, ...]~ as ~x~.
+***** line width
+The line width of the curve can be set by:
+#+begin_src python -n
+plt.plot(squares, linewidth=5)
+#+end_src
+
+**** Plotting Point (~.scatter()~)
+***** Single point
+To plot single point, use ~pyplot.scatter()~. It accepts at lease two arguments, corresponding to the x and y coordinates of the point. For example:
+#+begin_src python -n
+plt.scatter(float(input("Scatter x:")), float(input("Scatter y:")), s=200)
+#+end_src
+The argument ~s~ is used to set the size of the scatter.
+***** Sequence of plot
+We can plot a series of points using ~scatter()~. Just pass lists of x- and y-values:
+#+begin_src python -n
+plt.scatter([1, 2, 3, 4, 5], [5, 6, 7, 1, 4], s=100)
+#+end_src
+You must provide x- and y-value at the same time (no default value of x will be used, unlike ~plot()~), otherwise, ~TypeError~ will be thrown. Also, the dimension of x- and y-value lists must be the same, other ~ValueError~ will be thrown.
+***** Set outline color of points
+Default points have outline. You can set the edge color to the one you want. For example:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors='red')  # change to red
+plt.scatter(x_values, y_values, s=20, edgecolors='none')  # remove outline
+#+end_src
+The order of the style arguments are not affecting the result.
+
+***** Set fill color of points
+The fill color of points can be set by ~c~:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors='red', c='none')
+#+end_src
+
+**** Member Functions to Adjust Figure Appearance
+In this section, several member functions are presented to adjust figure appearance.
+
+***** add title to the figure
+The size of the title can also be adjusted.
+#+begin_src python -n
+plt.title("Square Numbers", fontsize=24)
+#+end_src
+
+***** add x, y axis label
+#+begin_src python -n
+plt.xlabel("Value", fontsize=14)
+#+end_src
+
+***** set tick label size
+#+begin_src python -n
+plt.tick_params(axis='both', labelsize=14)
+#+end_src
+
+***** set x, y axis range
+#+begin_src python -n
+plt.axis([x_0, x_1, y_0, y_1])
+#+end_src
+
+***** set color
+When you set the color of a object (by passing arguments to ~c~), you can either pass a string to indicate its color (e.g. ~edgecolor='red'~), or a tuple with three decimal values (correspond to red, green and blue). The range of the value is from 0 to 1. It is calculated by deviding RGB value with 255. So, a RGB color of R42, G160, B151 should be =(0.164, 0.627, 0.592)=. Example:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors=(0.16, 0.63, 0.59), c='none')
+#+end_src
+
+***** use colormap
+/Colormap/ is a series of colors in a gradient that moves from a starting to ending color. Colormap allows you to emphasize a pattern in the data. For example, you might make low values a light color and high values a darker color.
+
+Take the square scatter as an example:
+#+begin_src python -n
+import matplotlib.pyplot as plt
+x_values = [x for x in range(1, 100)]
+y_values = [x**2 for x in x_values]
+
+plt.scatter(x_values, y_values, c=y_values, cmap=plt.cm.Greens, edgecolor='none', s=40)
+
+plt.show()
+#+end_src
+We first set ~y_values~ to ~c~, this tells python to use color maps to set the color of the point with regard to the ~y_values~. You can set the specific colormap you want to use by ~cmap=plt.cm.xxx~, where ~xxx~ is the name of color map you wish to use. The names and visual effect of different colormaps can be found [[https://matplotlib.org/examples/color/colormaps_reference.html][here]].
+
+**** Utility Member Functions
+
+***** save figure
+You can save the figure by calling ~.savefig()~ member function. Example:
+#+begin_src python -n
+plt.savefig('squares_plot.svg', bbox_inches='tight')
+#+end_src
+The first argument is a filename for the plot image, which will be saved to the same directory as your python file. The second argument trims extra whitespace from the plot.
+
+** ~random~
+
+*** ~choice()~
+[[https://docs.python.org/3/library/random.html#random.choice][Documentation]]
+
+~choice()~ is a member function defined in ~random~ module. It has several overloads.
+
+**** ~choice(sequence)~
+It accepts a sequence type, and will return a random element in the passed in sequence. If the sequence is empty, an ~IndexError~ will be thrown.
+
+* Projects
+
+** Randomwalk Visualization
+We'll create a 2D random walk visualization demo. Basically, we need to plot a sequence of coordinate pairs \((x_i, y_i)\), which is the position of each point in the walk. To generate such "walk trails", we'll create a ~RandomWalk~ class.
+
+*** ~RandomWalk~ class
+In this class, we need three attributes:
+- ~num_points~: store the total number of points in the walk
+- ~x_values~: store the x coordinate of each point in the random walk
+- ~y_values~: store the y coordinate of each point in the random walk
+
+In order to create *random* walk, we need to import a member function from ~random~ module:
+#+begin_src python -n
+from random import choice
+#+end_src
+
+*** Methods
+
+**** ~__init__()~
+The constructor of the class accepts one variable, which is the number of points in the random walk. You can give it a default value. In the constructor, we define the three attributes, and set the initial starting point of random walk as the origin. The constructor is shown below:
+#+begin_src python -n
+class RandomWalk:
+    """a class to generate coordinate pairs of random walk"""
+
+    def __init__(self, num_points=5000):
+        """initialize attributes of RandonWalk class"""
+        self.num_points = num_points
+
+        # define initial point
+        self.x_values = [0]
+        self.y_values = [0]
+#+end_src
+
+**** ~fill_walk()~
+The ~fill_walk()~ method is used to create random walk coordinate and store in the ~x_values~ and ~y_values~.
