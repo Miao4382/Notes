@@ -196,11 +196,11 @@ However, this algorithm is exactly the same as C++'s first version. Why such hug
 *** Problem Statement
 [[https://leetcode.com/problems/total-hamming-distance/][Link]]
 *** Analysis
-This problem is similar with P461, but you can direcly solve it using that idea (see the first solution). The size of the input is large:
+This problem is similar with P461, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
 - Elements of the given array are in the range of \(0\) to \(10^9\)
 - Length of the array will not exceed \(10^4\)
 
-You have to work the way other round.
+My first 
 **** Grouping
 [[https://leetcode.com/problems/total-hamming-distance/discuss/96250/C%2B%2B-O(n)-runtime-O(1)-space][Reference]]
 
@@ -305,3 +305,43 @@ public:
   }
 };
 #+end_src
+* Trees
+** 617. Merge Two Binary Trees
+*** Problem Statement
+[[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
+*** Analysis
+**** Approach #1 Recursive Method
+Use recursiion to solve this problem.
+**** Approach #2 Iterative Method
+
+*** Solution
+**** C++
+***** Recursion Time (97.09%) Space(37.01%)
+Recursion.
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    if (t1 == nullptr)
+      return t2;
+    else if (t2 == nullptr)
+      return t1;
+    else {
+      TreeNode* node = new TreeNode(t1->val + t2->val);
+      node->left = mergeTrees(t1->left, t2->left);
+      node->right = mergeTrees(t1->right, t2->right);
+      return node;
+    }
+  }
+};
+#+end_src
+***** Iterative 
