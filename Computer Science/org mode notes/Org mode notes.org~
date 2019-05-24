@@ -121,6 +121,31 @@ You can set the default TeX-engine by adding following line in .emacs file.
 (setq-default TeX-engine 'xetex)
 #+END_EXAMPLE
 where ~xetex~ is the name of the engine.
+*** Table
+To create a simple table, just write:
+#+BEGIN_EXAMPLE
+| Name  | Phone | Age |
+|-------+-------+-----|
+| Peter |  1234 |  17 |
+| Anna  |  4321 |  25 |
+#+END_EXAMPLE
+
+To make content in center:
+|     <c>     |       <c>       |              <c>              |
+|-------------+-----------------+-------------------------------|
+|    layer    | number of nodes | height of nodes on this layer |
+|-------------+-----------------+-------------------------------|
+|      0      |        1        |               h               |
+|      1      |        2        |             h - 1             |
+|      2      |      2^{2}      |             h - 2             |
+| \(\vdots \) |   \(\vdots \)   |          \(\vdots \)          |
+|    h - 1    |    2^{h - 1}    |               1               |
+|      h      |      2^{h}      |               0               |
+|-------------+-----------------+-------------------------------|
+
+
+
+
 *** Export LaTex pdf File with Chinese
 [not finished]
 When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:

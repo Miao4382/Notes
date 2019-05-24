@@ -1,4 +1,4 @@
-% Created 2019-05-20 Mon 14:14
+% Created 2019-05-23 Thu 09:11
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{book}
 \usepackage[utf8]{inputenc}
@@ -35,22 +35,22 @@
 \tableofcontents
 
 
-
-\part{1. Two Sum}
-\label{sec:org6d37d2a}
-
-\chapter{Problem Statement}
-\label{sec:org9db601d}
+\part{Arrays}
+\label{sec:org9299ad3}
+\chapter{1. Two Sum}
+\label{sec:orgca55a1d}
+\section{Problem Statement}
+\label{sec:org41f1cca}
 \href{https://leetcode.com/problems/two-sum/}{Link}
-\chapter{Analysis}
-\label{sec:orgd75d2a9}
+\section{Analysis}
+\label{sec:org7b41f49}
 
-\chapter{Implementation}
-\label{sec:org9a20933}
-\section{C++}
-\label{sec:orgd886bd6}
-\subsection{\(O(N^2)\) (faster than 35.43\%)}
-\label{sec:org32bace0}
+\section{Solution}
+\label{sec:orgf7788ee}
+\subsection{C++}
+\label{sec:org6d4cce5}
+\subsubsection{\(O(N^2)\) Time (35.43\%)}
+\label{sec:orgf4d0887}
 Idea: traverse the vector. For each encountered value, calculate the corresponding value it needs to add up to the target value. And then traverse the vector to look for this value.
 
 The time complexity is \(O(N^2)\), because for each value in the vector, you'll go through the vector and search its corresponding part so they add up to the target. This is linear searching, which has \(O(N)\) complexity.
@@ -70,8 +70,8 @@ public:
   }
 };
 \end{minted}
-\subsection{\(O(N\log{N})\) (faster than 99.24\%)}
-\label{sec:org3046dfa}
+\subsubsection{\(O(N\log{N})\) Time (99.24\%)}
+\label{sec:orgc3d26e1}
 Idea: the searching part is optimized. First we sort the vector. In order to keep the original relative order of each element, we sort a vector of iterators that referring each element in the original vector \texttt{nums}. Then, we can use this sorted vector to perform binary search, whose time complexity is \(\log{N}\). The total time complexity is reduced to \(O(N\log{N})\).
 
 I made some bugs when writting this code, because I didn't realize the following assumption:
@@ -161,19 +161,214 @@ public:
   }
 };
 \end{minted}
-\part{771. Jewels and Stones}
-\label{sec:org892484d}
-\chapter{Problem Statement}
-\label{sec:org6c02ae4}
+\chapter{461. Hamming Distance \label{org42b86fd}}
+\label{sec:orgc28f84b}
+\section{Problem Statement}
+\label{sec:orgfef3cf3}
+\href{https://leetcode.com/problems/hamming-distance/}{Link}
+\section{Analysis}
+\label{sec:orgeb2b618}
+To compare two numbers bitwisely, we may need the fact that a number mod 2 is equal to the last digit of its binary form. For example:
+\begin{verbatim}
+x = 1 (0 0 0 1)
+y = 4 (0 1 0 0)
+x % 2 = 1
+y % 2 = 0
+\end{verbatim}
+\section{Solution}
+\label{sec:org2b181cb}
+\subsection{C++}
+\label{sec:org3db1f2d}
+\subsubsection{Time(14.63\%)}
+\label{sec:orgeaaac97}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int hammingDistance(int x, int y) {
+    int result = 0;
+
+    while (x != 0 || y != 0) {
+      if (x % 2 != y % 2)
+	result++;
+
+      x = x >> 1;
+      y = y >> 1;
+    }
+
+    return result;
+  }
+};
+\end{minted}
+\subsubsection{Time(94.5\%)}
+\label{sec:orgb37ed43}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int hammingDistance(int x, int y) {
+    int result = 0;
+    x ^= y;
+
+    while (x) {
+      if (x % 2)
+	result++;
+      x = x >> 1;
+    }
+
+    return result;
+  }
+};
+\end{minted}
+\subsubsection{Questions}
+\label{sec:org214d81f}
+Why the second solution is faster than the previous one?
+\begin{itemize}
+\item Bitwise XOR used.
+\end{itemize}
+\subsection{Python}
+\label{sec:org58d5af5}
+\subsubsection{Faster than 97.37\%}
+\label{sec:orgcd97191}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+	result = 0
+	while x or y:
+	    if x % 2 != y % 2:
+		result += 1
+	    x = x >> 1
+	    y = y >> 1
+	return result
+\end{minted}
+However, this algorithm is exactly the same as C++'s first version. Why such huge speed variance?
+\chapter{477. Total Hamming Distance}
+\label{sec:orgd66bba9}
+\section{Problem Statement}
+\label{sec:org42e28c7}
+\href{https://leetcode.com/problems/total-hamming-distance/}{Link}
+\section{Analysis}
+\label{sec:org621d25f}
+This problem is similar with P461, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
+\begin{itemize}
+\item Elements of the given array are in the range of \(0\) to \(10^9\)
+\item Length of the array will not exceed \(10^4\)
+\end{itemize}
+
+\subsection{First Attempt (too slow)}
+\label{sec:org2511ee9}
+My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers (\hyperref[org42b86fd]{P461}), the code is shown in solution section. However, this approach is too slow to pass the test.
+
+The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is the combination. It is simply:
+\[
+{N \choose 2} = \frac{N(N-1)}{2} \sim O(N^2)
+\]
+
+\subsection{Grouping}
+\label{sec:org9ce5630}
+\href{https://leetcode.com/problems/total-hamming-distance/discuss/96250/C++-O(n)-runtime-O(1)-space}{Reference}
+
+The idea of grouping is we count the total hamming distance as a whole. Specifically, at any giving time, we devide the array into two groups \(G_0, G_1\). The rule of grouping is:
+\begin{itemize}
+\item a number \(n\) that \(n \% 2 = 0\), goes to \(G_0\)
+\item a number \(n\) that \(n \% 2 = 1\), goes to \(G_1\)
+\end{itemize}
+The result of \(n\%2\) will give you the least significant bit, or the last bit of an integer in binary form. By the definition of Hamming distance, we know that any combinations that contains number pairs only from \(G_0\) or only from \(G_1\) will not contribute to the total Hamming distance count (just for this grouping round, which only compares the least significant bit of those numbers). On the other hand, any combination that contains one number from \(G_0\) and one number from \(G_1\) will contribute 1 to the total Hamming distance. So, for this round, we only have to count the combination of such case, which is simply:
+\[
+N_{G_0} \times N_{G_1}
+\]
+Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until \textbf{ALL} numbers are \textbf{ZERO}. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers.
+\section{Solution}
+\label{sec:org4fc656e}
+\subsection{C++}
+\label{sec:orgf2e569c}
+\subsubsection{Not Accepted (too slow)}
+\label{sec:orga7203bb}
+This algorithm is too slow.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int hammingDistance(const int& x, const int& y) {
+    int result = 0;
+    int a = x ^ y;
+
+    while (a != 0) {
+      if (a % 2)
+	result++;
+      a = a >> 1;
+    }
+
+    return result;
+  }  
+
+  int totalHammingDistance(vector<int>& nums) {
+    int count = 0;
+    for (int i = 0; i < nums.size() - 1; ++i) {
+      for (int j = i + 1; j < nums.size(); ++j)
+	count += hammingDistance(nums[i], nums[j]);
+    }
+    return count;
+  }
+};
+\end{minted}
+\subsubsection{Time (6.59\%) Space (5.13\%)}
+\label{sec:orgcc8f67f}
+This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted\ldots{}..
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int totalHammingDistance(vector<int>& nums) {
+    vector<int> LSB_ones;
+    vector<int> LSB_zeros;
+    int count = 0;
+    int non_zero_count = 1; // loop continue until no non-zero num in nums
+
+    while (non_zero_count) {
+      // clear temp container, reset non-zero count
+      LSB_ones.clear();
+      LSB_zeros.clear();
+      non_zero_count = 0;
+
+      // collect number, divide into two groups
+      for (auto& i : nums) {
+	if (i % 2 == 0)
+	  LSB_zeros.push_back(i);
+	else 
+	  LSB_ones.push_back(i);
+
+	// update i and non_zero_count
+	i = i >> 1;
+	if (i)
+	  non_zero_count++;
+      }
+
+      // update count 
+      count += LSB_ones.size() * LSB_zeros.size();
+    }
+
+    return count;
+  }
+};
+\end{minted}
+\section{todos [0/4]}
+\label{sec:org74816e7}
+\begin{itemize}
+\item[{$\square$}] Write the analysis of grouping idea and my code
+\item[{$\square$}] Read code in reference of grouping idea, make notes
+\item[{$\square$}] Check other possible solution and make future plan
+\item[{$\square$}] Try to generalize this problem
+\end{itemize}
+\chapter{771. Jewels and Stones}
+\label{sec:org14f096f}
+\section{Problem Statement}
+\label{sec:org52a081a}
 \href{https://leetcode.com/problems/jewels-and-stones/}{Link}
-\chapter{Analysis}
-\label{sec:org9910680}
-\chapter{Implementation}
-\label{sec:orga768b99}
-\section{C++}
-\label{sec:org33cf847}
-\subsection{\(N^2\) solution}
-\label{sec:org9087da6}
+\section{Analysis}
+\label{sec:org1713d86}
+\section{Solution}
+\label{sec:orgd223932}
+\subsection{C++}
+\label{sec:org48e4a53}
+\subsubsection{\(N^2\) Time (96.35\%) Space (79.64\%)}
+\label{sec:org0b16750}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -194,4 +389,106 @@ public:
   }
 };
 \end{minted}
+\part{Trees}
+\label{sec:orga1bcc36}
+\chapter{104. Maximum Depth of Binary Tree}
+\label{sec:org9b3ea00}
+\section{Problem Statement}
+\label{sec:org6b21ba9}
+\href{https://leetcode.com/problems/maximum-depth-of-binary-tree/}{Link}
+\section{Analysis}
+\label{sec:org5222fe5}
+\subsection{Recursion}
+\label{sec:orgc80ed5d}
+A node's maximum depth, is the larger maximum depth of its left and right subtree plus one. Base case: if a node is nullptr, maximum depth is zero.
+\section{Solution}
+\label{sec:orgd8f2b7a}
+\subsection{C++}
+\label{sec:org772a2ac}
+\subsubsection{Recursion. Time (88.44\%) Space (91.28\%)}
+\label{sec:org37b6e71}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int maxDepth(TreeNode* root) {
+    // base case 
+    if (root == nullptr)
+      return 0;
+
+    int left_depth = maxDepth(root->left);
+    int right_depth = maxDepth(root->right);
+
+    return (left_depth >= right_depth ? left_depth + 1 : right_depth + 1);
+  }
+};
+\end{minted}
+\section{todos [/]}
+\label{sec:org810d6d6}
+\begin{itemize}
+\item[{$\square$}] read about the discussion page for more methods and ideas
+\end{itemize}
+
+\chapter{617. Merge Two Binary Trees}
+\label{sec:orgb5b3909}
+\section{Problem Statement}
+\label{sec:orgc67801e}
+\href{https://leetcode.com/problems/merge-two-binary-trees/}{Link}
+\section{Analysis}
+\label{sec:org4965746}
+\subsection{Approach \#1 Recursive Method}
+\label{sec:org15bca82}
+Use recursiion to solve this problem.
+\subsection{Approach \#2 Iterative Method}
+\label{sec:orgeabb380}
+
+\section{Solution}
+\label{sec:orgdcf5bd8}
+\subsection{C++}
+\label{sec:org1777326}
+\subsubsection{Recursion Time (97.09\%) Space(37.01\%)}
+\label{sec:org8f77f64}
+Recursion.
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    if (t1 == nullptr)
+      return t2;
+    else if (t2 == nullptr)
+      return t1;
+    else {
+      TreeNode* node = new TreeNode(t1->val + t2->val);
+      node->left = mergeTrees(t1->left, t2->left);
+      node->right = mergeTrees(t1->right, t2->right);
+      return node;
+    }
+  }
+};
+\end{minted}
+\subsubsection{Iterative}
+\label{sec:org2f75b0c}
+\section{todos [/]}
+\label{sec:org7a64036}
+\begin{itemize}
+\item[{$\square$}] read the other solution (iterate the tree using stack), and understand it
+\item[{$\square$}] write code based on the other solution
+\end{itemize}
 \end{document}

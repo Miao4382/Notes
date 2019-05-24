@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/**}
+\PYG{c+cm}{ * Definition for a binary tree node.}
+\PYG{c+cm}{ * struct TreeNode \PYGZob{}}
+\PYG{c+cm}{ *     int val;}
+\PYG{c+cm}{ *     TreeNode *left;}
+\PYG{c+cm}{ *     TreeNode *right;}
+\PYG{c+cm}{ *     TreeNode(int x) : val(x), left(NULL), right(NULL) \PYGZob{}\PYGZcb{}}
+\PYG{c+cm}{ * \PYGZcb{};}
+\PYG{c+cm}{ */}
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{TreeNode}\PYG{o}{*} \PYG{n}{mergeTrees}\PYG{p}{(}\PYG{n}{TreeNode}\PYG{o}{*} \PYG{n}{t1}\PYG{p}{,} \PYG{n}{TreeNode}\PYG{o}{*} \PYG{n}{t2}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{t1} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n}{t2}\PYG{p}{;}
+    \PYG{k}{else} \PYG{n+nf}{if} \PYG{p}{(}\PYG{n}{t2} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n}{t1}\PYG{p}{;}
+    \PYG{k}{else} \PYG{p}{\PYGZob{}}
+      \PYG{n}{TreeNode}\PYG{o}{*} \PYG{n}{node} \PYG{o}{=} \PYG{k}{new} \PYG{n}{TreeNode}\PYG{p}{(}\PYG{n}{t1}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val} \PYG{o}{+} \PYG{n}{t2}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val}\PYG{p}{);}
+      \PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left} \PYG{o}{=} \PYG{n}{mergeTrees}\PYG{p}{(}\PYG{n}{t1}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{,} \PYG{n}{t2}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{);}
+      \PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right} \PYG{o}{=} \PYG{n}{mergeTrees}\PYG{p}{(}\PYG{n}{t1}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{,} \PYG{n}{t2}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{);}
+      \PYG{k}{return} \PYG{n}{node}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

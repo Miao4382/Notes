@@ -125,7 +125,7 @@ public:
   }
 };
 #+end_src
-** 461. Hamming Distance
+** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]
 *** Analysis
@@ -196,15 +196,59 @@ However, this algorithm is exactly the same as C++'s first version. Why such hug
 *** Problem Statement
 [[https://leetcode.com/problems/total-hamming-distance/][Link]]
 *** Analysis
-This problem is similar with P461, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
+This problem is similar with [[P461][P461]], but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
 - Elements of the given array are in the range of \(0\) to \(10^9\)
 - Length of the array will not exceed \(10^4\)
 
-My first 
+**** First Attempt (too slow)
+My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers ([[P461][P461]]), the code is shown in solution section. However, this approach is too slow to pass the test.
+
+The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is the combination. It is simply:
+\[
+{N \choose 2} = \frac{N(N-1)}{2} \sim O(N^2)
+\]
+Inside these combinations, we included many bit-pairs that do not contribute to the total Hamming distance count, for example, the combination of number 91 and 117 is:
+#+BEGIN_EXAMPLE
+---------------
+bit#: 1234 5678
+---------------
+91:   0101 1011
+117:  0111 0101
+---------------
+#+END_EXAMPLE
+The bit at 1, 2, 4, 8 are not contributing to the total Hamming distance count, but we still include it and spend time verifying. This flaw can be solved in the grouping idea.
+
 **** Grouping
 [[https://leetcode.com/problems/total-hamming-distance/discuss/96250/C%2B%2B-O(n)-runtime-O(1)-space][Reference]]
 
-The idea of grouping.
+The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we devide the array into two groups \(G_0, G_1\). The rule of grouping is:
+- a number \(n\) that \(n \% 2 = 0\), goes to \(G_0\)
+- a number \(n\) that \(n \% 2 = 1\), goes to \(G_1\)
+The result of \(n\%2\) will give you the least significant bit, or the last bit of an integer in binary form. By the definition of Hamming distance, we know that any combinations that contains number pairs only from \(G_0\) or only from \(G_1\) will not contribute to the total Hamming distance count (just for this grouping round, which only compares the least significant bit of those numbers). On the other hand, any combination that contains one number from \(G_0\) and one number from \(G_1\) will contribute 1 to the total Hamming distance. So, for this round, we only have to count the combination of such case, which is simply:
+\[
+N_{G_0} \times N_{G_1}
+\]
+Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until *ALL* numbers are *ZERO*. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers. Another confusing case is when some numbers are trimmed to zero during the process. We still keep those zeros in array, because they still can be used to count total Hamming distance. For example, number 9 and 13317:
+#+BEGIN_EXAMPLE
+---------------------------
+bit#:   1234 5678 9abc defg
+---------------------------
+9:      0000 0000 0000 1001
+13317:  0011 0100 0000 0101
+---------------------------
+#+END_EXAMPLE
+After four times of trimming:
+#+BEGIN_EXAMPLE
+-----------------------
+bit#:   1234 5678 9abc 
+-----------------------
+9:      0000 0000 0000 
+13317:  0011 0100 0000 
+-----------------------
+#+END_EXAMPLE
+The difference at bit 3, 4, 6 should still be counted toward the total Hamming distance.
+
+At each round, we first go over the list and divide the numbers into two groups. This process is \(O(N)\). To calculate the contribution to total Hamming distance at this round is just a matter of multiplication, so the time complexity is \(O(1)\). Thus, for one round, time complexity is \(O(N)\). There are potentially ~8 * sizeof(int)~ bits to be trimmed, this is the number of rounds we are going to run, which is a constant not related to \(N\). Thus the total complexity is: \(O(N)\).
 *** Solution
 **** C++
 ***** Not Accepted (too slow)
@@ -273,8 +317,8 @@ public:
   }
 };
 #+end_src
-*** Tasks [0/4]
-- [ ] Write the analysis of grouping idea and my code
+*** todos [1/4]
+- [X] Write the analysis of grouping idea and my code
 - [ ] Read code in reference of grouping idea, make notes
 - [ ] Check other possible solution and make future plan
 - [ ] Try to generalize this problem 
@@ -306,6 +350,42 @@ public:
 };
 #+end_src
 * Trees
+** 104. Maximum Depth of Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/maximum-depth-of-binary-tree/][Link]]
+*** Analysis
+**** Recursion
+A node's maximum depth, is the larger maximum depth of its left and right subtree plus one. Base case: if a node is nullptr, maximum depth is zero.
+*** Solution
+**** C++
+***** Recursion. Time (88.44%) Space (91.28%)
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int maxDepth(TreeNode* root) {
+    // base case 
+    if (root == nullptr)
+      return 0;
+    
+    int left_depth = maxDepth(root->left);
+    int right_depth = maxDepth(root->right);
+    
+    return (left_depth >= right_depth ? left_depth + 1 : right_depth + 1);
+  }
+};
+#+end_src
+*** todos [/]
+- [ ] read about the discussion page for more methods and ideas
+  
 ** 617. Merge Two Binary Trees
 *** Problem Statement
 [[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
@@ -344,4 +424,7 @@ public:
   }
 };
 #+end_src
-***** Iterative 
+***** Iterative
+*** todos [/]
+- [ ] read the other solution (iterate the tree using stack), and understand it
+- [ ] write code based on the other solution

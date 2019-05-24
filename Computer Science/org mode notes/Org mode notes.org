@@ -96,16 +96,18 @@ If you want to add an extra line between paragraphs, you can use package:
 This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the ~#+LATEX_HEADER: \setlength\parindent{0pt}~ line).
 
 [[https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file][Reference]]
-*** Multi-lined Equation
-In latex, ~\[\]~ is for single line display equation (without number). If you want to input a block that contains Multi-lined equation, you have to use:
+*** Inline Equation, Display Equation and Multi-lined Equation
+In latex, ~\(\)~ is for inline equation.
 
-~\begin{align*}~
+In latex, ~\[\]~ is for single line display equation (without number).
 
-~a^2 + b^2 &= c^2 \\~
-
-~x + y &= z~
-
-~\end{align*}~
+If you want to input a block that contains Multi-lined equation, you have to use:
+#+BEGIN_EXAMPLE
+\begin{align*}
+a^2 + b^2 &= c^2 \\
+x + y &= z
+\end{align*}
+#+END_EXAMPLE
 
 LaTex align mode can achieve this. The ~*~ indicates no indexing of the equation. ~\\~ means newline, you have to use this to go to next line. ~&~ in front of the ~=~ indicates where you want to align these functions.
 *** Paragraph Skip
@@ -142,7 +144,6 @@ To make content in center:
 |    h - 1    |    2^{h - 1}    |               1               |
 |      h      |      2^{h}      |               0               |
 |-------------+-----------------+-------------------------------|
-
 
 
 

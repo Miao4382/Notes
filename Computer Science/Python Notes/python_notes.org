@@ -632,6 +632,10 @@ Output:
 [2, 4, 6, 8, 10]
 [2, 4, 6, 8, 10, 'abcdef']
 #+END_EXAMPLE
+***** ~s.clear()~
+This will clear the content stored in a sequence.
+***** ~s.count(x)~
+Return number of occurrence of ~x~ in ~s~.
 
 ***** ~s.extend(x)~
 Append the content of ~x~ to end of ~s~. Here, ~x~ will be evaluated as a iterable sequence. It is doing the same thing as:
@@ -652,9 +656,6 @@ Output:
 [2, 4, 6, 8, 10]
 [2, 4, 6, 8, 10, 'a', 'b', 'c', 'd', 'e', 'f']
 #+END_EXAMPLE
-
-***** ~s.count(x)~
-Return number of occurrence of ~x~ in ~s~.
 
 ***** ~s.insert(i, x)~
 Insert ~x~ at position ~i~.
@@ -720,6 +721,20 @@ Output:
 #+BEGIN_EXAMPLE
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
+*** Iterators and Iterables
+[[https://www.geeksforgeeks.org/python-difference-iterable-iterator/][Reference]]
+
+Iterator is an object, which is used to iterate over an iterable object using ~__next__()~ method. This method returns the next item of the object. 
+
+Iterable is an object, which can be iterated over. If you pass an iterable to ~iter()~ method, an iterator of this iterable object will be returned.
+
+An iterator type should have following methods defined:
+- ~__next__()~: return next item in the iterator
+- ~__iter__()~: this is called when initializing an iterator. This should return an object that has a ~__next__()~ method.
+
+Note that, every iterator is also an iterable (if you call ~iter()~ and pass in an iterator, it will return itself, same memory address, as if you defined an alias for the passed-in iterator). However, not every iterable is an iterator (because some iterables may not have ~__next__()~ and ~__iter__()~ defined).
+
+An example of using iterator can be found in [[for loop detail][details of for loop]].
 *** List
 List is a way of managing data in python. Because a list usually contains more than one element, it’s a good idea to make the name of your list plural, such as letters, digits, or names.
 **** Declaration
@@ -903,6 +918,103 @@ Output:
 #+END_EXAMPLE
 
 **** Functions
+***** ~.append()~
+Unlike ~.extend()~, you can use ~.append()~ to append an object to the calling list. Whatever you put in ~.append()~, it will be interpreted as an object, not an ~iterable~. For example:
+#+begin_src python -n
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name[2])
+print(nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 'abcde', 'big']
+#+END_EXAMPLE
+
+If you pass name of another list into it, you will have nested list structure, i.e. one element of the list is another list. For example:
+#+begin_src python -n
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name)
+print(nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 'abcde', ['what', 'a', 'big', 'apple']]
+#+END_EXAMPLE
+***** ~.clear()~
+This function will clear the content of the list. Example:
+#+begin_src python -n
+name = ["what", "a", "big", "apple"]
+print("Before clear: ", name)
+name.clear()
+print("After clear: ", name)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Before clear:  ['what', 'a', 'big', 'apple']
+After clear:  []
+#+END_EXAMPLE
+***** ~.copy()~
+This function will return a list, which is the copy of the calling list. Example:
+#+begin_src python -n
+nums = [3, 2, 7, 1, 5]
+nums2 = nums.copy()
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[3, 2, 7, 1, 5]
+#+END_EXAMPLE
+
+*More aboud Copying*
+
+Pay attention to how variable works in python. You can't use ~nums2 = nums~ to copy ~nums~ to ~nums2~, since ~nums2~ will reference to the same memory space that actually store the content of the list (which is also referenced by ~nums~).
+
+Another way of copying a list is to use slice:
+#+begin_src python -n
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+#+END_EXAMPLE
+By not providing begin and end index, the slice will cover the whole list, it will return a *COPY* of the list (another chunk of memory will hold the copied content). Example:
+#+begin_src python -n
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+#+END_EXAMPLE
+***** ~.count()~
+This function accepts an object. It will return an integer showning the number of appearing times in the calling list. Example:
+#+begin_src python -n
+name = ["what", "a", "big", "apple", 2]
+print("Counting result : ", name.count(2))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Counting result :  1
+#+END_EXAMPLE
+
+The object type allowed by this function is determined by the type of object the list currently have.
+***** ~del~
+~del~ is not a function, but it is a statement that can remove element in list. you can remove the element with index ~i~ using following line:
+#+begin_src python -n
+del items[i]
+#+end_src
 ***** ~.extend()~
 This is a member function of list. It requires two parameters: ~self~ and ~iterable~. ~self~ is the list object that are calling this function, you generally don't have to pass in again. ~iterable~ is an object that is, iterable. For example, a string is iterable in the sense that it consists of multiple components (the characters). Another list is also iterable.
 
@@ -954,33 +1066,15 @@ Output:
 [1, 2, 3, 4, 5, 'b', 'i', 'g']
 #+END_EXAMPLE
 The thing is, whatever you put in ~.extend()~, python will interpret it as an ~iterable~, not an actual object. So you can't expect the above code produces result like: ~[1, 2, 3, 4, 5, 'big']~.
-***** ~.append()~
-Unlike ~.extend()~, you can use ~.append()~ to append an object to the calling list. Whatever you put in ~.append()~, it will be interpreted as an object, not an ~iterable~. For example:
+***** ~.index()~
+This function accepts an object, and will try to search if there is any match in the calling list. If so, it will return the index of the object, otherwise, an error will be thrown (the same as string's ~index()~ member function). Example:
 #+begin_src python -n
-string = "abcde"
-nums = [1, 2, 3, 4, 5]
 name = ["what", "a", "big", "apple"]
-nums.append(string)
-nums.append(name[2])
-print(nums)
+print("The index : ", name.index("apple"))
 #+end_src
 Output:
 #+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 'abcde', 'big']
-#+END_EXAMPLE
-
-If you pass name of another list into it, you will have nested list structure, i.e. one element of the list is another list. For example:
-#+begin_src python -n
-string = "abcde"
-nums = [1, 2, 3, 4, 5]
-name = ["what", "a", "big", "apple"]
-nums.append(string)
-nums.append(name)
-print(nums)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 'abcde', ['what', 'a', 'big', 'apple']]
+The index :  3
 #+END_EXAMPLE
 ***** ~.insert()~
 This member function can insert a data item into certain position in a list. It accepts three parameters: ~self~, ~index~ and ~object~.
@@ -1047,46 +1141,6 @@ When an integer value ~i~ is passed in, the item at that index will be popped (a
 items.pop(1)
 #+end_src
 The second item in the list will be popped.
-***** ~del~
-~del~ is not a function, but it is a statement that can remove element in list. you can remove the element with index ~i~ using following line:
-#+begin_src python -n
-del items[i]
-#+end_src
-***** ~.clear()~
-This function will clear the content of the list. Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple"]
-print("Before clear: ", name)
-name.clear()
-print("After clear: ", name)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-Before clear:  ['what', 'a', 'big', 'apple']
-After clear:  []
-#+END_EXAMPLE
-***** ~.index()~
-This function accepts an object, and will try to search if there is any match in the calling list. If so, it will return the index of the object, otherwise, an error will be thrown (the same as string's ~index()~ member function). Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple"]
-print("The index : ", name.index("apple"))
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-The index :  3
-#+END_EXAMPLE
-***** ~.count()~
-This function accepts an object. It will return an integer showning the number of appearing times in the calling list. Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple", 2]
-print("Counting result : ", name.count(2))
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-Counting result :  1
-#+END_EXAMPLE
-
-The object type allowed by this function is determined by the type of object the list currently have.
 ***** ~.sort()~
 This function will sort the list in ascending order. For example:
 #+begin_src python -n
@@ -1144,45 +1198,6 @@ Output:
 #+BEGIN_EXAMPLE
 [5, 1, 7, 2, 3]
 #+END_EXAMPLE
-***** ~.copy()~
-This function will return a list, which is the copy of the calling list. Example:
-#+begin_src python -n
-nums = [3, 2, 7, 1, 5]
-nums2 = nums.copy()
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[3, 2, 7, 1, 5]
-#+END_EXAMPLE
-
-*More aboud Copying*
-
-Pay attention to how variable works in python. You can't use ~nums2 = nums~ to copy ~nums~ to ~nums2~, since ~nums2~ will reference to the same memory space that actually store the content of the list (which is also referenced by ~nums~).
-
-Another way of copying a list is to use slice:
-#+begin_src python -n
-nums = [i for i in range(1, 10)]
-nums2 = nums[:]
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 6, 7, 8, 9]
-#+END_EXAMPLE
-By not providing begin and end index, the slice will cover the whole list, it will return a *COPY* of the list (another chunk of memory will hold the copied content). Example:
-#+begin_src python -n
-nums = [i for i in range(1, 10)]
-nums2 = nums[:]
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 6, 7, 8, 9]
-#+END_EXAMPLE
 ***** ~len()~
 This is a global function. It accepts a list object, and will return the length of the list object (the number of items stored in the list). For example:
 #+begin_src python -n
@@ -1194,6 +1209,8 @@ Output:
 5
 #+END_EXAMPLE
 ~len()~ can accept iterables. Like string, tuple, list, dictionary.
+***** ~.__iter__()~
+This function will return an iterator associated with the list. Global function ~iter()~ will call this member function.
 ***** Number statistics for number list
 A few python functions are specific to lists of numbers. For example: ~min(), max(), sum()~. They are global functions. They accept list of numbers, and will return numeric type.
 
@@ -1642,7 +1659,7 @@ Output:
 #+END_EXAMPLE
 
 *** ~for~ loop
-The ~for~ loop in python works like the range based for loop in C++.
+The ~for~ loop in python works like the range based for loop in C++. 
 **** Syntax
 The ~for~ loop's syntax is:
 #+begin_src python -n
@@ -1788,6 +1805,9 @@ In this case, a ~ValueError~ will be thrown:
 ValueError: not enough values to unpack (expected 4, got 3)
 #+END_EXAMPLE
 Python expects to unpack four values (because there are four variables to be used to hold the unpacked value), but it encounters three.
+**** Details on For Loop  <<for loop detail>>
+[[https://www.geeksforgeeks.org/python-difference-iterable-iterator/][Reference]]
+You should pass an iterable object to a for loop. When a for loop is executed, the for statement calls ~iter()~ on the object that you're going to loop over. If ~iter(object)~ is successfully called, it will return an iterator object which has method ~__next__()~ defined. When ~__next__()~ method is called, it will return the next element in the iterable object. It will be used to traverse each element in the iterable element, one at a time. When ~__next__()~ reaches the end, it will raise a ~StopIteration~ exception. This will be catched by the for loop, and it will terminate.
 
 ** Functions
 *** Declaration
@@ -2148,12 +2168,12 @@ open("time.txt", "r")
 
 The default mode is read mode.
 
-You can use a variable to hold the file you opened:
+This function will return a file object that "linked" to the file, you need to use a variable to hold this object.
 #+begin_src python -n
 time_file = open("time.txt", "r")
 time_file.close()
 #+end_src
-(or does it act like a file object? like in C++? The ~open()~ function will return a constructed file object, and you can "catch" it using a variable) In the above code, you close the file by calling the ~close()~ member function of ~time_file~.
+In the above code, you close the file by calling the ~close()~ member function of ~time_file~.
 **** Automatically Close
 We can use following syntax to open a file, and do things within the same block. We don't have to manually close the file. When the control flow goes out of the block, the file is closed:
 #+begin_src python -n
@@ -2924,8 +2944,48 @@ Notice how to define objects for testing in the ~setUp()~ method.
 
 **** Character Printed to Trace Testing
 When a test case is running, Python prints one character for each unit test as it is completed. A passing test prints a dot, a test that results in an error prints an E, and a test that results in a failed assertion prints an F. This is why you’ll see a different number of dots and characters on the frst line of output when you run your test cases. If a test case takes a long time to run because it contains many unit tests, you can watch these results to get a sense of how many tests are passing.
-** place holder
+
 * Modules
+
+** Built-in Functions
+
+*** ~iter()~
+This function accepts an iterable object, and will return an iterator of the iterable object.
+*** ~next()~
+[[https://docs.python.org/3/library/functions.html#next][Documentation]]
+
+This function accepts a python iterator. Retrieve the next item from the iterator 
+** ~csv~
+Python's ~csv~ module in the standard library parses the lines in a CSV file and allows us to quickly extract the values we're interested in.
+*** ~reader()~
+[[https://docs.python.org/3/library/csv.html#csv.reader][Documentation]]
+This is a member function. It accepts any object which supports the iterator protocol (by providing these methods: ~__iter__()~, ~__next__()~) and returns a string each time its ~__next__()~ method is called (file object and list object are both suitable).
+
+It will return a reader object associated with the file. The reader object will iterate over lines in the given csv file. You need to use a variable to hold the returned reader object.
+
+Data in csv file has following structure: Rows separated by newline character, and record separated by a coma in a single line. For example:
+#+BEGIN_EXAMPLE
+course name, time, credit hour, grade
+COP 4530, fall 19, 3, A
+COP 4531, fall 19, 3, A
+CDA 3101, fall 19, 3, A
+COP 4610, fall 19, 3, A
+COT 4420, fall 19, 3, A
+#+END_EXAMPLE
+
+Reader object somehow read each row and transfer them into a list of strings, each item separated by the coma is an element in the list. Reader object is iterable over rows. It has struture like:
+#+BEGIN_EXAMPLE
+["course name", "time", "credit hour", "grade"]
+["COP 4530", "fall 19", "3", "A"]
+["COP 4531", "fall 19", "3", "A"]
+["CDA 3101", "fall 19", "3", "A"]
+["COP 4610", "fall 19", "3", "A"]
+["COT 4420", "fall 19", "3", "A"]
+#+END_EXAMPLE
+Each row read from the csv file is returned as a list of strings. No automatic data type conversion is performed.
+
+Reader object behaves like an iterator: it has ~__iter__()~ and ~__next__()~ defined. When calling ~__iter__()~, it will return itself. 
+
 ** ~matplotlib~
 *** ~pyplot~
 **** Plotting a Simple Line Graph (~.plot()~)
@@ -3006,18 +3066,19 @@ plt.scatter(x_values, y_values, s=20, edgecolors='red', c='none')
 **** Member Functions to Adjust Figure Appearance
 In this section, several member functions are presented to adjust figure appearance.
 
-***** add title to the figure
-The size of the title can also be adjusted.
+***** ~.title()~
+Add title of the image. The size of the title can also be adjusted.
 #+begin_src python -n
 plt.title("Square Numbers", fontsize=24)
 #+end_src
 
-***** add x, y axis label
+***** ~.xlabel()~, ~.ylabel()~
+Set the x label and y label
 #+begin_src python -n
 plt.xlabel("Value", fontsize=14)
 #+end_src
 
-***** set tick label size
+***** ~.tick_params()~ (adjust tick label of axis)
 #+begin_src python -n
 plt.tick_params(axis='both', labelsize=14)
 #+end_src
@@ -3027,7 +3088,13 @@ plt.tick_params(axis='both', labelsize=14)
 plt.axis([x_0, x_1, y_0, y_1])
 #+end_src
 
+***** remove axis
+#+begin_src python -n
+plt.axes().get_xaxis().set_visible(False)
+plt.axes().get_yaxis().set_visible(False)
+#+end_src
 ***** set color
+[[https://matplotlib.org/2.0.2/api/colors_api.html][Documentation]]
 When you set the color of a object (by passing arguments to ~c~), you can either pass a string to indicate its color (e.g. ~edgecolor='red'~), or a tuple with three decimal values (correspond to red, green and blue). The range of the value is from 0 to 1. It is calculated by deviding RGB value with 255. So, a RGB color of R42, G160, B151 should be =(0.164, 0.627, 0.592)=. Example:
 #+begin_src python -n
 plt.scatter(x_values, y_values, s=20, edgecolors=(0.16, 0.63, 0.59), c='none')
@@ -3048,6 +3115,15 @@ plt.show()
 #+end_src
 We first set ~y_values~ to ~c~, this tells python to use color maps to set the color of the point with regard to the ~y_values~. You can set the specific colormap you want to use by ~cmap=plt.cm.xxx~, where ~xxx~ is the name of color map you wish to use. The names and visual effect of different colormaps can be found [[https://matplotlib.org/examples/color/colormaps_reference.html][here]].
 
+***** ~.figure()~ (controls figure's size, resolution, background color)
+To set the size of the figure:
+#+begin_src python -n
+plt.figure(figsize=(a, b))
+#+end_src
+The ~figsize~ parameter takes a tuple, which is the dimensions of the plotting window in inches. Python assumes that the screen resolution is 80 pixels per inch. You can use another parameter ~dpi~ to tell python the resolution of your screen:
+#+begin_src python -n
+plt.figure(dpi=128, figsize=(10, 6))
+#+end_src
 **** Utility Member Functions
 
 ***** save figure
@@ -3057,22 +3133,66 @@ plt.savefig('squares_plot.svg', bbox_inches='tight')
 #+end_src
 The first argument is a filename for the plot image, which will be saved to the same directory as your python file. The second argument trims extra whitespace from the plot.
 
-** ~random~
+** ~pygal~
+[[http://pygal.org/en/stable/documentation/index.html][Documentation]]
+*** ~Bar~
+~Bar~ is a nested class inside ~pygal~. Use this to create an object of a histogram. Each object of histogram has its own data set, as well as the styling information stored as attributes. They can be manipulated by the member function (methods) defined in ~pygal.Bar~. To declare a ~Bar~ object:
+#+begin_src python -n
+hist = pygal.Bar()
+#+end_src
+(without any parameters)
 
+**** ~attributes~
+***** ~title~
+~title~ stores the title of the histogram objects. You can set the title of the histogram directly by assigning this attribute with a string. Example:
+#+begin_src python -n
+hist.title = "Your Histogram Title"
+#+end_src
+Other attributes work the same way. You can assign them directly with the value you wish.
+***** ~x_labels~
+This attribute will add x label. You can assign it with a list of strings, they will be used to label the data in x direction. For example, if your have added a list: ~[5, 4, 3, 1, 6]~ to the ~Bar~ object, and want to plot histogram based on this. You can add x labels corresponding to each value, for example:
+#+begin_src python -b
+hist = Bar()
+worked_hour = [5, 4, 3, 1, 6]
+hist.add('work hour', worked_hour)
+hist.x_label = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+#+end_src
+When you render the histogram, these labels will be under each bar.
+***** ~y_labels~
+You can also set y labels, but it can override the default label that reflect the y value.
+***** ~x_title~
+***** ~y_title~
+**** ~member functions~
+***** ~.add()~
+This function accepts two arguments: ~add('title', value)~. You can pass in positionally. First is title and the second is value. The title is the name of this group of data, and value is your data set (can be a single number, which will only have one bar).
+
+You can add multiple data set to one ~Bar~ object. Notice that python will not check if there is a naming conflict (duplicate names are permitted).
+***** ~.render_to_file()~
+This function will render the data in the ~Bar~ object and save it to a file. The filename is passed in when calling the function. For example:
+#+begin_src python -n
+hist.render_to_file('my_plot.svg')
+#+end_src
+
+** ~random~
 *** ~choice()~
 [[https://docs.python.org/3/library/random.html#random.choice][Documentation]]
 
 ~choice()~ is a member function defined in ~random~ module. It has several overloads.
 
-**** ~choice(sequence)~
+**** ~choice(sequence)~ <<random.choice>>
 It accepts a sequence type, and will return a random element in the passed in sequence. If the sequence is empty, an ~IndexError~ will be thrown.
 
-* Projects
+*** ~randint()~
+[[https://docs.python.org/3/library/random.html#random.randint][Documentation]]
+It accepts two arguments a, b. It will return a random integer ~N~, such that ~a <= N <= b~.
 
+It is alias for ~randrange(a, b + 1)~.
+
+* Projects
 ** Randomwalk Visualization
 We'll create a 2D random walk visualization demo. Basically, we need to plot a sequence of coordinate pairs \((x_i, y_i)\), which is the position of each point in the walk. To generate such "walk trails", we'll create a ~RandomWalk~ class.
 
-*** ~RandomWalk~ class
+*** ~RandomWalk~ class general
 In this class, we need three attributes:
 - ~num_points~: store the total number of points in the walk
 - ~x_values~: store the x coordinate of each point in the random walk
@@ -3084,7 +3204,6 @@ from random import choice
 #+end_src
 
 *** Methods
-
 **** ~__init__()~
 The constructor of the class accepts one variable, which is the number of points in the random walk. You can give it a default value. In the constructor, we define the three attributes, and set the initial starting point of random walk as the origin. The constructor is shown below:
 #+begin_src python -n
@@ -3101,4 +3220,64 @@ class RandomWalk:
 #+end_src
 
 **** ~fill_walk()~
-The ~fill_walk()~ method is used to create random walk coordinate and store in the ~x_values~ and ~y_values~.
+The ~fill_walk()~ method is used to create random walk coordinate and store in the list attribute ~x_values~ and ~y_values~. It will use [[random.choice][~random.choice(sequence)~]] function to generate the random walk result at each step.
+
+Let's consider the problem. We start from origin \((0,0)\). We will move to the next position randomly. This step involves the change of x and y coordinate. The change of x or y is related two parameters:
+- the direction of the change (whether positive or negative)
+- the magnitude of the change (how much you move)
+We use use ~random.choice(sequence)~ to make these two decisions for both x and y coordinate of each step in the random walk. The ~sequence~ is the possible values we can pick. Assume the distance we can move ranges from 0 to 4, we have:
+#+begin_src python -n
+x_direction = choice([1, -1])
+x_distance = choice([0, 1, 2, 3, 4])
+x_step = x_direction * x_distance
+
+y_direction = choice([1, -1])
+y_distance = choice([0, 1, 2, 3, 4])
+y_step = y_direction * y_distance
+#+end_src
+The above code has generated the relative (x, y) change. We have to add it to its previous position to get the final position after the move, and append it to the lists.
+#+begin_src python -n
+# calculate the next x and y values
+# your move should start from the previous position
+next_x = self.x_values[-1] + x_step
+next_y = self.y_values[-1] + y_step
+
+# add to the walk sequence
+self.x_values.append(next_x)
+self.y_values.append(next_y)
+#+end_src
+
+The code for the whole method is as follows:
+#+begin_src python -n
+def fill_walk(self):
+    """calculate all the points in the walk."""
+
+    # keep tracking steps until the walk reaches the desired length
+    while len(self.x_values) < self.num_points:
+        # decide which direction to go and distance to go in that direction
+        x_direction = choice([1, -1])
+        x_distance = choice([0, 1, 2, 3, 4])
+        x_step = x_direction * x_distance
+
+        y_direction = choice([1, -1])
+        y_distance = choice([0, 1, 2, 3, 4])
+        y_step = y_direction * y_distance
+
+        # if going nowhere, don't add to the walk sequence
+        if x_step == 0 and y_step == 0:
+            continue
+
+        # calculate the next x and y values
+        # your move should start from the previous position
+        next_x = self.x_values[-1] + x_step
+        next_y = self.y_values[-1] + y_step
+
+        # add to the walk sequence
+        self.x_values.append(next_x)
+        self.y_values.append(next_y)
+#+end_src
+Notice that, we implement random walk as not accepting stationary move, i.e. if the relative change of x and y are both zero, we will reroll.
+
+*** Behavior
+To use the ~RandomWalk~ class, you have to declare an object. And call the ~fill_walk()~ method to fill the attribute with randomly picked coordinate value. Then we are ready to plot.
+* Place holder
