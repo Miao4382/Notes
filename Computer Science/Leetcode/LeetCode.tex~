@@ -1,4 +1,4 @@
-% Created 2019-05-23 Thu 09:11
+% Created 2019-05-24 Fri 09:56
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{book}
 \usepackage[utf8]{inputenc}
@@ -36,21 +36,21 @@
 
 
 \part{Arrays}
-\label{sec:org9299ad3}
+\label{sec:org2abfc37}
 \chapter{1. Two Sum}
-\label{sec:orgca55a1d}
+\label{sec:orgb128ba4}
 \section{Problem Statement}
-\label{sec:org41f1cca}
+\label{sec:org12e3567}
 \href{https://leetcode.com/problems/two-sum/}{Link}
 \section{Analysis}
-\label{sec:org7b41f49}
+\label{sec:org860a9e9}
 
 \section{Solution}
-\label{sec:orgf7788ee}
+\label{sec:org15bc037}
 \subsection{C++}
-\label{sec:org6d4cce5}
+\label{sec:orgae681de}
 \subsubsection{\(O(N^2)\) Time (35.43\%)}
-\label{sec:orgf4d0887}
+\label{sec:orgd293924}
 Idea: traverse the vector. For each encountered value, calculate the corresponding value it needs to add up to the target value. And then traverse the vector to look for this value.
 
 The time complexity is \(O(N^2)\), because for each value in the vector, you'll go through the vector and search its corresponding part so they add up to the target. This is linear searching, which has \(O(N)\) complexity.
@@ -71,7 +71,7 @@ public:
 };
 \end{minted}
 \subsubsection{\(O(N\log{N})\) Time (99.24\%)}
-\label{sec:orgc3d26e1}
+\label{sec:org3a179f7}
 Idea: the searching part is optimized. First we sort the vector. In order to keep the original relative order of each element, we sort a vector of iterators that referring each element in the original vector \texttt{nums}. Then, we can use this sorted vector to perform binary search, whose time complexity is \(\log{N}\). The total time complexity is reduced to \(O(N\log{N})\).
 
 I made some bugs when writting this code, because I didn't realize the following assumption:
@@ -161,13 +161,56 @@ public:
   }
 };
 \end{minted}
-\chapter{461. Hamming Distance \label{org42b86fd}}
-\label{sec:orgc28f84b}
+\chapter{136. Single Number}
+\label{sec:org3854006}
 \section{Problem Statement}
-\label{sec:orgfef3cf3}
+\label{sec:orgcebcff0}
+\href{https://leetcode.com/problems/single-number/}{Link
+}
+\section{Analysis}
+\label{sec:org639626c}
+\subsection{Use Unordered-set}
+\label{sec:org5d8c1e9}
+\section{Solution}
+\label{sec:org18fa34e}
+\subsection{C++}
+\label{sec:orgeab7900}
+\subsubsection{Unordered-set. time (16.06\%) space (15.74\%)}
+\label{sec:org5d4c611}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    unordered_set<int> unique_num;
+
+    for (auto num : nums) {
+      auto itr = unique_num.find(num);
+
+      if (itr == unique_num.end())
+	unique_num.insert(num);
+      else
+	unique_num.erase(itr);
+    }
+
+    return *unique_num.begin();
+  }
+};
+\end{minted}
+\section{todos [0/4]}
+\label{sec:org5d91f85}
+\begin{itemize}
+\item[{$\square$}] write your solution step (in analysis part), analysis time and space complexity
+\item[{$\square$}] think about possible improvements
+\item[{$\square$}] read solution, do additional work (internalize it and write analysis and code)
+\item[{$\square$}] read discussion, do additional work (internalize it and write analysis and code)
+\end{itemize}
+\chapter{461. Hamming Distance \label{orgaa43a03}}
+\label{sec:org386a428}
+\section{Problem Statement}
+\label{sec:orga374a94}
 \href{https://leetcode.com/problems/hamming-distance/}{Link}
 \section{Analysis}
-\label{sec:orgeb2b618}
+\label{sec:orga39a527}
 To compare two numbers bitwisely, we may need the fact that a number mod 2 is equal to the last digit of its binary form. For example:
 \begin{verbatim}
 x = 1 (0 0 0 1)
@@ -176,11 +219,11 @@ x % 2 = 1
 y % 2 = 0
 \end{verbatim}
 \section{Solution}
-\label{sec:org2b181cb}
+\label{sec:org91faf4b}
 \subsection{C++}
-\label{sec:org3db1f2d}
+\label{sec:org10ebef7}
 \subsubsection{Time(14.63\%)}
-\label{sec:orgeaaac97}
+\label{sec:orgf38a049}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -200,7 +243,7 @@ public:
 };
 \end{minted}
 \subsubsection{Time(94.5\%)}
-\label{sec:orgb37ed43}
+\label{sec:org6eabb39}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -219,15 +262,15 @@ public:
 };
 \end{minted}
 \subsubsection{Questions}
-\label{sec:org214d81f}
+\label{sec:org78b3e16}
 Why the second solution is faster than the previous one?
 \begin{itemize}
 \item Bitwise XOR used.
 \end{itemize}
 \subsection{Python}
-\label{sec:org58d5af5}
+\label{sec:orgd5710ff}
 \subsubsection{Faster than 97.37\%}
-\label{sec:orgcd97191}
+\label{sec:orgd57e510}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
 class Solution:
     def hammingDistance(self, x: int, y: int) -> int:
@@ -241,32 +284,42 @@ class Solution:
 \end{minted}
 However, this algorithm is exactly the same as C++'s first version. Why such huge speed variance?
 \chapter{477. Total Hamming Distance}
-\label{sec:orgd66bba9}
+\label{sec:org163a5a7}
 \section{Problem Statement}
-\label{sec:org42e28c7}
+\label{sec:orgb14d9e5}
 \href{https://leetcode.com/problems/total-hamming-distance/}{Link}
 \section{Analysis}
-\label{sec:org621d25f}
-This problem is similar with P461, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
+\label{sec:org1aaf696}
+This problem is similar with \hyperref[orgaa43a03]{P461}, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
 \begin{itemize}
 \item Elements of the given array are in the range of \(0\) to \(10^9\)
 \item Length of the array will not exceed \(10^4\)
 \end{itemize}
 
 \subsection{First Attempt (too slow)}
-\label{sec:org2511ee9}
-My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers (\hyperref[org42b86fd]{P461}), the code is shown in solution section. However, this approach is too slow to pass the test.
+\label{sec:orgbe49308}
+My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers (\hyperref[orgaa43a03]{P461}), the code is shown in solution section. However, this approach is too slow to pass the test.
 
 The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is the combination. It is simply:
 \[
 {N \choose 2} = \frac{N(N-1)}{2} \sim O(N^2)
 \]
+Inside these combinations, we included many bit-pairs that do not contribute to the total Hamming distance count, for example, the combination of number 91 and 117 is:
+\begin{verbatim}
+---------------
+bit#: 1234 5678
+---------------
+91:   0101 1011
+117:  0111 0101
+---------------
+\end{verbatim}
+The bit at 1, 2, 4, 8 are not contributing to the total Hamming distance count, but we still include it and spend time verifying. This flaw can be solved in the grouping idea.
 
 \subsection{Grouping}
-\label{sec:org9ce5630}
+\label{sec:orgdd41160}
 \href{https://leetcode.com/problems/total-hamming-distance/discuss/96250/C++-O(n)-runtime-O(1)-space}{Reference}
 
-The idea of grouping is we count the total hamming distance as a whole. Specifically, at any giving time, we devide the array into two groups \(G_0, G_1\). The rule of grouping is:
+The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we divide the array into two groups \(G_0, G_1\). The rule of grouping is:
 \begin{itemize}
 \item a number \(n\) that \(n \% 2 = 0\), goes to \(G_0\)
 \item a number \(n\) that \(n \% 2 = 1\), goes to \(G_1\)
@@ -275,13 +328,33 @@ The result of \(n\%2\) will give you the least significant bit, or the last bit 
 \[
 N_{G_0} \times N_{G_1}
 \]
-Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until \textbf{ALL} numbers are \textbf{ZERO}. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers.
+Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until \textbf{ALL} numbers are \textbf{ZERO}. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers. Another confusing case is when some numbers are trimmed to zero during the process. We still keep those zeros in array, because they still can be used to count total Hamming distance. For example, number 9 and 13317:
+\begin{verbatim}
+---------------------------
+bit#:   1234 5678 9abc defg
+---------------------------
+9:      0000 0000 0000 1001
+13317:  0011 0100 0000 0101
+---------------------------
+\end{verbatim}
+After four times of trimming:
+\begin{verbatim}
+-----------------------
+bit#:   1234 5678 9abc 
+-----------------------
+9:      0000 0000 0000 
+13317:  0011 0100 0000 
+-----------------------
+\end{verbatim}
+The difference at bit 3, 4, 6 should still be counted toward the total Hamming distance.
+
+At each round, we first go over the list and divide the numbers into two groups. This process is \(O(N)\). To calculate the contribution to total Hamming distance at this round is just a matter of multiplication, so the time complexity is \(O(1)\). Thus, for one round, time complexity is \(O(N)\). There are potentially \texttt{8 * sizeof(int)} bits to be trimmed, this is the number of rounds we are going to run, which is a constant not related to \(N\). Thus the total complexity is: \(O(N)\).
 \section{Solution}
-\label{sec:org4fc656e}
+\label{sec:org0a0f9fd}
 \subsection{C++}
-\label{sec:orgf2e569c}
+\label{sec:orga3857b8}
 \subsubsection{Not Accepted (too slow)}
-\label{sec:orga7203bb}
+\label{sec:org811bf51}
 This algorithm is too slow.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -309,8 +382,8 @@ public:
   }
 };
 \end{minted}
-\subsubsection{Time (6.59\%) Space (5.13\%)}
-\label{sec:orgcc8f67f}
+\subsubsection{Grouping. time (6.59\%) space (5.13\%)}
+\label{sec:orgb7d63fa}
 This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted\ldots{}..
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -348,27 +421,66 @@ public:
   }
 };
 \end{minted}
-\section{todos [0/4]}
-\label{sec:org74816e7}
+\subsubsection{Grouping\_example. time (88.24\%, 49.76\%)}
+\label{sec:org6466148}
+This is from the discussion (grouping idea).
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+class Solution {
+public:
+  int totalHammingDistance(vector<int>& nums) {
+    if (nums.size() <= 0) return 0;
+
+    int res = 0;
+
+    for(int i=0;i<32;i++) {
+      int setCount = 0;
+      for(int j=0;j<nums.size();j++) {
+	  if ( nums[j] & (1 << i) ) setCount++;
+      }
+
+      res += setCount * (nums.size() - setCount);
+    }
+
+    return res;
+  }
+};
+\end{minted}
+
+This solution is a lot faster than my version, altough we use the same idea. I used a lot more steps to do the book keeping, which the example solution uses spaces and time efficiently. Specifically:
 \begin{itemize}
-\item[{$\square$}] Write the analysis of grouping idea and my code
+\item I have defined two vectors to actually store the \textbf{TWO} groups. My thinking is simple: if the idea involves two groups, then I want to actually implement two groups to closely follow the idea. This reflects the lack of ability to generalize a problem and find what matters most to solve the problem. In this specific example, what matters most, is to \textbf{KNOW} the number of element in just \textbf{ONE} group, there are ways to know this without actually spending time and spaces to keep the whole record of the two groups.
+\item my end point would be "there is no non-zero number in the array", I have to declare a new integer to keep track of the number of non-zero number, and I have to use an if expression to determine if a number is non-zero after trimming the least significant bit.  The example code only traverse all the bits of an integer (i.e. 32 bits in total, or 4 bytes) using a for loop.
+\end{itemize}
+
+In line 11, the code reads: \texttt{if ( nums[j] \& (1 << i) ) setCount++;}. The operators used are bitwise AND, bitwise left shift. This is to compare the i-th bit of \texttt{num[j]} with 1. If it is 1, then at this bit, the number should be counted in group \(G_1\). For example, if \texttt{num[j] == 113}, \texttt{i == 5}, then we compare:
+\begin{verbatim}
+           ↓
+113:     0111 0001
+1 << 5:  0010 0000
+\end{verbatim}
+
+
+\section{todos [1/4]}
+\label{sec:orgcce868f}
+\begin{itemize}
+\item[{$\boxtimes$}] Write the analysis of grouping idea and my code
 \item[{$\square$}] Read code in reference of grouping idea, make notes
 \item[{$\square$}] Check other possible solution and make future plan
 \item[{$\square$}] Try to generalize this problem
 \end{itemize}
 \chapter{771. Jewels and Stones}
-\label{sec:org14f096f}
+\label{sec:org4268a14}
 \section{Problem Statement}
-\label{sec:org52a081a}
+\label{sec:org3064a57}
 \href{https://leetcode.com/problems/jewels-and-stones/}{Link}
 \section{Analysis}
-\label{sec:org1713d86}
+\label{sec:org5f55b82}
 \section{Solution}
-\label{sec:orgd223932}
+\label{sec:org709667e}
 \subsection{C++}
-\label{sec:org48e4a53}
+\label{sec:org5c88853}
 \subsubsection{\(N^2\) Time (96.35\%) Space (79.64\%)}
-\label{sec:org0b16750}
+\label{sec:org4e23a9f}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -390,23 +502,23 @@ public:
 };
 \end{minted}
 \part{Trees}
-\label{sec:orga1bcc36}
+\label{sec:org41d767d}
 \chapter{104. Maximum Depth of Binary Tree}
-\label{sec:org9b3ea00}
+\label{sec:org0ac3e61}
 \section{Problem Statement}
-\label{sec:org6b21ba9}
+\label{sec:org844c8b8}
 \href{https://leetcode.com/problems/maximum-depth-of-binary-tree/}{Link}
 \section{Analysis}
-\label{sec:org5222fe5}
+\label{sec:org7f8eb99}
 \subsection{Recursion}
-\label{sec:orgc80ed5d}
+\label{sec:orgf0eb9d6}
 A node's maximum depth, is the larger maximum depth of its left and right subtree plus one. Base case: if a node is nullptr, maximum depth is zero.
 \section{Solution}
-\label{sec:orgd8f2b7a}
+\label{sec:org6bb7c85}
 \subsection{C++}
-\label{sec:org772a2ac}
+\label{sec:org42d6251}
 \subsubsection{Recursion. Time (88.44\%) Space (91.28\%)}
-\label{sec:org37b6e71}
+\label{sec:org5577fbb}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -432,30 +544,30 @@ public:
 };
 \end{minted}
 \section{todos [/]}
-\label{sec:org810d6d6}
+\label{sec:org7ec6c49}
 \begin{itemize}
 \item[{$\square$}] read about the discussion page for more methods and ideas
 \end{itemize}
 
 \chapter{617. Merge Two Binary Trees}
-\label{sec:orgb5b3909}
+\label{sec:org2aac848}
 \section{Problem Statement}
-\label{sec:orgc67801e}
+\label{sec:org4f49f06}
 \href{https://leetcode.com/problems/merge-two-binary-trees/}{Link}
 \section{Analysis}
-\label{sec:org4965746}
+\label{sec:org4c23e52}
 \subsection{Approach \#1 Recursive Method}
-\label{sec:org15bca82}
+\label{sec:org79128c6}
 Use recursiion to solve this problem.
 \subsection{Approach \#2 Iterative Method}
-\label{sec:orgeabb380}
+\label{sec:orgc0a89f0}
 
 \section{Solution}
-\label{sec:orgdcf5bd8}
+\label{sec:org7a0e162}
 \subsection{C++}
-\label{sec:org1777326}
+\label{sec:org3827720}
 \subsubsection{Recursion Time (97.09\%) Space(37.01\%)}
-\label{sec:org8f77f64}
+\label{sec:org8e029e0}
 Recursion.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
@@ -484,9 +596,9 @@ public:
 };
 \end{minted}
 \subsubsection{Iterative}
-\label{sec:org2f75b0c}
+\label{sec:org797ee5d}
 \section{todos [/]}
-\label{sec:org7a64036}
+\label{sec:org55e8ce9}
 \begin{itemize}
 \item[{$\square$}] read the other solution (iterate the tree using stack), and understand it
 \item[{$\square$}] write code based on the other solution

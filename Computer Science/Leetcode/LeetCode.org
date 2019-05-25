@@ -125,6 +125,39 @@ public:
   }
 };
 #+end_src
+** 136. Single Number
+*** Problem Statement
+[[https://leetcode.com/problems/single-number/][Link
+]]
+*** Analysis
+**** Use Unordered-set
+*** Solution
+**** C++
+***** Unordered-set. time (16.06%) space (15.74%)
+#+begin_src c++ -n
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    unordered_set<int> unique_num;
+    
+    for (auto num : nums) {
+      auto itr = unique_num.find(num);
+      
+      if (itr == unique_num.end())
+        unique_num.insert(num);
+      else
+        unique_num.erase(itr);
+    }
+    
+    return *unique_num.begin();
+  }
+};
+#+end_src
+*** todos [0/4]
+- [ ] write your solution step (in analysis part), analysis time and space complexity
+- [ ] think about possible improvements
+- [ ] read solution, do additional work (internalize it and write analysis and code)
+- [ ] read discussion, do additional work (internalize it and write analysis and code)
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]
@@ -221,7 +254,7 @@ The bit at 1, 2, 4, 8 are not contributing to the total Hamming distance count, 
 **** Grouping
 [[https://leetcode.com/problems/total-hamming-distance/discuss/96250/C%2B%2B-O(n)-runtime-O(1)-space][Reference]]
 
-The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we devide the array into two groups \(G_0, G_1\). The rule of grouping is:
+The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we divide the array into two groups \(G_0, G_1\). The rule of grouping is:
 - a number \(n\) that \(n \% 2 = 0\), goes to \(G_0\)
 - a number \(n\) that \(n \% 2 = 1\), goes to \(G_1\)
 The result of \(n\%2\) will give you the least significant bit, or the last bit of an integer in binary form. By the definition of Hamming distance, we know that any combinations that contains number pairs only from \(G_0\) or only from \(G_1\) will not contribute to the total Hamming distance count (just for this grouping round, which only compares the least significant bit of those numbers). On the other hand, any combination that contains one number from \(G_0\) and one number from \(G_1\) will contribute 1 to the total Hamming distance. So, for this round, we only have to count the combination of such case, which is simply:
@@ -279,7 +312,7 @@ public:
   }
 };
 #+end_src
-***** Time (6.59%) Space (5.13%)
+***** Grouping. time (6.59%) space (5.13%)
 This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted.....
 #+begin_src c++ -n
 class Solution {
@@ -317,9 +350,46 @@ public:
   }
 };
 #+end_src
-*** todos [1/4]
+***** Grouping_example. time (88.24%, 49.76%)
+This is from the discussion (grouping idea).
+#+begin_src c++ -n
+class Solution {
+public:
+  int totalHammingDistance(vector<int>& nums) {
+    if (nums.size() <= 0) return 0;
+    
+    int res = 0;
+    
+    for(int i=0;i<32;i++) {
+      int setCount = 0;
+      for(int j=0;j<nums.size();j++) {
+          if ( nums[j] & (1 << i) ) setCount++;
+      }
+      
+      res += setCount * (nums.size() - setCount);
+    }
+    
+    return res;
+  }
+};
+#+end_src
+
+This solution is a lot faster than my version, altough we use the same idea. I used a lot more steps to do the book keeping, which the example solution uses spaces and time efficiently. Specifically:
+- I have defined two vectors to actually store the *TWO* groups. My thinking is simple: if the idea involves two groups, then I want to actually implement two groups to closely follow the idea. This reflects the lack of ability to generalize a problem and find what matters most to solve the problem. In this specific example, what matters most, is to *KNOW* the number of element in just *ONE* group, there are ways to know this without actually spending time and spaces to keep the whole record of the two groups.
+- my end point would be "there is no non-zero number in the array", I have to declare a new integer to keep track of the number of non-zero number, and I have to use an if expression to determine if a number is non-zero after trimming the least significant bit.  The example code only traverse all the bits of an integer (i.e. 32 bits in total, or 4 bytes) using a for loop.
+
+In line 11, the code reads: ~if ( nums[j] & (1 << i) ) setCount++;~. The operators used are bitwise AND, bitwise left shift. This is to compare the i-th bit of ~num[j]~ with 1. If it is 1, then at this bit, the number should be counted in group \(G_1\). For example, if ~num[j] == 113~, ~i == 5~, then we compare:
+#+BEGIN_EXAMPLE
+           ↓
+113:     0111 0001
+1 << i:  0010 0000
+#+END_EXAMPLE
+
+Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - N_{G_1}\), where \(N\) is the total number of integers, which is equal to ~nums.size()~.
+
+*** todos [2/4]
 - [X] Write the analysis of grouping idea and my code
-- [ ] Read code in reference of grouping idea, make notes
+- [X] Read code in reference of grouping idea, make notes
 - [ ] Check other possible solution and make future plan
 - [ ] Try to generalize this problem 
 ** 771. Jewels and Stones

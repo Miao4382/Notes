@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{singleNumber}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{unordered\PYGZus{}set}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{unique\PYGZus{}num}\PYG{p}{;}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{num} \PYG{p}{:} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{auto} \PYG{n}{itr} \PYG{o}{=} \PYG{n}{unique\PYGZus{}num}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{num}\PYG{p}{);}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{itr} \PYG{o}{==} \PYG{n}{unique\PYGZus{}num}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}
+	\PYG{n}{unique\PYGZus{}num}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{num}\PYG{p}{);}
+      \PYG{k}{else}
+	\PYG{n}{unique\PYGZus{}num}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{itr}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{o}{*}\PYG{n}{unique\PYGZus{}num}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

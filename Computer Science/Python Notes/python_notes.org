@@ -171,7 +171,6 @@ Output:
 \n\n\n
 #+END_EXAMPLE
 
-
 **** Access Single Character by []
 Just like string in C++, you can access the individual character in a string by using ~[]~. For example:
 #+begin_src python -n
@@ -321,7 +320,6 @@ t1 = ('c', 't', 'y')
 print("".join(t1))
 #+end_src
 
-
 ***** ~.lower()~
 This function will return a copy of ~string~ with all letters lower cased. It is useful for storing data: transform your string data into lower case so you can manage them with ease.
 ***** ~.replace()~
@@ -384,8 +382,42 @@ Output:
 ***** ~.upper()~
 This function will return a copy of ~string~ with all letters upperized. Its a member function of string.
 
+***** ~in, not in~
+Check if a character is in a string. Example:
+#+begin_src python -n
+str1 = "abc"
+str2 = "1234"
+print('1' in str2)
+print('d' in str1)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+True
+False
+#+END_EXAMPLE
+
 **** Chinese Support in Python String
 Unlike C++'s string class which needs to specify different encoding system in order to hold Chinese characters, you can directly assign Chinese character to a python variable.
+**** Operators
+***** ~*~
+String only accepts multiply by an integer. ~str * i~ will return a new string, which is ~str~ repeated ~i~ times. For example:
+#+begin_src python -n
+print("abcde0" * 3)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+abcde0abcde0abcde0
+#+END_EXAMPLE
+***** ~+~
+Concatenate the string with another string. For example:
+#+begin_src python -n
+print("abcde0" + '2')
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+abcde02
+#+END_EXAMPLE
+
 *** Numerics
 The subtypes are int, float and complex.
 **** Functions
@@ -783,7 +815,16 @@ Output:
 [5, 1, 7, 2, 3]
 #+END_EXAMPLE
 
-To copy the content in ~A~ to ~B~, you need to use the ~.copy()~ member function.
+To copy the content in ~A~ to ~B~, you need to use the ~.copy()~ member function:
+#+begin_src python -n
+B = A.copy()
+#+end_src
+
+You can also call the built-in list constructor and pass in the list you want to duplicate. A copy of the argument list will be created and returned:
+#+begin_src python -n
+B = list(A)
+#+end_src
+
 **** ~operator[]~
 The specific element can be accessed by the ~[]~ operator. The indexing is similar with C++, from ~0~ to ~size - 1~. However, python also supports indexing from ~-1~ to ~-size~, the position these negative indexes ~i~ refered to is the same as ~size + i~, so ~-1~ is the last element, while ~-size~ is the first element. 
 
@@ -854,7 +895,7 @@ Output:
 3
 #+END_EXAMPLE
 
-**** List comprehension
+**** List comprehension <<list comprehension>>
 A list comprehension combines the ~for~ loop and the creation of new elements into one line, so you can make a list in a simple way. The syntax is as follows:
 #+begin_src python -n
 nums = [i*i for i in range(1, 10)]
@@ -862,6 +903,32 @@ nums = [i*i for i in range(1, 10)]
 Output:
 #+BEGIN_EXAMPLE
 [1, 4, 9, 16, 25, 36, 49, 64, 81]
+#+END_EXAMPLE
+
+The general form of a list comprehension is like:
+#+begin_src python -n
+[expression for x in sequence]
+#+end_src
+You can put any sequence in ~sequence~, such as a function call that will return a sequence.
+
+Below are more complicated examples to use list comprehensions:
+#+begin_src python -n
+squares = [(x, x**2, x**3) for x in range(0,9) if x % 2 == 0]
+print(squares)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[(0, 0, 0), (2, 4, 8), (4, 16, 64), (6, 36, 216), (8, 64, 512)]
+#+END_EXAMPLE
+
+You can even use nested list comprehension:
+#+begin_src python -n
+list_num = [[x*y for x in range(1,5)] for y in range(1,5)]
+print(list_num)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[[1, 2, 3, 4], [2, 4, 6, 8], [3, 6, 9, 12], [4, 8, 12, 16]]
 #+END_EXAMPLE
 
 **** 2D List
@@ -1116,7 +1183,7 @@ Before removing:  [1, 2, 3, ['what', 'a', 'big', 'apple'], 4, 5]
 After removing:  [1, 2, 3, 4, 5]
 #+END_EXAMPLE
 
-Pay attention that if there the ~object~ is not found in the list, an error will be thrown.  
+Pay attention that if there the ~object~ is not found in the list, an exception will be thrown (~ValueError~).
 ***** ~.pop()~
 This function will remove the last item in the list (default operation, when no parameters passed in). Example:
 #+begin_src python -n
@@ -1141,8 +1208,19 @@ When an integer value ~i~ is passed in, the item at that index will be popped (a
 items.pop(1)
 #+end_src
 The second item in the list will be popped.
+***** ~.reverse()~
+This function will reverse the order of its calling list. example:
+#+begin_src python -n
+nums = [3, 2, 7, 1, 5]
+nums.reverse()
+print(nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[5, 1, 7, 2, 3]
+#+END_EXAMPLE
 ***** ~.sort()~
-This function will sort the list in ascending order. For example:
+This member function of list will sort the list in ascending order. It will mutate the list. For example:
 #+begin_src python -n
 nums = [3, 2, 7, 1, 5]
 nums.sort()
@@ -1151,17 +1229,6 @@ print(nums)
 Output:
 #+BEGIN_EXAMPLE
 [1, 2, 3, 5, 7]
-#+END_EXAMPLE
-
-It will use a compare function to determine the order of the item. The comparator should define ordering information among any two pairs of the elements stored in the list. If not, an error will be thrown. For example:
-#+begin_src python -n
-name = ["what", "a", "big", "Apple", 2]
-name.sort()
-print(name)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-TypeError: '<' not supported between instances of 'int' and 'str'
 #+END_EXAMPLE
 
 To sort the items reversely (in descending order), you pass ~reverse = True~ into the ~sort()~ function. For example:
@@ -1174,8 +1241,26 @@ Output:
 #+BEGIN_EXAMPLE
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
+
+The comparator should define ordering information among any two pairs of the elements stored in the list. If not, an error will be thrown. For example:
+#+begin_src python -n
+name = ["what", "a", "big", "Apple", 2]
+name.sort()
+print(name)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+TypeError: '<' not supported between instances of 'int' and 'str'
+#+END_EXAMPLE
+
+In python 2, you can pass in a compare function to determine the order of two objects in the list (just like C++'s compare function object). In python 3, it no longer supports this.
+
+In python 3, sort() use a ~key~ function. You can pass a function object that accept a single parameter (should be an element from the list), and return a key to use for sorting purposes. This technique is fast because the ~key~ function is called exactly once for each input element. Details on this can be found [[https://docs.python.org/3/howto/sorting.html#key-functions][here]]. The method to convert a compare function to a key function is [[https://docs.python.org/3/howto/sorting.html#the-old-way-using-the-cmp-parameter][here.
+]]
+***** ~.__iter__()~
+This function will return an iterator associated with the list. Global function ~iter()~ will call this member function.
 ***** ~sorted()~
-This function is global function. It accepts an iterable object, and will return a sorted version of the iterable object. It will not modify the original iterable object. We can pass an additional parameter ~reverse=True~ to indicate we want reverse sorted version (sorting in descending order). Example:
+This function is global function. It accepts an iterable object, and will return a sorted version of the iterable object. It will *NOT* modify the original iterable object (instead, a copy is returned). We can pass an additional parameter ~reverse=True~ to indicate we want reverse sorted version (sorting in descending order). Example:
 #+begin_src python -n
 nums = [1, 2, 3, 4, 5]
 print(nums)
@@ -1187,17 +1272,7 @@ Output:
 [1, 2, 3, 4, 5]
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
-***** ~.reverse()~
-This function will reverse the order of its calling list. example:
-#+begin_src python -n
-nums = [3, 2, 7, 1, 5]
-nums.reverse()
-print(nums)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[5, 1, 7, 2, 3]
-#+END_EXAMPLE
+
 ***** ~len()~
 This is a global function. It accepts a list object, and will return the length of the list object (the number of items stored in the list). For example:
 #+begin_src python -n
@@ -1209,10 +1284,9 @@ Output:
 5
 #+END_EXAMPLE
 ~len()~ can accept iterables. Like string, tuple, list, dictionary.
-***** ~.__iter__()~
-This function will return an iterator associated with the list. Global function ~iter()~ will call this member function.
-***** Number statistics for number list
-A few python functions are specific to lists of numbers. For example: ~min(), max(), sum()~. They are global functions. They accept list of numbers, and will return numeric type.
+***** ~min(), max(), sum()~
+Number statistics for number list
+A few python functions are specific to lists of numbers. For example: ~min(), max(), sum()~. They are global functions. They accept list of numbers, and will return numeric type. (Tuples are also supporting!)
 
 **** Tuples
 Tuple is similar with list, but the element in tuple cannot be changed or modified, immutable. You can use tuple as immutable list (constant list).
@@ -1232,8 +1306,59 @@ Output:
 (5, 'abc', 7, 'today')
 (5, 'abc', 7, 'today')
 #+END_EXAMPLE
+***** Packing and Unpacking
+
+**** Use List as Stack
+List can be used as a stack data structure (LIFO, last in, first out), by using ~append()~ and ~pop()~.
+**** Use List as Queue
+List can also be used as a queue data structure (double ended queue). Since the ~insert()~ and ~pop()~ both support indexing. However, while ~append()~ and ~pop()~ from a list are fast, ~insert(0, object)~ and ~pop(0)~ are slow (inserting and popping from the beginning of the list).
+
+Python has a special deque object defined in the ~collections~ module. You can use it by importing the module:
+#+begin_src python -n
+from collections import deque
+#+end_src
 *** Set
 Set is an unordered collection of unique objects (no duplicate). An immutable version of set is frozenset.
+
+The way a set detects non-unique elements is by indexing the data in memory, creating a hash for each element. This means that all elements in a set must be hashable.Hashable objects include:
+- all of python's immutable built-in objects
+- instances of user-defined classes
+
+Non-hashable:
+- mutable containers (such as lists or dictionaries)
+
+If you define a set with non-hashable object, a ~TypeError~ exception will rise.
+
+If you want to add list to your set, you can wrap your list in a class. Since set is indexing data in memory, when you change your list, content in set will also change. For example:
+#+begin_src python -n
+class ArrayHolder:
+    def __init__(self):
+        self.nums = [1, 2, 3]
+
+
+# create two ArrayHolder object
+a = ArrayHolder()
+b = ArrayHolder()
+# create a set
+set1 = {a, b}
+# print before modifying 
+for item in set1:
+    print(item.nums)
+# modify
+a.nums[0] = 5
+# print after modifying
+for item in set1:
+    print(item.nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3]
+[1, 2, 3]
+[5, 2, 3]
+[1, 2, 3]
+#+END_EXAMPLE
+
+
 **** Declaration
 Use curly brackets to declare a set. For example:
 #+begin_src python -n
@@ -1244,6 +1369,12 @@ Pay attention that I deliberately input a duplicate 9 in the curly bracket. Sinc
 #+BEGIN_EXAMPLE
 {1, 3, 5, 7, 9}
 #+END_EXAMPLE
+PS: don't use empty curly brackets to create an empty set, you'll get an empty dictionary instead.
+
+Just like [[list comprehension][list comprehension]], set can be defined in similar syntax:
+#+begin_src python -n
+myset = {expression for variable in sequence}
+#+end_src
 
 You can also use the constructor of set to build up a set, just need to pass an iterable sequence into it. For example:
 #+begin_src python -n
@@ -1256,6 +1387,54 @@ Output:
 #+END_EXAMPLE
 Notice that the output order is not exactly the same order we store the set. Python doesn't care about the order in which each items in set is stored, it tracks only the connections between individual items. You can use ~sorted()~ method to sort the items in certain manner.
 **** Functions
+***** ~.add()~
+This function accepts a hashable object, which will be added to the set if it is not in the set. For example:
+#+begin_src python -n
+myset = set(range(3, 8))
+myset.add(0)
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{0, 3, 4, 5, 6, 7}
+#+END_EXAMPLE
+***** ~.clear()~
+Remove all elements from the set.
+***** ~.copy()~
+Returns a shallow copy of the calling set.
+
+***** ~.discard()~
+This function accepts a parameter, which is the element you want to remove from the set. If the element is not in the set, no exception rise.
+***** ~.isdisjoint()~
+This function accepts another set. It will check if the calling set has any element in common with the passed in set. If none, return ~True~, otherwise, return ~False~. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print(myset.isdisjoint({3, 'd'}))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+False
+#+END_EXAMPLE
+***** ~.issubset()~
+This function accepts another set. It will check if the calling set is the subset of passed in set. Return ~True~ if it is, otherwise return ~False~.
+***** ~.pop()~
+This function will remove and return an arbitrary element from the set. If the set is empty, a ~TypeError~ will rise. (it seems that if elements in set are numbers, the smallest one will be popped)
+***** ~.remove()~
+This function accepts a parameter, which is the element you want to remove from the set. However, unlike ~discard()~, if the element is not in the set, a ~KeyError~ exception will rise.
+***** ~in~ and ~not in~
+Check if an element is in or not in the set. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print('a' in myset)
+print('b' not in myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+True
+False
+#+END_EXAMPLE
+***** ~len()~
+This is global function, it will return the length of the set.
 ***** ~sorted()~
 This function is a global function. It accepts an iterable sequence, and will return a sorted version of the sequence. You can use it on set. For example:
 #+begin_src python -n
@@ -1266,6 +1445,125 @@ Output:
 #+BEGIN_EXAMPLE
 [2, 5, 8, 9]
 #+END_EXAMPLE
+**** Operators
+***** ~|=~
+Update the set (only for mutable set, not for immutable frozenset), adding elements from set at rhs. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset |= myset_2
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 3, 4, 5, 7, 9, 11, 20}
+#+END_EXAMPLE
+
+You can concatenate rhs with multiple sets, by using ~|~, for example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset |= myset_2 | {17} | {-5, 6}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 3, 4, 5, 6, 7, 9, 11, 17, 20, -5}
+#+END_EXAMPLE
+
+***** ~&=~
+Update the set (only for mutable set, not for immutable frozenset), keeping only elements found in it and all other sets on the rhs. Can be concatenated by ~&~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset &= myset_2 & {3, 17, 5} & {-5, 6, 5, 3}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{3, 5}
+#+END_EXAMPLE
+
+***** ~-=~
+Update the set (only for mutable set, not for immutable frozenset), removing elements found in other sets on the rhs. Can be concatenated by ~|~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset -= myset_2 | {3, 17, 5} | {-5, 6, 5, 3, 4}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 7, 9}
+#+END_EXAMPLE
+
+***** ~^=~
+Update the set (only for mutable set, not for immutable frozenset), keeping only elements found in either set, but not in both. Can be concatenated by ~|~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset ^= myset_2 | {3, 17, 5} | {-5, 6, 5, 3, 4}
+print(myset)
+#+end_src
+
+***** ~>, >=, <, <=~
+These relational operators can test relationship between two sets:
+|    <c>     |                                 |
+|------------+---------------------------------|
+| ~s1 > s2~  | ~s1~ is proper superset of ~s2~ |
+| ~s1 >= s2~ | ~s1~ is superset of ~s2~        |
+| ~s1 < s2~  | ~s1~ is proper subset of ~s2~   |
+| ~s1 <= s2~ | ~s1~ is subset of ~s2~          |
+|------------+---------------------------------|
+
+***** ~|~
+Union: return a new set with elements from the set and all others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 2, 3, 4, 'b', 'a'}
+#+END_EXAMPLE
+
+***** ~&~
+Intersection: return a new set with elements common to the set and all others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset & {'a', 1}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 'a'}
+#+END_EXAMPLE
+
+***** ~-~
+Difference: return a new set with elements in the set that are not in the others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset - {'a', 1} - {'b'}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{2, 3, 4}
+#+END_EXAMPLE
+
+***** ~^~
+Symmetric Difference: return a new set with elements in either set or other but not both. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset ^ {'a', 1, 'c'} ^ {2, 3, 'd'}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{'b', 4, 'd', 'c'}
+#+END_EXAMPLE
+
+
 
 *** Dictionary
 The data structure Dictionary is similar with ~std::map~ in C++ STL. It can store key-value pair in a set, where each pair is located by its key. One difference between a python dictionary and a C++ map is, after the declaration of map, the data type of the key value pair of map is fixed. You can only add the same key-value pair into a specific map. While the dictionary in python allows you add different types of key-value pair
@@ -2042,6 +2340,123 @@ Function names should use lowercase letters and underscores only (module names s
 Every function should have a docstring immediately after the function definition, which explains concisely what the function does. Others should be able to use your function just by looking at your docstring. They should be able to trust that the code works as described, and as long as they know the name of the function, the arguments it needs, and the kind of value it returns, they should be able to use it in their programs.
 **** spaces between functions
 If your program or module has more than one function, you can separate each by two blank lines to make it easier to see where one function ends and the next one begins.
+** Functional Programming
+[[https://medium.com/@happymishra66/lambda-map-and-filter-in-python-4935f248593][A brief introduction of lambda function, filter and map]] (python 2)
+
+*** Lambda Function
+Lambda functions are small, anonymous functions based on the lambda abstractions that appear in may functional languages.
+
+To declare a lambda function, use keyword ~lambda~. The basic syntax is:
+#+BEGIN_EXAMPLE
+lambda arguments: expression
+#+END_EXAMPLE
+Lambda operator can have any number of arguments, but it can have only one expression. It cannot contain any statements and it returns a function object which can be assigned to any variable.
+
+For example:
+#+begin_src python -n
+add = lambda x, y: x + y
+print(add(2, 3))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+5
+#+END_EXAMPLE
+PS: if you use pyline, you may get hint that do not assign a lambda expression, use ~def~. However, this may just make things more complicated, additional discussions on this matter can be found [[https://stackoverflow.com/questions/25010167/e731-do-not-assign-a-lambda-expression-use-a-def][here]].
+
+Most lambda functions are passed as parameters to a function where a function object is expected, such as ~filter()~, ~map()~, ~sorted()~.
+*** ~filter()~
+~filter()~ is a function that accepts a ~function_object~ and an iterable. The ~function_object~ accepts an element from the iterable and will return a Boolean value indicating if this element is eligible to "pass" the filter. It will return an iterator that containing elements from the original iterable that satisfy ~function_object(element) == True~ ([[https://stackoverflow.com/questions/12319025/filters-in-python3][reference]]).
+
+The basic syntax of filter is:
+#+BEGIN_EXAMPLE
+filter(function_object, iterable)
+#+END_EXAMPLE
+For example:
+#+begin_src python -n
+def even(x):
+    if x % 2 == 0:
+        return True
+    else:
+        return False
+
+
+print(list(filter(even, range(10))))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[0, 2, 4, 6, 8]
+#+END_EXAMPLE
+In python 2, ~filter()~ will return a list. While in python 3, filter will return an iterator (which is named ~filter object~ in pycharm's python console).
+
+You can also use lambda function as the function object to pass in filter. For example, the code above can be written as:
+#+begin_src python -n
+print(list(filter(lambda x : x % 2 == 0, range(10))))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[0, 2, 4, 6, 8]
+#+END_EXAMPLE
+*** ~map()~
+~map()~ is a function that accepts a ~function_object~ and any number of iterables like list, dictionary, etc. It executes the ~function_object~ for each element in the iterable, and return a map object (an iterator) that contains the mapping of these element through the ~function_object~. When the ~function_object~ requires more than one parameter, you can pass multiple iterables. Python will create "parameter pairs" from these iterables and pass into the ~function_object~ and create the result iterable. The final number of parameter pairs is determined by the passed-in iterable that has the smallest size. For example:
+#+begin_src python -n
+a = map(lambda x, y: x + y, range(5), range(6, 9))
+print(list(a))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[6, 8, 10]
+#+END_EXAMPLE
+In the above example, the passed in x values are ~[0, 1, 2, 3, 4]~, while the passed in y values are ~[6, 7, 8]~. 
+
+Small example: iterating over a dictionary using map and lambda:
+#+begin_src python -n
+# defining dictionaries
+dic1 = {
+    'name': 'Python',
+    'point': 10,
+}
+
+dic2 = {
+    'name': 'Java',
+    'point': 8,
+}
+
+dicts = [dic1, dic2]
+
+# iterate over the dictionary
+print(list(map(lambda x: x['name'], dicts)))
+print(list(map(lambda x: x['point'] * 10, dicts)))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+['Python', 'Java']
+[100, 80]
+#+END_EXAMPLE
+*** ~reduce()~
+Not a built-in any more, placed in ~functools.reduce()~. To use it you have to first ~import functools~.
+
+~functools.reduce()~ accepts a ~function_object~ and an iterable. The ~function_object~ should accept exactly 2 parameters. It will first get two elements in the iterable and pass in the ~function_object~, then the result of the ~function_object~ will be paired with the next element in iterable, and passed in ~function_object~ again, until the last element in the iterable is used. For example:
+#+begin_src python -n
+import functools
+# doing factorial 4!
+print(functools.reduce(lambda x, y: x * y, range(1, 5)))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+24
+#+END_EXAMPLE
+
+You can also pass in a third parameter, which is the starting value, example:
+#+begin_src python -n
+import functools
+# doing negative factorial 4!
+print(functools.reduce(lambda x, y: x * y, range(1, 5), -1))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+24
+#+END_EXAMPLE
+
 ** Input and Output
 *** Input
 To get an input from keyboard, you can just use:
@@ -2536,7 +2951,7 @@ Every class should have a docstring immediately following the class definition. 
 Insert one blank line between methods in the same class.
 
 Insert two blank lines between classes in the same module.
-** Manage External Code (Module)
+** Modules
 A module is a python file we can import into our current python file.
 *** ~import~
 You can import external code in your python program. For example, to use some math functions defined in python math, you can type:
