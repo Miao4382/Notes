@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{myset} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{))}
+\PYG{n}{myset}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{myset}\PYG{p}{)}
+\end{Verbatim}

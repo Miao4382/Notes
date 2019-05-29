@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{fill\PYGZus{}walk}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}calculate all the points in the walk.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{c+c1}{\PYGZsh{} keep tracking steps until the walk reaches the desired length}
+    \PYG{k}{while} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x\PYGZus{}values}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{num\PYGZus{}points}\PYG{p}{:}
+	\PYG{c+c1}{\PYGZsh{} decide which direction to go and distance to go in that direction}
+	\PYG{n}{x\PYGZus{}direction} \PYG{o}{=} \PYG{n}{choice}\PYG{p}{([}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])}
+	\PYG{n}{x\PYGZus{}distance} \PYG{o}{=} \PYG{n}{choice}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{])}
+	\PYG{n}{x\PYGZus{}step} \PYG{o}{=} \PYG{n}{x\PYGZus{}direction} \PYG{o}{*} \PYG{n}{x\PYGZus{}distance}
+
+	\PYG{n}{y\PYGZus{}direction} \PYG{o}{=} \PYG{n}{choice}\PYG{p}{([}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])}
+	\PYG{n}{y\PYGZus{}distance} \PYG{o}{=} \PYG{n}{choice}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{])}
+	\PYG{n}{y\PYGZus{}step} \PYG{o}{=} \PYG{n}{y\PYGZus{}direction} \PYG{o}{*} \PYG{n}{y\PYGZus{}distance}
+
+	\PYG{c+c1}{\PYGZsh{} if going nowhere, don\PYGZsq{}t add to the walk sequence}
+	\PYG{k}{if} \PYG{n}{x\PYGZus{}step} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{y\PYGZus{}step} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+	    \PYG{k}{continue}
+
+	\PYG{c+c1}{\PYGZsh{} calculate the next x and y values}
+	\PYG{c+c1}{\PYGZsh{} your move should start from the previous position}
+	\PYG{n}{next\PYGZus{}x} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x\PYGZus{}values}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{x\PYGZus{}step}
+	\PYG{n}{next\PYGZus{}y} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{y\PYGZus{}values}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{y\PYGZus{}step}
+
+	\PYG{c+c1}{\PYGZsh{} add to the walk sequence}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x\PYGZus{}values}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{next\PYGZus{}x}\PYG{p}{)}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{y\PYGZus{}values}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{next\PYGZus{}y}\PYG{p}{)}
+\end{Verbatim}

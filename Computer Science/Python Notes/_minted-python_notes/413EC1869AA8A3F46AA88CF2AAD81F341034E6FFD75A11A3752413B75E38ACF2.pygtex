@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{hist} \PYG{o}{=} \PYG{n}{pygal}\PYG{o}{.}\PYG{n}{Bar}\PYG{p}{()}
+\end{Verbatim}

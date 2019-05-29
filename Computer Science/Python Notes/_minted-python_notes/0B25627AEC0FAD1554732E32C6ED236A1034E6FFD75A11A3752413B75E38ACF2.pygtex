@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{func}\PYG{p}{(}\PYG{n}{name}\PYG{p}{,} \PYG{n}{age}\PYG{p}{):}
+    \PYG{k}{print}\PYG{p}{(}\PYG{n}{name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} is \PYGZdq{}} \PYG{o}{+} \PYG{n}{age} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} years old.\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{n}{arg} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s1}{\PYGZsq{}age\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}29\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Yu\PYGZsq{}}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+\PYG{n}{func}\PYG{p}{(}\PYG{o}{**}\PYG{n}{arg}\PYG{p}{)}
+\end{Verbatim}

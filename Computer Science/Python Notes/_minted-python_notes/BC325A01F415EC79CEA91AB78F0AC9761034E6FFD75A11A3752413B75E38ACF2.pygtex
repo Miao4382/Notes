@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}key1\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{dic1}\PYG{p}{:}
+\end{Verbatim}

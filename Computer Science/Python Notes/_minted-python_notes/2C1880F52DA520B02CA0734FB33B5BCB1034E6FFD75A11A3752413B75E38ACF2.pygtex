@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{RandomWalk}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}a class to generate coordinate pairs of random walk\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{num\PYGZus{}points}\PYG{o}{=}\PYG{l+m+mi}{5000}\PYG{p}{):}
+	\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}initialize attributes of RandonWalk class\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{num\PYGZus{}points} \PYG{o}{=} \PYG{n}{num\PYGZus{}points}
+
+	\PYG{c+c1}{\PYGZsh{} define initial point}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x\PYGZus{}values} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{y\PYGZus{}values} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+\end{Verbatim}

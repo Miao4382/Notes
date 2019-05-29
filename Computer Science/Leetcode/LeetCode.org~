@@ -125,6 +125,39 @@ public:
   }
 };
 #+end_src
+** 136. Single Number
+*** Problem Statement
+[[https://leetcode.com/problems/single-number/][Link
+]]
+*** Analysis
+**** Use Unordered-set
+*** Solution
+**** C++
+***** Unordered-set. time (16.06%) space (15.74%)
+#+begin_src c++ -n
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    unordered_set<int> unique_num;
+    
+    for (auto num : nums) {
+      auto itr = unique_num.find(num);
+      
+      if (itr == unique_num.end())
+        unique_num.insert(num);
+      else
+        unique_num.erase(itr);
+    }
+    
+    return *unique_num.begin();
+  }
+};
+#+end_src
+*** todos [0/4]
+- [ ] write your solution step (in analysis part), analysis time and space complexity
+- [ ] think about possible improvements
+- [ ] read solution, do additional work (internalize it and write analysis and code)
+- [ ] read discussion, do additional work (internalize it and write analysis and code)
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]
@@ -196,26 +229,61 @@ However, this algorithm is exactly the same as C++'s first version. Why such hug
 *** Problem Statement
 [[https://leetcode.com/problems/total-hamming-distance/][Link]]
 *** Analysis
-This problem is similar with P461, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
+This problem is similar with [[P461][P461]], but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
 - Elements of the given array are in the range of \(0\) to \(10^9\)
 - Length of the array will not exceed \(10^4\)
 
 **** First Attempt (too slow)
 My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers ([[P461][P461]]), the code is shown in solution section. However, this approach is too slow to pass the test.
 
-The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is 
+The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is the combination. It is simply:
+\[
+{N \choose 2} = \frac{N(N-1)}{2} \sim O(N^2)
+\]
+Inside these combinations, we included many bit-pairs that do not contribute to the total Hamming distance count, for example, the combination of number 91 and 117 is:
+#+BEGIN_EXAMPLE
+---------------
+bit#: 1234 5678
+---------------
+91:   0101 1011
+117:  0111 0101
+---------------
+#+END_EXAMPLE
+The bit at 1, 2, 4, 8 are not contributing to the total Hamming distance count, but we still include it and spend time verifying. This flaw can be solved in the grouping idea.
 
 **** Grouping
 [[https://leetcode.com/problems/total-hamming-distance/discuss/96250/C%2B%2B-O(n)-runtime-O(1)-space][Reference]]
 
-The idea of grouping is we count the total hamming distance as a whole. Specifically, at any giving time, we devide the array into two groups \(G_0, G_1\). The rule of grouping is:
+The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we divide the array into two groups \(G_0, G_1\). The rule of grouping is:
 - a number \(n\) that \(n \% 2 = 0\), goes to \(G_0\)
 - a number \(n\) that \(n \% 2 = 1\), goes to \(G_1\)
 The result of \(n\%2\) will give you the least significant bit, or the last bit of an integer in binary form. By the definition of Hamming distance, we know that any combinations that contains number pairs only from \(G_0\) or only from \(G_1\) will not contribute to the total Hamming distance count (just for this grouping round, which only compares the least significant bit of those numbers). On the other hand, any combination that contains one number from \(G_0\) and one number from \(G_1\) will contribute 1 to the total Hamming distance. So, for this round, we only have to count the combination of such case, which is simply:
 \[
 N_{G_0} \times N_{G_1}
 \]
-Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until *ALL* numbers are *ZERO*. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers.
+Then, we trim the current least significant bit and re-group the numbers into new \(G_0\) and \(G_1\). This is because at each bit the numbers are different. We do this until *ALL* numbers are *ZERO*. For example, if at one round, there are no numbers in \(G_1\), all numbers are in \(G_0\), then although the contribution to total Hamming distance of this round is zero, we have to move on to trim the least significant bit and re-group the numbers. Another confusing case is when some numbers are trimmed to zero during the process. We still keep those zeros in array, because they still can be used to count total Hamming distance. For example, number 9 and 13317:
+#+BEGIN_EXAMPLE
+---------------------------
+bit#:   1234 5678 9abc defg
+---------------------------
+9:      0000 0000 0000 1001
+13317:  0011 0100 0000 0101
+---------------------------
+#+END_EXAMPLE
+After four times of trimming:
+#+BEGIN_EXAMPLE
+-----------------------
+bit#:   1234 5678 9abc 
+-----------------------
+9:      0000 0000 0000 
+13317:  0011 0100 0000 
+-----------------------
+#+END_EXAMPLE
+The difference at bit 3, 4, 6 should still be counted toward the total Hamming distance.
+
+At each round, we first go over the list and divide the numbers into two groups. This process is \(O(N)\). To calculate the contribution to total Hamming distance at this round is just a matter of multiplication, so the time complexity is \(O(1)\). Thus, for one round, time complexity is \(O(N)\). There are potentially ~8 * sizeof(int)~ bits to be trimmed, this is the number of rounds we are going to run, which is a constant not related to \(N\). Thus the total complexity is: \(O(N)\).
+
+*Additional notes (2019/5/26)* It is not a good idea to *TRIM* the numbers, which may add additional complexities. We can just use a for loop to compare all ~8 * sizeof(int)~ bits on integer. The range of iterating number (i) is from 0 to 31. At each iteration, we compare the value at i-th bit (starting from zero) with 1. To achieve this, we need use two operators (bitwise *AND* and left shift). Notice that the bitwise *AND* is 1 only if both bits are 1.
 *** Solution
 **** C++
 ***** Not Accepted (too slow)
@@ -246,7 +314,7 @@ public:
   }
 };
 #+end_src
-***** Time (6.59%) Space (5.13%)
+***** Grouping. time (6.59%) space (5.13%)
 This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted.....
 #+begin_src c++ -n
 class Solution {
@@ -284,10 +352,50 @@ public:
   }
 };
 #+end_src
-*** todos [0/4]
-- [ ] Write the analysis of grouping idea and my code
-- [ ] Read code in reference of grouping idea, make notes
-- [ ] Check other possible solution and make future plan
+
+There are many reasons why this solution is expensive. Some of them are listed below:
+- There is no need to actually use two vectors to *STORE* each number in two vectors. You just need to count the number.
+***** Grouping_example. time (88.24%, 49.76%)
+This is from the discussion (grouping idea).
+#+begin_src c++ -n
+class Solution {
+public:
+  int totalHammingDistance(vector<int>& nums) {
+    if (nums.size() <= 0) return 0;
+    
+    int res = 0;
+    
+    for(int i=0;i<32;i++) {
+      int setCount = 0;
+      for(int j=0;j<nums.size();j++) {
+          if ( nums[j] & (1 << i) ) setCount++;
+      }
+      
+      res += setCount * (nums.size() - setCount);
+    }
+    
+    return res;
+  }
+};
+#+end_src
+
+This solution is a lot faster than my version, altough we use the same idea. I used a lot more steps to do the book keeping, which the example solution uses spaces and time efficiently. Specifically:
+- I have defined two vectors to actually store the *TWO* groups. My thinking is simple: if the idea involves two groups, then I want to actually implement two groups to closely follow the idea. This reflects the lack of ability to generalize a problem and find what matters most to solve the problem. In this specific example, what matters most, is to *KNOW* the number of element in just *ONE* group, there are ways to know this without actually spending time and spaces to keep the whole record of the two groups.
+- my end point would be "there is no non-zero number in the array", I have to declare a new integer to keep track of the number of non-zero number, and I have to use an if expression to determine if a number is non-zero after trimming the least significant bit.  The example code only traverse all the bits of an integer (i.e. 32 bits in total, or 4 bytes) using a for loop.
+
+In line 11, the code reads: ~if ( nums[j] & (1 << i) ) setCount++;~. The operators used are bitwise AND, bitwise left shift. This is to compare the i-th bit of ~num[j]~ with 1. If it is 1, then at this bit, the number should be counted in group \(G_1\). For example, if ~num[j] == 113~, ~i == 5~, then we compare:
+#+BEGIN_EXAMPLE
+           ↓
+113:     0111 0001
+1 << i:  0010 0000
+#+END_EXAMPLE
+
+Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - N_{G_1}\), where \(N\) is the total number of integers, which is equal to ~nums.size()~.
+
+*** todos [3/4]
+- [X] Write the analysis of grouping idea and my code
+- [X] Read code in reference of grouping idea, make notes
+- [X] Check other possible solution and make future plan
 - [ ] Try to generalize this problem 
 ** 771. Jewels and Stones
 *** Problem Statement
@@ -316,6 +424,73 @@ public:
   }
 };
 #+end_src
+* Linked List
+** 206. Reverse Linked List
+*** Problem Statement
+[[https://leetcode.com/problems/reverse-linked-list/][Link]]
+
+Notice that the ~head~ in this linked list is actually the first node in the list. Not like what you learned in COP 4530.
+*** Analysis
+This problem should have some simpler solution. My two solutions are just akward.
+**** Using Stack (my)
+**** Recursion (my)
+*** Solution
+**** C++
+***** Using Stack. time (96%), space (5%)
+This method uses a stack to keep the reverse order. Additional memory is required.
+#+begin_src c++ -n
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  ListNode* reverseList(ListNode* head) {
+    stack<ListNode*> nodes;
+    // check if head is nullptr
+    if (head == nullptr)
+      return head;
+    
+    // store the list in stack 
+    while (true) {
+      if (head->next != nullptr) {
+        nodes.push(head);
+        head = head->next;
+      }
+      
+      else { // head is pointing the last node
+        nodes.push(head);
+        break;
+      }
+    }
+    
+    // start re-connect
+    head = nodes.top();
+    nodes.pop();
+    ListNode* last_node = head;
+    
+    while (!nodes.empty()) {
+      last_node->next = nodes.top();
+      last_node = last_node->next;
+      nodes.pop();
+    }
+    
+    last_node->next = nullptr;
+    
+    return head;
+  }
+};
+#+end_src
+***** Using Recursion. time (18%), space (21%)
+This approach is a very "akward" way to use recursion.
+*** todos [/]
+- [ ] try to think another way to work this problem
+- [ ] read solution, write down thinking process
+- [ ] time complexity analysis of your code and solution code 
 * Trees
 ** 104. Maximum Depth of Binary Tree
 *** Problem Statement
@@ -350,16 +525,54 @@ public:
   }
 };
 #+end_src
-*** todos [/]
+*** todos [0/1]
 - [ ] read about the discussion page for more methods and ideas
-  
+- [ ] read about traversal method
+- [ ] make notes in your data structure notes about DFS abd BFS
+** 226. Invert Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/invert-binary-tree/][Link]]
+*** Analysis
+**** Recursion
+To solve this problem recursively, we first invert the left subtree of a node by calling this function, then we invert the right subtree of this node by calling this function. Then we return a pointer to this node. Base case: ~node == nullptr~, in this case we return the node directly, since the invert of a ~nullptr~ tree is itself.
+*** Solution
+**** C++
+***** Recursion. time (91.95%) space (5.15%)
+I don't understand why my code require this amount of space. Needs to be analyzed.
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  TreeNode* invertTree(TreeNode* root) {
+    if (root == nullptr)
+      return root;
+    
+    TreeNode* temp = root->left;
+    root->left = invertTree(root->right);
+    root->right = invertTree(temp);
+    
+    return root;
+  }
+};
+#+end_src
+*** todos [0/2]
+- [ ] analyze why my code requires a lot more space than the divide and conquer method
+- [ ] read the discussion page for more solution
 ** 617. Merge Two Binary Trees
 *** Problem Statement
 [[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
 *** Analysis
-**** Approach #1 Recursive Method
+**** Recursive Method
 Use recursiion to solve this problem.
-**** Approach #2 Iterative Method
+**** Iterative Method (using stack)
 
 *** Solution
 **** C++
@@ -392,6 +605,6 @@ public:
 };
 #+end_src
 ***** Iterative
-*** todos [/]
+*** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution

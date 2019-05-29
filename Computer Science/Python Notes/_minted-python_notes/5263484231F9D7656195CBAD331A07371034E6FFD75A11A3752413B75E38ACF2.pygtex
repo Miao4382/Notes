@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{str1} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}abc\PYGZdq{}}
+\PYG{n}{str2} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}1234\PYGZdq{}}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}1\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{str2}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}d\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{str1}\PYG{p}{)}
+\end{Verbatim}

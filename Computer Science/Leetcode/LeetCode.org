@@ -158,6 +158,71 @@ public:
 - [ ] think about possible improvements
 - [ ] read solution, do additional work (internalize it and write analysis and code)
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
+** 283. Move Zeros
+*** Problem Statement
+[[https://leetcode.com/problems/move-zeroes/][Link]]
+*** Analysis
+Make sure you know well the problem statement. For example, in this problem, there is no requirement for the zero element be kepted.
+*** Solution
+**** C++
+***** Use bubble sort idea. time (5%) space (75%)
+Too slow, time complexity is \(O(N^2)\).
+#+begin_src c++ -n
+class Solution {
+public:
+  void moveZeroes(vector<int>& nums) {
+    bool swapped;
+
+    // swap array    
+    do {
+      swapped = false;      
+      
+      for (auto iter = nums.begin(); iter != nums.end() - 1; ++iter) {
+        if (*iter == 0) {
+          if (*(iter + 1) == 0)
+            continue;
+          swap(*iter, *(iter + 1));
+          swapped = true;
+        }   
+      }     
+    } while (swapped);
+  }
+};
+#+end_src
+***** Use erase(), remove zeros. time (35%) space (34%)
+Still slow. Since the ~erase()~ function will reallocate each element after the deleted one. Worst case time complexity should be \(O(N^2)\).
+#+begin_src c++ -n
+class Solution {
+public:
+  
+  void moveZeroes(vector<int>& nums) {
+    int zero_count = 0;
+    for (auto iter = nums.begin(); iter != nums.end(); ++iter)
+      if (*iter == 0)
+        zero_count++;
+    
+    if (zero_count == 0)
+      return;
+    
+    auto iter = nums.begin();
+    int zero_deleted = 0;
+    
+    while (zero_deleted < zero_count) {
+      if (*iter == 0) {
+        iter = nums.erase(iter);
+        nums.push_back(0);
+        zero_deleted++;
+      }
+      
+      else
+        ++iter;       
+    }
+  }
+};
+#+end_src
+*** todos [0/2]
+- [ ] try to think another Solution
+- [ ] read the solution page and study
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]
@@ -282,6 +347,8 @@ bit#:   1234 5678 9abc
 The difference at bit 3, 4, 6 should still be counted toward the total Hamming distance.
 
 At each round, we first go over the list and divide the numbers into two groups. This process is \(O(N)\). To calculate the contribution to total Hamming distance at this round is just a matter of multiplication, so the time complexity is \(O(1)\). Thus, for one round, time complexity is \(O(N)\). There are potentially ~8 * sizeof(int)~ bits to be trimmed, this is the number of rounds we are going to run, which is a constant not related to \(N\). Thus the total complexity is: \(O(N)\).
+
+*Additional notes (2019/5/26)* It is not a good idea to *TRIM* the numbers, which may add additional complexities. We can just use a for loop to compare all ~8 * sizeof(int)~ bits on integer. The range of iterating number (i) is from 0 to 31. At each iteration, we compare the value at i-th bit (starting from zero) with 1. To achieve this, we need use two operators (bitwise *AND* and left shift). Notice that the bitwise *AND* is 1 only if both bits are 1.
 *** Solution
 **** C++
 ***** Not Accepted (too slow)
@@ -350,6 +417,9 @@ public:
   }
 };
 #+end_src
+
+There are many reasons why this solution is expensive. Some of them are listed below:
+- There is no need to actually use two vectors to *STORE* each number in two vectors. You just need to count the number.
 ***** Grouping_example. time (88.24%, 49.76%)
 This is from the discussion (grouping idea).
 #+begin_src c++ -n
@@ -387,10 +457,10 @@ In line 11, the code reads: ~if ( nums[j] & (1 << i) ) setCount++;~. The operato
 
 Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - N_{G_1}\), where \(N\) is the total number of integers, which is equal to ~nums.size()~.
 
-*** todos [2/4]
+*** todos [3/4]
 - [X] Write the analysis of grouping idea and my code
 - [X] Read code in reference of grouping idea, make notes
-- [ ] Check other possible solution and make future plan
+- [X] Check other possible solution and make future plan
 - [ ] Try to generalize this problem 
 ** 771. Jewels and Stones
 *** Problem Statement
@@ -419,6 +489,73 @@ public:
   }
 };
 #+end_src
+* Linked List
+** 206. Reverse Linked List
+*** Problem Statement
+[[https://leetcode.com/problems/reverse-linked-list/][Link]]
+
+Notice that the ~head~ in this linked list is actually the first node in the list. Not like what you learned in COP 4530.
+*** Analysis
+This problem should have some simpler solution. My two solutions are just akward.
+**** Using Stack (my)
+**** Recursion (my)
+*** Solution
+**** C++
+***** Using Stack. time (96%), space (5%)
+This method uses a stack to keep the reverse order. Additional memory is required.
+#+begin_src c++ -n
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  ListNode* reverseList(ListNode* head) {
+    stack<ListNode*> nodes;
+    // check if head is nullptr
+    if (head == nullptr)
+      return head;
+    
+    // store the list in stack 
+    while (true) {
+      if (head->next != nullptr) {
+        nodes.push(head);
+        head = head->next;
+      }
+      
+      else { // head is pointing the last node
+        nodes.push(head);
+        break;
+      }
+    }
+    
+    // start re-connect
+    head = nodes.top();
+    nodes.pop();
+    ListNode* last_node = head;
+    
+    while (!nodes.empty()) {
+      last_node->next = nodes.top();
+      last_node = last_node->next;
+      nodes.pop();
+    }
+    
+    last_node->next = nullptr;
+    
+    return head;
+  }
+};
+#+end_src
+***** Using Recursion. time (18%), space (21%)
+This approach is a very "akward" way to use recursion.
+*** todos [/]
+- [ ] try to think another way to work this problem
+- [ ] read solution, write down thinking process
+- [ ] time complexity analysis of your code and solution code 
 * Trees
 ** 104. Maximum Depth of Binary Tree
 *** Problem Statement
@@ -453,16 +590,54 @@ public:
   }
 };
 #+end_src
-*** todos [/]
+*** todos [0/1]
 - [ ] read about the discussion page for more methods and ideas
-  
+- [ ] read about traversal method
+- [ ] make notes in your data structure notes about DFS abd BFS
+** 226. Invert Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/invert-binary-tree/][Link]]
+*** Analysis
+**** Recursion
+To solve this problem recursively, we first invert the left subtree of a node by calling this function, then we invert the right subtree of this node by calling this function. Then we return a pointer to this node. Base case: ~node == nullptr~, in this case we return the node directly, since the invert of a ~nullptr~ tree is itself.
+*** Solution
+**** C++
+***** Recursion. time (91.95%) space (5.15%)
+I don't understand why my code require this amount of space. Needs to be analyzed.
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  TreeNode* invertTree(TreeNode* root) {
+    if (root == nullptr)
+      return root;
+    
+    TreeNode* temp = root->left;
+    root->left = invertTree(root->right);
+    root->right = invertTree(temp);
+    
+    return root;
+  }
+};
+#+end_src
+*** todos [0/2]
+- [ ] analyze why my code requires a lot more space than the divide and conquer method
+- [ ] read the discussion page for more solution
 ** 617. Merge Two Binary Trees
 *** Problem Statement
 [[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
 *** Analysis
-**** Approach #1 Recursive Method
+**** Recursive Method
 Use recursiion to solve this problem.
-**** Approach #2 Iterative Method
+**** Iterative Method (using stack)
 
 *** Solution
 **** C++
@@ -495,6 +670,6 @@ public:
 };
 #+end_src
 ***** Iterative
-*** todos [/]
+*** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution

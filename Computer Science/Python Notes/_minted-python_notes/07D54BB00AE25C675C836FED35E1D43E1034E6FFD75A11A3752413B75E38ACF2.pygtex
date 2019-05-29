@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} defining dictionaries}
+\PYG{n}{dic1} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Python\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}point\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{10}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{dic2} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Java\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}point\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{8}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{dicts} \PYG{o}{=} \PYG{p}{[}\PYG{n}{dic1}\PYG{p}{,} \PYG{n}{dic2}\PYG{p}{]}
+
+\PYG{c+c1}{\PYGZsh{} iterate over the dictionary}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{],} \PYG{n}{dicts}\PYG{p}{)))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}point\PYGZsq{}}\PYG{p}{]} \PYG{o}{*} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{dicts}\PYG{p}{)))}
+\end{Verbatim}

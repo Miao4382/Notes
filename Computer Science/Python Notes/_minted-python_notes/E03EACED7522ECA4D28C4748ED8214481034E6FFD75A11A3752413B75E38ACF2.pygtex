@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{([}\PYG{n}{x\PYGZus{}0}\PYG{p}{,} \PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}0}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{])}
+\end{Verbatim}

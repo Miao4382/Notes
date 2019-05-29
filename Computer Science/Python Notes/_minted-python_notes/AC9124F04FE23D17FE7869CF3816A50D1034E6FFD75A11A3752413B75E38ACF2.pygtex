@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Scatter x:\PYGZdq{}}\PYG{p}{)),} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Scatter y:\PYGZdq{}}\PYG{p}{)),} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{200}\PYG{p}{)}
+\end{Verbatim}

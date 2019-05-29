@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n}{x\PYGZus{}values}\PYG{p}{,} \PYG{n}{y\PYGZus{}values}\PYG{p}{,} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{edgecolors}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{0.16}\PYG{p}{,} \PYG{l+m+mf}{0.63}\PYG{p}{,} \PYG{l+m+mf}{0.59}\PYG{p}{),} \PYG{n}{c}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
