@@ -158,6 +158,71 @@ public:
 - [ ] think about possible improvements
 - [ ] read solution, do additional work (internalize it and write analysis and code)
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
+** 283. Move Zeros
+*** Problem Statement
+[[https://leetcode.com/problems/move-zeroes/][Link]]
+*** Analysis
+Make sure you know well the problem statement. For example, in this problem, there is no requirement for the zero element be kepted.
+*** Solution
+**** C++
+***** Use bubble sort idea. time (5%) space (75%)
+Too slow, time complexity is \(O(N^2)\).
+#+begin_src c++ -n
+class Solution {
+public:
+  void moveZeroes(vector<int>& nums) {
+    bool swapped;
+
+    // swap array    
+    do {
+      swapped = false;      
+      
+      for (auto iter = nums.begin(); iter != nums.end() - 1; ++iter) {
+        if (*iter == 0) {
+          if (*(iter + 1) == 0)
+            continue;
+          swap(*iter, *(iter + 1));
+          swapped = true;
+        }   
+      }     
+    } while (swapped);
+  }
+};
+#+end_src
+***** Use erase(), remove zeros. time (35%) space (34%)
+Still slow. Since the ~erase()~ function will reallocate each element after the deleted one. Worst case time complexity should be \(O(N^2)\).
+#+begin_src c++ -n
+class Solution {
+public:
+  
+  void moveZeroes(vector<int>& nums) {
+    int zero_count = 0;
+    for (auto iter = nums.begin(); iter != nums.end(); ++iter)
+      if (*iter == 0)
+        zero_count++;
+    
+    if (zero_count == 0)
+      return;
+    
+    auto iter = nums.begin();
+    int zero_deleted = 0;
+    
+    while (zero_deleted < zero_count) {
+      if (*iter == 0) {
+        iter = nums.erase(iter);
+        nums.push_back(0);
+        zero_deleted++;
+      }
+      
+      else
+        ++iter;       
+    }
+  }
+};
+#+end_src
+*** todos [0/2]
+- [ ] try to think another Solution
+- [ ] read the solution page and study
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]

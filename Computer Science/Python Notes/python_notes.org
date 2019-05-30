@@ -4057,7 +4057,9 @@ It is alias for ~randrange(a, b + 1)~.
 This module is used to work with API requests.
 
 *** ~get()~
-This function accepts an url, and will return the response object, you can hold the response object using a variable. This object contains data got from the API, and some attributes indicating the status of the response object. For example:
+[[https://2.python-requests.org/en/master/api/#requests.get][Documentation]]
+
+This function accepts an url, it will send a GET request and return the [[https://2.python-requests.org/en/master/api/#requests.Response][response object]]. You can hold the response object using a variable. This object contains a server's response to an HTTP request. For example:
 #+begin_src python -n
 # make an API call and store the response to a variable
 url = 'https://api.github.com/search/repositories?q=language:python&sort=stars'
@@ -4070,6 +4072,8 @@ Status code: 200
 #+END_EXAMPLE
 The member ~status_code~ contains the status of accessing the url. 200 means normal access. (if you visit google from mainland China, you will get 404).
 
+*** ~Response~
+This is a class that contains a server's response to an HTTP request.
 * Anaconda Tutorial
 ** Termial Instruction
 [[https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf][Conda Cheat Sheet]]

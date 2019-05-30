@@ -223,6 +223,103 @@ public:
 *** todos [0/2]
 - [ ] try to think another Solution
 - [ ] read the solution page and study
+** 442. Find All Duplicates in an Array<<P442>>
+*** Problem Statement
+[[https://leetcode.com/problems/find-all-duplicates-in-an-array/][Link]]
+*** Analysis
+**** Label Duplicate Number
+Label the appearing frequency of each element, using the fact that ~1 <= a[i] <= n~, where n is the size of array. Then count the number that appeared twice.
+*** Solution
+**** C++
+***** Label duplicate number (96%, 16%)
+This one use an extra vector to hold the labeling information.
+#+begin_src c++ -n
+class Solution {
+public:
+  vector<int> findDuplicates(vector<int>& nums) {
+    vector<int> duplicate;
+    vector<int> frequency_count(nums.size(), 0);
+    
+    for (int i = 0; i < nums.size(); i++) {
+      frequency_count[nums[i] - 1]++;
+    }
+    
+    for (int i = 0; i < frequency_count.size(); i++)
+      if (frequency_count[i] > 1)
+        duplicate.push_back(i + 1);
+    
+    return duplicate;
+  }
+};
+#+end_src
+
+*** todos [/]
+- [ ] think about the way to use original vector to hold labeling information
+- [ ] read other solutions
+- [ ] generalize the problem
+** 448. Find All Numbers Disappeared in an Array
+*** Problem Statement
+[[https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/][Link]]
+*** Analysis
+**** Label Appearance of Numbers
+This is similar with [[P442][Problem 442]]. Label the appearing frequency of each element, using the fact that ~1 <= a[i] <= n~, where n is the size of array. Then count the number that appearing frequency is 0.
+
+You can use either a new vector to hold the labeling information, or the original passed-in vector.
+
+**** Use Unordered-set
+Use an unordered-set to store all appeared number. Then traverse from 1 to N to find out if one number is in the set, if not, it is one disappearing number, push to result. This method's time complexity is \(O(N)\) on average, but \(O(N^2)\) for worst cases, due to the time complexity of ~insert()~ and ~find()~ in unordered-set.
+
+*** Solution
+**** C++
+***** Label appearance of numbers (97%, 15%)
+Space can be optimized by using original passed-in vector.
+#+begin_src c++ -n
+class Solution {
+public:
+  vector<int> findDisappearedNumbers(vector<int>& nums) {
+    vector<int> appear_label(nums.size(), 0);
+    vector<int> disappear;
+    
+    // label appeared number
+    for (int i = 0; i < nums.size(); i++) {
+      appear_label[nums[i] - 1] = 1;
+    }
+    
+    // find out unlabelled number 
+    for (int i = 0; i < appear_label.size(); ++i)
+      if (appear_label[i] == 0)
+        disappear.push_back(i + 1);
+    
+    return disappear;
+  }
+};
+#+end_src
+***** Use unordered-set (13%, 7%)
+#+begin_src c++ -n
+class Solution {
+public:
+  vector<int> findDisappearedNumbers(vector<int>& nums) {
+    vector<int> disappear;
+    unordered_set<int> appeared; // extra space used
+    
+    for (auto num : nums)  // total average O(N), worst: O(N^2)
+      appeared.insert(num);  // average: O(1), worst: O(N)
+    
+    for (int i = 1; i <= nums.size(); ++i) {
+      if (appeared.find(i) == appeared.end())  // find(), average: O(1), worst: O(N)
+        disappear.push_back(i);
+    }
+    
+    return disappear;
+  }
+};
+
+// Total complexity: average: O(N), worst: O(N^2), still bound by O(N^2)
+#+end_src
+*** todos [/]
+- [ ] think about using the original vector to hold labeling information
+- [ ] read other solutions
+- [ ] generalize the problem
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
 [[https://leetcode.com/problems/hamming-distance/][Link]]
