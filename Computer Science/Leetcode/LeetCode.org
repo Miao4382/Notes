@@ -158,6 +158,41 @@ public:
 - [ ] think about possible improvements
 - [ ] read solution, do additional work (internalize it and write analysis and code)
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
+** 169. Majority Element
+*** Problem Statement
+[[https://leetcode.com/problems/majority-element/][Link]]
+*** Analysis
+**** ~unordered_map~
+This is a problem that record the frequency of the element. I use the number as key and the appearing times as value, build an unordered_map that store this information. As long as a number's appearing times is more than ~size / 2~, it will be the majority element.
+*** Solutions
+**** C++
+***** ~unordered_map~ (59%, 42%)
+Not very fast.
+#+begin_src c++ -n
+class Solution {
+public:
+  int majorityElement(vector<int>& nums) {
+    unordered_map<int, int> frequency_count;
+    
+    for (auto num : nums) {
+      if (frequency_count.find(num) != frequency_count.end()) {
+        frequency_count[num] += 1;
+        if (frequency_count[num] > nums.size() / 2)
+          return num;
+      }
+      
+      else
+        frequency_count.insert(make_pair(num, 1));
+    }
+    
+    return nums[0];
+  }
+};
+#+end_src
+*** todos [/]
+- [ ] think about other solution (use about 30 min)
+- [ ] read discussion and contemplate other solution
+- [ ] generalize the problem 
 ** 283. Move Zeros
 *** Problem Statement
 [[https://leetcode.com/problems/move-zeroes/][Link]]
