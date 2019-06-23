@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pygal.maps.world} \PYG{k+kn}{import} \PYG{n}{World}
+
+
+\PYG{n}{wm} \PYG{o}{=} \PYG{n}{World}\PYG{p}{()}
+\PYG{n}{wm}\PYG{o}{.}\PYG{n}{title} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}World Map\PYGZsq{}}
+\end{Verbatim}

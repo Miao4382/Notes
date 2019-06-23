@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pygal.maps.world} \PYG{k+kn}{import} \PYG{n}{World}
+
+
+\PYG{n}{wm} \PYG{o}{=} \PYG{n}{World}\PYG{p}{()}
+\PYG{n}{wm}\PYG{o}{.}\PYG{n}{title} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}North America\PYGZsq{}}
+
+\PYG{n}{wm}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}North America\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ca\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}mx\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}us\PYGZsq{}}\PYG{p}{])}
+\end{Verbatim}

@@ -14,6 +14,10 @@
 *** Problem Statement
 [[https://leetcode.com/problems/two-sum/][Link]]
 *** Analysis
+**** \(O(N^2)\) method
+Each input would have exactly one solution, and no same element can be used twice. We can go through the array. For each element we encountered (~nums[i]~), we calculate the counter part (the number that is needed so ~nums[i] + counter_part = target~): simply: ~target - nums[i]~. Then we go through the rest of the array to find out if such element exist. We go from ~i + 1~ to the end. We don't have to go from the beginning because if there is such an element, we would find it earlier. If no such element found, we continue to the next element, calculate its counter part and search again.
+
+Strictly speaking, the time required will be smaller than \(O(N^2)\) algorithm. The "inner" iteration's size is not N, its size is decreasing.
 
 *** Solution
 **** C++
@@ -34,6 +38,49 @@ public:
     }
     
     return {0, 1};
+  }
+};
+#+end_src
+***** \(O(N^2)\) modified
+This is modified implementation. Although the algorithm is the same as the first \(O(N^2)\) solution. This solution is much clearer.
+#+begin_src c++ -n
+/*test cases: 
+[2,7,11,15]
+9
+
+[2,3]
+5
+
+[1,113,2,7,9,23,145,11,15]
+154
+
+[2,7,11,15,1,8,13]
+3
+*/
+
+
+class Solution {
+public:
+  vector<int> twoSum(vector<int>& nums, int target) {
+    int index_1 = -1;
+    int index_2 = -1;
+    
+    for (int i = 0; i < nums.size(); i++) {
+      int other_part = target - nums[i];
+      
+      for (int j = i + 1; j < nums.size(); j++) {
+        if (nums[j] == other_part) {
+          index_1 = i;
+          index_2 = j;
+          break;
+        }
+      }
+      
+      if (index_1 != -1)
+        break;
+    }
+    
+    return {index_1, index_2};
   }
 };
 #+end_src
@@ -125,6 +172,13 @@ public:
   }
 };
 #+end_src
+
+*** todos [/]
+- [ ] try sort directly method (using a copy array)
+- [ ] write down my own analysis: 99% one
+- [ ] check the solution and understands, implement each idea
+- [ ] write the analysis of each idea
+- [ ] generalize this problem
 ** 136. Single Number
 *** Problem Statement
 [[https://leetcode.com/problems/single-number/][Link
@@ -763,6 +817,63 @@ public:
 *** todos [0/2]
 - [ ] analyze why my code requires a lot more space than the divide and conquer method
 - [ ] read the discussion page for more solution
+** 543. Diameter of Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/diameter-of-binary-tree/][Link]]
+*** Analysis
+**** Direct recursion
+Just as stated in the problem statement, the longest path between any two nodes may not pass through the root. So, for a given node, the longest path of this node may have three cases:
+1. longest path is in its left subtree, and does not pass this node;
+2. longest path is in its right subtree, and does not pass this node;
+3. longest path passes through this node;
+
+We can calculate the path of the above three cases, and find out which one is the longest. Calculate case 1 and 2 is easy, we can call the function recursively to find out the longest path of the left and right subtree. To calculate case 3, we use the fact that: longest path passing this node = height of left subtree + height of right subtree + 2, where "2" correspondes to the two edges connecting left and right subtree to the root node. The we compare these three values and return the largest one.
+
+Also, we have to consider the base case:
+1. this node is ~nullptr~
+2. its left subtree is ~nullptr~
+3. its right subtree is ~nullptr~
+   
+*** Solution
+**** C++
+***** direct recursion (5%, 5%)
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int height(TreeNode* t) {
+    if (t == nullptr || (t->left == nullptr && t->right == nullptr))
+      return 0; 
+    return max(height(t->left), height(t->right)) + 1;
+  }
+  
+  int diameterOfBinaryTree(TreeNode* root) {
+    if (root == nullptr || (root->left == nullptr && root->right == nullptr))
+      return 0;
+    
+    if (root->left == nullptr)
+      return max(height(root), diameterOfBinaryTree(root->right));
+    else if (root->right == nullptr)
+      return max(height(root), diameterOfBinaryTree(root->left));
+    else
+      return max(max(height(root->left) + height(root->right) + 2, diameterOfBinaryTree(root->left)), diameterOfBinaryTree(root->right));
+  }
+};
+
+#+end_src
+
+*** todos [/]
+- [ ] check solution and study
+- [ ] implement solution by yourself
+- [ ] write down different ways of thinking about this problem
 ** 617. Merge Two Binary Trees
 *** Problem Statement
 [[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
@@ -805,3 +916,42 @@ public:
 *** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution
+* Other
+** 70. Climbing Stairs
+*** Problem Statement
+[[https://leetcode.com/problems/climbing-stairs/][Link]]
+*** Analysis
+This problem can be analyzed backward. Assume we have two steps left, we can use two 1 step to finish, or one 2 steps to finish. So the total number of ways to finish is: [number of ways to finish n - 1 stairs] + [number of ways to finish n - 2 stairs].
+
+It is easy to think using recursion to do this, but it will cause a lot of unnecessary calculation (redundant calculation). This problem is identical to calculate Fibonacci number. Recursion is a bad implementation. The good way is to *Store* the intermediate results, so we can calculate next term easily.
+
+*** Solution
+**** C++
+***** use a vector to hold intermediate result (77%, 64%)
+#+begin_src c++
+class Solution {
+public:
+  int climbStairs(int n) {
+    if (n == 1)
+      return 1;
+    else if (n == 2)
+      return 2;
+    
+    vector<int> steps;
+    steps.push_back(1);
+    steps.push_back(2);  // steps required when n = 1 & 2
+    
+    int step;
+    for (int i = 2; i < n; i++) {
+      steps.push_back(steps[i - 1] + steps[i - 2]);
+    }
+    
+    return steps[n - 1];
+  }
+};
+#+end_src
+
+*** todos [/]
+- [ ] read each solution carefully, try to understand the idea and implement by yourself.
+- [ ] generalize the problem
+

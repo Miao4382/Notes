@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pygal\PYGZus{}maps\PYGZus{}world.i18n} \PYG{k+kn}{import} \PYG{n}{COUNTRIES}
+\end{Verbatim}

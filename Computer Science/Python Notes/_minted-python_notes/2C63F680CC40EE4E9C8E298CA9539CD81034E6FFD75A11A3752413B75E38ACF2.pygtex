@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}dict} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}b\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}d\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}e\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{5}\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{dicts} \PYG{o}{=} \PYG{p}{[]}
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{my\PYGZus{}dict}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+    \PYG{n}{dicts}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{dict}\PYG{p}{([}\PYG{n}{item}\PYG{p}{]))}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{dicts}\PYG{p}{)}
+\end{Verbatim}

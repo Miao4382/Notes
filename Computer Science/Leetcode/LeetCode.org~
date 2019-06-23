@@ -158,6 +158,41 @@ public:
 - [ ] think about possible improvements
 - [ ] read solution, do additional work (internalize it and write analysis and code)
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
+** 169. Majority Element
+*** Problem Statement
+[[https://leetcode.com/problems/majority-element/][Link]]
+*** Analysis
+**** ~unordered_map~
+This is a problem that record the frequency of the element. I use the number as key and the appearing times as value, build an unordered_map that store this information. As long as a number's appearing times is more than ~size / 2~, it will be the majority element.
+*** Solutions
+**** C++
+***** ~unordered_map~ (59%, 42%)
+Not very fast.
+#+begin_src c++ -n
+class Solution {
+public:
+  int majorityElement(vector<int>& nums) {
+    unordered_map<int, int> frequency_count;
+    
+    for (auto num : nums) {
+      if (frequency_count.find(num) != frequency_count.end()) {
+        frequency_count[num] += 1;
+        if (frequency_count[num] > nums.size() / 2)
+          return num;
+      }
+      
+      else
+        frequency_count.insert(make_pair(num, 1));
+    }
+    
+    return nums[0];
+  }
+};
+#+end_src
+*** todos [/]
+- [ ] think about other solution (use about 30 min)
+- [ ] read discussion and contemplate other solution
+- [ ] generalize the problem 
 ** 283. Move Zeros
 *** Problem Statement
 [[https://leetcode.com/problems/move-zeroes/][Link]]
@@ -728,6 +763,51 @@ public:
 *** todos [0/2]
 - [ ] analyze why my code requires a lot more space than the divide and conquer method
 - [ ] read the discussion page for more solution
+** 543. Diameter of Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/diameter-of-binary-tree/][Link]]
+*** Analysis
+
+*** Solution
+**** C++
+***** direct recursion (5%, 5%)
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int height(TreeNode* t) {
+    if (t == nullptr || (t->left == nullptr && t->right == nullptr))
+      return 0; 
+    return max(height(t->left), height(t->right)) + 1;
+  }
+  
+  int diameterOfBinaryTree(TreeNode* root) {
+    if (root == nullptr || (root->left == nullptr && root->right == nullptr))
+      return 0;
+    
+    if (root->left == nullptr)
+      return max(height(root), diameterOfBinaryTree(root->right));
+    else if (root->right == nullptr)
+      return max(height(root), diameterOfBinaryTree(root->left));
+    else
+      return max(max(height(root->left) + height(root->right) + 2, diameterOfBinaryTree(root->left)), diameterOfBinaryTree(root->right));
+  }
+};
+
+#+end_src
+
+*** todos [/]
+- [ ] check solution and study
+- [ ] implement solution by yourself
+- [ ] write down different ways of thinking about this problem
 ** 617. Merge Two Binary Trees
 *** Problem Statement
 [[https://leetcode.com/problems/merge-two-binary-trees/][Link]]
@@ -770,3 +850,42 @@ public:
 *** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution
+* Other
+** 70. Climbing Stairs
+*** Problem Statement
+[[https://leetcode.com/problems/climbing-stairs/][Link]]
+*** Analysis
+This problem can be analyzed backward. Assume we have two steps left, we can use two 1 step to finish, or one 2 steps to finish. So the total number of ways to finish is: [number of ways to finish n - 1 stairs] + [number of ways to finish n - 2 stairs].
+
+It is easy to think using recursion to do this, but it will cause a lot of unnecessary calculation (redundant calculation). This problem is identical to calculate Fibonacci number. Recursion is a bad implementation. The good way is to *Store* the intermediate results, so we can calculate next term easily.
+
+*** Solution
+**** C++
+***** use a vector to hold intermediate result (77%, 64%)
+#+begin_src c++
+class Solution {
+public:
+  int climbStairs(int n) {
+    if (n == 1)
+      return 1;
+    else if (n == 2)
+      return 2;
+    
+    vector<int> steps;
+    steps.push_back(1);
+    steps.push_back(2);  // steps required when n = 1 & 2
+    
+    int step;
+    for (int i = 2; i < n; i++) {
+      steps.push_back(steps[i - 1] + steps[i - 2]);
+    }
+    
+    return steps[n - 1];
+  }
+};
+#+end_src
+
+*** todos [/]
+- [ ] read each solution carefully, try to understand the idea and implement by yourself.
+- [ ] generalize the problem
+

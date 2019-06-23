@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pygal.style} \PYG{k+kn}{import} \PYG{n}{RotateStyle}
+\PYG{k+kn}{from} \PYG{n+nn}{pygal.maps.world} \PYG{k+kn}{import} \PYG{n}{World}
+
+\PYG{n}{world\PYGZus{}map\PYGZus{}style} \PYG{o}{=} \PYG{n}{RotateStyle}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}336699\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{world\PYGZus{}map} \PYG{o}{=} \PYG{n}{World}\PYG{p}{(}\PYG{n}{style}\PYG{o}{=}\PYG{n}{world\PYGZus{}map\PYGZus{}style}\PYG{p}{)}
+\end{Verbatim}

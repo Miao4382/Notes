@@ -171,7 +171,6 @@ Output:
 \n\n\n
 #+END_EXAMPLE
 
-
 **** Access Single Character by []
 Just like string in C++, you can access the individual character in a string by using ~[]~. For example:
 #+begin_src python -n
@@ -321,7 +320,6 @@ t1 = ('c', 't', 'y')
 print("".join(t1))
 #+end_src
 
-
 ***** ~.lower()~
 This function will return a copy of ~string~ with all letters lower cased. It is useful for storing data: transform your string data into lower case so you can manage them with ease.
 ***** ~.replace()~
@@ -384,8 +382,42 @@ Output:
 ***** ~.upper()~
 This function will return a copy of ~string~ with all letters upperized. Its a member function of string.
 
+***** ~in, not in~
+Check if a character is in a string. Example:
+#+begin_src python -n
+str1 = "abc"
+str2 = "1234"
+print('1' in str2)
+print('d' in str1)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+True
+False
+#+END_EXAMPLE
+
 **** Chinese Support in Python String
 Unlike C++'s string class which needs to specify different encoding system in order to hold Chinese characters, you can directly assign Chinese character to a python variable.
+**** Operators
+***** ~*~
+String only accepts multiply by an integer. ~str * i~ will return a new string, which is ~str~ repeated ~i~ times. For example:
+#+begin_src python -n
+print("abcde0" * 3)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+abcde0abcde0abcde0
+#+END_EXAMPLE
+***** ~+~
+Concatenate the string with another string. For example:
+#+begin_src python -n
+print("abcde0" + '2')
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+abcde02
+#+END_EXAMPLE
+
 *** Numerics
 The subtypes are int, float and complex.
 **** Functions
@@ -632,6 +664,10 @@ Output:
 [2, 4, 6, 8, 10]
 [2, 4, 6, 8, 10, 'abcdef']
 #+END_EXAMPLE
+***** ~s.clear()~
+This will clear the content stored in a sequence.
+***** ~s.count(x)~
+Return number of occurrence of ~x~ in ~s~.
 
 ***** ~s.extend(x)~
 Append the content of ~x~ to end of ~s~. Here, ~x~ will be evaluated as a iterable sequence. It is doing the same thing as:
@@ -652,9 +688,6 @@ Output:
 [2, 4, 6, 8, 10]
 [2, 4, 6, 8, 10, 'a', 'b', 'c', 'd', 'e', 'f']
 #+END_EXAMPLE
-
-***** ~s.count(x)~
-Return number of occurrence of ~x~ in ~s~.
 
 ***** ~s.insert(i, x)~
 Insert ~x~ at position ~i~.
@@ -720,6 +753,20 @@ Output:
 #+BEGIN_EXAMPLE
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
+*** Iterators and Iterables <<iterators and iterables>>
+[[https://www.geeksforgeeks.org/python-difference-iterable-iterator/][Reference]]
+
+Iterator is an object, which is used to iterate over an iterable object using ~__next__()~ method. This method returns the next item of the object. 
+
+Iterable is an object, which can be iterated over. If you pass an iterable to ~iter()~ method, an iterator of this iterable object will be returned.
+
+An iterator type should have following methods defined:
+- ~__next__()~: return next item in the iterator
+- ~__iter__()~: this is called when initializing an iterator using an iterable. This should return an object that has a ~__next__()~ method (an iterator). This function will be tried to be called by python when an object is passed into global ~iter()~ function.
+
+Note that, every iterator is also an iterable (if you call ~iter()~ and pass in an iterator, it will return itself, same memory address, as if you defined an alias for the passed-in iterator). However, not every iterable is an iterator (because some iterables may not have ~__next__()~ and ~__iter__()~ defined).
+
+An example of using iterator can be found in [[for loop detail][details of for loop]].
 *** List
 List is a way of managing data in python. Because a list usually contains more than one element, it’s a good idea to make the name of your list plural, such as letters, digits, or names.
 **** Declaration
@@ -768,7 +815,16 @@ Output:
 [5, 1, 7, 2, 3]
 #+END_EXAMPLE
 
-To copy the content in ~A~ to ~B~, you need to use the ~.copy()~ member function.
+To copy the content in ~A~ to ~B~, you need to use the ~.copy()~ member function:
+#+begin_src python -n
+B = A.copy()
+#+end_src
+
+You can also call the built-in list constructor and pass in the list you want to duplicate. A copy of the argument list will be created and returned:
+#+begin_src python -n
+B = list(A)
+#+end_src
+
 **** ~operator[]~
 The specific element can be accessed by the ~[]~ operator. The indexing is similar with C++, from ~0~ to ~size - 1~. However, python also supports indexing from ~-1~ to ~-size~, the position these negative indexes ~i~ refered to is the same as ~size + i~, so ~-1~ is the last element, while ~-size~ is the first element. 
 
@@ -839,7 +895,7 @@ Output:
 3
 #+END_EXAMPLE
 
-**** List comprehension
+**** List comprehension <<list comprehension>>
 A list comprehension combines the ~for~ loop and the creation of new elements into one line, so you can make a list in a simple way. The syntax is as follows:
 #+begin_src python -n
 nums = [i*i for i in range(1, 10)]
@@ -847,6 +903,32 @@ nums = [i*i for i in range(1, 10)]
 Output:
 #+BEGIN_EXAMPLE
 [1, 4, 9, 16, 25, 36, 49, 64, 81]
+#+END_EXAMPLE
+
+The general form of a list comprehension is like:
+#+begin_src python -n
+[expression for x in sequence]
+#+end_src
+You can put any sequence in ~sequence~, such as a function call that will return a sequence.
+
+Below are more complicated examples to use list comprehensions:
+#+begin_src python -n
+squares = [(x, x**2, x**3) for x in range(0,9) if x % 2 == 0]
+print(squares)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[(0, 0, 0), (2, 4, 8), (4, 16, 64), (6, 36, 216), (8, 64, 512)]
+#+END_EXAMPLE
+
+You can even use nested list comprehension:
+#+begin_src python -n
+list_num = [[x*y for x in range(1,5)] for y in range(1,5)]
+print(list_num)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[[1, 2, 3, 4], [2, 4, 6, 8], [3, 6, 9, 12], [4, 8, 12, 16]]
 #+END_EXAMPLE
 
 **** 2D List
@@ -903,6 +985,103 @@ Output:
 #+END_EXAMPLE
 
 **** Functions
+***** ~.append()~
+Unlike ~.extend()~, you can use ~.append()~ to append an object to the calling list. Whatever you put in ~.append()~, it will be interpreted as an object, not an ~iterable~. For example:
+#+begin_src python -n
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name[2])
+print(nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 'abcde', 'big']
+#+END_EXAMPLE
+
+If you pass name of another list into it, you will have nested list structure, i.e. one element of the list is another list. For example:
+#+begin_src python -n
+string = "abcde"
+nums = [1, 2, 3, 4, 5]
+name = ["what", "a", "big", "apple"]
+nums.append(string)
+nums.append(name)
+print(nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 'abcde', ['what', 'a', 'big', 'apple']]
+#+END_EXAMPLE
+***** ~.clear()~
+This function will clear the content of the list. Example:
+#+begin_src python -n
+name = ["what", "a", "big", "apple"]
+print("Before clear: ", name)
+name.clear()
+print("After clear: ", name)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Before clear:  ['what', 'a', 'big', 'apple']
+After clear:  []
+#+END_EXAMPLE
+***** ~.copy()~
+This function will return a list, which is the copy of the calling list. Example:
+#+begin_src python -n
+nums = [3, 2, 7, 1, 5]
+nums2 = nums.copy()
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[3, 2, 7, 1, 5]
+#+END_EXAMPLE
+
+*More aboud Copying*
+
+Pay attention to how variable works in python. You can't use ~nums2 = nums~ to copy ~nums~ to ~nums2~, since ~nums2~ will reference to the same memory space that actually store the content of the list (which is also referenced by ~nums~).
+
+Another way of copying a list is to use slice:
+#+begin_src python -n
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+#+END_EXAMPLE
+By not providing begin and end index, the slice will cover the whole list, it will return a *COPY* of the list (another chunk of memory will hold the copied content). Example:
+#+begin_src python -n
+nums = [i for i in range(1, 10)]
+nums2 = nums[:]
+nums.reverse()
+print(nums2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+#+END_EXAMPLE
+***** ~.count()~
+This function accepts an object. It will return an integer showning the number of appearing times in the calling list. Example:
+#+begin_src python -n
+name = ["what", "a", "big", "apple", 2]
+print("Counting result : ", name.count(2))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Counting result :  1
+#+END_EXAMPLE
+
+The object type allowed by this function is determined by the type of object the list currently have.
+***** ~del~
+~del~ is not a function, but it is a statement that can remove element in list. you can remove the element with index ~i~ using following line:
+#+begin_src python -n
+del items[i]
+#+end_src
 ***** ~.extend()~
 This is a member function of list. It requires two parameters: ~self~ and ~iterable~. ~self~ is the list object that are calling this function, you generally don't have to pass in again. ~iterable~ is an object that is, iterable. For example, a string is iterable in the sense that it consists of multiple components (the characters). Another list is also iterable.
 
@@ -954,33 +1133,15 @@ Output:
 [1, 2, 3, 4, 5, 'b', 'i', 'g']
 #+END_EXAMPLE
 The thing is, whatever you put in ~.extend()~, python will interpret it as an ~iterable~, not an actual object. So you can't expect the above code produces result like: ~[1, 2, 3, 4, 5, 'big']~.
-***** ~.append()~
-Unlike ~.extend()~, you can use ~.append()~ to append an object to the calling list. Whatever you put in ~.append()~, it will be interpreted as an object, not an ~iterable~. For example:
+***** ~.index()~
+This function accepts an object, and will try to search if there is any match in the calling list. If so, it will return the index of the object, otherwise, an error will be thrown (the same as string's ~index()~ member function). Example:
 #+begin_src python -n
-string = "abcde"
-nums = [1, 2, 3, 4, 5]
 name = ["what", "a", "big", "apple"]
-nums.append(string)
-nums.append(name[2])
-print(nums)
+print("The index : ", name.index("apple"))
 #+end_src
 Output:
 #+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 'abcde', 'big']
-#+END_EXAMPLE
-
-If you pass name of another list into it, you will have nested list structure, i.e. one element of the list is another list. For example:
-#+begin_src python -n
-string = "abcde"
-nums = [1, 2, 3, 4, 5]
-name = ["what", "a", "big", "apple"]
-nums.append(string)
-nums.append(name)
-print(nums)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 'abcde', ['what', 'a', 'big', 'apple']]
+The index :  3
 #+END_EXAMPLE
 ***** ~.insert()~
 This member function can insert a data item into certain position in a list. It accepts three parameters: ~self~, ~index~ and ~object~.
@@ -1022,7 +1183,7 @@ Before removing:  [1, 2, 3, ['what', 'a', 'big', 'apple'], 4, 5]
 After removing:  [1, 2, 3, 4, 5]
 #+END_EXAMPLE
 
-Pay attention that if there the ~object~ is not found in the list, an error will be thrown.  
+Pay attention that if there the ~object~ is not found in the list, an exception will be thrown (~ValueError~).
 ***** ~.pop()~
 This function will remove the last item in the list (default operation, when no parameters passed in). Example:
 #+begin_src python -n
@@ -1047,48 +1208,19 @@ When an integer value ~i~ is passed in, the item at that index will be popped (a
 items.pop(1)
 #+end_src
 The second item in the list will be popped.
-***** ~del~
-~del~ is not a function, but it is a statement that can remove element in list. you can remove the element with index ~i~ using following line:
+***** ~.reverse()~
+This function will reverse the order of its calling list. example:
 #+begin_src python -n
-del items[i]
-#+end_src
-***** ~.clear()~
-This function will clear the content of the list. Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple"]
-print("Before clear: ", name)
-name.clear()
-print("After clear: ", name)
+nums = [3, 2, 7, 1, 5]
+nums.reverse()
+print(nums)
 #+end_src
 Output:
 #+BEGIN_EXAMPLE
-Before clear:  ['what', 'a', 'big', 'apple']
-After clear:  []
+[5, 1, 7, 2, 3]
 #+END_EXAMPLE
-***** ~.index()~
-This function accepts an object, and will try to search if there is any match in the calling list. If so, it will return the index of the object, otherwise, an error will be thrown (the same as string's ~index()~ member function). Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple"]
-print("The index : ", name.index("apple"))
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-The index :  3
-#+END_EXAMPLE
-***** ~.count()~
-This function accepts an object. It will return an integer showning the number of appearing times in the calling list. Example:
-#+begin_src python -n
-name = ["what", "a", "big", "apple", 2]
-print("Counting result : ", name.count(2))
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-Counting result :  1
-#+END_EXAMPLE
-
-The object type allowed by this function is determined by the type of object the list currently have.
 ***** ~.sort()~
-This function will sort the list in ascending order. For example:
+This member function of list will sort the list in ascending order. It will mutate the list. For example:
 #+begin_src python -n
 nums = [3, 2, 7, 1, 5]
 nums.sort()
@@ -1097,17 +1229,6 @@ print(nums)
 Output:
 #+BEGIN_EXAMPLE
 [1, 2, 3, 5, 7]
-#+END_EXAMPLE
-
-It will use a compare function to determine the order of the item. The comparator should define ordering information among any two pairs of the elements stored in the list. If not, an error will be thrown. For example:
-#+begin_src python -n
-name = ["what", "a", "big", "Apple", 2]
-name.sort()
-print(name)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-TypeError: '<' not supported between instances of 'int' and 'str'
 #+END_EXAMPLE
 
 To sort the items reversely (in descending order), you pass ~reverse = True~ into the ~sort()~ function. For example:
@@ -1120,8 +1241,26 @@ Output:
 #+BEGIN_EXAMPLE
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
+
+The comparator should define ordering information among any two pairs of the elements stored in the list. If not, an error will be thrown. For example:
+#+begin_src python -n
+name = ["what", "a", "big", "Apple", 2]
+name.sort()
+print(name)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+TypeError: '<' not supported between instances of 'int' and 'str'
+#+END_EXAMPLE
+
+In python 2, you can pass in a compare function to determine the order of two objects in the list (just like C++'s compare function object). In python 3, it no longer supports this.
+
+In python 3, sort() use a ~key~ function. You can pass a function object that accept a single parameter (should be an element from the list), and return a key to use for sorting purposes. This technique is fast because the ~key~ function is called exactly once for each input element. Details on this can be found [[https://docs.python.org/3/howto/sorting.html#key-functions][here]]. The method to convert a compare function to a key function is [[https://docs.python.org/3/howto/sorting.html#the-old-way-using-the-cmp-parameter][here.
+]]
+***** ~.__iter__()~
+This function will return an iterator associated with the list. Global function ~iter()~ will call this member function.
 ***** ~sorted()~
-This function is global function. It accepts an iterable object, and will return a sorted version of the iterable object. It will not modify the original iterable object. We can pass an additional parameter ~reverse=True~ to indicate we want reverse sorted version (sorting in descending order). Example:
+This function is global function. It accepts an iterable object, and will return a sorted version of the iterable object. It will *NOT* modify the original iterable object (instead, a copy is returned). We can pass an additional parameter ~reverse=True~ to indicate we want reverse sorted version (sorting in descending order). Example:
 #+begin_src python -n
 nums = [1, 2, 3, 4, 5]
 print(nums)
@@ -1133,56 +1272,7 @@ Output:
 [1, 2, 3, 4, 5]
 [5, 4, 3, 2, 1]
 #+END_EXAMPLE
-***** ~.reverse()~
-This function will reverse the order of its calling list. example:
-#+begin_src python -n
-nums = [3, 2, 7, 1, 5]
-nums.reverse()
-print(nums)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[5, 1, 7, 2, 3]
-#+END_EXAMPLE
-***** ~.copy()~
-This function will return a list, which is the copy of the calling list. Example:
-#+begin_src python -n
-nums = [3, 2, 7, 1, 5]
-nums2 = nums.copy()
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[3, 2, 7, 1, 5]
-#+END_EXAMPLE
 
-*More aboud Copying*
-
-Pay attention to how variable works in python. You can't use ~nums2 = nums~ to copy ~nums~ to ~nums2~, since ~nums2~ will reference to the same memory space that actually store the content of the list (which is also referenced by ~nums~).
-
-Another way of copying a list is to use slice:
-#+begin_src python -n
-nums = [i for i in range(1, 10)]
-nums2 = nums[:]
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 6, 7, 8, 9]
-#+END_EXAMPLE
-By not providing begin and end index, the slice will cover the whole list, it will return a *COPY* of the list (another chunk of memory will hold the copied content). Example:
-#+begin_src python -n
-nums = [i for i in range(1, 10)]
-nums2 = nums[:]
-nums.reverse()
-print(nums2)
-#+end_src
-Output:
-#+BEGIN_EXAMPLE
-[1, 2, 3, 4, 5, 6, 7, 8, 9]
-#+END_EXAMPLE
 ***** ~len()~
 This is a global function. It accepts a list object, and will return the length of the list object (the number of items stored in the list). For example:
 #+begin_src python -n
@@ -1194,8 +1284,9 @@ Output:
 5
 #+END_EXAMPLE
 ~len()~ can accept iterables. Like string, tuple, list, dictionary.
-***** Number statistics for number list
-A few python functions are specific to lists of numbers. For example: ~min(), max(), sum()~. They are global functions. They accept list of numbers, and will return numeric type.
+***** ~min(), max(), sum()~
+Number statistics for number list
+A few python functions are specific to lists of numbers. For example: ~min(), max(), sum()~. They are global functions. They accept list of numbers, and will return numeric type. (Tuples are also supporting!)
 
 **** Tuples
 Tuple is similar with list, but the element in tuple cannot be changed or modified, immutable. You can use tuple as immutable list (constant list).
@@ -1215,8 +1306,79 @@ Output:
 (5, 'abc', 7, 'today')
 (5, 'abc', 7, 'today')
 #+END_EXAMPLE
+***** Packing and Unpacking
+When we define a tuple:
+#+begin_src python -n
+t1 = 5, 'abc', 7, 'today'
+#+end_src
+We say that we packed ~5, 'abc', 7, 'today'~ into tuple ~t1~. We can unpack a tuple using python's multiple assignment feature. Example:
+#+begin_src python -n
+t1 = 5, 'abc', 7, 'today'
+num1, string1, num2, string2 = t1
+print(num1)
+print(string1)
+print(num2)
+print(string2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+5
+abc
+7
+today
+#+END_EXAMPLE
+
+**** Use List as Stack
+List can be used as a stack data structure (LIFO, last in, first out), by using ~append()~ and ~pop()~.
+**** Use List as Queue
+List can also be used as a queue data structure (double ended queue). Since the ~insert()~ and ~pop()~ both support indexing. However, while ~append()~ and ~pop()~ from a list are fast, ~insert(0, object)~ and ~pop(0)~ are slow (inserting and popping from the beginning of the list).
+
+Python has a special deque object defined in the ~collections~ module. You can use it by importing the module:
+#+begin_src python -n
+from collections import deque
+#+end_src
 *** Set
 Set is an unordered collection of unique objects (no duplicate). An immutable version of set is frozenset.
+
+The way a set detects non-unique elements is by indexing the data in memory, creating a hash for each element. This means that all elements in a set must be hashable.Hashable objects include:
+- all of python's immutable built-in objects
+- instances of user-defined classes
+
+Non-hashable:
+- mutable containers (such as lists or dictionaries)
+
+If you define a set with non-hashable object, a ~TypeError~ exception will rise.
+
+If you want to add list to your set, you can wrap your list in a class. Since set is indexing data in memory, when you change your list, content in set will also change. For example:
+#+begin_src python -n
+class ArrayHolder:
+    def __init__(self):
+        self.nums = [1, 2, 3]
+
+
+# create two ArrayHolder object
+a = ArrayHolder()
+b = ArrayHolder()
+# create a set
+set1 = {a, b}
+# print before modifying 
+for item in set1:
+    print(item.nums)
+# modify
+a.nums[0] = 5
+# print after modifying
+for item in set1:
+    print(item.nums)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[1, 2, 3]
+[1, 2, 3]
+[5, 2, 3]
+[1, 2, 3]
+#+END_EXAMPLE
+
+
 **** Declaration
 Use curly brackets to declare a set. For example:
 #+begin_src python -n
@@ -1227,6 +1389,12 @@ Pay attention that I deliberately input a duplicate 9 in the curly bracket. Sinc
 #+BEGIN_EXAMPLE
 {1, 3, 5, 7, 9}
 #+END_EXAMPLE
+PS: don't use empty curly brackets to create an empty set, you'll get an empty dictionary instead.
+
+Just like [[list comprehension][list comprehension]], set can be defined in similar syntax:
+#+begin_src python -n
+myset = {expression for variable in sequence}
+#+end_src
 
 You can also use the constructor of set to build up a set, just need to pass an iterable sequence into it. For example:
 #+begin_src python -n
@@ -1239,6 +1407,54 @@ Output:
 #+END_EXAMPLE
 Notice that the output order is not exactly the same order we store the set. Python doesn't care about the order in which each items in set is stored, it tracks only the connections between individual items. You can use ~sorted()~ method to sort the items in certain manner.
 **** Functions
+***** ~.add()~
+This function accepts a hashable object, which will be added to the set if it is not in the set. For example:
+#+begin_src python -n
+myset = set(range(3, 8))
+myset.add(0)
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{0, 3, 4, 5, 6, 7}
+#+END_EXAMPLE
+***** ~.clear()~
+Remove all elements from the set.
+***** ~.copy()~
+Returns a shallow copy of the calling set.
+
+***** ~.discard()~
+This function accepts a parameter, which is the element you want to remove from the set. If the element is not in the set, no exception rise.
+***** ~.isdisjoint()~
+This function accepts another set. It will check if the calling set has any element in common with the passed in set. If none, return ~True~, otherwise, return ~False~. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print(myset.isdisjoint({3, 'd'}))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+False
+#+END_EXAMPLE
+***** ~.issubset()~
+This function accepts another set. It will check if the calling set is the subset of passed in set. Return ~True~ if it is, otherwise return ~False~.
+***** ~.pop()~
+This function will remove and return an arbitrary element from the set. If the set is empty, a ~TypeError~ will rise. (it seems that if elements in set are numbers, the smallest one will be popped)
+***** ~.remove()~
+This function accepts a parameter, which is the element you want to remove from the set. However, unlike ~discard()~, if the element is not in the set, a ~KeyError~ exception will rise.
+***** ~in~ and ~not in~
+Check if an element is in or not in the set. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print('a' in myset)
+print('b' not in myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+True
+False
+#+END_EXAMPLE
+***** ~len()~
+This is global function, it will return the length of the set.
 ***** ~sorted()~
 This function is a global function. It accepts an iterable sequence, and will return a sorted version of the sequence. You can use it on set. For example:
 #+begin_src python -n
@@ -1249,10 +1465,128 @@ Output:
 #+BEGIN_EXAMPLE
 [2, 5, 8, 9]
 #+END_EXAMPLE
+**** Operators
+***** ~|=~
+Update the set (only for mutable set, not for immutable frozenset), adding elements from set at rhs. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset |= myset_2
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 3, 4, 5, 7, 9, 11, 20}
+#+END_EXAMPLE
+
+You can concatenate rhs with multiple sets, by using ~|~, for example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset |= myset_2 | {17} | {-5, 6}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 3, 4, 5, 6, 7, 9, 11, 17, 20, -5}
+#+END_EXAMPLE
+
+***** ~&=~
+Update the set (only for mutable set, not for immutable frozenset), keeping only elements found in it and all other sets on the rhs. Can be concatenated by ~&~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset &= myset_2 & {3, 17, 5} & {-5, 6, 5, 3}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{3, 5}
+#+END_EXAMPLE
+
+***** ~-=~
+Update the set (only for mutable set, not for immutable frozenset), removing elements found in other sets on the rhs. Can be concatenated by ~|~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset -= myset_2 | {3, 17, 5} | {-5, 6, 5, 3, 4}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 7, 9}
+#+END_EXAMPLE
+
+***** ~^=~
+Update the set (only for mutable set, not for immutable frozenset), keeping only elements found in either set, but not in both. Can be concatenated by ~|~. Example:
+#+begin_src python -n
+myset = {5, 4, 9, 7, 1, 3}
+myset_2 = {5, 11, 3, 20}
+myset ^= myset_2 | {3, 17, 5} | {-5, 6, 5, 3, 4}
+print(myset)
+#+end_src
+
+***** ~>, >=, <, <=~
+These relational operators can test relationship between two sets:
+|    <c>     |                                 |
+|------------+---------------------------------|
+| ~s1 > s2~  | ~s1~ is proper superset of ~s2~ |
+| ~s1 >= s2~ | ~s1~ is superset of ~s2~        |
+| ~s1 < s2~  | ~s1~ is proper subset of ~s2~   |
+| ~s1 <= s2~ | ~s1~ is subset of ~s2~          |
+|------------+---------------------------------|
+
+***** ~|~
+Union: return a new set with elements from the set and all others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+print(myset)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 2, 3, 4, 'b', 'a'}
+#+END_EXAMPLE
+
+***** ~&~
+Intersection: return a new set with elements common to the set and all others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset & {'a', 1}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1, 'a'}
+#+END_EXAMPLE
+
+***** ~-~
+Difference: return a new set with elements in the set that are not in the others. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset - {'a', 1} - {'b'}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{2, 3, 4}
+#+END_EXAMPLE
+
+***** ~^~
+Symmetric Difference: return a new set with elements in either set or other but not both. Example:
+#+begin_src python -n
+myset = {1, 2} | {3, 4} | {'a', 'b'}
+myset2 = myset ^ {'a', 1, 'c'} ^ {2, 3, 'd'}
+print(myset2)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{'b', 4, 'd', 'c'}
+#+END_EXAMPLE
 
 *** Dictionary
 The data structure Dictionary is similar with ~std::map~ in C++ STL. It can store key-value pair in a set, where each pair is located by its key. One difference between a python dictionary and a C++ map is, after the declaration of map, the data type of the key value pair of map is fixed. You can only add the same key-value pair into a specific map. While the dictionary in python allows you add different types of key-value pair
 **** Declaration
+***** General Declaration
 To declare a dictionary, you are actually declaring a set of key-value pairs. You use the following syntax:
 #+begin_src python -n
 Dictionary = {
@@ -1297,6 +1631,92 @@ Output:
 #+BEGIN_EXAMPLE
 3
 #+END_EXAMPLE
+
+The constructor of dictionary accepts iterator whose elements are tuples of key-value pair (two-element tuple). Any iterable that can also be used to create such iterator can be used to declare a dictionary, by passing it inside the constructor ~dict()~. The following section describes two popular ways to declare a dictionary.
+***** Declaring a Dictionary using ~zip()~ Function (when you have two lists)
+~zip()~ function takes two equal-length collections and merges their corresponding elements into tuples. An iterator of these tuples will be returned. For example:
+#+begin_src python -n
+num_pairs = zip((1, 2, 3), (2, 4, 6))
+for num_pair in num_pairs:
+    print(num_pair)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(1, 2)
+(2, 4)
+(3, 6)
+#+END_EXAMPLE
+In fact, you can pass in multiple equal-length collections to ~zip()~. For example:
+#+begin_src python -n
+num_pairs = zip((1, 2, 3), (2, 4, 6), ('a', 'b', 'c'))
+for num_pair in num_pairs:
+    print(num_pair)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(1, 2, 'a')
+(2, 4, 'b')
+(3, 6, 'c')
+#+END_EXAMPLE
+
+You can create a dictionary using returned zip object (element from first tuple will serve as keys, element from second tuple will serve as values):
+#+begin_src python -n
+dic1 = dict(zip((1, 2, 3), (2, 4, 6)))
+print(dic1)
+print(dic1[1])
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1: 2, 2: 4, 3: 6}
+2
+#+END_EXAMPLE
+
+Pay attention that the returned type of ~zip()~ function is an [[iterators and iterables][iterator]]. If you created a zip object somewhere else and wanted to use it to create a dictionary, make sure you don't consume it. Example:
+#+begin_src python -n
+num_pairs = zip((1, 2, 3), (2, 4, 6))
+num_pairs.__next__()
+dic1 = dict(num_pairs)
+print(dic1)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{2: 4, 3: 6}
+#+END_EXAMPLE
+In the above example, only 2 key-value pairs were in the dictionary, because the first key-value pair is consumed by the calling of ~.__next()__~ method of iterator ~num_pairs~.
+***** Declaring a Dictionary using a List of Two-element Tuples
+If a list of two-element tuples were passed into the constructor ~dict()~, an iterator will be created, and the each key-value pair tuple will be used to construct the dictionary. Example:
+#+begin_src python -n
+dic1 = dict([(1, 2), (4, 5)])
+print(dic1)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{1: 2, 4: 5}
+#+END_EXAMPLE
+
+This method can also be used for a single tuple in a list. So you can convert a tuple (with two elements) into a dictionary. For example:
+#+begin_src python -n
+my_dict = dict([('a', 1)])
+print(my_dict)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+{'a': 1}
+#+END_EXAMPLE
+You can use this technique to split a dictionary into a list of dictionaries, each entry is a dictionary with only one record of the origional dictionary. For example:
+#+begin_src python -n
+my_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+dicts = []
+for item in my_dict.items():
+    dicts.append(dict([item]))
+print(dicts)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[{'a': 1}, {'e': 5}, {'c': 3}, {'d': 4}, {'b': 2}]
+#+END_EXAMPLE
+
 **** Add New Key-value pair
 To add new key-value pair into the dictionary, you would give the name of the dictionary followed by the new key in square brackets along with the new value:
 #+begin_src python -n
@@ -1377,7 +1797,7 @@ Second element
 What is this?
 #+END_EXAMPLE
 
-**** Functions
+**** Functions and Operators
 ***** ~.get()~
 This function accepts a key in the dictionary, it  will then return the copied value associated with that provided key. If no key found, it will not throw an error, but return a ~None~. For example:
 #+begin_src python -n
@@ -1426,12 +1846,20 @@ Output:
 #+BEGIN_EXAMPLE
 3
 #+END_EXAMPLE
+***** ~.cleaer()~
+Delete all key value pairs inside a dictionary.
 ***** ~del~
 ~del~ is not a function, it is a statement that can delete a key-value pair in dictionary. The syntax is as follows:
 #+begin_src python -n
 del dic1["key1"]
 #+end_src
 After the above statement, the key-value pair with key as ~key1~ is deleted.
+***** ~in~
+Similar with list, the operator ~in~ can be used to check if a key is stored in a dictionary. Example:
+#+begin_src python -n
+if 'key1' in dic1:
+#+end_src
+Same usage for ~not in~.
 ***** ~.items()~
 This function will return a "dictionary items" type object, which contains all key-value pair in it. It is iterable, each iterated item is a *TUPLE* containing ~key~ and ~value~ (they cannot be changed). You can see this using following example:
 #+begin_src python -n
@@ -1483,6 +1911,9 @@ dict_values(['First element', 'Second element', 'What is this?'])
 #+END_EXAMPLE
 ***** ~.pop()~
 This function accepts two parameters: the ~key~ and a default ~value~ to return if the key is not found in the dictionary. If you only provide the ~key~ parameter, you can still run the code, but in the case that the ~key~ is not in the dictionary, a ~KeyError~ will be thrown.
+***** ~.popitem()~
+Remove and return a key-value pair from the dictionary. Pairs are returned in LIFO order. If the dictionary is empty, calling of this function raises a ~KeyError~. (but the dictionary is not ordered?)
+
 ** Logic Control
 *** ~if~ Statement
 **** Syntax
@@ -1642,7 +2073,7 @@ Output:
 #+END_EXAMPLE
 
 *** ~for~ loop
-The ~for~ loop in python works like the range based for loop in C++.
+The ~for~ loop in python works like the range based for loop in C++. 
 **** Syntax
 The ~for~ loop's syntax is:
 #+begin_src python -n
@@ -1788,6 +2219,9 @@ In this case, a ~ValueError~ will be thrown:
 ValueError: not enough values to unpack (expected 4, got 3)
 #+END_EXAMPLE
 Python expects to unpack four values (because there are four variables to be used to hold the unpacked value), but it encounters three.
+**** Details on For Loop  <<for loop detail>>
+[[https://www.geeksforgeeks.org/python-difference-iterable-iterator/][Reference]]
+You should pass an iterable object to a for loop. When a for loop is executed, the for statement calls ~iter()~ on the object that you're going to loop over. If ~iter(object)~ is successfully called, it will return an iterator object which has method ~__next__()~ defined. When ~__next__()~ method is called, it will return the next element in the iterable object. It will be used to traverse each element in the iterable element, one at a time. When ~__next__()~ reaches the end, it will raise a ~StopIteration~ exception. This will be catched by the for loop, and it will terminate.
 
 ** Functions
 *** Declaration
@@ -1841,7 +2275,7 @@ my_function(a, b, c)
 #+end_src
 You just provided three variables in the parenthese. Python will interpret these as the positional arguments, and will relate ~a~ to the first parameter: ~A~, relate ~b~ to the second parameter: ~B~, relate ~c~ to the third parameter: ~C~. Order of the arguments is crucial.
 
-**** Keyword Arguments
+**** Keyword Arguments <<keyword arguments>>
 A keyword argument is a name-value pair that you pass to a function, i.e. you specify which parameter takes which argument. You have to know the exact name of parameter when defining the function, and use an assignment operator to pass the corresponding argument when calling the function. Example:
 #+begin_src python -n
 def print_name(name, age):
@@ -1872,13 +2306,66 @@ friend is 23 years old
 #+END_EXAMPLE
 Parameters with default argument should be placed after parameters without default parameter. This allows python to continue interpreting positional arguments correctly. Also, don't include spaces on left and right of the parenthese when defining default value (PEP8).
 
-**** Passing an Arbitrary Number of Arguments
+**** Argument Packing (Passing an Arbitrary Number of Arguments)
+***** Defining Function Accepts Packed Arguments
 You can define a function that takes an arbitrary number of arguments. To do this, you use following syntax:
 #+begin_src python -n
 def print_input(*string):
     print(string)
 #+end_src
 The asterisk in the parameter name ~*string~ tells python to make an empty tuple called ~string~ and pack whatever values it receives into this tuple. You can think of the function receives a tuple filled with arguments, you can work around the tuple to get your desired output. The ~print()~ function is an example that accepts an arbitrary number of arguments. If you are using an IDE, when you input the arguments for ~print()~ function, you'll notice the prompt of the function parameter has an asterisk, which means you can provide an Arbitrary number of parameters to it.
+
+***** Passing in Packed Arguments
+When passing arguments to the function, we can also use ~*~ to indicate we are passing in a pack of arguments, i.e. the passed in object is an iterable, and we want each element in this iterable to be extracted and passed in as a single argument. Example:
+#+begin_src python in
+def func(*nums):
+    for num in nums:
+        print(num)
+
+
+arg = 1, 2, 3, 5
+func(*arg)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+1
+2
+3
+5
+#+END_EXAMPLE
+The above function call is similar as: ~func(1, 2, 3, 4, 5)~. And ~func()~ has been defined to take a ~*nums~ argument. So each element in ~arg~ has been passed in ~func()~ separately. If we remove ~*~ when calling function, we have:
+#+begin_src python -n
+def func(*nums):
+    for num in nums:
+        print(num)
+
+
+arg = 1, 2, 3, 5
+func(arg)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(1, 2, 3, 5)
+#+END_EXAMPLE
+Because we pass the tuple as a whole, the function will think only a single argument is passed in, same as ~func(arg)~. Since the function is still defined as accepting a tuple of arguments, a tuple ~nums~  with only one element will be constructed and passed in ~func()~. The for loop inside ~func()~ will print out the tuple as a whole, as shown above.
+
+Finally, if we remove ~*~ in the ~func()~ definition, we have:
+#+begin_src python -n
+def func(nums):
+    for num in nums:
+        print(num)
+
+
+arg = (1, 2, 3, 5)
+func(arg)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+1
+2
+3
+5
+#+END_EXAMPLE
 
 **** Positional & Arbitrary Number of Arguments
 It is possible to write a function that accepts positional and arbiturary arguments at the same time. You just need to place the parameter that accepts arbitrary number of arguments in the last of the function parameter list. Python matches positional and keyword arguments first and then collects any remaining arguments in the final parameter. Example:
@@ -1905,6 +2392,7 @@ The lucky number for Yu (29 years old) is:
 #+END_EXAMPLE
 
 **** Arbitrary Key-Value Pair Arguments
+***** Defing Function Accepts Packed Key-Value Pair
 Sometimes you’ll want to accept an arbitrary number of arguments, but you won’t know ahead of time what kind of information will be passed to the function. In this case, you can write functions that accept as many key-value pairs as the calling statement provides. The syntax is as follows:
 #+begin_src python -n
 def build_profile(first, last, **user_info):
@@ -1974,6 +2462,24 @@ field : Computer Science
 #+END_EXAMPLE
 
 So you may not think these key-value pairs as parameter-argument pairs and use them as the normal way of parameter-argument pairs do. Because the function doesn't know the type or value that are going to be passed into the function, so there is little the function can do with those passed in key-value pairs except store them as data.
+***** Passing in Packed Key-Value Pairs
+You can also use ~**~ when passing in packed key-value pairs (i.e. dictionaries) into the function. This will be treated as passing in packed [[keyword arguments][keyword arguments]]. The key in your dictionary should be same as the parameter name when defining the function, otherwise, a ~TypeError~ will rise (got an unexpected keyword argument). Example:
+#+begin_src python -n
+def func(name, age):
+    print(name + " is " + age + " years old.")
+
+
+arg = {
+    'age': '29',
+    'name': 'Yu',
+}
+func(**arg)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Yu is 29 years old.
+#+END_EXAMPLE
+Again, order of the keyword arguments doesn't matter, since keyword is provided.
 
 **** Default and Arbitrary Number of Arguments
 May only work with python3. Reference for this section can be found [[https://stackoverflow.com/questions/46446960/how-to-use-default-values-and-arbitrary-arguments-at-one-function-call-in-python][here]].
@@ -2022,6 +2528,204 @@ Function names should use lowercase letters and underscores only (module names s
 Every function should have a docstring immediately after the function definition, which explains concisely what the function does. Others should be able to use your function just by looking at your docstring. They should be able to trust that the code works as described, and as long as they know the name of the function, the arguments it needs, and the kind of value it returns, they should be able to use it in their programs.
 **** spaces between functions
 If your program or module has more than one function, you can separate each by two blank lines to make it easier to see where one function ends and the next one begins.
+*** Python Built-in Functions
+**** ~enumerate()~
+[[https://docs.python.org/3/library/functions.html#enumerate][Documentation]]
+
+This function accepts an iterable (a sequence, iterator or other object which supports iteration). It will iterate the iterable and build an enumerate object in the process. This object is iterator, each iterated item in this iterator returned by ~enumerate()~ is a tuple containing a count (counting start from the parameter ~start~, which is default to 0. This is integer type) and the value obtained from the passed-in iterable. For example (~start~ count variable is left as default, count from 0):
+#+begin_src python -n
+nums = [1, 2, 3]
+nums_iter = iter(nums)
+
+for item in enumerate(nums_iter):
+    print(item)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(0, 1)
+(1, 2)
+(2, 3)
+#+END_EXAMPLE
+Another example (count from 55):
+#+begin_src python -n
+nums = [1, 2, 3]
+nums_iter = iter(nums)
+
+for item in enumerate(nums_iter, 55):
+    print(item)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(55, 1)
+(56, 2)
+(57, 3)
+#+END_EXAMPLE
+
+You can also use python's unpacking feature to unpack the returned tuple:
+#+begin_src python -n
+nums = [1, 2, 3]
+nums_iter = iter(nums)
+
+for index, item in enumerate(nums_iter):
+    print("nums[" + str(index) + "] = " + str(item))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+nums[0] = 1
+nums[1] = 2
+nums[2] = 3
+#+END_EXAMPLE
+
+**** ~iter()~
+This function accepts an iterable object, and will return an iterator of the iterable object.
+**** ~next()~
+[[https://docs.python.org/3/library/functions.html#next][Documentation]]
+
+This function accepts a python iterator. Retrieve the next item from the iterator
+**** ~zip()~
+[[https://docs.python.org/3/library/functions.html#zip][Documentation]]
+
+~zip()~ function takes two equal-length collections and merges their corresponding elements into tuples. An iterator of these tuples will be returned. For example:
+#+begin_src python -n
+num_pairs = zip((1, 2, 3), (2, 4, 6))
+for num_pair in num_pairs:
+    print(num_pair)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(1, 2)
+(2, 4)
+(3, 6)
+#+END_EXAMPLE
+In fact, you can pass in multiple equal-length collections to ~zip()~. For example:
+#+begin_src python -n
+num_pairs = zip((1, 2, 3), (2, 4, 6), ('a', 'b', 'c'))
+for num_pair in num_pairs:
+    print(num_pair)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+(1, 2, 'a')
+(2, 4, 'b')
+(3, 6, 'c')
+#+END_EXAMPLE
+** Functional Programming
+[[https://medium.com/@happymishra66/lambda-map-and-filter-in-python-4935f248593][A brief introduction of lambda function, filter and map]] (python 2)
+
+*** Lambda Function
+Lambda functions are small, anonymous functions based on the lambda abstractions that appear in may functional languages.
+
+To declare a lambda function, use keyword ~lambda~. The basic syntax is:
+#+BEGIN_EXAMPLE
+lambda arguments: expression
+#+END_EXAMPLE
+Lambda operator can have any number of arguments, but it can have only one expression. It cannot contain any statements and it returns a function object which can be assigned to any variable.
+
+For example:
+#+begin_src python -n
+add = lambda x, y: x + y
+print(add(2, 3))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+5
+#+END_EXAMPLE
+PS: if you use pyline, you may get hint that do not assign a lambda expression, use ~def~. However, this may just make things more complicated, additional discussions on this matter can be found [[https://stackoverflow.com/questions/25010167/e731-do-not-assign-a-lambda-expression-use-a-def][here]].
+
+Most lambda functions are passed as parameters to a function where a function object is expected, such as ~filter()~, ~map()~, ~sorted()~.
+*** ~filter()~
+~filter()~ is a function that accepts a ~function_object~ and an iterable. The ~function_object~ accepts an element from the iterable and will return a Boolean value indicating if this element is eligible to "pass" the filter. It will return an iterator that containing elements from the original iterable that satisfy ~function_object(element) == True~ ([[https://stackoverflow.com/questions/12319025/filters-in-python3][reference]]).
+
+The basic syntax of filter is:
+#+BEGIN_EXAMPLE
+filter(function_object, iterable)
+#+END_EXAMPLE
+For example:
+#+begin_src python -n
+def even(x):
+    if x % 2 == 0:
+        return True
+    else:
+        return False
+
+
+print(list(filter(even, range(10))))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[0, 2, 4, 6, 8]
+#+END_EXAMPLE
+In python 2, ~filter()~ will return a list. While in python 3, filter will return an iterator (which is named ~filter object~ in pycharm's python console).
+
+You can also use lambda function as the function object to pass in filter. For example, the code above can be written as:
+#+begin_src python -n
+print(list(filter(lambda x : x % 2 == 0, range(10))))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[0, 2, 4, 6, 8]
+#+END_EXAMPLE
+*** ~map()~
+~map()~ is a function that accepts a ~function_object~ and any number of iterables like list, dictionary, etc. It executes the ~function_object~ for each element in the iterable, and return a map object (an iterator) that contains the mapping of these element through the ~function_object~. When the ~function_object~ requires more than one parameter, you can pass multiple iterables. Python will create "parameter pairs" from these iterables and pass into the ~function_object~ and create the result iterable. The final number of parameter pairs is determined by the passed-in iterable that has the smallest size. For example:
+#+begin_src python -n
+a = map(lambda x, y: x + y, range(5), range(6, 9))
+print(list(a))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+[6, 8, 10]
+#+END_EXAMPLE
+In the above example, the passed in x values are ~[0, 1, 2, 3, 4]~, while the passed in y values are ~[6, 7, 8]~. 
+
+Small example: iterating over a dictionary using map and lambda:
+#+begin_src python -n
+# defining dictionaries
+dic1 = {
+    'name': 'Python',
+    'point': 10,
+}
+
+dic2 = {
+    'name': 'Java',
+    'point': 8,
+}
+
+dicts = [dic1, dic2]
+
+# iterate over the dictionary
+print(list(map(lambda x: x['name'], dicts)))
+print(list(map(lambda x: x['point'] * 10, dicts)))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+['Python', 'Java']
+[100, 80]
+#+END_EXAMPLE
+*** ~reduce()~
+Not a built-in any more, placed in ~functools.reduce()~. To use it you have to first ~import functools~.
+
+~functools.reduce()~ accepts a ~function_object~ and an iterable. The ~function_object~ should accept exactly 2 parameters. It will first get two elements in the iterable and pass in the ~function_object~, then the result of the ~function_object~ will be paired with the next element in iterable, and passed in ~function_object~ again, until the last element in the iterable is used. For example:
+#+begin_src python -n
+import functools
+# doing factorial 4!
+print(functools.reduce(lambda x, y: x * y, range(1, 5)))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+24
+#+END_EXAMPLE
+
+You can also pass in a third parameter, which is the starting value, example:
+#+begin_src python -n
+import functools
+# doing negative factorial 4!
+print(functools.reduce(lambda x, y: x * y, range(1, 5), -1))
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+24
+#+END_EXAMPLE
+
 ** Input and Output
 *** Input
 To get an input from keyboard, you can just use:
@@ -2148,12 +2852,12 @@ open("time.txt", "r")
 
 The default mode is read mode.
 
-You can use a variable to hold the file you opened:
+This function will return a file object that "linked" to the file, you need to use a variable to hold this object.
 #+begin_src python -n
 time_file = open("time.txt", "r")
 time_file.close()
 #+end_src
-(or does it act like a file object? like in C++? The ~open()~ function will return a constructed file object, and you can "catch" it using a variable) In the above code, you close the file by calling the ~close()~ member function of ~time_file~.
+In the above code, you close the file by calling the ~close()~ member function of ~time_file~.
 **** Automatically Close
 We can use following syntax to open a file, and do things within the same block. We don't have to manually close the file. When the control flow goes out of the block, the file is closed:
 #+begin_src python -n
@@ -2367,6 +3071,9 @@ The above code has created a list, and used ~json.dump()~ to write the content i
 **** Load from File
 We use ~json.load()~ to load from file. This method accepts one argument: the file object which opened the file to be read. It will return the data structure contained in the file, which can be "catched" by a variable. For example:
 #+begin_src python -n
+import json
+
+
 file_object = open("nums.json")
 nums = json.load(file_object)
 print(nums)
@@ -2466,6 +3173,11 @@ After we declared a class, we use following syntax to construct an instance of t
 student1 = Student("Yu", "Computer Science", 4.0, False)
 #+end_src
 We are calling the ~__init__()~ and passing in necessary parameters to build our class object.
+
+If you don't have parameters to pass in the ~__init__()~, you still have to add the parenthese:
+#+begin_src python -n
+student1 = Student()
+#+end_src
 *** Inheritance
 **** Syntax
 Assume we have a base class as follows:
@@ -2516,7 +3228,7 @@ Every class should have a docstring immediately following the class definition. 
 Insert one blank line between methods in the same class.
 
 Insert two blank lines between classes in the same module.
-** Manage External Code (Module)
+** Modules
 A module is a python file we can import into our current python file.
 *** ~import~
 You can import external code in your python program. For example, to use some math functions defined in python math, you can type:
@@ -2924,8 +3636,545 @@ Notice how to define objects for testing in the ~setUp()~ method.
 
 **** Character Printed to Trace Testing
 When a test case is running, Python prints one character for each unit test as it is completed. A passing test prints a dot, a test that results in an error prints an E, and a test that results in a failed assertion prints an F. This is why you’ll see a different number of dots and characters on the frst line of output when you run your test cases. If a test case takes a long time to run because it contains many unit tests, you can watch these results to get a sense of how many tests are passing.
-** place holder
-* Modules
-** ~matplotlib~
-*** Plotting a Simple Line Graph
 
+* Modules
+** ~csv~
+Python's ~csv~ module in the standard library parses the lines in a CSV file and allows us to quickly extract the values we're interested in. Here we'll present an example to read data from a csv file:
+#+begin_src python -n
+import csv
+
+
+filename = 'my_csv_file.csv'
+with open(filename) as f:
+    reader = csv.reader(f)
+#+end_src
+After the above code, reader contains an iterator that associated with the file content. Each iterated element in reader is a list containing the content of each line in the original file, with each element is element separated by coma. Pay attention that if you close the file ("disconnect" the file object with the file), this ~reader~ will not be able to access the content in file.
+
+*** ~reader()~
+[[https://docs.python.org/3/library/csv.html#csv.reader][Documentation]]
+This is a member function. It accepts any object which supports the iterator protocol (by providing these methods: ~__iter__()~, ~__next__()~) and returns a string each time its ~__next__()~ method is called (file object and list object are both suitable).
+
+It will return a reader object associated with the file. The reader object will iterate over lines in the given csv file. You need to use a variable to hold the returned reader object.
+
+Data in csv file has following structure: Rows separated by newline character, and record separated by a coma in a single line. For example:
+#+BEGIN_EXAMPLE
+course name, time, credit hour, grade
+COP 4530, fall 19, 3, A
+COP 4531, fall 19, 3, A
+CDA 3101, fall 19, 3, A
+COP 4610, fall 19, 3, A
+COT 4420, fall 19, 3, A
+#+END_EXAMPLE
+
+Reader object somehow read each row and transfer them into a list of strings, each item separated by the coma is an element in the list. Reader object is iterable over rows. It has struture like:
+#+BEGIN_EXAMPLE
+["course name", "time", "credit hour", "grade"]
+["COP 4530", "fall 19", "3", "A"]
+["COP 4531", "fall 19", "3", "A"]
+["CDA 3101", "fall 19", "3", "A"]
+["COP 4610", "fall 19", "3", "A"]
+["COT 4420", "fall 19", "3", "A"]
+#+END_EXAMPLE
+Each row read from the csv file is returned as a list of strings. No automatic data type conversion is performed.
+
+Reader object behaves like an iterator: it has ~__iter__()~ and ~__next__()~ defined. When calling ~__iter__()~, it will return itself. 
+** ~datetime~
+[[https://docs.python.org/3/library/datetime.html][Documentation]]
+
+This module is used when you need object that representing date and time. Such object have many applications, for example:
+- pass in as variable to be ploted in matplotlib
+  
+*** ~datetime~
+This is a class defined in datetime module ([[https://docs.python.org/3/library/datetime.html#datetime.datetime][Documentation]]). An object of ~datetime~ type is a single object containing all the information from a ~date~ object and a ~time~ object. It assumes that there are exactly 3600 * 24 seconds in every day.
+
+It can be printed directly by pass it into ~print()~.
+**** ~strptime()~
+This is a method inside ~datetime~ class, it can be used to convert a string of date information to python's datetime type. It accepts two arguments: ~date_string~ and ~format~. ~date_string~ contains the information of your date, ~format~ contains rules to parse the ~date_string~. It will return a ~datetime~ object corresponding to the ~date_string~, parsed according to ~format~. For example:
+#+begin_src python -n
+import datetime
+
+
+date = datetime.datetime.strptime('2014x7x1', '%Yx%mx%d')
+print(date)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+2014-07-01 00:00:00
+#+END_EXAMPLE
+The ~%Yx~ part is telling python to parse the part of the string before the first ~x~ as a *four-digit* year (if lower case y is provided, then it will be *two-digit* year: ~%yx~). Similarly, ~%m~ is to parse month, and ~%d~ is to parse the day of the month. The original values of year, month and day should be valid (including leap years), otherwise, ~ValueError~ will rise.
+
+The ~strptime()~ method can take a variety of arguments to determine how to interpret the date. You can find more [[https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior][here]].
+
+*** ~strptime()~
+
+** ~matplotlib~
+*** ~pyplot~
+**** ~plot()~ (plot line)
+***** Pass a sequence of number into ~pyplot.plot()~
+We start with a simple example. Plot a list of numbers.
+#+begin_src python -n
+import matplotlib.pyplot as plt
+
+squares = [1, 4, 9, 16, 25]
+plt.plot(squares)
+plt.show()
+#+end_src
+We first imported a class in ~matplotlib~. The class name is ~pyplot~, we give it an alias ~plt~. Then we created a list of numbers, then call member function ~plt.plot()~ and pass the list into the function. After that, the figure is shown by calling member function ~plt.show()~. This function opens ~matplotlib~'s viewer and displays the plot.
+
+When you give ~pyplot.plot()~ a sequence of numbers, it assumes the first data point corresponds to an x-coordinate value of 0. Thus, in the above example, we are actually plotting following data points:
+#+BEGIN_EXAMPLE
+(0, 1), (1, 4), (2, 9), (3, 16), (4, 25)
+#+END_EXAMPLE
+***** Pass two sequences of number into ~pyplot.plot()~
+We can pass two sequences of number into ~plot()~, which will represent the x value and y value. For example:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, squares, linewidth=5)
+#+end_src
+Two sequences passed into the ~pyplot.plot()~ function should have same dimension, otherwise, a ~ValueError~ will be thrown.
+
+You can plot multiple data sets on the same xy coordinates. Just provide the corresponding x and y sequences. For example:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+cubes = [1, 8, 27, 64, 125]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, squares, x_value, cubes, linewidth=5)
+#+end_src
+
+You can also divide them into two calls of ~pyplot.plot()~:
+#+begin_src python -n
+x_value = [1, 2, 3, 4, 5]
+cubes = [1, 8, 27, 64, 125]
+squares = [1, 4, 9, 16, 25]
+plt.plot(x_value, cubes, linewidth=5)
+plt.plot(x_value, squares, linewidth=5)
+#+end_src
+They will still be ploted into the same figure. You have to mannualy arrange different data set. The first and second data set will be evaluated as ~x1~ and ~y1~, if only one data set is provided, it will be evaluated as ~y~, and use default ~[0, 1, 2, 3, ...]~ as ~x~.
+***** line width
+The line width of the curve can be set by:
+#+begin_src python -n
+plt.plot(squares, linewidth=5)
+#+end_src
+
+**** ~scatter()~ (plot scatter)
+***** Single point
+To plot single point, use ~pyplot.scatter()~. It accepts at lease two arguments, corresponding to the x and y coordinates of the point. For example:
+#+begin_src python -n
+plt.scatter(float(input("Scatter x:")), float(input("Scatter y:")), s=200)
+#+end_src
+The argument ~s~ is used to set the size of the scatter.
+***** Sequence of plot
+We can plot a series of points using ~scatter()~. Just pass lists of x- and y-values:
+#+begin_src python -n
+plt.scatter([1, 2, 3, 4, 5], [5, 6, 7, 1, 4], s=100)
+plt.show()
+#+end_src
+You must provide x- and y-value at the same time (no default value of x will be used, unlike ~plot()~), otherwise, ~TypeError~ will be thrown. Also, the dimension of x- and y-value lists must be the same, other ~ValueError~ will be thrown.
+***** Set outline color of points
+Default points have outline. You can set the edge color to the one you want. For example:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors='red')  # change to red
+plt.scatter(x_values, y_values, s=20, edgecolors='none')  # remove outline
+#+end_src
+The order of the style arguments are not affecting the result.
+
+***** Set fill color of points
+The fill color of points can be set by ~c~:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors='red', c='none')
+#+end_src
+
+**** ~fill_between()~
+This method takes one series of x-values and two series of y-values, and fills the space between the two y-value series over the series of x-values. For example:
+#+begin_src python -n
+from matplotlib import pyplot as plt
+
+
+y_1 = [3, 4, 5, 3, 2, 3, 4]
+y_2 = [5, 4, 2, 2, 6, 7, 8]
+plt.plot(y_1, c='red')
+plt.plot(y_2, c='black')
+plt.scatter(list(range(len(y_1))), y_1, c='red')
+plt.scatter(list(range(len(y_2))), y_2, c='black')
+
+plt.fill_between(list(range(len(y_1))), y_1, y_2, facecolor='red', alpha=0.1)
+plt.show()
+#+end_src
+
+The ~alpha~ argument controls a color's transparency. 0: transparent, 1 (default) is completely opaque.
+
+**** Member Functions to Adjust Figure Appearance
+In this section, several member functions are presented to adjust figure appearance.
+
+***** ~.title()~
+Add title of the image. The size of the title can also be adjusted.
+#+begin_src python -n
+plt.title("Square Numbers", fontsize=24)
+#+end_src
+
+***** ~.xlabel()~, ~.ylabel()~
+Set the x label and y label
+#+begin_src python -n
+plt.xlabel("Value", fontsize=14)
+#+end_src
+
+***** ~.tick_params()~ (adjust tick label of axis)
+#+begin_src python -n
+plt.tick_params(axis='both', labelsize=14)
+#+end_src
+
+***** set x, y axis range
+#+begin_src python -n
+plt.axis([x_0, x_1, y_0, y_1])
+#+end_src
+
+***** remove axis
+#+begin_src python -n
+plt.axes().get_xaxis().set_visible(False)
+plt.axes().get_yaxis().set_visible(False)
+#+end_src
+***** set color
+[[https://matplotlib.org/2.0.2/api/colors_api.html][Documentation]]
+When you set the color of a object (by passing arguments to ~c~), you can either pass a string to indicate its color (e.g. ~edgecolor='red'~), or a tuple with three decimal values (correspond to red, green and blue). The range of the value is from 0 to 1. It is calculated by deviding RGB value with 255. So, a RGB color of R42, G160, B151 should be =(0.164, 0.627, 0.592)=. Example:
+#+begin_src python -n
+plt.scatter(x_values, y_values, s=20, edgecolors=(0.16, 0.63, 0.59), c='none')
+#+end_src
+
+***** use colormap
+/Colormap/ is a series of colors in a gradient that moves from a starting to ending color. Colormap allows you to emphasize a pattern in the data. For example, you might make low values a light color and high values a darker color.
+
+Take the square scatter as an example:
+#+begin_src python -n
+import matplotlib.pyplot as plt
+x_values = [x for x in range(1, 100)]
+y_values = [x**2 for x in x_values]
+
+plt.scatter(x_values, y_values, c=y_values, cmap=plt.cm.Greens, edgecolor='none', s=40)
+
+plt.show()
+#+end_src
+We first set ~y_values~ to ~c~, this tells python to use color maps to set the color of the point with regard to the ~y_values~. You can set the specific colormap you want to use by ~cmap=plt.cm.xxx~, where ~xxx~ is the name of color map you wish to use. The names and visual effect of different colormaps can be found [[https://matplotlib.org/examples/color/colormaps_reference.html][here]].
+
+**** ~.figure~ (create a new ~Figure~ object)
+[[https://matplotlib.org/3.1.0/api/_as_gen/matplotlib.pyplot.figure.html][Documentation]]
+
+~figure()~ will create a new object of [[https://matplotlib.org/3.1.0/api/_as_gen/matplotlib.figure.Figure.html#matplotlib-figure-figure][figure]]. Check the documentation page for parameter list. The object will also be passed to new_figure_manager in the backends, which allows to hook custom ~Figure~ classes into the pyplot interface.
+
+To set the size of the figure:
+#+begin_src python -n
+plt.figure(figsize=(a, b))
+#+end_src
+The ~figsize~ parameter takes a tuple, which is the dimensions of the plotting window in inches. Python assumes that the screen resolution is 80 pixels per inch. You can use another parameter ~dpi~ to tell python the resolution of your screen:
+#+begin_src python -n
+plt.figure(dpi=128, figsize=(10, 6))
+#+end_src
+
+You can use a variable to hold the ~Figure~ object returned by this method. Then you can call method defined inside ~Figure~ class to further adjust your figure. For example: ~fig.autofmt_xdate()~ can draw the date labels in x axis diagonally to prevent them from overlapping (first used in /Python Crash Course/, project 2).
+
+**** Utility Member Functions
+***** ~savefig()~
+You can save the figure by calling ~.savefig()~ member function. Example:
+#+begin_src python -n
+plt.savefig('squares_plot.svg', bbox_inches='tight')
+#+end_src
+The first argument is a filename for the plot image, which will be saved to the same directory as your python file. The second argument trims extra whitespace from the plot.
+
+** ~pygal~
+[[http://pygal.org/en/stable/documentation/index.html][Documentation]]
+
+*** ~Chart Configuration~
+Pygal is customized at chart level with the help of the ~Config~ class. You can view the complete configuration attributes in [[http://www.pygal.org/en/stable/documentation/configuration/chart.html][here]] (name of each configuration you can use for your chart, and how you can use it).
+*** ~Bar~
+~Bar~ is a nested class inside ~pygal~. Use this to create an object of a histogram. Each object of histogram has its own data set, as well as the styling information stored as attributes. They can be manipulated by the member function (methods) defined in ~pygal.Bar~. To declare a ~Bar~ object:
+#+begin_src python -n
+hist = pygal.Bar()
+#+end_src
+(without any parameters)
+
+**** ~attributes~
+***** ~title~
+~title~ stores the title of the histogram objects. You can set the title of the histogram directly by assigning this attribute with a string. Example:
+#+begin_src python -n
+hist.title = "Your Histogram Title"
+#+end_src
+Other attributes work the same way. You can assign them directly with the value you wish.
+***** ~x_labels~
+This attribute will add x label. You can assign it with a list of strings, they will be used to label the data in x direction. For example, if your have added a list: ~[5, 4, 3, 1, 6]~ to the ~Bar~ object, and want to plot histogram based on this. You can add x labels corresponding to each value, for example:
+#+begin_src python -n
+hist = Bar()
+worked_hour = [5, 4, 3, 1, 6]
+hist.add('work hour', worked_hour)
+hist.x_labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+#+end_src
+When you render the histogram, these labels will be under each bar.
+***** ~y_labels~
+You can also set y labels, but it can override the default label that reflect the y value.
+***** ~x_title~
+***** ~y_title~
+**** ~member functions~
+***** ~.add()~
+This function accepts two arguments: ~add('title', value)~. You can pass in positionally. First is title and the second is value. The title is the name of this group of data, and value is your data set (can be a single number, which will only have one bar).
+
+You can add multiple data set to one ~Bar~ object. Notice that python will not check if there is a naming conflict (duplicate names are permitted).
+
+Pay attention that value added should be number (int or float), otherwise, a ~TypeError~ will rise. When you work with files, you may read the data in string format, be sure to convert them to numbers.
+
+The ~title~ should be filled. If you don't want to add title, use an empty string: ''.
+
+The bar created is interactive. You can customize the tooltip (which is shown when you hover your mouse above the bar) by passing in a list of dictionaries into the ~add()~ method, instead of a list of values. Each element in the list is a dictionary with two key-value pairs. Key ~'value'~ will be associated with the value, and key ~'label'~ will be associated with customized tooltip you want.
+
+Each dictionary in list of dictionaries can be expanded to give the bar image more functions. For example, you can add clickable links to the bar. Just wrap the url link in the dictionary with key ~'xlink'~ (its value is set to the url link).
+***** ~.render_to_file()~
+This function will render the data in the ~Bar~ object and save it to a file. The filename is passed in when calling the function. For example:
+#+begin_src python -n
+hist.render_to_file('my_plot.svg')
+#+end_src
+*** ~i18n~
+Pygal's country codes (two-letter codes) are stored in this module. ~i18n~ is short for /internationalization/. The dictionary ~COUNTRIES~ inside this module contains the two-letter country codes as keys and the country names as values.
+
+The ~i18n~ module is in ~pygal_maps_world~ (which is a separate module from ~pygal~). You can access ~COUNTRIES~ in following way:
+#+begin_src python -n
+from pygal_maps_world.i18n import COUNTRIES
+#+end_src
+*** ~World~
+Pygal includes a ~World~ class (which is a chart type, just like ~Bar~ is also a chart type). This chart can help to plot global data sets on a map. To use it, we declare an object of this class:
+#+begin_src python -n
+import pygal
+
+
+wm = pygal.maps.world.World()
+#+end_src
+Pay attention where is the class located. We can also simplify the expression:
+#+begin_src python -n
+from pygal.maps.world import World
+
+
+wm = World()
+#+end_src
+Current version of PyCharm (2019.1.2) will report error that ~world~ and ~World~ is not found, but you can still use it.
+**** Attributes
+You can modify these attributes of the ~World~ object.
+***** ~title~
+The title of the image:
+#+begin_src python -n
+from pygal.maps.world import World
+
+
+wm = World()
+wm.title = 'World Map'
+#+end_src
+
+**** Functions
+***** ~add()~
+This is used to set which country is highlighted on the final chart, as well as adding numeric data to those countries. Similar with ~Bar.add()~.
+
+It accepts two parameters, the first one is a string that contains the name of the group. The second one can be a list containing 2-digit country code (in string format) (these countries will be grouped together and have same color on the final image). For example:
+#+begin_src python -n
+from pygal.maps.world import World
+
+
+wm = World()
+wm.title = 'North America'
+
+wm.add('North America', ['ca', 'mx', 'us'])
+#+end_src
+The rendered file will "light" the corresponding region that is indicated in the list you passed in.
+
+If you want to pass numeric data to theose countries, you use a dictionary instead of a list in the ~add()~ function. The key should be the 2-digit country code, value should be numeric value that you want to pass to the country. By default, pygal uses these numbers to shade the countries from light (less in value) to dark (more in value). Example:
+#+begin_src python -n
+from pygal.maps.world import World
+
+
+wm = World()
+wm.title = 'Populations of Countries in North America'
+wm.add('North America', {'ca': 341260000, 'us': 309349000, 'mx': 113423000})
+wm.render_to_file('North America Population.svg')
+#+end_src
+
+***** ~render_to_file()~
+This method accepts one parameter, which is the filename of the file you want to render. It can also be relative path or path. For example:
+#+begin_src python -n
+wm.render_to_file('americas.svg')
+#+end_src
+
+*** ~style~
+[[http://www.pygal.org/en/stable/documentation/styles.html][Documentation]]
+
+This sub-module contains predefined ways (classes) to style your chart. When creating a new pygal chart object (for example, ~hist = Bar()~), you can pass the ~style~ parameter with different objects declared based on the classes in ~style~. For example:
+#+begin_src python -n
+from pygal.style import LightSolarizedStyle
+chart = pygal.StackedLine(fill=True, style=LightSolarizedStyle)
+#+end_src
+or:
+#+begin_src python -n
+from pygal.style import RotateStyle
+from pygal.maps.world import World
+
+world_map_style = RotateStyle('#336699')
+world_map = World(style=world_map_style)
+#+end_src
+**** ~RotateStyle~
+[[http://www.pygal.org/en/stable/documentation/parametric_styles.html#rotate][Documentation]]
+
+Examples to use:
+#+begin_src python -n
+from pygal.style import RotateStyle
+from pygal.maps.world import World
+
+world_map_style = RotateStyle('#336699')
+world_map = World(style=world_map_style)
+#+end_src
+This ~RotateStyle~ class takes one argument, an RGB color in hex format. Pygal then chooses colors for each of the groups based on the color provided. The format of the RGB color is:
+#+BEGIN_EXAMPLE
+#rrggbb
+rr: red component of the color
+gg: green component of the color
+bb: blue component of the color
+The range of the color is 00 to FF
+#+END_EXAMPLE
+
+The style object can be used when creating a pygal chart object. You just need to pass it as a keyword argument when you declare a chart object (~style=style_object~).
+
+** ~random~
+*** ~choice()~
+[[https://docs.python.org/3/library/random.html#random.choice][Documentation]]
+
+~choice()~ is a member function defined in ~random~ module. It has several overloads.
+
+**** ~choice(sequence)~ <<random.choice>>
+It accepts a sequence type, and will return a random element in the passed in sequence. If the sequence is empty, an ~IndexError~ will be thrown.
+
+*** ~randint()~
+[[https://docs.python.org/3/library/random.html#random.randint][Documentation]]
+It accepts two arguments a, b. It will return a random integer ~N~, such that ~a <= N <= b~.
+
+It is alias for ~randrange(a, b + 1)~.
+
+** ~request~
+[[https://2.python-requests.org/en/master/][Documentation]]
+
+This module is used to work with API requests.
+
+*** ~get()~
+[[https://2.python-requests.org/en/master/api/#requests.get][Documentation]]
+
+This function accepts an url, it will send a GET request and return the [[https://2.python-requests.org/en/master/api/#requests.Response][response object]]. You can hold the response object using a variable. This object contains a server's response to an HTTP request. For example:
+#+begin_src python -n
+# make an API call and store the response to a variable
+url = 'https://api.github.com/search/repositories?q=language:python&sort=stars'
+r = requests.get(url)
+print("Status code:", r.status_code)
+#+end_src
+Output:
+#+BEGIN_EXAMPLE
+Status code: 200
+#+END_EXAMPLE
+The member ~status_code~ contains the status of accessing the url. 200 means normal access. (if you visit google from mainland China, you will get 404).
+
+*** ~Response~
+This is a class that contains a server's response to an HTTP request.
+* Anaconda Tutorial
+** Termial Instruction
+[[https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf][Conda Cheat Sheet]]
+
+After opening the Anaconda terminal, type:
+#+BEGIN_EXAMPLE
+conda activate env_name
+#+END_EXAMPLE
+Will activate the environment named ~env_name~. Then you can view packages installed and list all packages.
+
+* Projects
+** Randomwalk Visualization
+We'll create a 2D random walk visualization demo. Basically, we need to plot a sequence of coordinate pairs \((x_i, y_i)\), which is the position of each point in the walk. To generate such "walk trails", we'll create a ~RandomWalk~ class.
+
+*** ~RandomWalk~ class general
+In this class, we need three attributes:
+- ~num_points~: store the total number of points in the walk
+- ~x_values~: store the x coordinate of each point in the random walk
+- ~y_values~: store the y coordinate of each point in the random walk
+
+In order to create *random* walk, we need to import a member function from ~random~ module:
+#+begin_src python -n
+from random import choice
+#+end_src
+
+*** Methods
+**** ~__init__()~
+The constructor of the class accepts one variable, which is the number of points in the random walk. You can give it a default value. In the constructor, we define the three attributes, and set the initial starting point of random walk as the origin. The constructor is shown below:
+#+begin_src python -n
+class RandomWalk:
+    """a class to generate coordinate pairs of random walk"""
+
+    def __init__(self, num_points=5000):
+        """initialize attributes of RandonWalk class"""
+        self.num_points = num_points
+
+        # define initial point
+        self.x_values = [0]
+        self.y_values = [0]
+#+end_src
+
+**** ~fill_walk()~
+The ~fill_walk()~ method is used to create random walk coordinate and store in the list attribute ~x_values~ and ~y_values~. It will use [[random.choice][~random.choice(sequence)~]] function to generate the random walk result at each step.
+
+Let's consider the problem. We start from origin \((0,0)\). We will move to the next position randomly. This step involves the change of x and y coordinate. The change of x or y is related two parameters:
+- the direction of the change (whether positive or negative)
+- the magnitude of the change (how much you move)
+We use use ~random.choice(sequence)~ to make these two decisions for both x and y coordinate of each step in the random walk. The ~sequence~ is the possible values we can pick. Assume the distance we can move ranges from 0 to 4, we have:
+#+begin_src python -n
+x_direction = choice([1, -1])
+x_distance = choice([0, 1, 2, 3, 4])
+x_step = x_direction * x_distance
+
+y_direction = choice([1, -1])
+y_distance = choice([0, 1, 2, 3, 4])
+y_step = y_direction * y_distance
+#+end_src
+The above code has generated the relative (x, y) change. We have to add it to its previous position to get the final position after the move, and append it to the lists.
+#+begin_src python -n
+# calculate the next x and y values
+# your move should start from the previous position
+next_x = self.x_values[-1] + x_step
+next_y = self.y_values[-1] + y_step
+
+# add to the walk sequence
+self.x_values.append(next_x)
+self.y_values.append(next_y)
+#+end_src
+
+The code for the whole method is as follows:
+#+begin_src python -n
+def fill_walk(self):
+    """calculate all the points in the walk."""
+
+    # keep tracking steps until the walk reaches the desired length
+    while len(self.x_values) < self.num_points:
+        # decide which direction to go and distance to go in that direction
+        x_direction = choice([1, -1])
+        x_distance = choice([0, 1, 2, 3, 4])
+        x_step = x_direction * x_distance
+
+        y_direction = choice([1, -1])
+        y_distance = choice([0, 1, 2, 3, 4])
+        y_step = y_direction * y_distance
+
+        # if going nowhere, don't add to the walk sequence
+        if x_step == 0 and y_step == 0:
+            continue
+
+        # calculate the next x and y values
+        # your move should start from the previous position
+        next_x = self.x_values[-1] + x_step
+        next_y = self.y_values[-1] + y_step
+
+        # add to the walk sequence
+        self.x_values.append(next_x)
+        self.y_values.append(next_y)
+#+end_src
+Notice that, we implement random walk as not accepting stationary move, i.e. if the relative change of x and y are both zero, we will reroll.
+
+*** Behavior
+To use the ~RandomWalk~ class, you have to declare an object. And call the ~fill_walk()~ method to fill the attribute with randomly picked coordinate value. Then we are ready to plot.
+
+* Place holder
