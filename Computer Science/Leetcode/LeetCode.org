@@ -173,9 +173,9 @@ public:
 };
 #+end_src
 
-*** todos [/]
-- [ ] try sort directly method (using a copy array)
-- [ ] write down my own analysis: 99% one
+*** todos [1/5]
+- [X] try sort directly method (using a copy array)
+- [ ] write down my own analysis: sort copy array and iter_array
 - [ ] check the solution and understands, implement each idea
 - [ ] write the analysis of each idea
 - [ ] generalize this problem
@@ -743,6 +743,69 @@ This approach is a very "akward" way to use recursion.
 - [ ] read solution, write down thinking process
 - [ ] time complexity analysis of your code and solution code 
 * Trees
+** 101. Symmetric Tree
+*** Problem Statement
+[[https://leetcode.com/problems/symmetric-tree/][Link]]
+*** Analysis
+**** Recursion
+We need to define a method to describe how two nodes are equal "symmetrically", i.e. if two subtrees with root node ~a~ and ~b~, we say subtree ~a~ is "equal" with subtree ~b~, if the two subtrees are symmetric.
+
+By this method, we need a helper function that accepts two ~Treenode~ pointer (~a~ and ~b~). Its return type is bool. It can tell whether the two subtrees started by the two ~Treenode~ passed in are symmetrically equal or not. We use this function recursively. Two subtrees are symmetrically equal, if:
+1. ~a->val == b->val~, the root must have the same value
+2. ~a->left~ is symmetrically equal to ~b->right~
+3. ~a->right~ is symmetrically equal to ~b->left~
+Case 2, 3 can be determined by calling this function recursively. Case 1 can be determined directly. Also, we have to be aware of the base case (when ~a == nullptr~ or ~b == nullptr~.
+
+*** Solution
+**** C++
+***** recursion (75%, 64%)
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  bool isSymmetric(TreeNode* root) {
+    if (root == nullptr)
+      return true;
+    
+    return isSym(root->left, root->right);
+  }
+  
+  bool isSym(TreeNode* a, TreeNode* b) {
+    if (a == nullptr) {
+      if (b == nullptr)
+        return true;
+      return false;
+    }
+    
+    if (b == nullptr)
+      return false;
+    
+    if (a->val != b->val)
+      return false;
+    
+    if (isSym(a->left, b->right) && isSym(a->right, b->left))
+      return true;
+    
+    return false;
+  }
+};
+
+#+end_src
+*** todos [1/5]
+- [X] write down your analysis (recursion)
+- [ ] think about iterative solution
+- [ ] write down analysis (iterative solution)
+- [ ] check solution and discussion to find out any other idea
+- [ ] generalize this problem
+  
 ** 104. Maximum Depth of Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/maximum-depth-of-binary-tree/][Link]]
@@ -780,6 +843,164 @@ public:
 - [ ] read about the discussion page for more methods and ideas
 - [ ] read about traversal method
 - [ ] make notes in your data structure notes about DFS abd BFS
+** 112. Path Sum
+*** Problem Statement
+[[https://leetcode.com/problems/path-sum/][Link]]
+*** Analysis
+**** Recursion
+The goal is to find a root-to-leaf path such that sum of all values stored in node is the given sum: ~sum~. We can start from root. Notice that, if ~root->left~ or ~root->right~ has a path that can add up to ~sum - root->val~, a path is found. This implies that we can recursively call the function itself and find if there is any path that can have ~sum - root->val~ target.
+
+One thing should be noticed that is, we have to go down all the way to a leaf to find out the final answer that whether the path of this leaf to root satisfies or not. So there is only two base cases:
+1. the pointer passed in is ~nullptr~: return false
+2. the pointer passed in is leaf: check if passed in ~sum~ is equal to ~root->val~, if so, return true. Otherwise, return false.
+
+For other situations, we continue call the function. Do not pass in ~nullptr~.
+
+*** Solution
+**** C++
+***** recursion (88%, 92%)
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+      if (root == nullptr)
+        return false;
+      
+      if (root->left == nullptr && root->right == nullptr) {
+        if (root->val == sum)
+            return true;
+        else
+            return false;
+      }
+      
+      if (root->left == nullptr)
+        return hasPathSum(root->right, sum - root->val);
+      else if (root->right == nullptr)
+        return hasPathSum(root->left, sum - root->val);
+      else
+        return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+    }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your recursion solution and analysis
+- [ ] work on the DFS approach
+- [ ] check discussion, find out other ideas, understand and implement them
+
+  
+** 113. Path Sum II
+*** Problem Statement
+[[https://leetcode.com/problems/path-sum-ii/][Link]]
+*** Analysis
+**** DFS
+In DFS, you use a stack to keep track of your path. This problem requires you to find out all the path that satisfies the requirement. So you have to do book-keeping. The basic DFS idea is as follows.
+1. we push the root into a stack: ~v~.
+2. use a while loop to find all combinations of root-to-leaf path: ~while (!v.empty()~
+3. if the top node in the stack is a leaf, then it suggests the current stack is holding a complete root-to-leaf path. We should check if this path adds to the target sum. If so we have to push this path into the result. Then, we have to trace backward, until we found a previous node that has unvisited child *OR* the stack is empty. Each time we push a node into the stack, we have to mark it as visited. We achieve this by using an unordered_set to record these nodes being pushed into the stack. Unordered_set has fast retrival rate using a key.
+4. if the top node in the stack is not a leaf, then we have to continue to push its children into the stack. We first try inserting left child, and then right child. This depends on the visit history of the children. Only one child per loop. After inserting one child, we ~continue~, beginning the next loop.
+5. from the above analysis, we can see that we trace back, only when we meet a leaf node. This guarantees that the found path is root-to-leaf path.
+6. after the while loop, the stack becomes empty, which means all nodes are visited. Then we return the result.
+   
+*** Solution
+**** C++
+***** DFS (80%, 40%)
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  // member variables
+  vector<vector<int>> results;
+  unordered_set<TreeNode*> visited_nodes;
+  
+  // helper functions
+  bool isLeaf(TreeNode* t) {
+    return (t->left == nullptr) && (t->right == nullptr);
+  }
+  
+  void traceBack(vector<TreeNode*>& v) {
+    while (!v.empty() && !hasUnvisitedChild(v.back()))
+      v.pop_back();
+  }
+  
+  bool hasUnvisitedChild(TreeNode* t) {
+    return !(isVisited(t->left) && isVisited(t->right));
+  }
+  
+  bool isVisited(TreeNode* t) {
+    if (t == nullptr || visited_nodes.find(t) != visited_nodes.end())
+      return true;
+    
+    return false;
+  }
+  
+  void checkVal(const vector<TreeNode*>& v, int target) {
+    int sum = 0;
+    vector<int> result;
+    for (auto node : v) {
+      result.push_back(node->val);
+      sum += node->val;
+    }
+    
+    if (sum == target)
+      results.push_back(result);
+  }
+  
+  // solution function
+  vector<vector<int>> pathSum(TreeNode* root, int sum) {
+    if (root == nullptr)
+      return results;
+    
+    vector<TreeNode*> v{root};
+    visited_nodes.insert(root);
+    
+    while (!v.empty()) {
+      // check the last node: to see if it is leaf 
+      if (isLeaf(v.back())) {
+        checkVal(v, sum);
+        traceBack(v);
+        continue;
+      }
+      
+      if (!isVisited(v.back()->left)) {
+        visited_nodes.insert(v.back()->left); // mark as visited
+        v.push_back(v.back()->left);
+        continue;
+      }
+      
+      if (!isVisited(v.back()->right)) {
+        visited_nodes.insert(v.back()->right); // mark as visited
+        v.push_back(v.back()->right);
+        continue;
+      }
+    }
+    
+    return results;
+  }
+};
+#+end_src
+*** todos [1/4]
+- [X] write down your DFS solution and analysis
+- [ ] work on the recursion approach
+- [ ] check discussion, find out other ideas, understand and implement them
+- [ ] generalize the problem
+  
 ** 226. Invert Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/invert-binary-tree/][Link]]

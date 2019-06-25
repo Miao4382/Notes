@@ -14,6 +14,10 @@
 *** Problem Statement
 [[https://leetcode.com/problems/two-sum/][Link]]
 *** Analysis
+**** \(O(N^2)\) method
+Each input would have exactly one solution, and no same element can be used twice. We can go through the array. For each element we encountered (~nums[i]~), we calculate the counter part (the number that is needed so ~nums[i] + counter_part = target~): simply: ~target - nums[i]~. Then we go through the rest of the array to find out if such element exist. We go from ~i + 1~ to the end. We don't have to go from the beginning because if there is such an element, we would find it earlier. If no such element found, we continue to the next element, calculate its counter part and search again.
+
+Strictly speaking, the time required will be smaller than \(O(N^2)\) algorithm. The "inner" iteration's size is not N, its size is decreasing.
 
 *** Solution
 **** C++
@@ -34,6 +38,49 @@ public:
     }
     
     return {0, 1};
+  }
+};
+#+end_src
+***** \(O(N^2)\) modified
+This is modified implementation. Although the algorithm is the same as the first \(O(N^2)\) solution. This solution is much clearer.
+#+begin_src c++ -n
+/*test cases: 
+[2,7,11,15]
+9
+
+[2,3]
+5
+
+[1,113,2,7,9,23,145,11,15]
+154
+
+[2,7,11,15,1,8,13]
+3
+*/
+
+
+class Solution {
+public:
+  vector<int> twoSum(vector<int>& nums, int target) {
+    int index_1 = -1;
+    int index_2 = -1;
+    
+    for (int i = 0; i < nums.size(); i++) {
+      int other_part = target - nums[i];
+      
+      for (int j = i + 1; j < nums.size(); j++) {
+        if (nums[j] == other_part) {
+          index_1 = i;
+          index_2 = j;
+          break;
+        }
+      }
+      
+      if (index_1 != -1)
+        break;
+    }
+    
+    return {index_1, index_2};
   }
 };
 #+end_src
@@ -125,6 +172,13 @@ public:
   }
 };
 #+end_src
+
+*** todos [1/5]
+- [X] try sort directly method (using a copy array)
+- [ ] write down my own analysis: sort copy array and iter_array
+- [ ] check the solution and understands, implement each idea
+- [ ] write the analysis of each idea
+- [ ] generalize this problem
 ** 136. Single Number
 *** Problem Statement
 [[https://leetcode.com/problems/single-number/][Link
@@ -689,6 +743,69 @@ This approach is a very "akward" way to use recursion.
 - [ ] read solution, write down thinking process
 - [ ] time complexity analysis of your code and solution code 
 * Trees
+** 101. Symmetric Tree
+*** Problem Statement
+[[https://leetcode.com/problems/symmetric-tree/][Link]]
+*** Analysis
+**** Recursion
+We need to define a method to describe how two nodes are equal "symmetrically", i.e. if two subtrees with root node ~a~ and ~b~, we say subtree ~a~ is "equal" with subtree ~b~, if the two subtrees are symmetric.
+
+By this method, we need a helper function that accepts two ~Treenode~ pointer (~a~ and ~b~). Its return type is bool. It can tell whether the two subtrees started by the two ~Treenode~ passed in are symmetrically equal or not. We use this function recursively. Two subtrees are symmetrically equal, if:
+1. ~a->val == b->val~, the root must have the same value
+2. ~a->left~ is symmetrically equal to ~b->right~
+3. ~a->right~ is symmetrically equal to ~b->left~
+Case 2, 3 can be determined by calling this function recursively. Case 1 can be determined directly. Also, we have to be aware of the base case (when ~a == nullptr~ or ~b == nullptr~.
+
+*** Solution
+**** C++
+***** recursion (75%, 64%)
+#+begin_src c++ -n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  bool isSymmetric(TreeNode* root) {
+    if (root == nullptr)
+      return true;
+    
+    return isSym(root->left, root->right);
+  }
+  
+  bool isSym(TreeNode* a, TreeNode* b) {
+    if (a == nullptr) {
+      if (b == nullptr)
+        return true;
+      return false;
+    }
+    
+    if (b == nullptr)
+      return false;
+    
+    if (a->val != b->val)
+      return false;
+    
+    if (isSym(a->left, b->right) && isSym(a->right, b->left))
+      return true;
+    
+    return false;
+  }
+};
+
+#+end_src
+*** todos [1/5]
+- [X] write down your analysis (recursion)
+- [ ] think about iterative solution
+- [ ] write down analysis (iterative solution)
+- [ ] check solution and discussion to find out any other idea
+- [ ] generalize this problem
+  
 ** 104. Maximum Depth of Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/maximum-depth-of-binary-tree/][Link]]
@@ -767,7 +884,19 @@ public:
 *** Problem Statement
 [[https://leetcode.com/problems/diameter-of-binary-tree/][Link]]
 *** Analysis
+**** Direct recursion
+Just as stated in the problem statement, the longest path between any two nodes may not pass through the root. So, for a given node, the longest path of this node may have three cases:
+1. longest path is in its left subtree, and does not pass this node;
+2. longest path is in its right subtree, and does not pass this node;
+3. longest path passes through this node;
 
+We can calculate the path of the above three cases, and find out which one is the longest. Calculate case 1 and 2 is easy, we can call the function recursively to find out the longest path of the left and right subtree. To calculate case 3, we use the fact that: longest path passing this node = height of left subtree + height of right subtree + 2, where "2" correspondes to the two edges connecting left and right subtree to the root node. The we compare these three values and return the largest one.
+
+Also, we have to consider the base case:
+1. this node is ~nullptr~
+2. its left subtree is ~nullptr~
+3. its right subtree is ~nullptr~
+   
 *** Solution
 **** C++
 ***** direct recursion (5%, 5%)
