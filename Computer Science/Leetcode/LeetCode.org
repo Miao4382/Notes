@@ -675,6 +675,18 @@ public:
   }
 };
 #+end_src
+* Hash Table
+** 242. Valid Anagram
+*** Problem Statement
+[[https://leetcode.com/problems/valid-anagram/][Link]]
+*** Analysis
+**** Sort
+**** Hash Table
+*** Solution
+*** todos [/]
+- [ ] write down your analysis and solution
+- [ ] check solution and discussion section, read and understand other ideas and implement them
+- [ ] generalize the problem
 * Linked List
 ** 206. Reverse Linked List
 *** Problem Statement
@@ -895,7 +907,6 @@ public:
 - [X] write down your recursion solution and analysis
 - [ ] work on the DFS approach
 - [ ] check discussion, find out other ideas, understand and implement them
-
   
 ** 113. Path Sum II
 *** Problem Statement
