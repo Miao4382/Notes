@@ -1,0 +1,47 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/**}
+\PYG{c+cm}{ * Definition for singly\PYGZhy{}linked list.}
+\PYG{c+cm}{ * struct ListNode \PYGZob{}}
+\PYG{c+cm}{ *     int val;}
+\PYG{c+cm}{ *     ListNode *next;}
+\PYG{c+cm}{ *     ListNode(int x) : val(x), next(NULL) \PYGZob{}\PYGZcb{}}
+\PYG{c+cm}{ * \PYGZcb{};}
+\PYG{c+cm}{ */}
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{reverseList}\PYG{p}{(}\PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{head}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{n}{ListNode}\PYG{o}{*\PYGZgt{}} \PYG{n}{nodes}\PYG{p}{;}
+    \PYG{c+c1}{// check if head is nullptr}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{head} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n}{head}\PYG{p}{;}
+
+    \PYG{c+c1}{// store the list in stack}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n+nb}{true}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{!=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{head}\PYG{p}{);}
+	\PYG{n}{head} \PYG{o}{=} \PYG{n}{head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{else} \PYG{p}{\PYGZob{}} \PYG{c+c1}{// head is pointing the last node}
+	\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{head}\PYG{p}{);}
+	\PYG{k}{break}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{// start re\PYGZhy{}connect}
+    \PYG{n}{head} \PYG{o}{=} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{();}
+    \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+    \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{last\PYGZus{}node} \PYG{o}{=} \PYG{n}{head}\PYG{p}{;}
+
+    \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+      \PYG{n}{last\PYGZus{}node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{();}
+      \PYG{n}{last\PYGZus{}node} \PYG{o}{=} \PYG{n}{last\PYGZus{}node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{n}{last\PYGZus{}node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{;}
+
+    \PYG{k}{return} \PYG{n}{head}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

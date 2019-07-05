@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+
+  \PYG{k+kt}{void} \PYG{n}{moveZeroes}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{zero\PYGZus{}count} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{iter} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();} \PYG{n}{iter} \PYG{o}{!=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{();} \PYG{o}{++}\PYG{n}{iter}\PYG{p}{)}
+      \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{iter} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+	\PYG{n}{zero\PYGZus{}count}\PYG{o}{++}\PYG{p}{;}
+
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{zero\PYGZus{}count} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+      \PYG{k}{return}\PYG{p}{;}
+
+    \PYG{k}{auto} \PYG{n}{iter} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();}
+    \PYG{k+kt}{int} \PYG{n}{zero\PYGZus{}deleted} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{zero\PYGZus{}deleted} \PYG{o}{\PYGZlt{}} \PYG{n}{zero\PYGZus{}count}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{iter} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{iter} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{iter}\PYG{p}{);}
+	\PYG{n}{nums}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);}
+	\PYG{n}{zero\PYGZus{}deleted}\PYG{o}{++}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{else}
+	\PYG{o}{++}\PYG{n}{iter}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

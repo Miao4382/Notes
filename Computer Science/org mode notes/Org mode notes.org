@@ -96,8 +96,7 @@ If you want to add an extra line between paragraphs, you can use package:
 This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the ~#+LATEX_HEADER: \setlength\parindent{0pt}~ line).
 
 [[https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file][Reference]]
-*** Inline Equation, Display Equation and Multi-lined Equation
-In latex, ~\(\)~ is for inline equation.
+*** Inline Equation, Display Equation and Multi-lined EquationIn latex, ~\(\)~ is for inline equation.
 
 In latex, ~\[\]~ is for single line display equation (without number).
 
@@ -146,7 +145,6 @@ To make content in center:
 |-------------+-----------------+-------------------------------|
 
 
-
 *** Export LaTex pdf File with Chinese
 [not finished]
 When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:
@@ -155,6 +153,29 @@ When you have Chinses characters in your org file, you have to save it using utf
 #+END_EXAMPLE
 
 When compiling you have to use XeLaTex to compile the pdf. (not so sure how)
+
+*** Internal  link <<example_anchor>>
+You can add an anchor to anywhere in your article, and insert a link to this anchor. When user click the link, they will be brought to the place where the anchor is.
+
+To add an anchor, you have to first think about a *name* of the anchor. The name will be the identification of the anchor, so you must make sure they are unique. It will be used when you create a link to it. Assume the name is "anchor_name". You navigate to the place you want to add this anchor and type:
+#+BEGIN_EXAMPLE
+<<anchor_name>>
+#+END_EXAMPLE
+
+Then, you navigate to the place where you want to add a link to this anchor, just type:
+#+BEGIN_EXAMPLE
+[[anchor_name][type in words that will show on the link here]]
+#+END_EXAMPLE
+
+I put an anchor at the starting of this section, the name is ~example_anchor~, now I type:
+#+BEGIN_EXAMPLE
+[[example_anchor][go to my example anchor]]
+#+END_EXAMPLE
+
+You will see: [[example_anchor][go to my example anchor]]. Click it, it will bring you back to the beginning. This is how it works.
+
+
+
 ** Useful links
 [[http://doc.norang.ca/org-mode.html][General ORG tutorial]]
 ** Emacs

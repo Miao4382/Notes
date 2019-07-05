@@ -675,6 +675,18 @@ public:
   }
 };
 #+end_src
+* Hash Table
+** 242. Valid Anagram
+*** Problem Statement
+[[https://leetcode.com/problems/valid-anagram/][Link]]
+*** Analysis
+**** Sort
+**** Hash Table
+*** Solution
+*** todos [/]
+- [ ] write down your analysis and solution
+- [ ] check solution and discussion section, read and understand other ideas and implement them
+- [ ] generalize the problem
 * Linked List
 ** 206. Reverse Linked List
 *** Problem Statement
@@ -815,7 +827,7 @@ A node's maximum depth, is the larger maximum depth of its left and right subtre
 *** Solution
 **** C++
 ***** Recursion. Time (88.44%) Space (91.28%)
-#+begin_src c++ -n
+#+begin_src c++
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -895,7 +907,6 @@ public:
 - [X] write down your recursion solution and analysis
 - [ ] work on the DFS approach
 - [ ] check discussion, find out other ideas, understand and implement them
-
   
 ** 113. Path Sum II
 *** Problem Statement
@@ -1038,6 +1049,77 @@ public:
 *** todos [0/2]
 - [ ] analyze why my code requires a lot more space than the divide and conquer method
 - [ ] read the discussion page for more solution
+** 437. Path Sum III
+*** Problem Statement
+[[https://leetcode.com/problems/path-sum-iii/][Link]]
+*** Analysis
+**** Double recursion (~50%, 50%)
+The tricky part is that the path does not need to start or end at the root or a leaf. However, it must go downwards (traveling only from parent nodes to child nodes), this is to say that we don't consider the situation that the path is like: ~left_child -> node -> right_child~, which makes things easier.
+
+The tricky part means we may have some paths deep below that sum to the target value, these paths are not connected to the root. In fact, we can conclude that, given a tree (or subtree) starting at ~node~, the paths that sum to the target value are composed of following cases:
+1. paths from *left* subtree of node that sum to the target, they are not connected to ~node~ though
+2. paths from *right* subtree of node that sum to the target, they are also not connected to ~node~.
+3. any paths that containing ~node~ as their starting node. This includes path connecting ~node~ and ~node->left~, paths connecting ~node~ and ~node->right~, and also ~node~ alone if ~node->val == target~.
+
+Pay attention that we don't have to consider paths like ~left->node->right~, as mentioned earlier. The function header of the solution function is:
+#+begin_src c++ -n
+int pathSum(TreeNode* root, int sum)
+#+end_src
+
+We can use this function to get the result of case 1 and case 2. Since these results are *NOT* containing the root. As for case 3, we can build a helper function ~continuousSum()~ to calculate. This function will also use recursive algorithm. The function header is:
+#+begin_src c++
+int continuousSum(TreeNode* root, int sum)
+#+end_src
+
+It will return the total number of path that containing ~root~ and sum to the target ~sum~. Pay attention that, these paths do not need to go from ~root~ to leaf. The base case is when ~root == nullptr~, in this case, return zero. The total number can be calculated by calling itself, which is composed of following:
+1. ~continuousSum(root->left, sum - root->val)~
+2. ~continuousSum(root->right, sum - root->val)~
+3. ~+1 if root->val == sum~
+
+Case 3 is when a path only contains the ~root~. Pay attention that if ~root->left~ has a path sum to zero, and ~root->val == sum~, then ~left->root~ and ~root~ are considered two different pathes. If we think in a recursive way, this will account for those paths that from a node but not reaching leaf. The last node in the path is the node that ~node->val is equal to passed in sum~.
+*** Solution
+**** C++
+***** double recursion
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ /*Notes: 
+ calculate continuous sum and un-continuous sum
+ */
+class Solution {
+public:
+  int continuousSum(TreeNode* root, int sum) {
+    if (root == nullptr)
+      return 0;
+    
+    int count = continuousSum(root->left, sum - root->val) + continuousSum(root->right, sum - root->val);
+    
+    if (sum == root->val)
+      count += 1;
+    
+    return count;
+  }
+  
+  int pathSum(TreeNode* root, int sum) {
+    if (root == nullptr)
+      return 0;
+    
+    return continuousSum(root, sum) + pathSum(root->left, sum) + pathSum(root->right, sum);
+    
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your own solution (including analysis).
+- [ ] check discussion panel, find out other solutions. Understand and write analysis, implement the solution
+- [ ] write down these analysis
 ** 543. Diameter of Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/diameter-of-binary-tree/][Link]]

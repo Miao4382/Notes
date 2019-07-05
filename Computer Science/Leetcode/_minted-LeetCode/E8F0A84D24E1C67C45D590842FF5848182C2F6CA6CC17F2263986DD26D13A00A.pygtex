@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{findDisappearedNumbers}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{disappear}\PYG{p}{;}
+    \PYG{n}{unordered\PYGZus{}set}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{appeared}\PYG{p}{;} \PYG{c+c1}{// extra space used}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{num} \PYG{p}{:} \PYG{n}{nums}\PYG{p}{)}  \PYG{c+c1}{// total average O(N), worst: O(N\PYGZca{}2)}
+      \PYG{n}{appeared}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{num}\PYG{p}{);}  \PYG{c+c1}{// average: O(1), worst: O(N)}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{appeared}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{o}{==} \PYG{n}{appeared}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}  \PYG{c+c1}{// find(), average: O(1), worst: O(N)}
+	\PYG{n}{disappear}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{disappear}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{// Total complexity: average: O(N), worst: O(N\PYGZca{}2), still bound by O(N\PYGZca{}2)}
+\end{Verbatim}

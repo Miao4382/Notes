@@ -647,7 +647,66 @@ Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - 
 - [X] Write the analysis of grouping idea and my code
 - [X] Read code in reference of grouping idea, make notes
 - [X] Check other possible solution and make future plan
-- [ ] Try to generalize this problem 
+- [ ] Try to generalize this problem  
+** 581. Shortest Unsorted Continuous Subarray
+*** Problem Statement
+[[https://leetcode.com/problems/shortest-unsorted-continuous-subarray/][Link]]
+*** Analysis
+**** Use sorting
+Let's compare the original array with its sorted version. For example, we have:
+#+BEGIN_EXAMPLE
+original: 2 6 4 8 10  9  15
+sorted:   2 4 6 8  9 10  15
+            ↑            ↑
+            1            6
+#+END_EXAMPLE
+They started to differ at 1, and ended differ at 6. The continuous unsorted subarray is bound to this range, thus we can calculate the length by ~end_differ_index - start_differ_index~.
+
+Steps to solve this problem:
+1. build a sorted array
+2. create two integers: ~end_differ_index - start_differ_index~, they represent the position where differ between original array and sorted array starts and ends. The default value would be zero, which means no difference.
+3. start from beginning, traverse the array to find out the first position where two arrays differ. Store it in ~start_differ_index~.
+4. start from ending, traverse the array (to the beginning) to find out the last position where two arrays are the same. Store it in ~end_differ_index~.
+5. return ~end_differ_index - start_differ_index~, which is the length of the shortest unsorted continuous subarray. If the original array is already sorted, this value would be zero.
+
+*** Solution
+**** C++
+***** use sorting
+#+begin_src c++
+class Solution {
+public:
+  int findUnsortedSubarray(vector<int>& nums) {
+    vector<int> nums_sorted = nums;
+    sort(nums_sorted.begin(), nums_sorted.end());
+    
+    int start_differ_index = 0;
+    int end_differ_index = 0;
+    
+    // determine start_differ_index
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] != nums_sorted[i]) {
+        start_differ_index = i;
+        break;
+      }
+    }
+    
+    // determine end_differ_index
+    for (int i = nums.size() - 1; i >= 0; i--) {
+      if (nums[i] != nums_sorted[i]) {
+        end_differ_index = i + 1;
+        break;
+      }
+    }
+    
+    // return result 
+    return end_differ_index - start_differ_index;
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your analysis and solution
+- [ ] check solution page, study, understand and implement them
+- [ ] study first solution (brutal force)
 ** 771. Jewels and Stones
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]

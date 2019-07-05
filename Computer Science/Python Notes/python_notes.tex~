@@ -1,4 +1,4 @@
-% Created 2019-05-28 Tue 13:07
+% Created 2019-07-04 Thu 15:18
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{book}
 \usepackage[utf8]{inputenc}
@@ -33,12 +33,8 @@
 
 \tableofcontents
 
-This \texttt{RotateStyle} class takes one argument, an RGB color in hex format. Pygal then chooses colors for each of the groups based on the color provided. The format of the RGB color is:
-\begin{verbatim}
-#rrggbb
-rr: red component of the color
-gg: green component of the color
-bb: blue component of the color
-The range of the color 
-\end{verbatim}
+\begin{bmatrix} 
+a & b \\
+c & d 
+\end{bmatrix}
 \end{document}

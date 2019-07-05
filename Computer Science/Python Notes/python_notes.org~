@@ -2269,7 +2269,7 @@ This is the original way of passing arguments to a function. You provide the var
 def my_function(A, B, C):
     """sample function"""
 #+end_src
-and then, you cann the function by:
+and then, you call the function by:
 #+begin_src python -n
 my_function(a, b, c)
 #+end_src
@@ -2333,7 +2333,7 @@ Output:
 3
 5
 #+END_EXAMPLE
-The above function call is similar as: ~func(1, 2, 3, 4, 5)~. And ~func()~ has been defined to take a ~*nums~ argument. So each element in ~arg~ has been passed in ~func()~ separately. If we remove ~*~ when calling function, we have:
+The above function call is similar as: ~func(1, 2, 3, 5)~. And ~func()~ has been defined to take a ~*nums~ argument. So each element in ~arg~ has been passed in ~func()~ separately. If we remove ~*~ when calling function, we have:
 #+begin_src python -n
 def func(*nums):
     for num in nums:

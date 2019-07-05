@@ -1,0 +1,33 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/**}
+\PYG{c+cm}{ * Definition for singly\PYGZhy{}linked list.}
+\PYG{c+cm}{ * struct ListNode \PYGZob{}}
+\PYG{c+cm}{ *     int val;}
+\PYG{c+cm}{ *     ListNode *next;}
+\PYG{c+cm}{ *     ListNode(int x) : val(x), next(NULL) \PYGZob{}\PYGZcb{}}
+\PYG{c+cm}{ * \PYGZcb{};}
+\PYG{c+cm}{ */}
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{exist}\PYG{p}{(}\PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{ptr}\PYG{p}{,} \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{head}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{head} \PYG{o}{!=} \PYG{k}{nullptr} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{ptr} \PYG{o}{!=} \PYG{n}{head}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{head} \PYG{o}{=} \PYG{n}{head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{head}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{getIntersectionNode}\PYG{p}{(}\PYG{n}{ListNode} \PYG{o}{*}\PYG{n}{headA}\PYG{p}{,} \PYG{n}{ListNode} \PYG{o}{*}\PYG{n}{headB}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{headA} \PYG{o}{!=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{ListNode}\PYG{o}{*} \PYG{n}{result} \PYG{o}{=} \PYG{n}{exist}\PYG{p}{(}\PYG{n}{headA}\PYG{p}{,} \PYG{n}{headB}\PYG{p}{);}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{result} \PYG{o}{!=} \PYG{k}{nullptr}\PYG{p}{)}
+	\PYG{k}{return} \PYG{n}{result}\PYG{p}{;}
+
+      \PYG{n}{headA} \PYG{o}{=} \PYG{n}{headA}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{headA}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}
