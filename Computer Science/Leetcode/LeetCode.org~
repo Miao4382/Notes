@@ -688,6 +688,172 @@ public:
 - [ ] check solution and discussion section, read and understand other ideas and implement them
 - [ ] generalize the problem
 * Linked List
+** 160. Intersection of Two Linked Lists
+*** Problem Statement
+[[https://leetcode.com/problems/intersection-of-two-linked-lists/][Link]]
+*** Analysis
+Assume the size of list ~A~ is /(m/), and the size of list ~B~ is /(n/).
+**** Brutal force
+We can traverse list ~A~. For each encountered node, we traverse list ~B~ to find out if there is a same node. The time complexity should be /(O(mn)/). Since we don't use other spaces to store any information, the space complexity is /(O(1)/).
+
+**** Hash table
+First, we traverse list ~A~ to store all the address information of each node in a hash table (e.g. Unordered-set). Then we traverse list ~B~ to find out if each node in ~B~ is also in the hash table. If so, it is an intersection.
+
+**** Skip longer list
+Let's consider a simpler situation: list ~A~ and list ~B~ has the same size. We just need to traverse the two lists one node at a time. If there is an intersection, it must be at the same relative position in the list.
+
+In this problem, we may not have lists that with same size. However, if two linked lists intersect at some point, the merged part's length does not exceed the size of the shorter list. This means we can skip some beginning parts of the longer list because intersection could not possibly happen there. For example:
+#+BEGIN_EXAMPLE
+List A: 1 5 2 8 6 4 9 7 3
+List B:       4 8 1 9 7 3
+                    ↑
+#+END_EXAMPLE
+List ~A~ and ~B~ intersect at node 9. We can skip the ~[1, 5, 2]~ part in list ~A~ and then treat them as list with same size:
+#+BEGIN_EXAMPLE
+List A': 8 6 4 9 7 3
+List B : 4 8 1 9 7 3
+               ↑
+#+END_EXAMPLE
+
+So the steps to solve this problem are:
+1. traverse list ~A~ and ~B~ to find out the size of two lists
+2. skip beginning portion of longer list so that the remaining part of the longer list has the same size as the shorter list
+3. check the two lists and find possible intersection
+
+The time complexity: \(O(n)\) or \(O(m)\), depends on which is bigger. The space used is not related to the input size, thus space complexity is \(O(1)\).
+
+**** Two pointer
+*** Solution
+**** C++
+***** brutal force
+#+begin_src c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  ListNode* exist(ListNode* ptr, ListNode* head) {
+    while (head != nullptr && ptr != head) {
+      head = head->next;
+    }
+    
+    return head;
+  }
+  
+  ListNode* getIntersectionNode(ListNode *headA, ListNode *headB) {
+    while (headA != nullptr) {
+      ListNode* result = exist(headA, headB);
+      
+      if (result != nullptr)
+        return result;
+      
+      headA = headA->next;
+    }
+    
+    return headA;
+  }
+};
+#+end_src
+***** hash table
+#+begin_src c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  
+  ListNode* getIntersectionNode(ListNode *headA, ListNode *headB) {
+    unordered_set<ListNode*> A_record;
+    
+    // record A's node 
+    while (headA != nullptr) {
+      A_record.insert(headA);
+      headA = headA->next;
+    }
+    
+    // go over B and find if there is any intersection
+    while (headB != nullptr) {
+      if (A_record.find(headB) != A_record.end())
+        return headB;
+      
+      headB = headB->next;
+    }
+    
+    return headB;
+  }
+};
+#+end_src
+***** skip longer lists
+#+begin_src c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  
+  ListNode* getIntersectionNode(ListNode *headA, ListNode *headB) {
+    int size_A = 0;
+    int size_B = 0;
+    
+    ListNode* start_A = headA;
+    ListNode* start_B = headB;
+    
+    // count the number of nodes in A and B
+    while (start_A != nullptr) {
+      start_A = start_A -> next;
+      size_A++;
+    }
+    
+    while (start_B != nullptr) {
+      start_B = start_B -> next;
+      size_B++;
+    }
+    
+    // skip the first portion of the list
+    if (size_A > size_B) {
+      int skip = size_A - size_B;
+      
+      for (int i = 1; i <= skip; i++)
+        headA = headA -> next;
+    }
+    
+    else if (size_A < size_B) {
+      int skip = size_B - size_A;
+      
+      for (int i = 1; i <= skip; i++)
+        headB = headB -> next;
+    }
+    
+    // now A and B has same relative length, check possible intersection
+    while (headA != nullptr && headA != headB) {
+      headA = headA -> next;
+      headB = headB -> next;
+    }
+    
+    return headA;
+    
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your analysis and solution
+- [ ] read the two pointer solution, understand, implement, record
+- [ ] read discussion page to see if there is any other solution
 ** 206. Reverse Linked List
 *** Problem Statement
 [[https://leetcode.com/problems/reverse-linked-list/][Link]]
@@ -915,7 +1081,7 @@ public:
 **** DFS
 In DFS, you use a stack to keep track of your path. This problem requires you to find out all the path that satisfies the requirement. So you have to do book-keeping. The basic DFS idea is as follows.
 1. we push the root into a stack: ~v~.
-2. use a while loop to find all combinations of root-to-leaf path: ~while (!v.empty()~
+2. use a while loop to find all combinations of root-to-leaf path: ~while (!v.empty())~
 3. if the top node in the stack is a leaf, then it suggests the current stack is holding a complete root-to-leaf path. We should check if this path adds to the target sum. If so we have to push this path into the result. Then, we have to trace backward, until we found a previous node that has unvisited child *OR* the stack is empty. Each time we push a node into the stack, we have to mark it as visited. We achieve this by using an unordered_set to record these nodes being pushed into the stack. Unordered_set has fast retrival rate using a key.
 4. if the top node in the stack is not a leaf, then we have to continue to push its children into the stack. We first try inserting left child, and then right child. This depends on the visit history of the children. Only one child per loop. After inserting one child, we ~continue~, beginning the next loop.
 5. from the above analysis, we can see that we trace back, only when we meet a leaf node. This guarantees that the found path is root-to-leaf path.

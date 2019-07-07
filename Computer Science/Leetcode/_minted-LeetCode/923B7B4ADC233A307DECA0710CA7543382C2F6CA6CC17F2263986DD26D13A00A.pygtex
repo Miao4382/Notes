@@ -1,0 +1,54 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+
+  \PYG{k+kt}{int} \PYG{n}{rangeSumBST}\PYG{p}{(}\PYG{n}{TreeNode}\PYG{o}{*} \PYG{n}{root}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{L}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{R}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{root} \PYG{o}{==} \PYG{k}{nullptr}\PYG{p}{)}
+      \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+    \PYG{k+kt}{int} \PYG{n}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+    \PYG{c+c1}{// use a set to keep track of visited nodes}
+    \PYG{n}{unordered\PYGZus{}set}\PYG{o}{\PYGZlt{}}\PYG{n}{TreeNode}\PYG{o}{*\PYGZgt{}} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{;}
+    \PYG{c+c1}{// use a stack to do DFS}
+    \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{n}{TreeNode}\PYG{o}{*\PYGZgt{}} \PYG{n}{nodes}\PYG{p}{;}
+    \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{root}\PYG{p}{);}
+
+    \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+      \PYG{c+c1}{// check if top node is leaf or not}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left} \PYG{o}{==} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val} \PYG{o}{\PYGZgt{}=} \PYG{n}{L} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val} \PYG{o}{\PYGZlt{}=} \PYG{n}{R}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	  \PYG{n}{sum} \PYG{o}{+=} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val}\PYG{p}{;}
+	  \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+	  \PYG{k}{continue}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{c+c1}{// check if nodes.top() has unvisited child (first check left, then right)}
+      \PYG{c+c1}{// if so, push it into the stack}
+      \PYG{c+c1}{// otherwise, calculate sum}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left} \PYG{o}{!=} \PYG{k}{nullptr} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{)} \PYG{o}{==} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+	\PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{);}  \PYG{c+c1}{// mark as visited}
+	\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{);}
+	\PYG{k}{continue}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right} \PYG{o}{!=} \PYG{k}{nullptr} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{)} \PYG{o}{==} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+	\PYG{n}{visited\PYGZus{}nodes}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{);}
+	\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{);}
+	\PYG{k}{continue}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{c+c1}{// up to here, both child of the nodes.top() node has been visited}
+      \PYG{c+c1}{// add to sum if nodes.top()\PYGZhy{}\PYGZgt{}val satisfies the condition}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val} \PYG{o}{\PYGZgt{}=} \PYG{n}{L} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val} \PYG{o}{\PYGZlt{}=} \PYG{n}{R}\PYG{p}{)}
+	\PYG{n}{sum} \PYG{o}{+=} \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{val}\PYG{p}{;}
+
+      \PYG{n}{nodes}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{sum}\PYG{p}{;}
+
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

@@ -647,7 +647,66 @@ Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - 
 - [X] Write the analysis of grouping idea and my code
 - [X] Read code in reference of grouping idea, make notes
 - [X] Check other possible solution and make future plan
-- [ ] Try to generalize this problem 
+- [ ] Try to generalize this problem  
+** 581. Shortest Unsorted Continuous Subarray
+*** Problem Statement
+[[https://leetcode.com/problems/shortest-unsorted-continuous-subarray/][Link]]
+*** Analysis
+**** Use sorting
+Let's compare the original array with its sorted version. For example, we have:
+#+BEGIN_EXAMPLE
+original: 2 6 4 8 10  9  15
+sorted:   2 4 6 8  9 10  15
+            ↑            ↑
+            1            6
+#+END_EXAMPLE
+They started to differ at 1, and ended differ at 6. The continuous unsorted subarray is bound to this range, thus we can calculate the length by ~end_differ_index - start_differ_index~.
+
+Steps to solve this problem:
+1. build a sorted array
+2. create two integers: ~end_differ_index - start_differ_index~, they represent the position where differ between original array and sorted array starts and ends. The default value would be zero, which means no difference.
+3. start from beginning, traverse the array to find out the first position where two arrays differ. Store it in ~start_differ_index~.
+4. start from ending, traverse the array (to the beginning) to find out the last position where two arrays are the same. Store it in ~end_differ_index~.
+5. return ~end_differ_index - start_differ_index~, which is the length of the shortest unsorted continuous subarray. If the original array is already sorted, this value would be zero.
+
+*** Solution
+**** C++
+***** use sorting
+#+begin_src c++
+class Solution {
+public:
+  int findUnsortedSubarray(vector<int>& nums) {
+    vector<int> nums_sorted = nums;
+    sort(nums_sorted.begin(), nums_sorted.end());
+    
+    int start_differ_index = 0;
+    int end_differ_index = 0;
+    
+    // determine start_differ_index
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] != nums_sorted[i]) {
+        start_differ_index = i;
+        break;
+      }
+    }
+    
+    // determine end_differ_index
+    for (int i = nums.size() - 1; i >= 0; i--) {
+      if (nums[i] != nums_sorted[i]) {
+        end_differ_index = i + 1;
+        break;
+      }
+    }
+    
+    // return result 
+    return end_differ_index - start_differ_index;
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your analysis and solution
+- [ ] check solution page, study, understand and implement them
+- [ ] study first solution (brutal force)
 ** 771. Jewels and Stones
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]
@@ -1385,6 +1444,126 @@ public:
 *** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution
+** 938. Range Sum of BST
+*** Problem Statement
+[[https://leetcode.com/problems/range-sum-of-bst/][Link]]
+*** Analysis
+**** Recursion (brutal and stupid)
+The tree is composed of left subtree, the node, and the right subtree. The base case is when the root is pointing to ~nullptr~, in this case, we should return 0.
+
+Thus, we call the function itself to find out the range sum of left subtree and right subtree first, then we check the ~node->val~. If it is within the range, we add it to the whole sum, otherwise, we ignore it.
+
+This algorithmm is easy to follow, but it does a lot of unnecessary work (didn't use the fact that this is a binary search tree, which satisfies: ~node->left->val < node->val < node->right->val~, given "the binary search tree is guaranteed to have unique values"). If ~node->val~ is smaller than ~L~, then we have no reason to check ~rangeSumBST(node->left, L, R)~, since any value contained in this branch of subtree is bound to be smaller than ~node->val~, thus not within the range ~[L, R]~. Similarliy if ~node->val~ is greater than ~R~, we don't have to check ~rangeSumBST(node->right, L, R)~. This thought gives a better recursion algorithm.
+**** DFS
+DFS allows us to traverse the tree in a deapth first manner (go deep first). It will eventually go over all the nodes one by one. We use a stack to perform the DFS, we also need an associative container to hold record of visited nodes. The basic steps is this:
+1. create a stack and an unordered_set
+2. push the root (if it is not nullptr) into the stack
+3. while the stack is not empty, we check the top node in the stack
+   - if the top node is a leaf, then we check its value (to see if it is within the range, so we can add it to the total sum); Then we pop it ()
+   - if the top node is not a leaf, we check if its left node is visited, if not, we visit it by pushing its left child into the stack, and record this in the Unordered_set, then we go to the next loop. If its left node was already visited, we check right child and do the same thing
+4. if the top node has no unvisited child, we check its value to see if it satisfies the range, if so, we add it to the sum. Then, we pop it out of the stack, start next loop.
+
+By DFS, we can traverse the whole tree's each node in a depth-first manner. We can get the range sum along the way.
+
+*** Solution
+
+**** C++
+
+***** recursion (stupid)
+#+begin_src c++
+class Solution {
+public:
+  int rangeSumBST(TreeNode* root, int L, int R) {
+    // base case 
+    if (root == nullptr)
+      return 0;
+    
+    return (root -> val <= R && root -> val >= L ? root -> val + rangeSumBST(root -> left, L, R) + rangeSumBST(root -> right, L, R) : rangeSumBST(root -> left, L, R) + rangeSumBST(root -> right, L, R));
+  }
+};
+#+end_src
+
+***** recursion (better)
+#+begin_src c++
+class Solution {
+public:
+  int rangeSumBST(TreeNode* root, int L, int R) {
+    // base case 
+    if (root == nullptr)
+      return 0;
+    
+    if (root->val < L)
+      return rangeSumBST(root -> right, L, R);
+    
+    if (root->val > R)
+      return rangeSumBST(root->left, L, R);
+    
+    return root->val + rangeSumBST(root->left, L, R) + rangeSumBST(root->right, L, R);
+  }
+};
+#+end_src
+
+***** DFS (slow, 5% and 6%)
+#+begin_src c++
+class Solution {
+public:
+  
+  int rangeSumBST(TreeNode* root, int L, int R) {
+    if (root == nullptr)
+      return 0;
+    
+    int sum = 0;
+    
+    // use a set to keep track of visited nodes 
+    unordered_set<TreeNode*> visited_nodes;
+    // use a stack to do DFS
+    stack<TreeNode*> nodes;
+    nodes.push(root);
+    
+    while (!nodes.empty()) {
+      // check if top node is leaf or not
+      if (nodes.top()->left == nodes.top()->right) {
+        if (nodes.top()->val >= L && nodes.top()->val <= R) {
+          sum += nodes.top()->val;
+          nodes.pop();
+          continue;
+        }
+      }
+      
+      // check if nodes.top() has unvisited child (first check left, then right)
+      // if so, push it into the stack 
+      // otherwise, calculate sum 
+      if (nodes.top()->left != nullptr && visited_nodes.find(nodes.top()->left) == visited_nodes.end()) {
+        visited_nodes.insert(nodes.top()->left);  // mark as visited 
+        nodes.push(nodes.top()->left);
+        continue;
+      }
+      
+      if (nodes.top()->right != nullptr && visited_nodes.find(nodes.top()->right) == visited_nodes.end()) {
+        visited_nodes.insert(nodes.top()->right);
+        nodes.push(nodes.top()->right);
+        continue;
+      }
+      
+      // up to here, both child of the nodes.top() node has been visited
+      // add to sum if nodes.top()->val satisfies the condition 
+      if (nodes.top()->val >= L && nodes.top()->val <= R)
+        sum += nodes.top()->val;
+      
+      nodes.pop();
+    }
+    
+    return sum;
+    
+  }
+};
+#+end_src
+
+*** todos [1/3]
+- [X] write down your analysis and solution (recursion and DFS)
+- [ ] check solution's DFS, study and re-implement
+- [ ] read discussion page, to gain more understanding of possible solution
+- [ ] re-implement and write down analysis
 * Other
 ** 70. Climbing Stairs
 *** Problem Statement
