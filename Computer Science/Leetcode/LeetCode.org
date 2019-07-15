@@ -1675,6 +1675,81 @@ public:
 - [ ] check solution and study
 - [ ] implement solution by yourself
 - [ ] write down different ways of thinking about this problem
+** 559. Maximum Depth of N-ary Tree <<P559>>
+*** Problem Statement
+*** Analysis
+**** Recursion
+The recursion idea is similar with [[P104][104. Maximum Depth of Binary Tree]]. In this problem, the tree is N-ary rather than binary. And the node struct of the tree is slightly different from the binary tree. A vector is used to keep record of all the child nodes of one parent node. So, when doing recursion, you traverse the vector and apply the recursive function for each child.
+
+We are allowed to modify the tree node. So we can store the intermediate result in the node->val. Details are shown in the code.
+**** DFS
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+  void maximum(Node* t) {
+    // maximum value will be stored in t->val
+    if (t->children.size() == 0) {
+      t->val = 1;
+      return;
+    }
+    
+    // t has some children, get them maximum value first
+    for (auto& child : t->children) {
+      maximum(child);
+    }
+    
+    // now each child's maximum depth is stored in their val
+    // find out the maximum 
+    int child_max_depth = 0;
+    for (const auto& child : t->children) {
+      if (child->val > child_max_depth)
+        child_max_depth = child->val;
+    }
+    
+    t->val = child_max_depth + 1;
+  }
+  
+  int maxDepth(Node* root) {
+    if (root == nullptr)
+      return 0;
+    
+    maximum(root);
+    return root->val;
+  }
+};
+
+/*cases: 
+{"$id":"1","children":[{"$id":"2","children":[{"$id":"5","children":[],"val":5},{"$id":"6","children":[],"val":6}],"val":3},{"$id":"3","children":[],"val":2},{"$id":"4","children":[],"val":4}],"val":1}
+
+{"$id":"1","children":[],"val":1}
+
+*/
+#+end_src
+*** todos [1/5]
+- [X] write down your recursive solution
+- [ ] think about DFS traversal, implement and write down analysis 
+- [ ] read discussion panel
+- [ ] try new idea
+- [ ] generalize
 ** 581. Shortest Unsorted Continuous Subarray
 *** Problem Statement
 [[https://leetcode.com/problems/shortest-unsorted-continuous-subarray/][Link]]

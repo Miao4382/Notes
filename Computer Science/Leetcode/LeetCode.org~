@@ -405,7 +405,7 @@ public:
 - [ ] check solution and discussion to find out any other idea
 - [ ] generalize this problem
   
-** 104. Maximum Depth of Binary Tree
+** 104. Maximum Depth of Binary Tree <<P104>>
 *** Problem Statement
 [[https://leetcode.com/problems/maximum-depth-of-binary-tree/][Link]]
 *** Analysis
@@ -438,10 +438,122 @@ public:
   }
 };
 #+end_src
-*** todos [0/1]
+*** todos [0/3]
+- [ ] implement DFS approach
 - [ ] read about the discussion page for more methods and ideas
-- [ ] read about traversal method
-- [ ] make notes in your data structure notes about DFS abd BFS
+- [ ] make notes in your data structure notes about DFS and BFS
+** 110. Balanced Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/balanced-binary-tree/][Link]]
+*** Analysis
+**** Recursion
+The balanced tree should satisfy the following conditions:
+1. its left subtree is balanced
+2. its right subtree is balanced
+3. the height difference of its left subtree and right subtree is within the allowed maximum difference.
+
+So, we can use two recursive function to finish these works. One will give the height of a tree (used in 3). Another will determine if a subtree is balanced or not (used in 1 and 2), we use the function we are trying to develop itself.
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int depth(TreeNode* t) {
+    if (t == nullptr)
+      return 0;
+    
+    return max(depth(t->left), depth(t->right)) + 1;
+  }
+  
+  bool isBalanced(TreeNode* root) {
+    if (root == nullptr)
+      return true;
+    
+    if (depth(root->left) - depth(root->right) > 1 || depth(root->left) - depth(root->right) < -1)
+      return false;
+    
+    return isBalanced(root->left) && isBalanced(root->right);
+  }
+};
+
+#+end_src
+*** todos [1/4]
+- [X] write down your own solution and analysis
+- [ ] read discussion page to get more ideas, try to implement them
+- [ ] write down analysis of those other solutions
+- [ ] generalize the problem
+** 111. Minimum Depth of Binary Tree
+*** Problem Statement
+[[https://leetcode.com/problems/minimum-depth-of-binary-tree/][Link]]
+*** Analysis
+**** Recursion
+The idea is similar with [[P104][Maximum Depth of Binary Tree]]. We may use:
+#+begin_src c++
+return min(minDepth(root->left), minDepth(root->right)) + 1;
+#+end_src
+
+However, there is one situation needs further consiferation:
+#+BEGIN_EXAMPLE
+  1
+ /
+2 
+#+END_EXAMPLE
+The above tree's node 1 has only one child. The other child is ~nullptr~. In this case the above code will choose the right child rather than the left. To deal with this problem, we can use following strategy:
+- if one child is ~nullptr~, then return the ~minDept()~ of the other child.
+- otherwise, return the minimum of ~minDept(left)~ and ~minDept(right)~.
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+/*   bool isLeaf(TreeNode* t) {
+    if (t == nullptr)
+      return false;
+    
+    return (t->left == nullptr && t->right == nullptr);
+  } */
+  
+  int minDepth(TreeNode* root) {
+    if (root == nullptr)
+      return 0;
+    
+    if (root->left == nullptr)
+      return minDepth(root->right) + 1;
+    
+    if (root->right == nullptr)
+      return minDepth(root->left) + 1;
+    
+    return min(minDepth(root->left), minDepth(root->right)) + 1;
+  }
+};
+#+end_src
+*** todos [1/4]
+- [X] write down your own solution and analysis
+- [ ] try DFS
+- [ ] read discussion and explore more ideas
+- [ ] try to implement other ideas
 ** 112. Path Sum
 *** Problem Statement
 [[https://leetcode.com/problems/path-sum/][Link]]
@@ -1683,6 +1795,7 @@ We use a recursion to traverse the whole tree. For each node encountered, we use
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]
 *** Analysis
+**** Brutal force
 *** Solution
 **** C++
 ***** \(N^2\) Time (96.35%) Space (79.64%)
