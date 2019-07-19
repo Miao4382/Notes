@@ -716,10 +716,14 @@ public:
 [[https://leetcode.com/problems/single-number/][Link
 ]]
 *** Analysis
-**** Use Unordered-set
+**** Hash Table
+A hash table can be used to store the appearing information of each element. We can traverse the array, and try to find if each element encountered is in the hash table or not. If so, we remove it from the hash table. If not, we insert it into the hash table. The final remaining element would be the single number. This leads to hash table solution 1. The average time complexity for each hash table operation (~insert(), find(), erase()~) are constant, the worst case for them are linear. Thus, the total average case is \(O(N)\), the total worst case is \(O(N^2)\).
+
+We can improve this a little by using an integer ~sum~. Its initial value is zero. Each time we encounter an element, we check if it is in the hash table. If so, we subtract it from ~sum~. If not, we add it to ~sum~, and insert it into the hash table. This approach doesn't have to call ~erase()~, the subtraction does the job, and time complexity of this step is guaranteed constant. Although the total average and worst time complexity is the same as the above one, it can run faster for certain cases. This leads to hash table solution 2.
+
 *** Solution
 **** C++
-***** Unordered-set. time (16.06%) space (15.74%)
+***** hash table I: time (16.06%) space (15.74%)
 #+begin_src c++ -n
 class Solution {
 public:
@@ -739,10 +743,36 @@ public:
   }
 };
 #+end_src
-*** todos [0/4]
-- [ ] write your solution step (in analysis part), analysis time and space complexity
-- [ ] think about possible improvements
-- [ ] read solution, do additional work (internalize it and write analysis and code)
+***** hash table II: 37%, 15%
+#+begin_src c++
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    unordered_set<int> record;
+    
+    int sum = 0;
+    
+    for (auto num : nums) {
+      if (record.find(num) == record.end()) {
+        sum += num;
+        record.insert(num);
+      }
+      
+      else
+        sum -= num;
+    }
+    
+    return sum;
+  }
+};
+#+end_src
+*** todos [3/4]
+- [X] write your solution step (in analysis part), analysis time and space complexity
+- [X] think about possible improvements
+- [-] read solution, do additional work (internalize it and write analysis and code)
+  - [X] brutal force: use another array to hold
+  - [ ] math
+  - [ ] bit manipulation
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
 ** 160. Intersection of Two Linked Lists
 *** Problem Statement
@@ -1146,14 +1176,77 @@ public:
 - [ ] write down your analysis and solution
 - [ ] check solution and discussion section, read and understand other ideas and implement them
 - [ ] generalize the problem
+** 268. Missing Number
+*** Problem Statement
+*** Analysis
+**** math
+The sum of 1 to n is ~n * (n + 1) / 2~. So, we can calculate this first and then traverse the array, subtract each element from the sum. The final remaining number is equal to the missing number.
+*** Solution
+**** C++
+***** math: time \(O(N)\), space \(O(1)\)
+#+begin_src c++
+class Solution {
+public:
+  int missingNumber(vector<int>& nums) {
+    int sum = nums.size() * (nums.size() + 1) / 2;
+    
+    for (auto& num : nums) {
+      sum -= num;
+    }
+    
+    return sum;
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your solution and analysis
+- [ ] read solution page, understand and implement each solution, and write down analysis
+  - [ ] sorting
+  - [ ] hash table
+  - [ ] bit manipulation
+- [ ] generalize this problem
 ** 283. Move Zeros
 *** Problem Statement
 [[https://leetcode.com/problems/move-zeroes/][Link]]
 *** Analysis
 Make sure you know well the problem statement. For example, in this problem, there is no requirement for the zero element be kepted.
+**** Two pointers
+We can use two iterators to scan and find out zero and non-zero elements in the array, and swap them. For example, we have the following array:
+#+BEGIN_EXAMPLE
+[3,1,0,5,4,6,0,9]
+ ^
+#+END_EXAMPLE
+We use an iterator to traverse this array, starting from the first element. If we find zero:
+#+BEGIN_EXAMPLE
+[3,1,0,5,4,6,0,9]
+     ^
+#+END_EXAMPLE
+we will start another iterator to scan through the rest of the array, and find out the first non-zero element:
+#+BEGIN_EXAMPLE
+[3,1,0,5,4,6,0,9]
+     ^ ^
+     a b
+#+END_EXAMPLE
+as shown above, iterator ~a~ is pointing to an encountered zero, and iterator ~b~ is pointing to the first non-zero element after ~a~. Then we swap these two elements:
+#+BEGIN_EXAMPLE
+[3,1,5,0,4,6,0,9]
+     ^ ^
+     a b
+#+END_EXAMPLE
+If the rest of the array are all zero, we can just return, because the array is already in shape, for example:
+#+BEGIN_EXAMPLE
+[3,1,5,0,0,0,0,0] end
+       ^           ^
+       a           b
+#+END_EXAMPLE
+We do this until ~a~ goes to the end of the array or ~b~ encountered ~nums.end()~ while searching first non-zero
+
+
+
+
 *** Solution
 **** C++
-***** Use bubble sort idea. time (5%) space (75%)
+***** bubble sort. time (5%) space (75%)
 Too slow, time complexity is \(O(N^2)\).
 #+begin_src c++ -n
 class Solution {
@@ -1177,7 +1270,7 @@ public:
   }
 };
 #+end_src
-***** Use erase(), remove zeros. time (35%) space (34%)
+***** remove zeros. time (35%) space (34%)
 Still slow. Since the ~erase()~ function will reallocate each element after the deleted one. Worst case time complexity should be \(O(N^2)\).
 #+begin_src c++ -n
 class Solution {
@@ -1208,9 +1301,118 @@ public:
   }
 };
 #+end_src
-*** todos [0/2]
-- [ ] try to think another Solution
+***** two pointers. time (5%) space (80%)
+#+begin_src c++
+class Solution {
+public:
+  void moveZeroes(vector<int>& nums) {
+    for (auto itr_a = nums.begin(); itr_a != nums.end() - 1; ++itr_a) {
+      if (*itr_a == 0) {
+        auto itr_b = itr_a;
+        while (itr_b < nums.end() && *itr_b == 0)
+          ++itr_b;
+        
+        if (itr_b == nums.end())
+          return;
+        
+        swap(*itr_a, *itr_b);
+      }
+    }
+  }
+};
+#+end_src
+*** todos [2/3]
+- [X] try to think another Solution
+- [X] write down two pointer solution
 - [ ] read the solution page and study
+  - [ ] analyze solutions, implement them
+  - [ ] analyze your solution: time complexity, any extra work performed so it is slow
+** 389. Find the Difference <<P389>>
+*** Problem Statement
+[[https://leetcode.com/problems/find-the-difference/][Link]]
+*** Analysis
+**** Sort
+The two strings will have only one difference. We can just sort the two strings (use ~std::sort()~, time complexity is \(O(N\log{N})\)). Then we traverse the two strings, return the first character that is different. If no difference found to the end of the original string, we return the last character in the second string.
+
+The time complexity would be \(O(N\log{N})\), which is the amount of time ~std::sort()~ requires.
+**** Summation
+We can add (the ASCII value) all characters in ~s~ together to get ~sum_s~, then add all characters in ~t~ together to get ~sum_t~. Then, the different character's ASCII value should be ~sum_t - sum_s~.
+
+The time complexity to add all characters for a certain string is \(O(N)\). So the total time complexity is \(O(N)\).
+**** Hash Table
+We can record all characters in ~s~ into a hash table that duplicates are allowed ([[http://www.cplusplus.com/reference/unordered_set/unordered_multiset/][unordered_multiset]] in C++). This is because ~s~ might have duplicates. Then, we go through ~t~ and try to find if the character we encountered is also in the hash table. If so, we have to erase it from the hash table (this is for situations like ~s~ has one certain character, but ~t~ has two of this). If not in the hash table, then this is the difference character.
+
+This solution's time complexity is comparable to the sort method. Although the average case should be \(O(N)\). It uses extra space to hold the hash table, so its space complexity is also high \(O(N)\).
+*** Solution
+**** C++
+***** sort
+#+begin_src c++
+class Solution {
+public:
+  char findTheDifference(string s, string t) {
+    sort(s.begin(), s.end());
+    sort(t.begin(), t.end());
+    
+    for (auto s_i = s.begin(), t_i = t.begin(); s_i < s.end(); ++s_i, ++t_i) {
+      if (*s_i != *t_i)
+        return *t_i;
+    }
+    
+    return t.back();
+  }
+};
+#+end_src
+***** sum
+#+begin_src c++
+class Solution {
+public:
+  char findTheDifference(string s, string t) {
+    int sum = 0;
+    
+    for (auto ch : s)
+      sum += ch;
+    
+    for (auto ch : t)
+      sum -= ch;
+    
+    return static_cast<char>(-sum);
+  }
+};
+#+end_src
+***** hash Table
+#+begin_src c++
+class Solution {
+public:
+  char findTheDifference(string s, string t) {
+    unordered_multiset<char> record;
+    
+    // go over s and record each character
+    for (auto ch : s)
+      record.insert(ch);
+    
+    // go over t and check each character
+    char difference;
+    
+    for (auto ch : t) {
+      auto itr = record.find(ch);
+      
+      if (itr == record.end()) {
+        difference = ch;
+        break;
+      }
+      
+      record.erase(itr);
+    }
+    
+    return difference;
+    
+  }
+};
+#+end_src
+*** todos [1/3]
+- [X] write down your solution and analysis
+- [ ] check discussion page, work on that
+- [ ] generalize the problem
 ** 437. Path Sum III
 *** Problem Statement
 [[https://leetcode.com/problems/path-sum-iii/][Link]]
@@ -1759,7 +1961,7 @@ Let's compare the original array with its sorted version. For example, we have:
 #+BEGIN_EXAMPLE
 original: 2 6 4 8 10  9  15
 sorted:   2 4 6 8  9 10  15
-            ↑            ↑
+            ^            ^
             1            6
 #+END_EXAMPLE
 They started to differ at 1, and ended differ at 6. The continuous unsorted subarray is bound to this range, thus we can calculate the length by ~end_differ_index - start_differ_index~.
