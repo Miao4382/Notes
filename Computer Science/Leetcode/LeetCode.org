@@ -9,6 +9,18 @@
 #+LATEX_CLASS: book
 #+LATEX_CLASS_OPTIONS: [12pt]
 
+** 0. Template
+*** Problem Statement
+[[][]]
+*** Analysis
+
+*** Solution
+
+*** todos [0/4]
+- [ ] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 1. Two Sum <<P1>>
 *** Problem Statement
 [[https://leetcode.com/problems/two-sum/][Link]]
@@ -304,6 +316,50 @@ public:
   - [ ] one pass hash table
   - [ ] write the analysis of each idea
 - [ ] generalize this problem
+** 27. Remove Element <<P27>>
+*** Problem Statement
+[[https://leetcode.com/problems/remove-element/][Link]]
+*** Analysis
+**** Two pointers
+Idea is similar with [[P283][283. Move Zeros]]. Using two pointers (iterators): ~a~ and ~b~. Use iterator ~a~ to scan through the array. If target encountered, use the iterator ~b~ to scan element starting from next element. If the iterator ~b~ find non-target element, swap elements pointed by iterator ~a~ and ~b~. If ~b~ didn't find any non-target element, it means there is none in the remaining part of the array. We can return.
+
+Another thing should be kept is the number of non-target element we encountered during the iteration. This is the length of the sub-array that we should return. We update this number each time we encounter a non-target element or we swap a target and a non-target element.
+
+*** Solution
+**** C++
+***** two pointers
+#+begin_src c++
+class Solution {
+public:
+  int removeElement(vector<int>& nums, int val) {
+    int length = 0;
+    auto itr_b = nums.begin();
+    
+    for (auto itr_a = nums.begin(); itr_a != nums.end(); ++itr_a) {
+      if (*itr_a != val) {
+        length++;
+        continue;
+      }
+      
+      // target encountered
+      auto itr_b = itr_a + 1;
+      while (itr_b != nums.end() && *itr_b == val)
+        ++itr_b;
+      
+      if (itr_b == nums.end())
+        return length;
+      
+      swap(*itr_a, *itr_b);
+      length++;
+    }
+    
+    return length;
+  }
+};
+#+end_src
+*** todos [1/2]
+- [X] write down your solution and analysis
+- [ ] check solution
 ** 70. Climbing Stairs
 *** Problem Statement
 [[https://leetcode.com/problems/climbing-stairs/][Link]]
@@ -342,6 +398,104 @@ public:
 - [ ] read each solution carefully, try to understand the idea and implement by yourself.
 - [ ] generalize the problem
 
+** 79. Word Search
+*** Problem Statement
+[[https://leetcode.com/problems/word-search/][Link]]
+*** Analysis
+**** Recursion and record visited slot (my first approach)
+Pay attention to "the same letter cell may not be used more than once". Not only the immediate previous letter can't be used, all the used letters can't be used. So, a set is used to record all visited slot.
+
+Recursive way to solve this problem would be using a recursive function to search the adjacent cells. We need to build a helper with following abilities: we pass in a coordinate (row and column) and a word, this function will return a boolean value representing if the word can be found in path starting at the passed-in coordinate.
+
+Specifically, the function accepts following parameters:
+- ~board~: we need to access the original letter board
+- ~visited~: this should be a hash table containing visited cells (represented by row and column number in the board) during the current search. Pay attention that, if a search doesn't get the target word (search failed), you have to remove the corresponding record of the caller-cell. This is because other paths may still need this cell in their search. This hash table should be checked to make sure no cells be used more than once.
+- ~row~, col: the coordinate of the current searching cell.
+- ~word~: the target word to search starting from cell at ~(row, col)~
+
+Imagin the actual search process. You are at a certain cell, and you have a word to search. For example, you are going to search "APPLE" start from a cell containing some characters. If the character is not the first letter of the word, you should return false, like the following example:
+#+BEGIN_EXAMPLE
+ X A X
+ C B D
+ X F X
+#+END_EXAMPLE
+You are at cell-B. The four cell-Xs are irrelevant because you can't access them at cell-B. You check if cell-B containing the first letter in "APPLE", in this case, not. So you return false. If you encountered a cell that containing A, you can proceed, like following example:
+#+BEGIN_EXAMPLE
+ X 1 X
+ 4 A 2
+ X 3 X
+#+END_EXAMPLE
+If the current cell contains the right letter, we count it as one cell in the total path of the word search. We add the coordinate of this cell to the ~visited~ hash table. 
+
+we have to choose an adjacent cell to search. In fact, you have to search each adjacent cells (1, 2, 3, 4) by calling the ~search()~ function. The parameter ~word~ will be changed, so that the first letter is cut off, and pass the remaining part to the recursive function. Then, if ~search(cell_1) or search(cell_2) or search(cell_3) or search(cell_4)~ is true, we have found the word in some paths from cell_1 or 2 or 3 or 4. If not, no word could be found in paths starting from this cell. So, we need to remove the visited record of this cell from the hash table ~visited~.
+
+The base case of this recursive function is as follows:
+- ~word~ is empty: in this case, the word was found in the last path (because the last word has been cut off). So we can return true. This should always be checked first in all base cases.
+- ~(row, col)~ is visited (can be found in ~visited~): return false
+- ~row~ or ~col~ is out of board boundary: return false
+- the first letter in ~word~ can't match ~board[row][col]~: return false
+
+The representation of adjacent cell is simple, for example:
+#+BEGIN_EXAMPLE
+ X 1 X
+ 4 A 2
+ X 3 X
+ if A: (R, C)
+ then:
+    1 (R - 1, C)
+    2 (R, C + 1)
+    3 (R + 1, C)
+    4 (R, C - 1)
+#+END_EXAMPLE
+
+*** Solution
+**** Recursion and record visited slot (my first approach)
+***** Python
+#+begin_src python
+class Solution:
+    def search(self, board, visited, row, col, words):
+        # check words length, if it is empty, it means already been found
+        if not words:
+            return True
+
+        # check if row and col has been visited or not
+        if (row, col) in visited:
+            return False
+
+        # check row and col, to see if it is valid
+        if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]):
+            print(row, col, 'out bound')
+            return False
+
+        # check if the current char in board[row][col] matches the first char in words
+        if words[0] != board[row][col]:
+            # visited.remove((row, col))  # remove record of failing search
+            return False
+        visited.add((row, col))
+
+        # perform next search, according to where the current function call coming from
+        if self.search(board, visited, row - 1, col, words[1:]) or self.search(board, visited, row, col + 1, words[1:]) or self.search(board, visited, row + 1, col, words[1:]) or self.search(board, visited, row, col - 1, words[1:]):
+            return True
+        else:
+            visited.remove((row, col))  # remove record of failing search
+            return False
+
+
+    def exist(self, board, word: str) -> bool:
+        visited = set()
+
+        for row in range(len(board)):
+            for col in range(len(board[row])):
+                if self.search(board, visited, row, col, word):
+                    return True
+
+        print('no match')
+        return False
+#+end_src
+*** todos [1/2]
+- [X] write down your own solution and analysis
+- [ ] time complexity analysis of your solution
+- [ ] check discussion page for more solutions
 ** 101. Symmetric Tree
 *** Problem Statement
 [[https://leetcode.com/problems/symmetric-tree/][Link]]
@@ -710,7 +864,92 @@ public:
 - [ ] work on the recursion approach
 - [ ] check discussion, find out other ideas, understand and implement them
 - [ ] generalize the problem
-  
+** 121. Best Time to Buy and Sell Stock
+*** Problem Statement
+[[https://leetcode.com/problems/best-time-to-buy-and-sell-stock/][Link]]
+*** Analysis
+**** Brutal force (my initial solution)
+This is my initial solution. For each stock price, traverse through the rest of the array and calculate each profits. If a profit is found to be larger than the current max profit, assign this value to the max profit. Repeat this to all of the rest points.
+
+The time complexity is:\((N-1)+(N-2)+\ldots+1=\frac{N(N-1)}2=O(N^2)\).
+The space complexity is \(O(1)\), for memories used is not related to input size.
+**** One pass
+In the brutal force method, we are doing many unnecessary calculations. For example, the input ~prices~ is:
+#+BEGIN_EXAMPLE
+[7,1,5,3,6,4]
+#+END_EXAMPLE
+The second element is the lowest price. In brutal force method, when we deal with this element, we calculated:
+#+BEGIN_EXAMPLE
+5 - 1 = 4
+3 - 1 = 2
+6 - 1 = 5
+4 - 1 = 3
+#+END_EXAMPLE
+5 is obtained as the maxprofit. Then, we move on to the next element, which is ~5~. In brutal force, we still needs to calculate the following:
+#+BEGIN_EXAMPLE
+3 - 5 = -2
+6 - 5 = 1
+4 - 5 = -1
+#+END_EXAMPLE
+If we keep track of the ~minprice~, we will know that these calculations are totally unnecessary.
+To obtain the maxprofit, we use two variables to hold the min price upto a point (~minprice~), and the current maximum profit calculated (~maxprofit~). Initially, we set the ~minprice~ as the first price in ~prices~, and ~maxprofit = 0~. For each price we encountered (~prices[i]~), we compare it with the ~minprice~. If it is lower than the ~minprice~, update the ~minprice~. Then, we calculate ~prices[i] - minprice~, if this is larger than the ~maxprofit~, we update the ~maxprofit~. In this approach, the ~minprice~ will always before the sell price.
+
+Time complexity of this algorithm is \(O(N)\), since only one pass is performed. Space complexity is \(O(1)\), since the memory used is not related to input size.
+
+*** Solution
+**** C++
+***** brutal force
+#+begin_src c++
+class Solution {
+public:
+  int maxProfit(vector<int>& prices) {
+    if (prices.size() < 2)
+      return 0;
+    
+    int max_profit = 0;
+    int profit;
+    
+    for (int i = 0; i < prices.size() - 1; ++i) {
+      for (int j = i + 1; j < prices.size(); ++j) {
+        profit = prices[j] - prices[i];
+        if (profit > max_profit)
+          max_profit = profit;
+      }
+    }
+    
+    return max_profit;
+  }
+};
+#+end_src
+***** one pass
+#+begin_src c++
+class Solution {
+public:
+  int maxProfit(vector<int>& prices) {
+    if (prices.size() < 2)
+      return 0;
+    
+    int minprice = prices[0];
+    int maxprofit = 0;
+    
+    for (int i = 0; i < prices.size(); i++) {
+      if (minprice > prices[i])
+        minprice = prices[i];
+      
+      if (prices[i] - minprice > maxprofit)
+        maxprofit = prices[i] - minprice;
+    }
+    
+    return maxprofit;
+  }
+};
+#+end_src
+*** todos [3/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [X] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity)
+  - [X] one pass
+- [ ] generalize this problem
 ** 136. Single Number
 *** Problem Statement
 [[https://leetcode.com/problems/single-number/][Link
@@ -1205,7 +1444,7 @@ public:
   - [ ] hash table
   - [ ] bit manipulation
 - [ ] generalize this problem
-** 283. Move Zeros
+** 283. Move Zeros <<P283>>
 *** Problem Statement
 [[https://leetcode.com/problems/move-zeroes/][Link]]
 *** Analysis
@@ -1327,6 +1566,48 @@ public:
 - [ ] read the solution page and study
   - [ ] analyze solutions, implement them
   - [ ] analyze your solution: time complexity, any extra work performed so it is slow
+** 344. Reverse String
+*** Problem Statement
+[[https://leetcode.com/problems/reverse-string/][Link]]
+*** Analysis
+**** Direct swap
+The problem requires to reverse in place. So you can swap each "pairing element" in the array. For example:
+#+BEGIN_EXAMPLE
+['a', 'b', 'c', 'd', 'e']
+#+END_EXAMPLE
+You swap 'a' and 'e', 'b' and 'd'.
+
+*** Solution
+**** Python
+***** direct swap
+#+begin_src python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        for i in range(int(len(s) / 2)):
+            # c = s[i]
+            # s[i] = s[-i - 1]
+            # s[-i - 1] = c
+            s[i], s[-i - 1] = s[-i - 1], s[i]
+#+end_src
+**** C++
+***** direct swap
+#+begin_src c++
+class Solution {
+public:
+  void reverseString(vector<char>& s) {
+    for (int i = 0; i < s.size() / 2; ++i) {
+      swap(s[i], s[s.size() - i - 1]);
+    }
+  }
+};
+#+end_src
+
+*** todos [1/2]
+- [X] write down your own solution
+- [ ] check discussion page
 ** 389. Find the Difference <<P389>>
 *** Problem Statement
 [[https://leetcode.com/problems/find-the-difference/][Link]]
@@ -1413,6 +1694,77 @@ public:
 - [X] write down your solution and analysis
 - [ ] check discussion page, work on that
 - [ ] generalize the problem
+** 412. Fizz Buzz
+*** Problem Statement
+[[https://leetcode.com/problems/fizz-buzz/][Link]]
+*** Analysis
+**** Naive solution (check each condition and add string)
+**** String concatenation
+For each sub-condition satisfies, concatenate the specific string to it. This is neater than the naive solution.
+*** Solution
+**** C++
+***** naive Solution
+#+begin_src c++
+class Solution {
+public:
+  vector<string> fizzBuzz(int n) {
+    vector<string> ret;
+    
+    for (int i = 1; i <= n; i++) {
+      if (i % 3 == 0) {
+        if (i % 5 == 0)
+          ret.push_back("FizzBuzz");
+        else
+          ret.push_back("Fizz");
+      }
+      
+      else if (i % 5 == 0)
+        ret.push_back("Buzz");
+      
+      else
+        ret.push_back(to_string(i));
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+***** string concatenation
+#+begin_src c++
+class Solution {
+public:
+  vector<string> fizzBuzz(int n) {
+    vector<string> ret;
+    vector<int> check_num{3, 5};
+    vector<string> add_term{"Fizz", "Buzz"};
+    string temp;
+    
+    for (int i = 1; i <= n; i++) {
+      temp.clear();
+      for (int j = 0; j < check_num.size(); j++) {
+        if (i % check_num[j] == 0)
+          temp += add_term[j];
+      }
+      
+      if (temp.empty())
+        ret.push_back(to_string(i));
+      else
+        ret.push_back(temp);
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** todos [1/6]
+- [X] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [-] check solution/discussion page for more ideas
+  - [X] string concatenation
+  - [ ] hash
+- [ ] implement them, and write down corresponding analysis
+- [ ] time complexity of these Solutions
+- [ ] generalize this problem
 ** 437. Path Sum III
 *** Problem Statement
 [[https://leetcode.com/problems/path-sum-iii/][Link]]
@@ -1876,7 +2228,30 @@ public:
 *** todos [/]
 - [ ] check solution and study
 - [ ] implement solution by yourself
-- [ ] write down different ways of thinking about this problem
+- [ ] write down different ways of thinking about this problem  
+** 557. Reverse Words in a String III
+*** Problem Statement
+[[https://leetcode.com/problems/reverse-words-in-a-string-iii/][Link]]
+*** Analysis
+**** Python-use ~reversed()~ and ~split()~
+This approach is trivial, including using two built-in methods: ~reversed()~ and ~split()~. First, the input string is splitted into a list. Each element in the list is a word in the string (separated by whitespaces). Then, these substrings were reversed and added to another empty list to form the sentence. A space should be added after each word. You have to get rid of tailing space.
+*** Solution
+**** Python
+***** use ~reversed()~ and ~split()~
+#+begin_src python
+class Solution:
+    def reverseWords(s: str) -> str:
+        words = s.split()
+        reversed_list = []
+        for word in words:
+            reversed_list.append(''.join(list(reversed(word))) + ' ')
+        reversed_list[-1] = reversed_list[-1][:-1]
+
+        return ''.join(reversed_list)
+#+end_src
+*** todos [1/2]
+- [X] write down your own solution and analysiss
+- [ ] read discussion/solution page for more ideas
 ** 559. Maximum Depth of N-ary Tree <<P559>>
 *** Problem Statement
 *** Analysis
@@ -2068,6 +2443,194 @@ We use a recursion to traverse the whole tree. For each node encountered, we use
 - [ ] check solution page to find out more ideas and implemnent them
 - [ ] write down analysis of additional solution
 - [ ] generalize the problem
+** 657. Robot Return to Origin
+*** Problem Statement
+[[https://leetcode.com/problems/robot-return-to-origin/][Link]]
+*** Analysis
+**** Determine if instructions are paired
+If a ~'L'~ is paired with a ='R'=, then the effect of their moves will be canceled. Same idea for ~'U'~ and ~'D'~. So, we can just count the total number of the instructions and see if they can cancel each other.
+*** Solution
+**** Python
+***** count instruction number
+#+begin_src python
+class Solution:
+    def judgeCircle(self, moves: str) -> bool:
+        if len(moves) % 2 not 0:
+            return false
+            
+        return moves.count('L') == moves.count('R') and moves.count('U') == moves.count('D')
+#+end_src
+*** todos [1/2]
+- [X] write down your analysis and solution
+- [ ] check discussion page
+** 696. Count Binary Substrings
+*** Problem Statement
+[[https://leetcode.com/problems/count-binary-substrings/][Link]]
+*** Analysis
+**** Collect meta-substrings <<colletc-meta-substrings>>
+First, we have to be aware that how to divide the input string into separate parts and count. The valid substring should have all 0s and 1s grouped together. So, we may want to divide the string into meta-substrings. A meta-substring is a substring that each 0 and 1 are grouped together. For example, an input of ~'00101000111100101'~ can be divided into following meta-substrings:
+#+BEGIN_EXAMPLE
+'001'
+'10'
+'01'
+'1000'
+'0001111'
+'111100'
+'001'
+'10'
+'01'
+#+END_EXAMPLE
+For each meta-substring, we count the number of valid substring. It is clear that the total number of valid substring equals to the length of shorter 1s or 0s. For example, ~'0001111'~ has following substrings: ~'000111'~, ~'0011'~ and ~'01'~.
+
+My approach is to use two lists to hold each character. One is for the first appearing number, another is for the second appearing number. The next time we meet the first appearing number again, we stop and check the current meta-substring (which is stored in the two lists). Then, we copy the content in second appearing number list to the first appearing number list and continue to count.
+
+The explanation is messy, you can check the code part.
+**** Count length of single number substring
+We can go through the string and count the length of each same-character contiguous blokcs. For example, for string ~"011010011100"~, each substring and its length are:
+#+BEGIN_EXAMPLE
+substring length
+0          1
+11         2
+0          1
+1          1
+00         2
+111        3
+00         2
+#+END_EXAMPLE
+View horizontally:
+#+BEGIN_EXAMPLE
+[0 11 0 1 00 111 00]
+#+END_EXAMPLE
+Then, we go through this list of substrings. Each breakpoint has an event of character change (either from 0 to 1, or from 1 to 0). We compare the length of the substrings at left and right side of the breakpoint. The number of valid substrings is the shorter length (explained in the first analysis part, [[collect-meta-substrings][collect meta substrings]]). Thus we have:
+#+BEGIN_EXAMPLE
+[0 11 0 1 00 111 00]
+ ----
+  1
+[0 11 0 1 00 111 00]
+   ----
+    1
+[0 11 0 1 00 111 00]
+      ---
+       1
+[0 11 0 1 00 111 00]
+        ----
+         1
+[0 11 0 1 00 111 00]
+          ------
+            2
+[0 11 0 1 00 111 00]
+             ------
+               2
+#+END_EXAMPLE
+So, the total number valid substrings is 1 + 1 + 1 + 1 + 2 + 2 = 8.
+
+How to count? we use a variable to hold the appearing times of current number ~count~. Initially we set it to 1. Then we start from the second character in the string (we set ~count = 1~ initially, so the first character in the string has been counted for. Also, we don't need to keep record of which character the counting corresponds to, because all we need to track is the breakpoint, where two characters differ from each other).
+
+Start from the second character, and go through the string. If current character is different from the previous character, a breakpoint has been reached. We need to store the current counting to the list, and reset the count to 1 (which corresponds to the current character). By this means, we can't add the last character's data to the list. We do this by adding the ~count~ to the list after the iterative for loop (because ~count~ is now holding data corresponding to the last character in string).
+
+The solution is leet code has another way to count (which is better).
+
+After we get the list ~lengths~, we can find smaller value for ~(lengths[0], lengths[1])~, ~(lengths[1], lengths[2])~, ..., ~(lengths[n - 1], lengths[n])~
+**** Count total number on the fly
+There is a way to get the final number of valid substrings without using extra space. It is similar with the above analysis. But we don't use a list to hold the length info of each single number substring.
+
+We can calculate the number of valid substrings as soon as we get the length of adjacent 1-substring and 0-substring. So we use ~prev~ and ~cur~ to hold the length of previous substring and current substring (the previous substring is composed of character different from the current substring. If previous substring is 111.., the current substring is 000...). 
+
+Just like the second analysis, when we go througiteratingh the string, if a breakpoint is found, we update the final result (the number of valid substrings) by ~min(prev, cur)~. Then, we update ~prev~ and ~cur~: ~prev = cur~, ~cur = 1~. This is because, the moment we found a breakpoint, our current sequence becomes the previous, and we have to start counting occurance of the real current sequence.
+
+After the iteration, we still need to add ~min(prev, cur)~ to the final answer as this is not included during the iteration (go through the for loop manually and you'll understand).
+
+*** Solution
+**** Python
+***** count meta-strings
+#+begin_src python
+# count meta-substring
+# a meta-substring is the substring that each 0 and 1 are grouped together
+# for example, for an input '00101000111100101'
+# you have following meta-substrings
+# '001'
+# '10'
+# '01'
+# '1000'
+# '0001111'
+# '111100'
+# '001'
+# '10'
+# '01'
+# the number of valid substring is the min of number of 1s or 0s
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        num_first = []
+        num_second = []
+        result = 0
+
+        num_first.append(s[0])
+
+        for i in range(1, len(s)):
+            if len(num_second) == 0 and s[i] == num_first[0]:
+                num_first.append(s[i])
+
+            elif s[i] != num_first[0]:
+                num_second.append(s[i])
+
+            elif s[i] == num_first[0]:  # another un-grouped num_first occured, we have to stop here
+                result += min(len(num_first), len(num_second))
+                num_first = num_second[:]
+                num_second.clear()
+                num_second.append(s[i])
+
+        result += min(len(num_first), len(num_second))
+
+        return result
+
+#+end_src
+***** count length of single number substring
+#+begin_src python
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        count = 1
+        lengths = []
+        ans = 0
+
+        for i in range(1, len(s)):
+            if s[i - 1] != s[i]:
+                lengths.append(count)
+                count = 1
+            else:
+                count += 1
+
+        lengths.append(count)
+
+        for i in range(len(lengths) - 1):
+            ans += min(lengths[i], lengths[i + 1])
+
+        return ans
+#+end_src
+***** count the total number on the fly
+#+begin_src python
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        # prev: occuring times of previous num
+        # cur: occuring times of current num
+        ans, prev, cur = 0, 0, 1
+        for i in range(1, len(s)):
+            if s[i] != s[i - 1]:
+                ans += min(prev, cur)
+                prev, cur = cur, 1
+            else:
+                cur += 1
+        
+        ans += min(prev, cur)
+        
+        return ans
+        
+#+end_src
+*** todos [2/3]
+- [X] write down your analysis and Solution
+- [ ] time complexity analysis
+- [X] check solution page and re-implement them
+  - [X] Group by character
+  - [X] Linear scan
 ** 771. Jewels and Stones
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]
@@ -2150,6 +2713,72 @@ public:
 - [X] write down your own solution and analysis
 - [ ] check discussion page for more space-efficient solution
 - [ ] try to implement and write down your update
+** 824. Goat Latin
+*** Problem Statement
+[[https://leetcode.com/problems/goat-latin/][Link]]
+*** Analysis
+**** Modify the word directly
+The problem has already given the instructions on how to modify the word.
+*** Solution
+**** Python
+***** modify the word directly
+#+begin_src python
+class Solution:
+    def toGoatLatin(self, S: str) -> str:
+        words = S.split()
+
+        vowel = ('a', 'e', 'i', 'o', 'u')
+
+        for i in range(len(words)):
+
+            if words[i][0].lower() in vowel:
+                words[i] += "ma"
+            else:
+                words[i] = words[i][1:] + words[i][0] + "ma"
+
+            for j in range(i + 1):
+                words[i] += 'a'
+
+            words[i] += ' '
+
+        words[-1] = words[-1][:-1]
+
+        return ''.join(words)
+#+end_src
+*** todos [1/6]
+- [X] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas
+- [ ] implement them, and write down corresponding analysis
+- [ ] time complexity of these Solutions
+- [ ] generalize this problem
+** 929. Unique Email Addresses
+*** Problem Statement
+*** Analysis
+**** Python string manipulation
+Use member functions provided by python string class to solve this problem.
+1. split the string into two parts: before the @ and after the @
+2. remove all '.'  and characters after '+' in the first part
+3. add modified first part + @ + second part (domain part) in a set. Set is used to keep uniqueness of the email address
+4. After analyzing all the strings in the given list, return the length of the set, which is the number of unique email address
+*** Solution
+**** Python
+***** use string member functions
+#+begin_src python
+class Solution:
+    def numUniqueEmails(self, emails: List[str]) -> int:
+        unique_emails = set()
+        
+        for email in emails:
+            email_list = email.split('@')
+            first = email_list[0].replace('.', '').split('+')[0]
+            unique_emails.add(first + '@' + email_list[1])
+        
+        return len(unique_emails)
+#+end_src
+*** todos [1/2]
+- [X] write down your solution and analysis
+- [ ] read discussion page
 ** 938. Range Sum of BST
 *** Problem Statement
 [[https://leetcode.com/problems/range-sum-of-bst/][Link]]
@@ -2340,4 +2969,20 @@ public:
 - [ ] read discussion, collect possible solution ideas
 - [ ] think about the possible solution, re-implement them
 - [ ] write down analysis for these other solutions
-
+** 1108. Defanging an IP Address
+*** Problem Statement
+[[https://leetcode.com/problems/defanging-an-ip-address/][Link]]
+*** Analysis
+**** Direct replace
+Search the string, for each ~'.'~ encountered, replace it with ~'[.]'~
+*** Solution
+**** Python
+***** direct replace
+#+begin_src python
+class Solution:
+    def defangIPaddr(self, address: str) -> str:
+        return address.replace('.', '[.]')
+#+end_src
+*** todos [1/2]
+- [X] write down your own solution
+- [ ] check discussion page
