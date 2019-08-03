@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}} \PYG{n}{fizzBuzz}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}} \PYG{n}{ret}\PYG{p}{;}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{check\PYGZus{}num}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{\PYGZcb{};}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}} \PYG{n}{add\PYGZus{}term}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}Fizz\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Buzz\PYGZdq{}}\PYG{p}{\PYGZcb{};}
+    \PYG{n}{string} \PYG{n}{temp}\PYG{p}{;}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{temp}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}
+      \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{check\PYGZus{}num}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{n}{check\PYGZus{}num}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+	  \PYG{n}{temp} \PYG{o}{+=} \PYG{n}{add\PYGZus{}term}\PYG{p}{[}\PYG{n}{j}\PYG{p}{];}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{temp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}
+	\PYG{n}{ret}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{to\PYGZus{}string}\PYG{p}{(}\PYG{n}{i}\PYG{p}{));}
+      \PYG{k}{else}
+	\PYG{n}{ret}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{temp}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{ret}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{singleNumber}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{unordered\PYGZus{}set}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{record}\PYG{p}{;}
+
+    \PYG{k+kt}{int} \PYG{n}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{num} \PYG{p}{:} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{record}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)} \PYG{o}{==} \PYG{n}{record}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+	\PYG{n}{sum} \PYG{o}{+=} \PYG{n}{num}\PYG{p}{;}
+	\PYG{n}{record}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{num}\PYG{p}{);}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{else}
+	\PYG{n}{sum} \PYG{o}{\PYGZhy{}=} \PYG{n}{num}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{sum}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

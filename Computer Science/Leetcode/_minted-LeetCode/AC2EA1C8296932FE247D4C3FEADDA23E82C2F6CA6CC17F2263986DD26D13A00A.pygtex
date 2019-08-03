@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{void} \PYG{n}{moveZeroes}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{itr\PYGZus{}a} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();} \PYG{n}{itr\PYGZus{}a} \PYG{o}{!=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{o}{++}\PYG{n}{itr\PYGZus{}a}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{itr\PYGZus{}a} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{auto} \PYG{n}{itr\PYGZus{}b} \PYG{o}{=} \PYG{n}{itr\PYGZus{}a}\PYG{p}{;}
+	\PYG{k}{while} \PYG{p}{(}\PYG{n}{itr\PYGZus{}b} \PYG{o}{\PYGZlt{}} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{*}\PYG{n}{itr\PYGZus{}b} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+	  \PYG{o}{++}\PYG{n}{itr\PYGZus{}b}\PYG{p}{;}
+
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{itr\PYGZus{}b} \PYG{o}{==} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}
+	  \PYG{k}{return}\PYG{p}{;}
+
+	\PYG{n}{swap}\PYG{p}{(}\PYG{o}{*}\PYG{n}{itr\PYGZus{}a}\PYG{p}{,} \PYG{o}{*}\PYG{n}{itr\PYGZus{}b}\PYG{p}{);}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

@@ -1,0 +1,45 @@
+% Created 2019-08-02 Fri 15:48
+% Intended LaTeX compiler: pdflatex
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[margin=1in] {geometry}
+\usepackage{parskip}
+\linespread {1.5}
+\setcounter{tocdepth} {6}
+\setcounter{secnumdepth} {6}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\part{C Basics}
+\label{sec:org0ab0391}
+\subsubsection{\texttt{printf()} formatting}
+\label{sec:orgb523f6e}
+Use \texttt{\%} with symbols to print the variables in different format.
+Example:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+printf("%c", a)  //print a in format of character
+\end{minted}
+\end{document}

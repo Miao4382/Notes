@@ -1,0 +1,41 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf}{search}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{words}\PYG{p}{):}
+	\PYG{c+c1}{\PYGZsh{} check words length, if it is empty, it means already been found}
+	\PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{words}\PYG{p}{:}
+	    \PYG{k}{return} \PYG{n+nb+bp}{True}
+
+	\PYG{c+c1}{\PYGZsh{} check if row and col has been visited or not}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n}{visited}\PYG{p}{:}
+	    \PYG{k}{return} \PYG{n+nb+bp}{False}
+
+	\PYG{c+c1}{\PYGZsh{} check row and col, to see if it is valid}
+	\PYG{k}{if} \PYG{n}{row} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{row} \PYG{o}{\PYGZgt{}=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{board}\PYG{p}{)} \PYG{o+ow}{or} \PYG{n}{col} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{col} \PYG{o}{\PYGZgt{}=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{board}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+	    \PYG{k}{print}\PYG{p}{(}\PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}out bound\PYGZsq{}}\PYG{p}{)}
+	    \PYG{k}{return} \PYG{n+nb+bp}{False}
+
+	\PYG{c+c1}{\PYGZsh{} check if the current char in board[row][col] matches the first char in words}
+	\PYG{k}{if} \PYG{n}{words}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{board}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]:}
+	    \PYG{c+c1}{\PYGZsh{} visited.remove((row, col))  \PYGZsh{} remove record of failing search}
+	    \PYG{k}{return} \PYG{n+nb+bp}{False}
+	\PYG{n}{visited}\PYG{o}{.}\PYG{n}{add}\PYG{p}{((}\PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{))}
+
+	\PYG{c+c1}{\PYGZsh{} perform next search, according to where the current function call coming from}
+	\PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{words}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:])} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row}\PYG{p}{,} \PYG{n}{col} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{words}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:])} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{words}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:])} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row}\PYG{p}{,} \PYG{n}{col} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{words}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:]):}
+	    \PYG{k}{return} \PYG{n+nb+bp}{True}
+	\PYG{k}{else}\PYG{p}{:}
+	    \PYG{n}{visited}\PYG{o}{.}\PYG{n}{remove}\PYG{p}{((}\PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{))}  \PYG{c+c1}{\PYGZsh{} remove record of failing search}
+	    \PYG{k}{return} \PYG{n+nb+bp}{False}
+
+
+    \PYG{k}{def} \PYG{n+nf}{exist}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{board}\PYG{p}{,} \PYG{n}{word}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+	\PYG{n}{visited} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+
+	\PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{board}\PYG{p}{)):}
+	    \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{board}\PYG{p}{[}\PYG{n}{row}\PYG{p}{])):}
+		\PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{n}{board}\PYG{p}{,} \PYG{n}{visited}\PYG{p}{,} \PYG{n}{row}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{word}\PYG{p}{):}
+		    \PYG{k}{return} \PYG{n+nb+bp}{True}
+
+	\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}no match\PYGZsq{}}\PYG{p}{)}
+	\PYG{k}{return} \PYG{n+nb+bp}{False}
+\end{Verbatim}

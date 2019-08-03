@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{uniqueMorseRepresentations}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{words}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// create a vector of string containing the mapping of letter to Morse code}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}} \PYG{n}{letter\PYGZus{}M}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}...\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}.\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}..\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}..\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}....\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}..\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}.\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}..\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}.\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}.\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}...\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}..\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}...\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}.\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}..\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}.\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}..\PYGZdq{}}\PYG{p}{\PYGZcb{};}
+
+    \PYG{c+c1}{// go over the input list of words and translate each word into Morse code}
+    \PYG{n}{string} \PYG{n}{translate}\PYG{p}{;}
+    \PYG{n}{unordered\PYGZus{}set}\PYG{o}{\PYGZlt{}}\PYG{n}{string}\PYG{o}{\PYGZgt{}} \PYG{n}{records}\PYG{p}{;}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{const} \PYG{n}{string}\PYG{o}{\PYGZam{}} \PYG{n+nl}{word} \PYG{p}{:} \PYG{n}{words}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{translate}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}
+
+      \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{ch} \PYG{p}{:} \PYG{n}{word}\PYG{p}{)}
+	\PYG{n}{translate} \PYG{o}{+=} \PYG{n}{letter\PYGZus{}M}\PYG{p}{[}\PYG{n}{ch} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{97}\PYG{p}{];}
+
+      \PYG{n}{records}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{translate}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+
+    \PYG{c+c1}{// return the size of the hash table}
+    \PYG{k}{return} \PYG{n}{records}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+cm}{/*cases:}
+\PYG{c+cm}{[\PYGZdq{}gin\PYGZdq{}, \PYGZdq{}zen\PYGZdq{}, \PYGZdq{}gig\PYGZdq{}, \PYGZdq{}msg\PYGZdq{}]}
+
+\PYG{c+cm}{[\PYGZdq{}sut\PYGZdq{}, \PYGZdq{}zen\PYGZdq{}, \PYGZdq{}gin\PYGZdq{}, \PYGZdq{}bmf\PYGZdq{}, \PYGZdq{}sot\PYGZdq{}, \PYGZdq{}xkf\PYGZdq{}, \PYGZdq{}qms\PYGZdq{}, \PYGZdq{}hin\PYGZdq{}, \PYGZdq{}rvg\PYGZdq{}, \PYGZdq{}apm\PYGZdq{}]}
+
+\PYG{c+cm}{*/}
+\end{Verbatim}

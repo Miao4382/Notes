@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{removeElement}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{length} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{auto} \PYG{n}{itr\PYGZus{}b} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{itr\PYGZus{}a} \PYG{o}{=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();} \PYG{n}{itr\PYGZus{}a} \PYG{o}{!=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{();} \PYG{o}{++}\PYG{n}{itr\PYGZus{}a}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{itr\PYGZus{}a} \PYG{o}{!=} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{length}\PYG{o}{++}\PYG{p}{;}
+	\PYG{k}{continue}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{c+c1}{// target encountered}
+      \PYG{k}{auto} \PYG{n}{itr\PYGZus{}b} \PYG{o}{=} \PYG{n}{itr\PYGZus{}a} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+      \PYG{k}{while} \PYG{p}{(}\PYG{n}{itr\PYGZus{}b} \PYG{o}{!=} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{*}\PYG{n}{itr\PYGZus{}b} \PYG{o}{==} \PYG{n}{val}\PYG{p}{)}
+	\PYG{o}{++}\PYG{n}{itr\PYGZus{}b}\PYG{p}{;}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{itr\PYGZus{}b} \PYG{o}{==} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}
+	\PYG{k}{return} \PYG{n}{length}\PYG{p}{;}
+
+      \PYG{n}{swap}\PYG{p}{(}\PYG{o}{*}\PYG{n}{itr\PYGZus{}a}\PYG{p}{,} \PYG{o}{*}\PYG{n}{itr\PYGZus{}b}\PYG{p}{);}
+      \PYG{n}{length}\PYG{o}{++}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{length}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

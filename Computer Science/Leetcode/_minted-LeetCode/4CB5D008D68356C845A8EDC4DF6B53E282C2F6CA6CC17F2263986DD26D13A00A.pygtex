@@ -1,0 +1,37 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{string} \PYG{n}{removeOuterParentheses}\PYG{p}{(}\PYG{n}{string} \PYG{n}{S}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{char}\PYG{o}{\PYGZgt{}} \PYG{n}{ch\PYGZus{}stack}\PYG{p}{;}
+    \PYG{n}{string} \PYG{n}{result}\PYG{p}{;}
+    \PYG{n}{string} \PYG{n}{temp}\PYG{p}{;}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{ch} \PYG{p}{:} \PYG{n}{S}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{ch} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{}(\PYGZsq{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{ch\PYGZus{}stack}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{ch}\PYG{p}{);}
+	\PYG{n}{temp} \PYG{o}{+=} \PYG{n}{ch}\PYG{p}{;}
+	\PYG{k}{continue}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{ch} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{})\PYGZsq{}} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{ch\PYGZus{}stack}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{ch\PYGZus{}stack}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+
+	\PYG{c+c1}{// record temp to result, not including the first \PYGZsq{}(\PYGZsq{}}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+	  \PYG{n}{result} \PYG{o}{+=} \PYG{n}{temp}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+
+	\PYG{c+c1}{// clear temp cache}
+	\PYG{n}{temp}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}
+	\PYG{k}{continue}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+
+      \PYG{c+c1}{// if the current primitive valid parenthese not ending}
+      \PYG{n}{temp} \PYG{o}{+=} \PYG{n}{ch}\PYG{p}{;}
+      \PYG{n}{ch\PYGZus{}stack}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{result}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}
