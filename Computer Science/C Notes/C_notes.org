@@ -6,13 +6,34 @@
 #+LATEX_HEADER: \linespread {1.5}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
-#+LATEX_CLASS: book
+#+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
 * C Basics
 ***** Some Facts
-Assignments associate from right to left.
+- assignments associate from right to left.
+- arithemetic operators associate left to right
+- relational operators have lower precedence than arithmetic operators
+- expressions connected by ~&&~ or ~||~ are evaluated left to right. ~&&~ has a higher precedence than ~||~, both are lower than relational and equality operators. (higher than assignment operators?)
+- printable characters are always positive
+- The standard headers ~<limits.h>~ and ~<float.h>~ contain symbolic constants for all of the sizes of basic data types, along with other properties of the machine and compiler.
+- a leading 0 (zero) on an integer constant means octal
+- a leading ~0x~ or ~0X~ (zero x) means hexadecimal.
+- you can use escape sequence to represent number. Check it at p51. The complete set of escape sequences are in p52.
+- ~strlen()~ function and other string functions are declared in the standard header ~<string.h>~.
+- external and static variables are initialized to zero by default.
+- for portability, specify ~signed~ or ~unsigned~ if non-character data is to be stored in ~char~ variables. (p58)
+- to perform a type conversion:
+  #+begin_src c
+  double a = 2.5;
+  printf("%d", (int) a);  
+  #+end_src
+  result will be ~2~.
 
 
+***** headers
+- ~<stdio.h>~: contains input/output functions
+- ~<ctype.h>~: some functions regarding to characters
+  
 ***** ~printf()~ formatting
 Check p26-p27 of the textbook.
 
@@ -66,5 +87,64 @@ Remember to initialize each slot:
 for (int i = 0; i < 100; i++)
   nums[i] = 0;
 #+end_src
-***** Global Variables
-You can declare global variables outside of main.
+
+You can also to use assignment operator and ~{ }~ to initialize the array when defining. For example, the following C-string is initialized when being defined:
+#+begin_src c
+int main() {
+  char s[] = {'a', 'b', 'c' };
+  printf("%s", s);
+  return 0;
+}
+#+end_src
+***** Enumeration constant
+An enumeration is a list of constant integer values. For example:
+#+begin_src c
+enum boolean { NO, YES };
+#+end_src
+The first name in an ~enum~ has value 0, the next 1, and so on, unless explicit values are specified:
+#+begin_src c
+enum boolean { YES = 1, NO = 0 };
+#+end_src
+
+If not all values are specified, unspecified values continue the progression from the last specified value:
+#+begin_src c
+enum months { JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
+// FEB is 2, MAR is 3, etc.
+#+end_src
+
+Names in different enumerations must be distinct. Values need not be distinct in the same enumeration. Enumeration works like using ~#define~ to associate constant values with names:
+#+begin_src c
+#define JAN 1
+#define FEB 2
+// etc
+#+end_src
+***** type-cast an expression
+Explicit type conversions can be forced ("coerced") in any expression. For example:
+#+begin_src c
+int main() {
+  int n = 2;
+  printf("%f", (float) n);
+  return 0;
+}
+#+end_src
+In the above example, when being printed, the type of ~n~ has been modified to ~float~. Notice that ~n~ itself is not altered. This is called a /cast/, it is an unary operator, has the same high precedence as other unary operators.
+***** Bitwise operators
+p62
+
+There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
+
+They are:
+- ~&~  : bitwise AND
+- ~|~  : bitwise inclusive OR
+- ~^~  : bitwise exclusive OR
+- ~<<~ : left shift
+- ~>>~ : right shift
+- =~=  : one's complement (unary)
+
+The precedence of the bitwise operators ~&~, ~^~ and ~|~ is lower than ~==~ and ~!=~.
+***** Operators can be used with assignment operators
+p64
+
+~+, -, *, /, %, <<, >>, &, ^, |~
+
+
