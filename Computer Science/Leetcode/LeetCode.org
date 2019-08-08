@@ -596,6 +596,64 @@ public:
 - [ ] implement DFS approach
 - [ ] read about the discussion page for more methods and ideas
 - [ ] make notes in your data structure notes about DFS and BFS
+** 108. Convert Sorted Array to Binary Search Tree
+*** Problem Statement
+[[https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/][Link]]
+*** Analysis
+**** Recursion
+This is kind of related to binary search. In order to build a balanced binary search tree, the root node should be the middle num in the array of numbers. Then the left child should be the middle number of all numbers smaller than root, while the right child should be the middle number of all numbers larger than root, and so on.
+
+To solve this problem recursively, first, build the root, then call the function again to build up the left subtree (passing only the first half of the array). Then, call the function again to build up the right subtree (passing only the second half of the array). In order to pass portion of the original array, we can use iterators to regulate the range the function is working on. Thus the function is like:
+#+begin_src c++
+TreeNode* helper(vector<int>::iterator itr_1, vector<int>::iterator itr_2);
+#+end_src
+where ~itr_1~ is the beginning of the array, ~itr_2~ is the end of the array.
+
+After analyzing, you'll find two base cases:
+1. ~itr_1 > itr_2~, in this case, no node can be built, return a ~nullptr~
+2. ~itr_1 == itr_2~: this is the edge case, only one node can be built. Build a leaf node and return it
+
+Remeber to update the length of the sub-array to work on.
+
+Time complexity: a total of \(N\) nodes will be created, each creation time is constant, thus the time complexity is \(O(N)\).
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+class Solution {
+public:
+  TreeNode* helper(vector<int>::iterator itr_1, vector<int>::iterator itr_2) {
+    if (itr_1 > itr_2)
+      return nullptr;
+    
+    if (itr_1 == itr_2) {
+      TreeNode* new_node = new TreeNode(*itr_1);
+      return new_node;
+    }
+    
+    auto mid_itr = itr_1 + (itr_2 - itr_1) / 2;
+    TreeNode* new_node = new TreeNode(*mid_itr);
+    
+    new_node->left = helper(itr_1, mid_itr - 1);
+    new_node->right = helper(mid_itr + 1, itr_2);
+    
+    return new_node;
+  }
+  
+  TreeNode* sortedArrayToBST(vector<int>& nums) {
+    if (nums.empty())
+      return nullptr;
+    
+    return helper(nums.begin(), nums.end() - 1);
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 110. Balanced Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/balanced-binary-tree/][Link]]

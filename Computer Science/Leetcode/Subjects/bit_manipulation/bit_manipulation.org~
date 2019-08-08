@@ -1,0 +1,137 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \linespread {1.0}
+#+LATEX_HEADER: \setcounter{tocdepth} {3}
+#+LATEX_HEADER: \setcounter{secnumdepth} {3}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [12pt]
+* Bit Manipulation
+[[https://leetcode.com/problems/sum-of-two-integers/discuss/84278/A-summary%3A-how-to-use-bit-manipulation-to-solve-problems-easily-and-efficiently][Reference
+]]
+** Introduction
+Bit manipulation is the act of algorithmically manipulating bits or other pieces of data shorter than a word. Computer programming tasks that require bit manipulation include low-level device control, error detection and correction algorithms, data compression, encryption algorithms, and optimization. For most other tasks, modern programming languages allow the programmer to work directly with abstractions instead of bits that represent those abstractions. Source code that does bit manipulation makes use of the bitwise operations: AND, OR, XOR, NOT, and bit shifts.
+
+Bit manipulation, in some cases, can obviate or reduce the need to loop over a data structure and can give many-fold speed ups, as bit manipulations are processed in parallel, but the code can become more difficult to write and maintain.
+** Basics
+At the heart of bit manipulation are the bit-wise operators:
+- ~&~: AND
+- ~|~: OR
+- =~=: NOT
+- ~^~: XOR (exclusive OR)
+- ~<<~: left shift
+- ~>>~: right shift
+
+There is no boolean operator counterpart to bitwise exclusive-OR, but there is a simple explanation. The exclusive-OR operation takes two inputs and returns a 1 if either one or the other of the inputs is a 1, but not if both are. That is, if both inputs are 1 or both inputs are 0, it returns 0. Bitwise exclusive-OR, with the operator of a caret, ~^~, performs the exclusive-OR operation on each pair of bits. Exclusive-OR is commonly abbreviated XOR.
+
+Some other manipulations are:
+- set union: ~A | B~
+- set intersection: ~A & B~
+- set substraction: =A & ~B=
+- set negation:
+  - =ALL_ONE_BITS ^ A=
+  - =~A=
+- set bit: ~A |= 1 << bit~ (??)
+- clear bit: ~A &= ~(1 << bit)~
+- test bit: ~(A & 1 << bit) != 0~
+- extract last bit:
+  - ~A & -A~
+  - =A & ~(A - 1)=
+  - ~A ^ (A & (A - 1))~
+- remove last bit: ~A & ( A - 1)~
+- get ~ALL_ONE_BITS~: =~0=
+** Examples
+*** Count the number of one
+Count the number of ones in the binary representation of the given number. The strategy is to count the rightmost one in its binary representation and remove it, until you remove all the ones in its binary representation.
+
+To remove the rightmost one in a number's binary representation, you do: ~n & (n - 1)~.
+
+Take a closer look on ~(n - 1)~. What it does is actually transform all zeros from rightmost one to the right end to 1, and transform the rightmost one to zero. See below examples:
+#+BEGIN_EXAMPLE
+eg. 1.
+1024: 0100 0000 0000
+1023: 0011 1111 1111
+
+eg. 2.
+44: 0010 1100
+43: 0010 1011
+#+END_EXAMPLE
+Pay attention that from rightmost one to right end, all digits are 0 (apparently this is how we find rightmost digit 1).
+
+Then, if we do ~n & (n - 1)~, the effect is like we remove the rightmost digit 1:
+#+BEGIN_EXAMPLE
+eg. 1.
+    1024: 0100 0000 0000
+    1023: 0011 1111 1111
+1024 AND 1023:
+    xxxx: 0000 0000 0000
+    1024: 0100 0000 0000
+compared with 1024, we removed rightmost digit 1
+
+eg. 2.
+    44: 0010 1100
+    43: 0010 1011
+44 AND 43:
+    xx: 0010 1000
+    44: 0010 1100
+compared with 44, we removed rightmost digit 1
+#+END_EXAMPLE
+
+Once we know how to remove the rightmost digit 1 (~n & (n - 1)~), the method to count the number of ones is straightforward:
+#+begin_src c
+int countOne(int n) {
+  int count = 0;
+  
+  while (n) {
+    n = n & (n - 1);
+    count++;
+  }
+  
+  return count;
+}
+#+end_src
+*** Is power of four
+If a number is a power of four, it has only one digit 1, and this single 1 should be in any of the following positions occupied by one:
+#+BEGIN_EXAMPLE
+0101 0101 0101 0101 0101 0101 0101 0101
+
+example, all following numbers are power of four:
+0000 0000 0000 0000 0000 0000 0000 0001 (1)
+0000 0000 0000 0000 0000 0000 0000 0100 (4)
+0000 0000 0000 0000 0000 0000 0001 0000 (16)
+0000 0000 0000 0000 0000 0001 0000 0000 (256)
+#+END_EXAMPLE
+The number in hexadecimal form is: ~0x55555555~.
+
+For a given number ~n~, we have to check if it has only one 1 in its binary form (otherwise, it cannot be the power of 4). Using knowledge from previous section, this can be simply ~!(n & (n - 1))~. The idea is straightforward, if we remove the rightmost digit 1 from the number, and the number becomes zero, it means there is only a single digit one in that number.
+
+Then, we try to find out the location of this 1-bit.We do ~n & 0x55555555~. For example, take ~n = 512~:
+#+BEGIN_EXAMPLE
+    0101 0101 0101 0101 0101 0101 0101 0101
+AND 0000 0000 0000 0000 0000 0010 0000 0000
+    0000 0000 0000 0000 0000 0000 0000 0000
+#+END_EXAMPLE
+The 1-bit in 512 is not coincide with any 1-bit in ~0x55555555~, so 512 is not a power of 4. The result of ~AND~ is zero (boolean value false).
+
+Let's see ~n = 4194304~:
+#+BEGIN_EXAMPLE
+    0101 0101 0101 0101 0101 0101 0101 0101
+AND 0000 0000 0100 0000 0000 0000 0000 0000
+    0000 0000 0100 0000 0000 0000 0000 0000
+#+END_EXAMPLE
+This time, the 1-bit in 4194304 coincides with one 1-bit in ~0x55555555~, so it is a power of 4. The result of ~AND~ is one (boolean value true).
+
+Wrap up the solution, we have:
+#+begin_src c
+int isPowerOfFour(int n) {
+  return !(n & (n - 1)) && (n & 0x55555555);
+}
+#+end_src
+
+
+
+
+
+** place holder

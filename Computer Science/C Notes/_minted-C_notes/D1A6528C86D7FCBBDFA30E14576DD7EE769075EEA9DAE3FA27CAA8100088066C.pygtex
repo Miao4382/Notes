@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}define JAN 1}
+\PYG{c+cp}{\PYGZsh{}define FEB 2}
+\PYG{c+c1}{// etc}
+\end{Verbatim}

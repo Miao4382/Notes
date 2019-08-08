@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{addNum}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{extern} \PYG{k+kt}{int} \PYG{n}{ADDAMOUNT}\PYG{p}{;}  \PYG{c+c1}{// variable ADDAMOUNT is in different source file}
+
+  \PYG{k}{return} \PYG{n}{a} \PYG{o}{+} \PYG{n}{ADDAMOUNT}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

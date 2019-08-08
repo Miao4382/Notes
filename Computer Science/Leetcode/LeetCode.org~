@@ -6,7 +6,7 @@
 #+LATEX_HEADER: \linespread {1.0}
 #+LATEX_HEADER: \setcounter{tocdepth} {3}
 #+LATEX_HEADER: \setcounter{secnumdepth} {3}
-#+LATEX_CLASS: book
+#+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
 
 ** 0. Template <<P>>
@@ -954,20 +954,69 @@ public:
 *** Problem Statement
 [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/][Link]]
 *** Analysis
-**** Initial Analysis (failed)
+**** Initial Analysis (greedy algorithm, failed)
 When making decisions, how do you know higher profit lies ahead? How do you make the ideal choice when you only have local information, not the global information?
 
 In the [[https://brilliant.org/wiki/greedy-algorithm/][example]] of greedy algorithm (the Dijkstra's algorithm), the shortest distance a node can get is updated when calculating new distances from a node being visited to unvisited neighbor nodes. If the newly calculated distance is shorter than the old distance, it is updated to reflect the more "global view" of ideal solution. The global aspect of the data is used during decision making because the calculated distance is the sum from beginning to the target node.
 
 Back to this problem. We may need to *STORE* the max profit to each node, just as we store the minimum accumulative distance in each node in Dijkstra's algorithm's example. In this problem, the concept of neighboring is different from the neighboring nodes in graph. A node and its neighbor can be treated as a buying node and a selling node. So, for a specific node, all nodes after it can be viewed as neighboring node.
+**** Initial Analysis (plot and recoganize the pattern, greedy algorithm)
+Take price sequence ~[7,1,5,3,6,4]~ as an example. We want to maximize the profit, the the rule of thumb for buying a stock at day ~i~ is, the price at the day ~i + 1~ is higher than the current day. The rule of thumb for selling a stock at day ~i~ is, the price at day ~i + 1~ is lower than day ~i~. If ~prices[i + 1] > prices[i]~, we can hold the stock and wait until day ~i + 1~ to sell it, to maximize the profit. For each buy-sell operation, we seek to maximize profit of it.
 
+Problems which can be solved by greedy algorithm has following two requirements:
+1. Greedy choice property: a global optimal solution can be achieved by choosing the optimal choice at each step
+2. Optimal substructure: a global optimal solution contains all optimal solutions to the sub-problems
+
+Back to our problem, in order to achieve the over all maximum profit, we need to achieve sub-maximum profit for each price change cycle. So, when buying stock, if ~prices[i + 1] < prices[i]~, we may want to buy at day ~i + 1~ rather than day ~i~. Also, when selling stock, if we find a price drop (i.e. ~prices[i + 1] < prices[i]~, we may want to sell our stock at day ~i~ rather than day ~i + 1~, so we can get more profit.
+
+The algorithm steps are as follows:
+- check if size of ~prices~ is less than two, if so, return 0
+- define a variable ~max_profit~ and initialize it to 0
+- go over the ~prices~ array. For a certain day ~i~, if we find ~prices[i + 1] <= prices[i]~, we don't buy the stock. And since we didn't buy it, we can't sell it, so we go to next day.
+- if we find ~prices[i + 1] > prices[i]~, we buy the stock. And we traverse from day ~i + 1~ to end of the array. If we find a day ~j~, such that ~prices[j + 1] < prices[j]~, it means the price will drop at day ~j + 1~, so we'd better sell it on day ~j~. So, the profit is updated by the profit earned in this transaction, which is: ~prices[j] - prices[i]~.
+- repeat the buying and selling process until we reach the end of the array.
+
+The time complexity of this approach is \(O(N)\). Since you only need to go over the array once. When you found a buying day, you continue to search a selling day, after you found a selling day, you don't go back, you start from the next day of the selling day. Thus the total time complexity is \(O(N)\).
+
+The space complexity of this approach is \(O(N)\) (didn't copy the entire array, the memory used is not related to the total size of the array).
 
 *** Solution
+**** C++
+***** plot and recoganize the pattern (greedy algorithm, my first try)
+#+begin_src c++
+class Solution {
+public:
+  int maxProfit(vector<int>& prices) {
+    if (prices.size() < 2)
+      return 0;
+    
+    int max_profit = 0;
+    
+    for (int i = 0; i < prices.size() - 1; i++) {
+      if (prices[i + 1] <= prices[i])
+        continue;
+      
+      int j = i + 1;
+      while (j < prices.size() - 1 && prices[j + 1] > prices[j])
+        j++;
+      
+      max_profit += prices[j] - prices[i];
+      i = j;
 
-*** todos [0/4]
-- [ ] write down your own solution and analysis
-- [ ] time complexity analysis of your own solution
+    }
+    
+    return max_profit;
+  }
+};
+#+end_src
+
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
 - [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] brutal force
+  - [ ] peak valley
+  - [ ] simple one pass
 - [ ] generalize this problem
 ** 136. Single Number
 *** Problem Statement
@@ -2486,7 +2535,7 @@ class Solution:
 *** Problem Statement
 [[https://leetcode.com/problems/count-binary-substrings/][Link]]
 *** Analysis
-**** Collect meta-substrings <<colletc-meta-substrings>>
+**** Collect meta-substrings <<collect-meta-substrings>>
 First, we have to be aware that how to divide the input string into separate parts and count. The valid substring should have all 0s and 1s grouped together. So, we may want to divide the string into meta-substrings. A meta-substring is a substring that each 0 and 1 are grouped together. For example, an input of ~'00101000111100101'~ can be divided into following meta-substrings:
 #+BEGIN_EXAMPLE
 '001'

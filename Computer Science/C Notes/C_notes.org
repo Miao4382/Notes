@@ -2,14 +2,12 @@
 #+OPTIONS: H:6
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
 #+LATEX_HEADER: \usepackage{parskip}
-
 #+LATEX_HEADER: \linespread {1.5}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
-* C Basics
-***** Some Facts
+*** Some Facts
 - assignments associate from right to left.
 - arithemetic operators associate left to right
 - relational operators have lower precedence than arithmetic operators
@@ -28,13 +26,15 @@
   printf("%d", (int) a);  
   #+end_src
   result will be ~2~.
+- unary operator associate right to left (like ~*~, ~++~, ~--~)
 
+place holder.
 
-***** headers
+*** headers
 - ~<stdio.h>~: contains input/output functions
 - ~<ctype.h>~: some functions regarding to characters
   
-***** ~printf()~ formatting
+*** ~printf()~ formatting
 Check p26-p27 of the textbook.
 
 Use ~%~ with symbols to print the variables in different format.
@@ -52,7 +52,7 @@ printf("%d", a)  //print a in format of integer
 printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 #+end_src
-***** Symbolic Constants
+*** Symbolic Constants
 A ~#define~ line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: ~#define~ /name/ /replacement text/. You put this at the head of your code (outside scope of any function to make it globally). Example:
 #+begin_src c
 #include <stdio.h>
@@ -72,12 +72,12 @@ int main() {
 }
 #+end_src
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a ~#define~ line.
-***** Character Input and Output
+*** Character Input and Output
 - ~getchar()~: it reads the next input character from a text stream and returns that (from the buffer?).
 - ~putchar()~: it prints a character each time it is called and passed a char into.
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, ~'a'~ is actually ~97~.
-***** Arrays
+*** Arrays
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 #+begin_src c
 int nums[100];
@@ -96,7 +96,7 @@ int main() {
   return 0;
 }
 #+end_src
-***** Enumeration constant
+*** Enumeration constant
 An enumeration is a list of constant integer values. For example:
 #+begin_src c
 enum boolean { NO, YES };
@@ -118,7 +118,7 @@ Names in different enumerations must be distinct. Values need not be distinct in
 #define FEB 2
 // etc
 #+end_src
-***** type-cast an expression
+*** type-cast an expression
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 #+begin_src c
 int main() {
@@ -128,7 +128,7 @@ int main() {
 }
 #+end_src
 In the above example, when being printed, the type of ~n~ has been modified to ~float~. Notice that ~n~ itself is not altered. This is called a /cast/, it is an unary operator, has the same high precedence as other unary operators.
-***** Bitwise operators
+*** Bitwise operators
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -142,9 +142,221 @@ They are:
 - =~=  : one's complement (unary)
 
 The precedence of the bitwise operators ~&~, ~^~ and ~|~ is lower than ~==~ and ~!=~.
-***** Operators can be used with assignment operators
+*** Operators can be used with assignment operators
 p64
 
 ~+, -, *, /, %, <<, >>, &, ^, |~
+*** External Variables
+If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an ~extern~ declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
+#+begin_src c
+int addNum(int a) {
+  extern int ADDAMOUNT;  // variable ADDAMOUNT is in different source file
+
+  return a + ADDAMOUNT;
+}
+#+end_src
+Array sizes must be specified with the definition, but are optional with an ~extern~ declaration.
+*** Command-line Arguments
+p128 in CPL.
+
+We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter ~ehco~, followed by a series of arguments:
+#+BEGIN_EXAMPLE
+$ echo hello world
+#+END_EXAMPLE
+then press enter. The command line window will repeat the inputed arguments:
+#+BEGIN_EXAMPLE
+$ echo hello world
+$ hello world
+#+END_EXAMPLE
+The two strings ~"hello"~ and ~"world"~ are two arguments passed in echo program.
+
+Basically, when ~main()~ is called, it is called with two arguments: ~argc~ and ~argv~.
+- ~argc~: stands for argument count. It is the number of command-line arguments when the program was invoked (i.e. how many strings are there in the line that invoked the program). In the above echo example, ~argc == 3~, the three strings are: "echo", "hello" and "world", respectively.
+- ~argv~: stands for argument vector. It is a pointer to an array of character strings that contain the actual arguments, one per string. You can imagine when you type in command line to invoke a program, what you typed in was stored somewhere in an array of character strings. Additionally, the standard requires that ~argv[argc]~ be a null pointer. In the echo example, you typed "echo hello world", and following array of characters was stored:
+  #+BEGIN_EXAMPLE
+  ["echo", "hello", "world", 0]
+  #+END_EXAMPLE
+
+**** Example: ~echo~
+Knowing this, we can write a program that mimic the ~echo~ function: re-print what we typed in when we invoke the program to terminal:
+#+begin_src c
+#include <stdio.h>
+
+int main(int argc, char* argv[]) {
+  while (*(++argv))
+    printf("%s%s", *argv, *(argv + 1) ? " " : "");  // the second %s is for the space
+  
+  printf("\n");
+  
+  return 0;
+}
+#+end_src
+
+**** Example: ~pattern_finding~
+This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
+#+BEGIN_EXAMPLE
+$ pattern_finding love < text.txt
+#+END_EXAMPLE
+it will print all lines that contain ~love~ to the terminal.
+
+The program uses ~strstr()~ to search the existence of a certain keyword in target string. We also write a ~getline()~ function to get one single line from input buffer (using ~getchar()~). Pay attention that in the new C library (~stdio.h~), a ~getline()~ function has been added. So we rename our function to ~getlines()~. The code is as follows:
+#+begin_src c
+#include <stdio.h>
+#include <string.h>
+#define MAXLINE 1000
+
+int getlines(char* line, int max);
+
+//find: print lines that match pattern from 1st arg 
+int main(int argc, char* argv[]) {
+  char line[MAXLINE];  // used to hold a line of string
+  int found = 0;
+  
+  if (argc != 2)
+    printf("Usage: find pattern\n");
+  else
+    while (getlines(line, MAXLINE) > 0)
+      if (strstr(line, argv[1]) != NULL) {
+        printf("No.%d: %s", ++found, line);
+      }
+  
+  return found;
+}
+
+int getlines(char* line, int max) {
+  char ch;
+  
+  while (--max > 0 && (ch = getchar()) != EOF && ch != '\n') {
+    *(line++) = ch;
+  }
+  
+  if (ch == '\n')
+    *(line++) = ch;  // no need to worry about not enough space, since if ch == '\n', it is not stored in line yet, because the loop was not executed
+  *line = '\0';
+  
+  if (ch == EOF)
+    return -1;
+  
+  return 1;
+}
+#+end_src
+
+**** Optional arguments example: ~pattern_finding~ extended
+Now we extend our ~pattern_finding~ program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
+
+There is no magic about optional arguments. They are collected as strings in ~argv[]~ when the program is invoked, just like anyother strings occured when invoking the function. We extend the ~pattern_finding~ program to include support for two optional arguments:
+1. -x: print lines that doesn't contain the target pattern;
+2. -n: in addition to print lines, the program will also print the corresponding line number before the line.
+So, the program can be invoked in following way:
+#+BEGIN_EXAMPLE
+$ pattern_finding -n -x keyword < text.txt
+#+END_EXAMPLE
+in this case, when ~main()~ is called, ~argc == 4~, ~*argv == {"pattern_finding", "-n", "-x", "keyword"}~. ~< text.txt~ is just redirect ~stdin~ to the text.
+
+Or, we can combine the two optional arguments:
+#+BEGIN_EXAMPLE
+$ pattern_finding -xn keyword < text.txt
+#+END_EXAMPLE
+in this case, when ~main()~ is called, ~argc == 3~, ~*argv == {"pattern_finding", "-xn", "keyword"}~.
+
+Thus, we have to write code to analyze argument strings that has ~"-xxx"~ form. Generally, we keep a list of flags inside the program. If we encountered any optional argument in the string, we can set the corresponding flag to true.
+
+The code and explanation is as follows:
+#+begin_src c
+#include <stdio.h>
+#include <string.h>
+#define MAXLINE 1000
+
+int getlines(char* line, int max);
+
+//find: print lines that match pattern from 1st arg 
+// with optional arguments enabled
+int main(int argc, char* argv[]) {
+  char line[MAXLINE];  // temporary container to hold line read from buffer
+  char c;  // to check optional arguments 
+  
+  int line_num = 0;  // record the number of line                                                             
+  int except = 0;  // flag of optional argument x, if this is true, print lines that doesn't have pattern  
+  int number = 0;  // flag for optional argument n , if this is true, print the corresponding line number
+  int found = 0;
+  
+  
+  // check inputted arguments and set flag accordingly
+  // use prefix to skip the first argv (which is the name of the function)
+  while (--argc > 0 && (*++argv)[0] == '-')  // outter while loop check each "-xxx" styled optional argument 
+    while (c = *++argv[0]) {  // inner while loop check each char in the "-xxx" styled argument
+      switch (c) {
+      case 'x':
+        except = 1;
+        break;
+      case 'n':
+        number = 1;
+        break;
+      default:
+        printf("find: illegal option %c\n", c);
+        argc = 0;  // this will terminate the program
+        found = -1;
+        break;
+      }
+    }
+    
+  if (argc != 1)  //we should have only one argument at this point, which is the pattern we are going to find. All optional arguments have been examed by the previous while loop 
+    printf("Usage: find -x -n pattern\n");  // print a message showing how to use this program
+  else
+    while (getlines(line, MAXLINE) > 0) {
+      line_num++;  // update the line number
+      
+      /*Notes: 
+        Print the line based on value of variable except and the found result.
+        To print a line, the truth value of found and except should be different. When except = 1, we print lines that not found, so found == 0;
+        When except = 0, we print lines that are found, so found == 1;
+      */
+      if ((strstr(line, *argv) != NULL) != except) {
+        if (number)  // if the number flag is true, we print the line number 
+          printf("%d", line_num);
+        printf("%s", line);
+        found++;
+      }
+      
+    }
+    
+  return found;
+    
+}
+
+int getlines(char* line, int max) {
+  char ch;
+  
+  while (--max > 0 && (ch = getchar()) != EOF && ch != '\n') {
+    *(line++) = ch;
+  }
+  
+  if (ch == '\n')
+    *(line++) = ch;  // no need to worry about not enough space, since if ch == '\n', it is not stored in line yet, because the loop was not executed
+  *line = '\0';
+  
+  if (ch == EOF)
+    return -1;
+  
+  return 1;
+}
+#+end_src
+
+*** Pointers to Functions
+It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on. In this section, a sorting program will be used as an example to illustrate the idea. It will also combine the command line arguments.
+
+**** Schematic picture
+The sorting program has following feature:
+1. the program can be invoked by ~$ sort -n < text.txt~ or ~$ sort < text.txt~
+2. if optional argument ~-n~ is used, the lines will be sorted numerically, otherwise, lines will be sorted lexicographically
+3. read all lines of input and store them
+4. sort the lines by sorting pointers pointing to them (based on wether ~-n~ is given or not)
+5. print the lines in order 
+
+
+**** Implementation
+
+
+
 
 
