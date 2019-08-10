@@ -10,7 +10,6 @@ char* lineptr[MAXLINES];  // an array of char pointers to text lines
 int numeric = 0;  // flag of -n option; 1 if numeric sort requested 
 int reverse = 0;  // flag of -r option, 1 if reverse sort requested
 int fold = 0;  // flag of -f option; 1 if fold upper/lower requested (so 'a' and 'A' are equal)
-int directory = 0;  // flag of -d option; 1: skip any character that are not letter, number and blank
 
 /* Function Prototype */
 int readlines(char* lineptr[], int maxlines);
@@ -18,8 +17,6 @@ void writelines(char* lineptr[], int nlines);
 void qsorts(char* v[], int left, int right, int (*comp)(void*, void*)); 
 void rqsorts(char* v[], int left, int right, int (*comp)(void*, void*));
 int numcmp(const char*, const char*);
-void tolowerStr(char s1[]);
-char* filter(char s[]);
 
 // with optional arguments
 int main(int argc, char* argv[]) {
@@ -38,9 +35,6 @@ int main(int argc, char* argv[]) {
         break;
       case 'f':
         fold = 1;
-        break;
-      case 'd':
-        directory = 1;
         break;
       default:
         printf("sort: illegal option %c\n", ch);
@@ -151,9 +145,6 @@ The parenthese is needed when writting the parameter or actual using function in
 */
 void qsorts(char* v[], int left, int right, int (*comp)(void*, void*)) {
   int last;
-  char s1[MAXLEN];
-  char s2[MAXLEN];    
-
   
   if (left >= right)
     return;
@@ -162,19 +153,20 @@ void qsorts(char* v[], int left, int right, int (*comp)(void*, void*)) {
   last = left;
   
   for (int i = left + 1; i <= right; i++) {
-    strcpy(s1, v[i]);
-    strcpy(s2, v[left]);
-    
     if (fold) {
-      tolowerStr(s1);
-      tolowerStr(s2);
-      
-      if ((directory ? (*comp)(filter(s1), filter(s2)) : (*comp)(s1, s2)) < 0)
+      char s1[MAXLEN];
+      char s2[MAXLEN];
+      strcpy(s1, v[i]);
+      strcpy(s2, v[left]);
+      *s1 = tolower(*s1);
+      *s2 = tolower(*s2);
+      if ((*comp)(s1, s2) < 0)
         swap(v, i, ++last);
     }
     
-    else if ((directory ? (*comp)(filter(s1), filter(s2)) : (*comp)(s1, s2)) < 0)
-      swap(v, i, ++last);  
+    else if ((*comp)(v[i], v[left]) < 0) {
+      swap(v, i, ++last);
+    }     
   }
 
   
@@ -188,8 +180,6 @@ Sort the array in reverse order
  */
 void rqsorts(char* v[], int left, int right, int (*comp)(void*, void*)) {
   int last;
-  char s1[MAXLEN];
-  char s2[MAXLEN]; 
   
   if (left >= right)
     return;
@@ -198,19 +188,20 @@ void rqsorts(char* v[], int left, int right, int (*comp)(void*, void*)) {
   last = left;
   
   for (int i = left + 1; i <= right; i++) {
-    strcpy(s1, v[i]);
-    strcpy(s2, v[left]);
-    
     if (fold) {
-      tolowerStr(s1);
-      tolowerStr(s2);
-      
-      if ((directory ? (*comp)(filter(s1), filter(s2)) : (*comp)(s1, s2)) > 0)
+      char s1[MAXLEN];
+      char s2[MAXLEN];
+      strcpy(s1, v[i]);
+      strcpy(s2, v[left]);
+      *s1 = tolower(*s1);
+      *s2 = tolower(*s2);
+      if ((*comp)(s1, s2) > 0)
         swap(v, i, ++last);
     }
     
-    else if ((directory ? (*comp)(filter(s1), filter(s2)) : (*comp)(s1, s2)) > 0)
-      swap(v, i, ++last);  
+    else if ((*comp)(v[i], v[left]) > 0) {
+      swap(v, i, ++last);
+    }     
   }
   
   swap(v, left, last);
@@ -247,57 +238,7 @@ int foldcmp(const char* s1, const char* s2) {
   *s2m = tolower(*s2m);
   return strcmp(s1m, s2m);
 }
-
-/* tolowerStr(s1, s2): 
-Transform s2 to lower version and store in s1
-*/
-void tolowerStr(char s[]) {
-  for (int i = 0; s[i] != '\0'; i++) {
-    s[i] = tolower(s[i]);
-  }
-/*   while (*s != '\0') {
-    *s = tolower(*s);
-    s++;
-  } */
-    
-}
-
-/* filter()
-remove all characters that are not letter, number or blank, for -d flag
-use bubble sort idea
-*/
-char* filter(char s[]) {
-  int exchanged = 1;
-  int i;
-  int j;
-  char temp;
-
-  while (exchanged) {
-    exchanged = 0;
-    i = 0;
-    for (; s[i] != '\0'; i++) {
-      if (!(isalnum(s[i]) || s[i] == ' ')) {  // this character should be filtered
-        for (j = i + 1; s[j] != '\0' && !(isalnum(s[j]) || s[j] == ' '); j++)
-          ;
-        if (s[j] == '\0')
-          break;
-        // swap s[i] and s[j] 
-        temp = s[i];
-        s[i] = s[j];
-        s[j] = temp;
-        
-        i = j;  // move i to j's position
-        exchanged = 1;  // indicate exchanged
-      }
-    }
-    
-    if (!exchanged)  // if no exchange happened, current s[i] should be the end of the array
-      s[i] = '\0';
-  }
-  
-  return s;
-}
-
+ 
 int getlines(char* line, int max) {
   char ch;
   int count;

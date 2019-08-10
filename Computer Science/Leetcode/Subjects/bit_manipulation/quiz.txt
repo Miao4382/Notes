@@ -1,0 +1,19 @@
+Some other manipulations are (~A~ and ~B~ are two integers):
+- set union: 
+- set intersection: 
+- set substraction: 
+- set negation: all 1-bit -> 0-bit, all 0-bit -> 1-bit 
+  - 
+  - 
+- opposite sign (a -> -a): 
+- set bit: 
+- clear bit: 
+- test bit: 
+- extract last bit: get the significance of the last 1-bit (its position), keeping all zeros from the last bit to rightmost zero.
+  - 
+  - 
+  - 
+- remove last bit: 
+- get ~ALL_ONE_BITS~:
+- a ^ a =
+- 0 ^ a =

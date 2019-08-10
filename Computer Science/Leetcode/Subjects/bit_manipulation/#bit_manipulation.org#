@@ -132,6 +132,7 @@ int isPowerOfFour(int n) {
 Add two numbers without using ~+, -, ++, --~.
 **** Recursion
 (This method only works for two positive number).
+--update: this method also works for negative numbers. Just declare the two integers as ~unsigned int~. Otherwise, leetcode will complain about left shift of a negative number
 
 The function prototype is:
 #+begin_src c++
@@ -513,10 +514,8 @@ public:
 };
 #+end_src
 
-
-
 *** Repeated DNA sequences
-This example will show how to write a way to create integer hash key for certain objects (of those related to integer type, like ~char~ or ~string~) using bit manipulation.
+This example will show how to create integer hash key for certain objects (of those related to integer type, like ~char~ or ~string~) using bit manipulation.
 
 The problem statement can be found [[https://leetcode.com/problems/repeated-dna-sequences/][here]]. One naive solution is to traverse the string, for each 10-char sequence, we store it in a hash table (~unordered_map<string, int>~). The value of the hash table is the appearing times of the char sequence. Then, we traverse the hash table, push each string (the key) to the result vector if the appearing time is more than 1.
 
@@ -617,4 +616,163 @@ public:
   }
 };
 #+end_src
+*** Majority Element
+The problem statement can be found [[https://leetcode.com/problems/majority-element/][here]]. Other solutions possible (check my leetcode notes). Here we use bit manipulation to solve it.
+
+Take array ~[5,5,4,5,1,5,6,5]~ as an example. the binary format of those numbers are listed below:
+#+BEGIN_EXAMPLE
+5: 0101
+5: 0101
+4: 0100
+5: 0101
+1: 0001
+5: 0101
+6: 0110
+5: 0101
+#+END_EXAMPLE
+Since the majority element if the one that appears more than ~n / 2~ times, the bit value of the majority element should also be "majority bit value". So we just need to find out the majority bit value at each bit, and reconstruct the majority element using this information. In the above example, the majority bit value for each bit (from left to right) i
+s: ~0, 1, 0, 1~, thus the majority element is ~0101~, which is 5.
+
+Code:
+#+begin_src c++
+class Solution {
+public:
+  int majorityElement(vector<int>& nums) {
+    int length = 8 * sizeof(int);
+    int size = nums.size();
+    int count = 0;
+    unsigned int mask = 1;
+    int ret = 0;
+    
+    for (int i = 0; i < length; i++) {  // traverse over each bit 
+      count = 0;  // count number of 1-bit at current bit (for all number in nums)
+      for (int j = 0; j < size; j++)
+        if (mask & nums[j])
+          count++;
+      if (count > size / 2)  // if number of 1-bit is greater than size / 2, it is the majority bit, update directly (better than my solution). You only consider 1-bit case, because ret is 0-bit by default
+        ret |= mask;
+      
+      mask <<= 1;
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** Single number II
+The problem statement can be found [[https://leetcode.com/problems/single-number-ii/][here]].
+**** Bit counting
+For each bit position, count the number of 1-bit on the position. If the single number has a 0-bit here, the total bit_count should mod 3 (because other numbers appear exactly three times). If the single number has a 1-bit here, ~bit_count % 3 != 0~. We can use this to determine bit value of the single number at each bit and reconstruct it during the process.
+
+Code:
+#+begin_src c++
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    int length = 8 * sizeof(int);
+    int ret = 0;
+    unsigned int mask = 1;
+    int bit_count;
+    
+    // for each bit, calculate bit_count for all numbers
+    for (int i = 0; i < length; i++) {
+      bit_count = 0;
+      
+      for (int num : nums)
+        if (num & mask)
+          bit_count++;
+      
+      if (bit_count % 3)
+        ret |= mask;
+      
+      mask <<= 1;
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+**** Logical circuit design
+Not quite understand. Put it to future work.
+**** Check other solutions on the website.
+
+*** Single number III
+The problem statement can be found [[https://leetcode.com/problems/single-number-iii/][here]].
+
+You are given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
+
+Example:
+#+BEGIN_EXAMPLE
+input: [1,2,1,3,2,5]
+Output: [3,5]
+#+END_EXAMPLE
+
+To cancel number that appeared twice, we can think of using exclusive or, because ~a ^ a == 0~. Assume the two single number is ~a~ and ~b~. We traverse the array first to use ~0~ to XOR each number, we'll get ~a ^ b~.
+
+How to find out ~a~ and ~b~ using ~a ^ b~? By taking a look at the bits in ~a ^ b~, we found that any 1-bit in this number suggests ~a~ and ~b~ has different bit-value at this bit-position. By using this information, we can divide the array into two groups: all numbers has a 1-bit at certain bit position (of those 1-bit position in ~a ^ b~) goes to group A, all number has a 0-bit at the same bit-position goes to group B. So the two single numbers are separated in group A and group B. If we do another xor for each number in two groups, we can get the individual value of ~a~ and ~b~.
+
+There is not need to use extra space to store two groups, we xor each number when it is grouped.
+
+This solution was provided by [[https://leetcode.com/problems/single-number-iii/discuss/68998/How-to-use-bit-manipulation-to-solve-this-problem][this]] reference.
+Code:
+#+begin_src c++
+vector<int> singleNumber(vector<int>& nums) {
+  int mask;
+  int axorb = 0;
+  int a = 0;
+  int b = 0;
+  
+  // get a ^ b
+  for (int num : nums)
+    axorb ^= num;
+  
+  // find out different bit in a and b
+  mask = axorb ^ (axorb & (axorb - 1));
+  
+  // go over array again and axorb two groups
+  for (int num : nums) {
+    if (num & mask)
+      a ^= num;
+    else 
+      b ^= num;
+  }
+  
+  return {a, b};
+}
+
+#+end_src
+
+*** Maximum product of word lengths
+The problem statement can be found [[https://leetcode.com/problems/maximum-product-of-word-lengths/][here]].
+
+The tricky part is how to determine two words intersect or not.
+
+If using brutal force, for two words ~A~ and ~B~, we start with the first letter in ~A~, traverse ~B~ to find out if ~B~ contains the letter or not. Then, we do the same thing for the second letter in ~A~. Assume the average length of each word is ~k~. We need ~k^2~ comparisons just to determine if ~A~ and ~B~ intersects or not. And we must do this for any pair of two words (which is Cn2). We need to find a way that can determine whether two words intersects or not faster.
+
+Bitwise AND operator is a fast way to perform intersection on two numbers (two sets). For a word and its letters, you may want to design a method to transform a word into an integer, the bit-value in this integer should carry information of which letter appeared in the original word. When we intersect two such integers, the result can show us wether the two words that behind this two integers have common letters or not.
+
+Notice that there is no limit to the word length. Also, if a character repeats itself in a word, our encoded integer should encode just one character (because this is enough).
+
+At first, I was thinking to encode each letter to a series of bit. There are 26 letters, so there are 26 states, I need a minimum of 5 bits to describe them all (because ~2^5~ > 26). But an integer only has 32 bits, which means if using this method, I can only encode a word with length less than 6 letters (record which word appeared in this word). How to encode a word to an integer?
+
+In fact, you don't have to use 5-bit to record a single character's appearance. The integer type has a natural structure which we can use to map to 26 letters. That is the bit position. An integer has 32 bits, we can use the first 26 bits to indicate 26 letters. For example:
+#+BEGIN_EXAMPLE
+zyxwvutsrqponmlkjihgfedcba
+00000000000000000000000000
+#+END_EXAMPLE
+The bit value at each bit can be either 1 or 0, we use this to indicate whether the corresponding letter appeared or not. For example, to encode ~"abce"~, we have:
+#+BEGIN_EXAMPLE
+zyxwvutsrqponmlkjihgfedcba
+00000000000000000000010111
+#+END_EXAMPLE
+
+So, the steps are:
+1. transform the word list to an integer list, which contains info of letter appearing frequency
+2. traverse this integer array, for each word, check if there is any word after intersects with it. If so, calculate product of word length and update the running maximum product. No need to check backward because they are already checked in previous run of the loop.
+
+Some trival details that can enhance your code:
+1. use an array to store the length of words. So no need to call .length() frequently
+2. use max() function to determine which one is larger.
+
+
 ** place holder

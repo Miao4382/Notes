@@ -27,6 +27,7 @@
   #+end_src
   result will be ~2~.
 - unary operator associate right to left (like ~*~, ~++~, ~--~)
+- strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault
 
 place holder.
 
@@ -343,20 +344,56 @@ int getlines(char* line, int max) {
 #+end_src
 
 *** Pointers to Functions
-It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on. In this section, a sorting program will be used as an example to illustrate the idea. It will also combine the command line arguments.
+It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
 
-**** Schematic picture
-The sorting program has following feature:
-1. the program can be invoked by ~$ sort -n < text.txt~ or ~$ sort < text.txt~
-2. if optional argument ~-n~ is used, the lines will be sorted numerically, otherwise, lines will be sorted lexicographically
-3. read all lines of input and store them
-4. sort the lines by sorting pointers pointing to them (based on wether ~-n~ is given or not)
-5. print the lines in order 
+To declare a pointer to a function, you write:
+#+BEGIN_EXAMPLE
+return_type (*ptr_name)(parameter1_type, parameter2_type, ...)
+#+END_EXAMPLE
+Explanation:
+- ~return_type~: the return type of the function this pointer pointing to.
+- ~ptr_name~: the name of the pointer variable
+- ~parameter_type~: the type of the function this pointer referring to.
 
+Example:
+#+begin_src c
+#include <stdio.h>
 
-**** Implementation
+int add(int a, int b) {
+  return a + b;
+}
 
+int main() {
+  int (*a)(int, int);
+  a = &add;
+  printf("%d\n", (*a)(2, 3));
+}
+#+end_src
+When calling the function pointer, you have to use parenthese to enclose ~*~ and pointer name. Use ~&~ and function name to get the "address" of the function.
 
+**** Example: qsort() which takes a comp() function pointer
+(Example 5-11).
+
+A quick sort function which takes a function pointer to be used in its body to sort is as follows:
+#+begin_src c
+void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
+  int last;
+  
+  if (left >= right)
+    return;
+  
+  swap(v, left, (left + right) / 2);
+  last = left;
+  
+  for (int i = left + 1; i <= right; i++)
+    if ((*comp)(v[i], v[left]) < 0)
+      swap(v, i, ++last);
+  
+  swap(v, left, last);
+  qsorts(v, left, last - 1, comp);
+  qsorts(v, last + 1, right, comp);
+}
+#+end_src
 
 
 

@@ -1,0 +1,16 @@
+Some other manipulations are (~A~ and ~B~ are two integers):
+- set union: a | b
+- set intersection: a & b 
+- set substraction: a & ~b
+- set negation:
+  - ~a
+  - (~0) ^ a
+- opposite sign (a -> -a): a = ~(a - 1)
+- set bit: a |= (1 << bit)
+- clear bit: a &= ~(1 << bit)
+- test bit: if (a & (1 << bit) == 0)
+- extract last bit: get the significance of the last 1-bit (its position), keeping all zeros from the last bit to rightmost zero.
+  - [a ^ (a - 1)]-WRONG
+  - a & (~(a - 1)) or a & -a, essentially same idea as the above method
+- remove last bit: [a ^ (a - 1)]-WRONG
+- get ~ALL_ONE_BITS~: ~0

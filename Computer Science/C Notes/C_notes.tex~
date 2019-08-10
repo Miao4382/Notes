@@ -1,4 +1,4 @@
-% Created 2019-08-05 Mon 19:27
+% Created 2019-08-05 Mon 19:28
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -33,10 +33,8 @@
 
 \tableofcontents
 
-\section{C Basics}
-\label{sec:org39a42be}
-\subsubsection{Some Facts}
-\label{sec:org6b9f7cc}
+\section{Some Facts}
+\label{sec:org0e5fccd}
 \begin{itemize}
 \item assignments associate from right to left.
 \item arithemetic operators associate left to right
@@ -61,15 +59,15 @@ result will be \texttt{2}.
 
 place holder.
 
-\subsubsection{headers}
-\label{sec:orgb4147eb}
+\section{headers}
+\label{sec:org65db6f4}
 \begin{itemize}
 \item \texttt{<stdio.h>}: contains input/output functions
 \item \texttt{<ctype.h>}: some functions regarding to characters
 \end{itemize}
 
-\subsubsection{\texttt{printf()} formatting}
-\label{sec:org107fb15}
+\section{\texttt{printf()} formatting}
+\label{sec:orgcde574f}
 Check p26-p27 of the textbook.
 
 Use \texttt{\%} with symbols to print the variables in different format.
@@ -87,8 +85,8 @@ printf("%d", a)  //print a in format of integer
 printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 \end{minted}
-\subsubsection{Symbolic Constants}
-\label{sec:org63ca3f7}
+\section{Symbolic Constants}
+\label{sec:orgef5ccfa}
 A \texttt{\#define} line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: \texttt{\#define} \emph{name} \emph{replacement text}. You put this at the head of your code (outside scope of any function to make it globally). Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -108,16 +106,16 @@ int main() {
 }
 \end{minted}
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a \texttt{\#define} line.
-\subsubsection{Character Input and Output}
-\label{sec:orga12c1c3}
+\section{Character Input and Output}
+\label{sec:org85166d9}
 \begin{itemize}
 \item \texttt{getchar()}: it reads the next input character from a text stream and returns that (from the buffer?).
 \item \texttt{putchar()}: it prints a character each time it is called and passed a char into.
 \end{itemize}
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, \texttt{'a'} is actually \texttt{97}.
-\subsubsection{Arrays}
-\label{sec:org1451c58}
+\section{Arrays}
+\label{sec:orgfe61503}
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int nums[100];
@@ -136,8 +134,8 @@ int main() {
   return 0;
 }
 \end{minted}
-\subsubsection{Enumeration constant}
-\label{sec:org92d1af8}
+\section{Enumeration constant}
+\label{sec:org62c8ad2}
 An enumeration is a list of constant integer values. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 enum boolean { NO, YES };
@@ -159,8 +157,8 @@ Names in different enumerations must be distinct. Values need not be distinct in
 #define FEB 2
 // etc
 \end{minted}
-\subsubsection{type-cast an expression}
-\label{sec:org0bb84eb}
+\section{type-cast an expression}
+\label{sec:org8946b3a}
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int main() {
@@ -170,8 +168,8 @@ int main() {
 }
 \end{minted}
 In the above example, when being printed, the type of \texttt{n} has been modified to \texttt{float}. Notice that \texttt{n} itself is not altered. This is called a \emph{cast}, it is an unary operator, has the same high precedence as other unary operators.
-\subsubsection{Bitwise operators}
-\label{sec:org15bf781}
+\section{Bitwise operators}
+\label{sec:org1943013}
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -187,13 +185,13 @@ They are:
 \end{itemize}
 
 The precedence of the bitwise operators \texttt{\&}, \texttt{\textasciicircum{}} and \texttt{|} is lower than \texttt{==} and \texttt{!=}.
-\subsubsection{Operators can be used with assignment operators}
-\label{sec:org76013b3}
+\section{Operators can be used with assignment operators}
+\label{sec:org0ca0063}
 p64
 
 \texttt{+, -, *, /, \%, <<, >>, \&, \textasciicircum{}, |}
-\subsubsection{External Variables}
-\label{sec:org76252c7}
+\section{External Variables}
+\label{sec:orgdc942ab}
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an \texttt{extern} declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int addNum(int a) {
@@ -203,8 +201,8 @@ int addNum(int a) {
 }
 \end{minted}
 Array sizes must be specified with the definition, but are optional with an \texttt{extern} declaration.
-\subsubsection{Command-line Arguments}
-\label{sec:org5ad8084}
+\section{Command-line Arguments}
+\label{sec:orga4c6bf3}
 p128 in CPL.
 
 We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter \texttt{ehco}, followed by a series of arguments:

@@ -1,0 +1,176 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}
+
+\PYG{c+cp}{\PYGZsh{}define MAXLINES 5000  }\PYG{c+c1}{// max number of lines to be sorted}
+
+\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[}\PYG{n}{MAXLINES}\PYG{p}{];}  \PYG{c+c1}{// an array of char pointers to text lines}
+
+\PYG{k+kt}{int} \PYG{n+nf}{readlines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{maxlines}\PYG{p}{);}
+\PYG{k+kt}{void} \PYG{n+nf}{writelines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{nlines}\PYG{p}{);}
+\PYG{c+c1}{// the fourth parameter is a pointer to function, we may choose different comparing functions to be used in sorting}
+\PYG{k+kt}{void} \PYG{n+nf}{qsorts}\PYG{p}{(}\PYG{k+kt}{void}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{left}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{right}\PYG{p}{,} \PYG{k+kt}{int} \PYG{p}{(}\PYG{o}{*}\PYG{n}{comp}\PYG{p}{)(}\PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{));}
+\PYG{k+kt}{int} \PYG{n+nf}{numcmp}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{);}
+
+\PYG{c+c1}{// with optional arguments}
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{argc}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{argv}\PYG{p}{[])} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{nlines}\PYG{p}{;}  \PYG{c+c1}{// hold the total number of lines read}
+  \PYG{k+kt}{int} \PYG{n}{numeric} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}  \PYG{c+c1}{// flag of \PYGZhy{}n option; 1 if numeric sort requested}
+
+  \PYG{c+c1}{// check if optional argument is typed}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{argc} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{strcmp}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{l+s}{\PYGZdq{}\PYGZhy{}n\PYGZdq{}}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{numeric} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+
+  \PYG{c+c1}{// read lines and sort according to numeric value}
+  \PYG{k}{if} \PYG{p}{((}\PYG{n}{nlines} \PYG{o}{=} \PYG{n}{readlines}\PYG{p}{(}\PYG{n}{lineptr}\PYG{p}{,} \PYG{n}{MAXLINES}\PYG{p}{))} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+cm}{/* qsorts(lineptr, 0, nlines \PYGZhy{} 1); */}
+    \PYG{n}{qsorts}\PYG{p}{((}\PYG{k+kt}{void} \PYG{o}{**}\PYG{p}{)} \PYG{n}{lineptr}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{nlines} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{int} \PYG{p}{(}\PYG{o}{*}\PYG{p}{)(}\PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{))(}\PYG{n}{numeric} \PYG{o}{?} \PYG{n+nl}{numcmp} \PYG{p}{:} \PYG{n}{strcmp}\PYG{p}{));}
+
+    \PYG{n}{writelines}\PYG{p}{(}\PYG{n}{lineptr}\PYG{p}{,} \PYG{n}{nlines}\PYG{p}{);}
+    \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}error: input too big to sort}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+    \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cp}{\PYGZsh{}define MAXLEN 1000  }\PYG{c+c1}{// max length of any input line}
+\PYG{k+kt}{int} \PYG{n+nf}{getlines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{int}\PYG{p}{);}
+\PYG{k+kt}{char}\PYG{o}{*} \PYG{n+nf}{alloc}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{);}  \PYG{c+c1}{// memory allocator, declared here, compiled in a separate file (using example 5\PYGZhy{}4: a memory allocator toy)}
+
+\PYG{c+cm}{/* readlines():}
+\PYG{c+cm}{How does this work:}
+\PYG{c+cm}{\PYGZhy{} use getlines() function to get each line from the input buffer and store in line[] variable; Also store the length of each line (not including )}
+\PYG{c+cm}{\PYGZhy{} call alloc() to request a chunk of memory from a pre\PYGZhy{}allocated memory space (reservoir), a pointer to this chunk of memory will hold the address}
+\PYG{c+cm}{\PYGZhy{} call strcpy() to copy content in line[] to the requested chunk of memory}
+\PYG{c+cm}{\PYGZhy{} store the memory address hold in p to lineptr[]\PYGZsq{}s slots}
+\PYG{c+cm}{store each read\PYGZhy{}line to the C\PYGZhy{}string array pointed by lineptr}
+\PYG{c+cm}{The maximum input line number is the maxlines parameter}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{int} \PYG{n+nf}{readlines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{maxlines}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{len}\PYG{p}{;}  \PYG{c+c1}{// hold the length of line being read}
+  \PYG{k+kt}{int} \PYG{n}{nlines}\PYG{p}{;}  \PYG{c+c1}{// hold the number of lines read, should be smaller than maxlines}
+
+  \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{p}\PYG{p}{;}  \PYG{c+c1}{// a pointer used to hold the address of allocated}
+  \PYG{k+kt}{char} \PYG{n}{line}\PYG{p}{[}\PYG{n}{MAXLEN}\PYG{p}{];}  \PYG{c+c1}{// temp char array to hold currently read line, pass in getline() function}
+
+  \PYG{n}{nlines} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+  \PYG{k}{while} \PYG{p}{((}\PYG{n}{len} \PYG{o}{=} \PYG{n}{getlines}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,} \PYG{n}{MAXLEN}\PYG{p}{))} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{)}  \PYG{c+c1}{// if len \PYGZgt{} 0, a line has been read}
+    \PYG{c+cm}{/*}
+\PYG{c+cm}{    \PYGZhy{} if line num exceeded max, or memory allocation failed (not enough room)}
+\PYG{c+cm}{    \PYGZhy{} the amount of memory is len, which is returned by getlines()}
+\PYG{c+cm}{    \PYGZhy{} this length contains the tailing \PYGZsq{}\PYGZbs{}n\PYGZsq{} character. So len = \PYGZsh{} of char + 1}
+\PYG{c+cm}{    \PYGZhy{} but we\PYGZsq{}ll replace \PYGZsq{}\PYGZbs{}n\PYGZsq{} with \PYGZsq{}\PYGZbs{}0\PYGZsq{}}
+\PYG{c+cm}{    \PYGZhy{} also, line[] filled by getlines() has following structure:}
+\PYG{c+cm}{      [\PYGZsq{}a\PYGZsq{}, \PYGZsq{}b\PYGZsq{}, \PYGZsq{}c\PYGZsq{}, \PYGZsq{}\PYGZbs{}n\PYGZsq{}, \PYGZsq{}\PYGZbs{}0\PYGZsq{}]}
+\PYG{c+cm}{      after replacing \PYGZsq{}\PYGZbs{}n\PYGZsq{} with \PYGZsq{}\PYGZbs{}0\PYGZsq{}:}
+\PYG{c+cm}{      [\PYGZsq{}a\PYGZsq{}, \PYGZsq{}b\PYGZsq{}, \PYGZsq{}c\PYGZsq{}, \PYGZsq{}\PYGZbs{}0\PYGZsq{}, \PYGZsq{}\PYGZbs{}0\PYGZsq{}]}
+\PYG{c+cm}{      We\PYGZsq{}ll only allocate room for four chars, but the fifth one will still be copied to the master reservoir (used by alloc() to dispense memory). It will be over\PYGZhy{}written by the first letter of next line, because alloc() thinks this slot is the next empty slot, and the next request: p = alloc(len) will return p pointing to this.}
+\PYG{c+cm}{    */}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{nlines} \PYG{o}{\PYGZgt{}=} \PYG{n}{maxlines} \PYG{o}{||} \PYG{p}{(}\PYG{n}{p} \PYG{o}{=} \PYG{n}{alloc}\PYG{p}{(}\PYG{n}{len}\PYG{p}{))} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)}
+      \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}  \PYG{c+c1}{// indicate readlines() function failed to read all the lines}
+    \PYG{k}{else} \PYG{p}{\PYGZob{}}
+      \PYG{n}{line}\PYG{p}{[}\PYG{n}{len} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}0\PYGZsq{}}\PYG{p}{;}  \PYG{c+c1}{// replace \PYGZsq{}\PYGZbs{}n\PYGZsq{} with \PYGZsq{}\PYGZbs{}0\PYGZsq{}, so line[] is a C\PYGZhy{}string}
+      \PYG{n}{strcpy}\PYG{p}{(}\PYG{n}{p}\PYG{p}{,} \PYG{n}{line}\PYG{p}{);}  \PYG{c+c1}{// copy content in line to spaces pointed by p}
+      \PYG{n}{lineptr}\PYG{p}{[}\PYG{n}{nlines}\PYG{o}{++}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p}\PYG{p}{;}  \PYG{c+c1}{// the address stored in p is now in lineptr[]}
+    \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{return} \PYG{n}{nlines}\PYG{p}{;}  \PYG{c+c1}{// return the number of lines read from the input buffer}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/* writelines():}
+\PYG{c+cm}{Print the lines stored in the master reservoir by dereferencing pointer stored in lineptr[]}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void} \PYG{n+nf}{writelines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{lineptr}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{nlines}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{nlines}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{lineptr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/* swap():}
+\PYG{c+cm}{Swap two elements in an array of pointers. Used by qsorts()}
+\PYG{c+cm}{Parameters:}
+\PYG{c+cm}{  void* v[]: an array of pointers, potentially to any type}
+\PYG{c+cm}{  int i: index of first element}
+\PYG{c+cm}{  int j: index of second element}
+
+\PYG{c+cm}{swap v[i] and v[j]}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void} \PYG{n+nf}{swap}\PYG{p}{(}\PYG{k+kt}{void}\PYG{o}{*} \PYG{n}{v}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{j}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{void}\PYG{o}{*} \PYG{n}{temp}\PYG{p}{;}
+  \PYG{n}{temp} \PYG{o}{=} \PYG{n}{v}\PYG{p}{[}\PYG{n}{j}\PYG{p}{];}
+  \PYG{n}{v}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{v}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+  \PYG{n}{v}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{temp}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+
+\PYG{c+cm}{/* qsorts():}
+\PYG{c+cm}{Sort v[left] ... v[right] into increasing order}
+\PYG{c+cm}{Parameters:}
+\PYG{c+cm}{  void* v[]: void* is a generic pointer type, here, it means pointer accepts an array of pointers to any type (like template?)}
+\PYG{c+cm}{  int left: left boundary of sorting}
+\PYG{c+cm}{  int right: right boundary of sorting}
+\PYG{c+cm}{  int (*comp)(void*, void*): a pointer to a function which accepts two void* arguments (two pointers to any type), the return type of this function is int.}
+
+\PYG{c+cm}{Pay attention that comp is declared as a pointer to function. We can use it as a normal function by dereferencing it : (*comp)}
+
+\PYG{c+cm}{The parenthese is needed when writting the parameter or actual using function in the body of qsorts. If no parenthese, int *comp(void*, void*) means a function named copm that returns a pointer to integer (not a pointer to function!)}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void} \PYG{n+nf}{qsorts}\PYG{p}{(}\PYG{k+kt}{void}\PYG{o}{*} \PYG{n}{v}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{left}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{right}\PYG{p}{,} \PYG{k+kt}{int} \PYG{p}{(}\PYG{o}{*}\PYG{n}{comp}\PYG{p}{)(}\PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{void}\PYG{o}{*}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{last}\PYG{p}{;}
+
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{left} \PYG{o}{\PYGZgt{}=} \PYG{n}{right}\PYG{p}{)}
+    \PYG{k}{return}\PYG{p}{;}
+
+  \PYG{n}{swap}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{p}{(}\PYG{n}{left} \PYG{o}{+} \PYG{n}{right}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{);}
+  \PYG{n}{last} \PYG{o}{=} \PYG{n}{left}\PYG{p}{;}
+
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{left} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{right}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+    \PYG{k}{if} \PYG{p}{((}\PYG{o}{*}\PYG{n}{comp}\PYG{p}{)(}\PYG{n}{v}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{v}\PYG{p}{[}\PYG{n}{left}\PYG{p}{])} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)}
+      \PYG{n}{swap}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{o}{++}\PYG{n}{last}\PYG{p}{);}
+
+  \PYG{n}{swap}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{n}{last}\PYG{p}{);}
+  \PYG{n}{qsorts}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{n}{last} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{comp}\PYG{p}{);}
+  \PYG{n}{qsorts}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{last} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{right}\PYG{p}{,} \PYG{n}{comp}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/* numcmp():}
+\PYG{c+cm}{compare s1 and s2 on a leading numeric value}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{int} \PYG{n+nf}{numcmp}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{s1}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{s2}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{double} \PYG{n}{v1}\PYG{p}{,} \PYG{n}{v2}\PYG{p}{;}
+
+  \PYG{n}{v1} \PYG{o}{=} \PYG{n}{atof}\PYG{p}{(}\PYG{n}{s1}\PYG{p}{);}
+  \PYG{n}{v2} \PYG{o}{=} \PYG{n}{atof}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{);}
+
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{v1} \PYG{o}{\PYGZlt{}} \PYG{n}{v2}\PYG{p}{)}
+    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{v1} \PYG{o}{\PYGZgt{}} \PYG{n}{v2}\PYG{p}{)}
+    \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{else}
+    \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+
+\PYG{k+kt}{int} \PYG{n+nf}{getlines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{line}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{max}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{char} \PYG{n}{ch}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{count}\PYG{p}{;}
+
+  \PYG{c+c1}{// count \PYGZlt{} max \PYGZhy{} 1 for storing the last null terminator}
+  \PYG{k}{for} \PYG{p}{(}\PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{count} \PYG{o}{\PYGZlt{}} \PYG{n}{max} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{p}{(}\PYG{n}{ch} \PYG{o}{=} \PYG{n}{getchar}\PYG{p}{())} \PYG{o}{!=} \PYG{n}{EOF} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{ch} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{;} \PYG{o}{++}\PYG{n}{count}\PYG{p}{)}
+    \PYG{o}{*}\PYG{p}{(}\PYG{n}{line}\PYG{o}{++}\PYG{p}{)} \PYG{o}{=} \PYG{n}{ch}\PYG{p}{;}
+
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{ch} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{o}{*}\PYG{p}{(}\PYG{n}{line}\PYG{o}{++}\PYG{p}{)} \PYG{o}{=} \PYG{n}{ch}\PYG{p}{;}
+    \PYG{n}{count}\PYG{o}{++}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{o}{*}\PYG{n}{line} \PYG{o}{=} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}0\PYGZsq{}}\PYG{p}{;}  \PYG{c+c1}{// add null terminator to the array}
+
+  \PYG{k}{return} \PYG{n}{count}\PYG{p}{;}  \PYG{c+c1}{// not containing the \PYGZsq{}\PYGZbs{}0\PYGZsq{} terminator}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

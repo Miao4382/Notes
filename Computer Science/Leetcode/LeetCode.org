@@ -1423,8 +1423,8 @@ public:
   }
 };
 #+end_src
-*** todos [/]
-- [ ] think about other solution (use about 30 min)
+*** todos [1/3]
+- [X] think about other solution (use about 30 min)
 - [ ] read discussion and contemplate other solution
 - [ ] generalize the problem 
 ** 206. Reverse Linked List
