@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n}{key} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{4}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{key} \PYG{o}{=} \PYG{p}{(}\PYG{n}{key} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{|} \PYG{n}{chtonum}\PYG{p}{(}\PYG{n}{s}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{l+s}{\PYGZdq{}A\PYGZdq{}}\PYG{o}{:} \PYG{l+m+mo}{00}
+\PYG{l+s}{\PYGZdq{}AT\PYGZdq{}}\PYG{o}{:} \PYG{l+m+mo}{00} \PYG{l+m+mo}{01}
+\PYG{l+s}{\PYGZdq{}ATC\PYGZdq{}}\PYG{o}{:} \PYG{l+m+mo}{00} \PYG{l+m+mo}{01} \PYG{l+m+mi}{11}
+\PYG{l+s}{\PYGZdq{}ATCG\PYGZdq{}}\PYG{o}{:} \PYG{l+m+mo}{00} \PYG{l+m+mo}{01} \PYG{l+m+mi}{11} \PYG{l+m+mi}{10}
+\end{Verbatim}

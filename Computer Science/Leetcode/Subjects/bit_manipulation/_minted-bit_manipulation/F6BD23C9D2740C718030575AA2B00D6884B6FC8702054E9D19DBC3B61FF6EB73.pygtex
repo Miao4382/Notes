@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{uint32\PYGZus{}t} \PYG{n+nf}{reverseBits}\PYG{p}{(}\PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{ret} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}  \PYG{c+c1}{// to hold result}
+  \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{pos} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}  \PYG{c+c1}{// to loop over the num, mask}
+
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{31}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{,} \PYG{n}{pos} \PYG{o}{\PYGZlt{}\PYGZlt{}=} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{ret} \PYG{o}{|=} \PYG{p}{((}\PYG{n}{n} \PYG{o}{\PYGZam{}} \PYG{n}{pos}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{o}{?} \PYG{l+m+mi}{0} \PYG{o}{:} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i}\PYG{p}{;}  \PYG{c+c1}{// (n \PYGZam{} pos) should be in parenthese}
+
+  \PYG{k}{return} \PYG{n}{ret}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

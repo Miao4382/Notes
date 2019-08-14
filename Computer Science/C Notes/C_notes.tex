@@ -1,4 +1,4 @@
-% Created 2019-08-08 Thu 16:30
+% Created 2019-08-14 Wed 13:11
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -34,7 +34,7 @@
 \tableofcontents
 
 \section{Some Facts}
-\label{sec:orgf2518f1}
+\label{sec:orgb3767f9}
 \begin{itemize}
 \item assignments associate from right to left.
 \item arithemetic operators associate left to right
@@ -55,19 +55,20 @@ printf("%d", (int) a);
 \end{minted}
 result will be \texttt{2}.
 \item unary operator associate right to left (like \texttt{*}, \texttt{++}, \texttt{-{}-})
+\item strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault
 \end{itemize}
 
 place holder.
 
 \section{headers}
-\label{sec:orgfa82a67}
+\label{sec:org73706f2}
 \begin{itemize}
 \item \texttt{<stdio.h>}: contains input/output functions
 \item \texttt{<ctype.h>}: some functions regarding to characters
 \end{itemize}
 
 \section{\texttt{printf()} formatting}
-\label{sec:org1ec38e4}
+\label{sec:org8b40bda}
 Check p26-p27 of the textbook.
 
 Use \texttt{\%} with symbols to print the variables in different format.
@@ -86,7 +87,7 @@ printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 \end{minted}
 \section{Symbolic Constants}
-\label{sec:orgdd3ac23}
+\label{sec:orgbbfea9f}
 A \texttt{\#define} line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: \texttt{\#define} \emph{name} \emph{replacement text}. You put this at the head of your code (outside scope of any function to make it globally). Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -107,7 +108,7 @@ int main() {
 \end{minted}
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a \texttt{\#define} line.
 \section{Character Input and Output}
-\label{sec:org1fd928a}
+\label{sec:orgfbd63ca}
 \begin{itemize}
 \item \texttt{getchar()}: it reads the next input character from a text stream and returns that (from the buffer?).
 \item \texttt{putchar()}: it prints a character each time it is called and passed a char into.
@@ -115,7 +116,7 @@ Pay attention that symbolic name or symbolic constants are not variables. They a
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, \texttt{'a'} is actually \texttt{97}.
 \section{Arrays}
-\label{sec:org1a090ff}
+\label{sec:orgf528e96}
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int nums[100];
@@ -135,7 +136,7 @@ int main() {
 }
 \end{minted}
 \section{Enumeration constant}
-\label{sec:orgfec9e5a}
+\label{sec:org6cf8e8d}
 An enumeration is a list of constant integer values. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 enum boolean { NO, YES };
@@ -158,7 +159,7 @@ Names in different enumerations must be distinct. Values need not be distinct in
 // etc
 \end{minted}
 \section{type-cast an expression}
-\label{sec:orgd5720dd}
+\label{sec:org9cb07d0}
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int main() {
@@ -169,7 +170,7 @@ int main() {
 \end{minted}
 In the above example, when being printed, the type of \texttt{n} has been modified to \texttt{float}. Notice that \texttt{n} itself is not altered. This is called a \emph{cast}, it is an unary operator, has the same high precedence as other unary operators.
 \section{Bitwise operators}
-\label{sec:orge4e4dc9}
+\label{sec:org55aa24e}
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -186,12 +187,12 @@ They are:
 
 The precedence of the bitwise operators \texttt{\&}, \texttt{\textasciicircum{}} and \texttt{|} is lower than \texttt{==} and \texttt{!=}.
 \section{Operators can be used with assignment operators}
-\label{sec:orgfd28329}
+\label{sec:orgaa5edb3}
 p64
 
 \texttt{+, -, *, /, \%, <<, >>, \&, \textasciicircum{}, |}
 \section{External Variables}
-\label{sec:org96f509d}
+\label{sec:orgd7d27e4}
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an \texttt{extern} declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int addNum(int a) {
@@ -202,7 +203,7 @@ int addNum(int a) {
 \end{minted}
 Array sizes must be specified with the definition, but are optional with an \texttt{extern} declaration.
 \section{Command-line Arguments}
-\label{sec:org685786e}
+\label{sec:orgc514194}
 p128 in CPL.
 
 We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter \texttt{ehco}, followed by a series of arguments:
@@ -226,7 +227,7 @@ Basically, when \texttt{main()} is called, it is called with two arguments: \tex
 \end{itemize}
 
 \subsection{Example: \texttt{echo}}
-\label{sec:orgfbece89}
+\label{sec:org490218c}
 Knowing this, we can write a program that mimic the \texttt{echo} function: re-print what we typed in when we invoke the program to terminal:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -242,7 +243,7 @@ int main(int argc, char* argv[]) {
 \end{minted}
 
 \subsection{Example: \texttt{pattern\_finding}}
-\label{sec:orgba86c16}
+\label{sec:org72a29b0}
 This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
 \begin{verbatim}
 $ pattern_finding love < text.txt
@@ -292,7 +293,7 @@ int getlines(char* line, int max) {
 \end{minted}
 
 \subsection{Optional arguments example: \texttt{pattern\_finding} extended}
-\label{sec:org8be8e17}
+\label{sec:org9b8afc6}
 Now we extend our \texttt{pattern\_finding} program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
 
 There is no magic about optional arguments. They are collected as strings in \texttt{argv[]} when the program is invoked, just like anyother strings occured when invoking the function. We extend the \texttt{pattern\_finding} program to include support for two optional arguments:
@@ -396,148 +397,42 @@ int getlines(char* line, int max) {
 \end{minted}
 
 \section{Pointers to Functions}
-\label{sec:org7b7faaf}
-It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on. In this section, a sorting program will be used as an example to illustrate the idea. It will also combine the command line arguments.
+\label{sec:org019e07a}
+It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
 
-\subsection{Schematic picture}
-\label{sec:org3eff501}
-The sorting program has following feature:
-\begin{enumerate}
-\item the program can be invoked by \texttt{\$ sort -n < text.txt} or \texttt{\$ sort < text.txt}
-\item if optional argument \texttt{-n} is used, the lines will be sorted numerically, otherwise, lines will be sorted lexicographically
-\item read all lines of input and store them
-\item sort the lines by sorting pointers pointing to them (based on wether \texttt{-n} is given or not)
-\item print the lines in order
-\end{enumerate}
+To declare a pointer to a function, you write:
+\begin{verbatim}
+return_type (*ptr_name)(parameter1_type, parameter2_type, ...)
+\end{verbatim}
+Explanation:
+\begin{itemize}
+\item \texttt{return\_type}: the return type of the function this pointer pointing to.
+\item \texttt{ptr\_name}: the name of the pointer variable
+\item \texttt{parameter\_type}: the type of the function this pointer referring to.
+\end{itemize}
 
-
-\subsection{Implementation}
-\label{sec:orgad64327}
-For the base program (read lines and qsort them), please check the corresponding example code.
-
-Code for this part (along with explanations):
+Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
-#define MAXLINES 5000  // max number of lines to be sorted
-
-char* lineptr[MAXLINES];  // an array of char pointers to text lines
-
-int readlines(char* lineptr[], int maxlines);
-void writelines(char* lineptr[], int nlines);
-// the fourth parameter is a pointer to function, we may choose different comparing functions to be used in sorting 
-void qsorts(void* lineptr[], int left, int right, int (*comp)(void*, void*));
-int numcmp(char*, char*);
-
-// with optional arguments
-int main(int argc, char* argv[]) {
-  int nlines;  // hold the total number of lines read
-  int numeric = 0;  // flag of -n option; 1 if numeric sort requested 
-
-  // check if optional argument is typed
-  if (argc > 1 && strcmp(argv[1], "-n") == 0)
-    numeric = 1;
-
-  // read lines and sort according to numeric value
-  if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-    /* qsorts(lineptr, 0, nlines - 1); */
-    qsorts((void **) lineptr, 0, nlines - 1, (int (*)(void*, void*))(numeric ? numcmp : strcmp));
-
-    writelines(lineptr, nlines);
-    return 0;
-  }
-
-  else {
-    printf("error: input too big to sort\n");
-    return 1;
-  }
-
+int add(int a, int b) {
+  return a + b;
 }
 
-#define MAXLEN 1000  // max length of any input line
-int getlines(char*, int);
-char* alloc(int);  // memory allocator, declared here, compiled in a separate file (using example 5-4: a memory allocator toy)
-
-/* readlines(): 
-How does this work:
-- use getlines() function to get each line from the input buffer and store in line[] variable; Also store the length of each line (not including )
-- call alloc() to request a chunk of memory from a pre-allocated memory space (reservoir), a pointer to this chunk of memory will hold the address
-- call strcpy() to copy content in line[] to the requested chunk of memory
-- store the memory address hold in p to lineptr[]'s slots
-store each read-line to the C-string array pointed by lineptr
-The maximum input line number is the maxlines parameter
-*/
-int readlines(char* lineptr[], int maxlines) {
-  int len;  // hold the length of line being read 
-  int nlines;  // hold the number of lines read, should be smaller than maxlines
-
-  char* p;  // a pointer used to hold the address of allocated 
-  char line[MAXLEN];  // temp char array to hold currently read line, pass in getline() function
-
-  nlines = 0;
-
-  while ((len = getlines(line, MAXLEN)) > 0)  // if len > 0, a line has been read
-    /* 
-    - if line num exceeded max, or memory allocation failed (not enough room)
-    - the amount of memory is len, which is returned by getlines()
-    - this length contains the tailing '\n' character. So len = # of char + 1
-    - but we'll replace '\n' with '\0'
-    - also, line[] filled by getlines() has following structure:
-      ['a', 'b', 'c', '\n', '\0']
-      after replacing '\n' with '\0':
-      ['a', 'b', 'c', '\0', '\0']
-      We'll only allocate room for four chars, but the fifth one will still be copied to the master reservoir (used by alloc() to dispense memory). It will be over-written by the first letter of next line, because alloc() thinks this slot is the next empty slot, and the next request: p = alloc(len) will return p pointing to this.
-    */
-    if (nlines >= maxlines || (p = alloc(len)) == NULL)
-      return -1;  // indicate readlines() function failed to read all the lines
-    else {
-      line[len - 1] = '\0';  // replace '\n' with '\0', so line[] is a C-string
-      strcpy(p, line);  // copy content in line to spaces pointed by p
-      lineptr[nlines++] = p;  // the address stored in p is now in lineptr[] 
-    }
-
-  return nlines;  // return the number of lines read from the input buffer
+int main() {
+  int (*a)(int, int);
+  a = &add;
+  printf("%d\n", (*a)(2, 3));
 }
+\end{minted}
+When calling the function pointer, you have to use parenthese to enclose \texttt{*} and pointer name. Use \texttt{\&} and function name to get the "address" of the function.
 
-/* writelines(): 
-Print the lines stored in the master reservoir by dereferencing pointer stored in lineptr[] 
-*/
-void writelines(char* lineptr[], int nlines) {
-  for (int i = 0; i < nlines; i++)
-    printf("%s\n", lineptr[i]);
-}
+\subsection{Example: qsort() which takes a comp() function pointer}
+\label{sec:org80bb4fe}
+(Example 5-11).
 
-/* swap(): 
-Swap two elements in an array of pointers. Used by qsorts()
-Parameters:
-  void* v[]: an array of pointers, potentially to any type 
-  int i: index of first element 
-  int j: index of second element
-
-swap v[i] and v[j]
-*/
-void swap(void* v[], int i, int j) {
-  void* temp;
-  temp = v[j];
-  v[j] = v[i];
-  v[i] = temp;
-}
-
-
-/* qsorts(): 
-Sort v[left] ... v[right] into increasing order
-Parameters:
-  void* v[]: void* is a generic pointer type, here, it means pointer accepts an array of pointers to any type (like template?)
-  int left: left boundary of sorting 
-  int right: right boundary of sorting
-  int (*comp)(void*, void*): a pointer to a function which accepts two void* arguments (two pointers to any type), the return type of this function is int.
-
-Pay attention that comp is declared as a pointer to function. We can use it as a normal function by dereferencing it : (*comp)
-
-The parenthese is needed when writting the parameter or actual using function in the body of qsorts. If no parenthese, int *comp(void*, void*) means a function named copm that returns a pointer to integer (not a pointer to function!)
-*/
+A quick sort function which takes a function pointer to be used in its body to sort is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
 void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
   int last;
 
@@ -555,41 +450,5 @@ void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
   qsorts(v, left, last - 1, comp);
   qsorts(v, last + 1, right, comp);
 }
-
-/* numcmp(): 
-compare s1 and s2 on a leading numeric value
-*/
-int numcmp(char* s1, char* s2) {
-  double v1, v2;
-
-  v1 = atof(s1);
-  v2 = atof(s2);
-
-  if (v1 < v2)
-    return -1;
-  else if (v1 > v2)
-    return 1;
-  else 
-    return 0;
-}
-
-
-int getlines(char* line, int max) {
-  char ch;
-  int count;
-
-  // count < max - 1 for storing the last null terminator
-  for (count = 0; count < max - 1 && (ch = getchar()) != EOF && ch != '\n'; ++count)
-    *(line++) = ch;
-
-  if (ch == '\n') {
-    *(line++) = ch;
-    count++;
-  }
-
-  *line = '\0';  // add null terminator to the array 
-
-  return count;  // not containing the '\0' terminator 
-} 
 \end{minted}
 \end{document}

@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{chtonum}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n}{ch}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{switch} \PYG{p}{(}\PYG{n}{ch}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}A\PYGZsq{}}\PYG{o}{:}
+    \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}T\PYGZsq{}}\PYG{o}{:}
+    \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}G\PYGZsq{}}\PYG{o}{:}
+    \PYG{k}{return} \PYG{l+m+mi}{2}\PYG{p}{;}
+  \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}C\PYGZsq{}}\PYG{o}{:}
+    \PYG{k}{return} \PYG{l+m+mi}{3}\PYG{p}{;}
+  \PYG{k}{default}\PYG{o}{:}
+    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

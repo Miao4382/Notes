@@ -42,7 +42,7 @@ Some other manipulations are (~A~ and ~B~ are two integers):
 - remove last bit: ~A & ( A - 1)~
 - get ~ALL_ONE_BITS~: =~0=
 ** Examples
-*** Count the number of one (practice ~&~)
+*** Count the number of one bit (practice ~&, <<~)
 Count the number of ones in the binary representation of the given number. The strategy is to count the rightmost one in its binary representation and remove it, until you remove all the ones in its binary representation.
 
 To remove the rightmost one in a number's binary representation, you do: ~n & (n - 1)~.
@@ -630,7 +630,7 @@ Take array ~[5,5,4,5,1,5,6,5]~ as an example. the binary format of those numbers
 6: 0110
 5: 0101
 #+END_EXAMPLE
-Since the majority element if the one that appears more than ~n / 2~ times, the bit value of the majority element should also be "majority bit value". So we just need to find out the majority bit value at each bit, and reconstruct the majority element using this information. In the above example, the majority bit value for each bit (from left to right) i
+Since the majority element is the one that appears more than ~n / 2~ times, the bit value of the majority element should also be "majority bit value". So we just need to find out the majority bit value at each bit, and reconstruct the majority element using this information. In the above example, the majority bit value for each bit (from left to right) i
 s: ~0, 1, 0, 1~, thus the majority element is ~0101~, which is 5.
 
 Code:
@@ -711,7 +711,7 @@ To cancel number that appeared twice, we can think of using exclusive or, becaus
 
 How to find out ~a~ and ~b~ using ~a ^ b~? By taking a look at the bits in ~a ^ b~, we found that any 1-bit in this number suggests ~a~ and ~b~ has different bit-value at this bit-position. By using this information, we can divide the array into two groups: all numbers has a 1-bit at certain bit position (of those 1-bit position in ~a ^ b~) goes to group A, all number has a 0-bit at the same bit-position goes to group B. So the two single numbers are separated in group A and group B. If we do another xor for each number in two groups, we can get the individual value of ~a~ and ~b~.
 
-There is not need to use extra space to store two groups, we xor each number when it is grouped.
+There is no need to use extra space to store two groups, we xor each number when it is grouped.
 
 This solution was provided by [[https://leetcode.com/problems/single-number-iii/discuss/68998/How-to-use-bit-manipulation-to-solve-this-problem][this]] reference.
 Code:
@@ -741,5 +741,85 @@ vector<int> singleNumber(vector<int>& nums) {
 }
 
 #+end_src
+
+*** Maximum product of word lengths
+The problem statement can be found [[https://leetcode.com/problems/maximum-product-of-word-lengths/][here]].
+
+The tricky part is how to determine two words intersect or not.
+
+If using brutal force, for two words ~A~ and ~B~, we start with the first letter in ~A~, traverse ~B~ to find out if ~B~ contains the letter or not. Then, we do the same thing for the second letter in ~A~. Assume the average length of each word is ~k~. We need ~k^2~ comparisons just to determine if ~A~ and ~B~ intersects or not. And we must do this for any pair of two words (which is Cn2). We need to find a way that can determine whether two words intersects or not faster.
+
+Bitwise AND operator is a fast way to perform intersection on two numbers (two sets). For a word and its letters, you may want to design a method to transform a word into an integer, the bit-value in this integer should carry information of which letter appeared in the original word. When we intersect two such integers, the result can show us wether the two words that behind this two integers have common letters or not.
+
+Notice that there is no limit to the word length. Also, if a character repeats itself in a word, our encoded integer should encode just one character (because this is enough).
+
+At first, I was thinking to encode each letter to a series of bit. There are 26 letters, so there are 26 states, I need a minimum of 5 bits to describe them all (because ~2^5~ > 26). But an integer only has 32 bits, which means if using this method, I can only encode a word with length less than 6 letters (record which word appeared in this word). How to encode a word to an integer?
+
+In fact, you don't have to use 5-bit to record a single character's appearance. The integer type has a natural structure which we can use to map to 26 letters. That is the bit position. An integer has 32 bits, we can use the first 26 bits to indicate 26 letters. For example:
+#+BEGIN_EXAMPLE
+zyxwvutsrqponmlkjihgfedcba
+00000000000000000000000000
+#+END_EXAMPLE
+The bit value at each bit can be either 1 or 0, we use this to indicate whether the corresponding letter appeared or not. For example, to encode ~"abce"~, we have:
+#+BEGIN_EXAMPLE
+zyxwvutsrqponmlkjihgfedcba
+00000000000000000000010111
+#+END_EXAMPLE
+
+So, the steps are:
+1. transform the word list to an integer list, which contains info of letter appearing frequency
+2. traverse this integer array, for each word, check if there is any word after intersects with it. If so, calculate product of word length and update the running maximum product. No need to check backward because they are already checked in previous run of the loop.
+
+Some trival details that can enhance your code:
+1. use an array to store the length of words. So no need to call .length() frequently
+2. use max() function to determine which one is larger.
+
+*** Subsets
+A big advantage of bit manipulation is that it can be used to count subsets of a set. Consider following number:
+#+BEGIN_EXAMPLE
+1111 1111
+#+END_EXAMPLE
+It has 8-bits, all set to 1. We can use it to iterate all subsets of a set with 8 elements. i.e. we iterate from ~0000 0000~ to ~1111 1111~, each 1-bit means the subset contains the element in the corresponding position, while each 0-bit means the subset does not contain the element in that corresponding position. For example, following number shows a subset that containing the first, second and the last element:
+#+BEGIN_EXAMPLE
+1000 0011
+#+END_EXAMPLE
+Thus, to iterate through all subsets, we iterate from ~0000 0000~ to ~1111 1111~.
+
+The subset problem on leetcode can be found [[https://leetcode.com/problems/subsets/][here]]. We use the above idea to solve it, the code is as follows:
+#+begin_src c++
+vector<vector<int>> subsets(vector<int>& nums) {
+  // get the range
+  unsigned int range = (1 << nums.size()) - 1;
+  
+  // get all subsets by iterating over all possible combinations
+  vector<int> temp;
+  vector<vector<int>> ret;
+  int j;
+  int count;
+  
+  for (int i = 0; i <= range; i++) {
+    temp.clear();
+    j = i;
+    count = 0;
+    
+    // collect elements that belongs to current i-th subset
+    while (j > 0) {
+      if (j & 1)
+        temp.push_back(nums[count]);
+      j >>= 1;
+      count++;
+    }
+    
+    // record in ret 
+    ret.push_back(temp);
+  }
+  
+  return ret;
+}
+
+#+end_src
+
+
+*** Bitset
 
 ** place holder

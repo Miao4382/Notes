@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{getSum}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{b} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}  \PYG{c+c1}{// when the carry part is zero, a \PYGZca{} b is a + b, so return the first part directly}
+    \PYG{k}{return} \PYG{n}{a}\PYG{p}{;}
+
+  \PYG{k}{return} \PYG{n}{getSum}\PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZca{}} \PYG{n}{b}\PYG{p}{,} \PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZam{}} \PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

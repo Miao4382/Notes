@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{long} \PYG{n+nf}{largest\PYGZus{}power}\PYG{p}{(}\PYG{k+kt}{long} \PYG{n}{N}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{temp}\PYG{p}{;}
+
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{temp} \PYG{o}{=} \PYG{n}{N} \PYG{o}{\PYGZam{}} \PYG{p}{(}\PYG{n}{N} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))}
+    \PYG{n}{N} \PYG{o}{=} \PYG{n}{temp}\PYG{p}{;}
+
+  \PYG{k}{return} \PYG{n}{N}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n}{mask} \PYG{o}{=} \PYG{l+m+mh}{0xfffff}\PYG{p}{;}  \PYG{c+c1}{// mask: 1111 1111 1111 1111 1111}
+\end{Verbatim}
