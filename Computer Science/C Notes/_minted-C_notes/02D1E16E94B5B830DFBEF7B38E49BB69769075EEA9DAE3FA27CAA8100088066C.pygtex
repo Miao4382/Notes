@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{FILE}\PYG{o}{*} \PYG{n}{fp}\PYG{p}{;}
+\PYG{n}{fp} \PYG{o}{=} \PYG{n}{fopen}\PYG{p}{(}\PYG{n}{name}\PYG{p}{,} \PYG{n}{mode}\PYG{p}{);}
+\end{Verbatim}

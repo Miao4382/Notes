@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int}\PYG{o}{*} \PYG{n}{ip}\PYG{p}{;}
+\PYG{n}{ip} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{int}\PYG{o}{*}\PYG{p}{)} \PYG{n}{calloc}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{));}
+\end{Verbatim}

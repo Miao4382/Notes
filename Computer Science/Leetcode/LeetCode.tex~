@@ -1,6 +1,6 @@
-% Created 2019-08-03 Sat 12:27
+% Created 2019-08-03 Sat 12:36
 % Intended LaTeX compiler: pdflatex
-\documentclass[12pt]{book}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -35,51 +35,51 @@
 \tableofcontents
 
 
-\part{0. Template \label{orgf2620d4}}
-\label{sec:orgc10423e}
-\chapter{Problem Statement}
-\label{sec:org1b2cecd}
+\section{0. Template \label{orgb69359f}}
+\label{sec:org67a8f95}
+\subsection{Problem Statement}
+\label{sec:orgc4399ad}
 [[][]]
-\chapter{Analysis}
-\label{sec:org5a54731}
+\subsection{Analysis}
+\label{sec:org89a9a9d}
 
-\chapter{Solution}
-\label{sec:org7615ded}
+\subsection{Solution}
+\label{sec:orga9de46f}
 
-\chapter{todos [0/4]}
-\label{sec:org0ec8ddc}
+\subsection{todos [0/4]}
+\label{sec:orgb65d4cf}
 \begin{itemize}
 \item[{$\square$}] write down your own solution and analysis
 \item[{$\square$}] time complexity analysis of your own solution
 \item[{$\square$}] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{1. Two Sum \label{orgf2c707f}}
-\label{sec:orgec559b5}
-\chapter{Problem Statement}
-\label{sec:orgbf76a43}
+\section{1. Two Sum \label{org715fb1a}}
+\label{sec:org3b54bde}
+\subsection{Problem Statement}
+\label{sec:org9876f19}
 \href{https://leetcode.com/problems/two-sum/}{Link}
-\chapter{Analysis}
-\label{sec:org2a792ef}
-\section{\(O(N^2)\) method (brutal force)}
-\label{sec:orga9b2211}
+\subsection{Analysis}
+\label{sec:orgbebe924}
+\subsubsection{\(O(N^2)\) method (brutal force)}
+\label{sec:org6b32394}
 Each input would have exactly one solution, and no same element can be used twice. We can go through the array. For each element we encountered (\texttt{nums[i]}), we calculate the counter part (the number that is needed so \texttt{nums[i] + counter\_part = target}): simply: \texttt{target - nums[i]}. Then we go through the rest of the array to find out if such element exist. We go from \texttt{i + 1} to the end. We don't have to go from the beginning because if there is such an element, we would find it earlier. If no such element found, we continue to the next element, calculate its counter part and search again.
 
 The time complexity is: \(N + (N - 1) + (N - 2) + \cdots + 2 + 1\). Which is \(\frac{N(N - 1)}{2}\), so the time complexity is \(O(N^2)\).
-\section{Sort a copy of the array}
-\label{sec:orgf2c44d7}
+\subsubsection{Sort a copy of the array}
+\label{sec:org62bac24}
 In the above solution, we use linear search to find out if the counter\_part is in the array or not. If we have an ordered version of the array, we can use binary search to finish this task. It's time complexity is \(O(\log{N})\). This method requires extra space to hold the sorted version of the array. After we get the sorted version (you can use \texttt{std::sort()} to finish this job), we have two ways to get the index:
 \begin{enumerate}
 \item we start from the beginning of the original array, for each encountered element, we calculate the counterpart of it. Then we search this counterpart in sorted array (using binary search). If we found an counterpart, we traverse the original array to find out the index of this counterpart. If the index is the same as the index of the current element, it means we used the same element, which can not be considered as a solution. Otherwise, we have found the indexes.
 \item we start from the beginning of the sorted array. For each encountered element, we calculate the corresponding counterpart. Then we search the sorted array, from the next element to the end. This is because the counterpart can not appear before the current element, otherwise, the previous element will search to the current element. If we found a counterpart exists, we will traverse the original array to find out the index of the two elements.
 \end{enumerate}
 
-\chapter{Solution}
-\label{sec:org5a4b242}
-\section{C++}
-\label{sec:orgd2a581d}
-\subsection{\(O(N^2)\) Time (35.43\%)}
-\label{sec:org1f73f26}
+\subsection{Solution}
+\label{sec:org22aa725}
+\subsubsection{C++}
+\label{sec:orgcac4109}
+\paragraph{\(O(N^2)\) Time (35.43\%)}
+\label{sec:orgc7d943f}
 Idea: traverse the vector. For each encountered value, calculate the corresponding value it needs to add up to the target value. And then traverse the vector to look for this value.
 
 The time complexity is \(O(N^2)\), because for each value in the vector, you'll go through the vector and search its corresponding part so they add up to the target. This is linear searching, which has \(O(N)\) complexity.
@@ -99,8 +99,8 @@ public:
   }
 };
 \end{minted}
-\subsection{\(O(N^2)\) modified}
-\label{sec:org1df9660}
+\paragraph{\(O(N^2)\) modified}
+\label{sec:org701d21b}
 This is modified implementation. Although the algorithm is the same as the first \(O(N^2)\) solution. This solution is much clearer.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /*test cases: 
@@ -143,8 +143,8 @@ public:
   }
 };
 \end{minted}
-\subsection{\(O(N\log{N})\) Time (8 ms)}
-\label{sec:org63cedbb}
+\paragraph{\(O(N\log{N})\) Time (8 ms)}
+\label{sec:org3acf5d4}
 Idea: the searching part is optimized. First we sort the vector. In order to keep the original relative order of each element, we sort a vector of iterators that referring each element in the original vector \texttt{nums}. Then, we can use this sorted vector to perform binary search, whose time complexity is \(\log{N}\). The total time complexity is reduced to \(O(N\log{N})\).
 
 I made some bugs when writting this code, because I didn't realize the following assumption:
@@ -234,8 +234,8 @@ public:
   }
 };
 \end{minted}
-\subsection{sort a copy of the array (way 1, 8 ms)}
-\label{sec:orgfcbbe2a}
+\paragraph{sort a copy of the array (way 1, 8 ms)}
+\label{sec:org6a61e4a}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -295,8 +295,8 @@ public:
   }
 };
 \end{minted}
-\subsection{sort a copy of the array (way 2, 4 ms)}
-\label{sec:org9155e53}
+\paragraph{sort a copy of the array (way 2, 4 ms)}
+\label{sec:orgc1bbcd1}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -357,8 +357,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [2/4]}
-\label{sec:org06c055f}
+\subsection{todos [2/4]}
+\label{sec:org5f30e33}
 \begin{itemize}
 \item[{$\boxtimes$}] try sort directly method (using a copy array)
 \item[{$\boxtimes$}] write down my own analysis: sort copy array and iter\_array
@@ -370,25 +370,25 @@ public:
 \end{itemize}
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{27. Remove Element \label{orgc763d3f}}
-\label{sec:orgdad330b}
-\chapter{Problem Statement}
-\label{sec:org855c85b}
+\section{27. Remove Element \label{orgfb555b2}}
+\label{sec:orgef6978a}
+\subsection{Problem Statement}
+\label{sec:org105e06d}
 \href{https://leetcode.com/problems/remove-element/}{Link}
-\chapter{Analysis}
-\label{sec:org3bb913e}
-\section{Two pointers}
-\label{sec:org1c6e7f1}
-Idea is similar with \hyperref[org87e6090]{283. Move Zeros}. Using two pointers (iterators): \texttt{a} and \texttt{b}. Use iterator \texttt{a} to scan through the array. If target encountered, use the iterator \texttt{b} to scan element starting from next element. If the iterator \texttt{b} find non-target element, swap elements pointed by iterator \texttt{a} and \texttt{b}. If \texttt{b} didn't find any non-target element, it means there is none in the remaining part of the array. We can return.
+\subsection{Analysis}
+\label{sec:orgd986bad}
+\subsubsection{Two pointers}
+\label{sec:orge67f8c8}
+Idea is similar with \hyperref[org251595e]{283. Move Zeros}. Using two pointers (iterators): \texttt{a} and \texttt{b}. Use iterator \texttt{a} to scan through the array. If target encountered, use the iterator \texttt{b} to scan element starting from next element. If the iterator \texttt{b} find non-target element, swap elements pointed by iterator \texttt{a} and \texttt{b}. If \texttt{b} didn't find any non-target element, it means there is none in the remaining part of the array. We can return.
 
 Another thing should be kept is the number of non-target element we encountered during the iteration. This is the length of the sub-array that we should return. We update this number each time we encounter a non-target element or we swap a target and a non-target element.
 
-\chapter{Solution}
-\label{sec:orga52c9b6}
-\section{C++}
-\label{sec:orgfd58ec4}
-\subsection{two pointers}
-\label{sec:org3378dc1}
+\subsection{Solution}
+\label{sec:orgae408b2}
+\subsubsection{C++}
+\label{sec:org5606cab}
+\paragraph{two pointers}
+\label{sec:orgdaadbb6}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -418,29 +418,29 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:org6d1ee92}
+\subsection{todos [1/2]}
+\label{sec:orga78045e}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your solution and analysis
 \item[{$\square$}] check solution
 \end{itemize}
-\part{70. Climbing Stairs}
-\label{sec:orgf70e26b}
-\chapter{Problem Statement}
-\label{sec:org7358d11}
+\section{70. Climbing Stairs}
+\label{sec:org49ec0d0}
+\subsection{Problem Statement}
+\label{sec:org2022128}
 \href{https://leetcode.com/problems/climbing-stairs/}{Link}
-\chapter{Analysis}
-\label{sec:orga0b49fd}
+\subsection{Analysis}
+\label{sec:orgead91ea}
 This problem can be analyzed backward. Assume we have two steps left, we can use two 1 step to finish, or one 2 steps to finish. So the total number of ways to finish is: [number of ways to finish n - 1 stairs] + [number of ways to finish n - 2 stairs].
 
 It is easy to think using recursion to do this, but it will cause a lot of unnecessary calculation (redundant calculation). This problem is identical to calculate Fibonacci number. Recursion is a bad implementation. The good way is to \textbf{Store} the intermediate results, so we can calculate next term easily.
 
-\chapter{Solution}
-\label{sec:orga3a2ca2}
-\section{C++}
-\label{sec:org0feadf9}
-\subsection{use a vector to hold intermediate result (77\%, 64\%)}
-\label{sec:org63846cb}
+\subsection{Solution}
+\label{sec:orga60762c}
+\subsubsection{C++}
+\label{sec:orge8224e2}
+\paragraph{use a vector to hold intermediate result (77\%, 64\%)}
+\label{sec:org29c5666}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -464,22 +464,22 @@ public:
 };
 \end{minted}
 
-\chapter{todos [/]}
-\label{sec:org336cf59}
+\subsection{todos [/]}
+\label{sec:org1f2cc5f}
 \begin{itemize}
 \item[{$\square$}] read each solution carefully, try to understand the idea and implement by yourself.
 \item[{$\square$}] generalize the problem
 \end{itemize}
 
-\part{79. Word Search}
-\label{sec:orgc9f773a}
-\chapter{Problem Statement}
-\label{sec:org03d15ac}
+\section{79. Word Search}
+\label{sec:org059f71b}
+\subsection{Problem Statement}
+\label{sec:org671f98a}
 \href{https://leetcode.com/problems/word-search/}{Link}
-\chapter{Analysis}
-\label{sec:orgcbb29ba}
-\section{Recursion and record visited slot (my first approach)}
-\label{sec:org6c13fe6}
+\subsection{Analysis}
+\label{sec:org80840ec}
+\subsubsection{Recursion and record visited slot (my first approach)}
+\label{sec:orgad44304}
 Pay attention to "the same letter cell may not be used more than once". Not only the immediate previous letter can't be used, all the used letters can't be used. So, a set is used to record all visited slot.
 
 Recursive way to solve this problem would be using a recursive function to search the adjacent cells. We need to build a helper with following abilities: we pass in a coordinate (row and column) and a word, this function will return a boolean value representing if the word can be found in path starting at the passed-in coordinate.
@@ -529,12 +529,12 @@ then:
    4 (R, C - 1)
 \end{verbatim}
 
-\chapter{Solution}
-\label{sec:orgc04b3eb}
-\section{Recursion and record visited slot (my first approach)}
-\label{sec:orgd50f061}
-\subsection{Python}
-\label{sec:orga913b29}
+\subsection{Solution}
+\label{sec:orgc297f04}
+\subsubsection{Recursion and record visited slot (my first approach)}
+\label{sec:org54543ba}
+\paragraph{Python}
+\label{sec:orga647fdb}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def search(self, board, visited, row, col, words):
@@ -576,22 +576,22 @@ class Solution:
 	print('no match')
 	return False
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:orgaa555fa}
+\subsection{todos [1/2]}
+\label{sec:org081733e}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] time complexity analysis of your solution
 \item[{$\square$}] check discussion page for more solutions
 \end{itemize}
-\part{101. Symmetric Tree}
-\label{sec:org3a25e50}
-\chapter{Problem Statement}
-\label{sec:org008d012}
+\section{101. Symmetric Tree}
+\label{sec:orgbf7e26b}
+\subsection{Problem Statement}
+\label{sec:orgff73f1a}
 \href{https://leetcode.com/problems/symmetric-tree/}{Link}
-\chapter{Analysis}
-\label{sec:orge3ae9d9}
-\section{Recursion}
-\label{sec:orgaef1971}
+\subsection{Analysis}
+\label{sec:org12ed21e}
+\subsubsection{Recursion}
+\label{sec:org4f3b16b}
 We need to define a method to describe how two nodes are equal "symmetrically", i.e. if two subtrees with root node \texttt{a} and \texttt{b}, we say subtree \texttt{a} is "equal" with subtree \texttt{b}, if the two subtrees are symmetric.
 
 By this method, we need a helper function that accepts two \texttt{Treenode} pointer (\texttt{a} and \texttt{b}). Its return type is bool. It can tell whether the two subtrees started by the two \texttt{Treenode} passed in are symmetrically equal or not. We use this function recursively. Two subtrees are symmetrically equal, if:
@@ -602,12 +602,12 @@ By this method, we need a helper function that accepts two \texttt{Treenode} poi
 \end{enumerate}
 Case 2, 3 can be determined by calling this function recursively. Case 1 can be determined directly. Also, we have to be aware of the base case (when \texttt{a == nullptr} or \texttt{b == nullptr}.
 
-\chapter{Solution}
-\label{sec:org14bfcc3}
-\section{C++}
-\label{sec:orgbb7d7fd}
-\subsection{recursion (75\%, 64\%)}
-\label{sec:org2c3d9c9}
+\subsection{Solution}
+\label{sec:org655c27c}
+\subsubsection{C++}
+\label{sec:orgd718427}
+\paragraph{recursion (75\%, 64\%)}
+\label{sec:orgb268166}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -648,8 +648,8 @@ public:
 };
 
 \end{minted}
-\chapter{todos [1/5]}
-\label{sec:org3060040}
+\subsection{todos [1/5]}
+\label{sec:org1cf17da}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis (recursion)
 \item[{$\square$}] think about iterative solution
@@ -658,22 +658,22 @@ public:
 \item[{$\square$}] generalize this problem
 \end{itemize}
 
-\part{104. Maximum Depth of Binary Tree \label{org44e1234}}
-\label{sec:org4ee3006}
-\chapter{Problem Statement}
-\label{sec:orgeebcd26}
+\section{104. Maximum Depth of Binary Tree \label{org09d5ac3}}
+\label{sec:orgb3ca3b7}
+\subsection{Problem Statement}
+\label{sec:orgb86bb2f}
 \href{https://leetcode.com/problems/maximum-depth-of-binary-tree/}{Link}
-\chapter{Analysis}
-\label{sec:org008bdef}
-\section{Recursion}
-\label{sec:org95483d7}
+\subsection{Analysis}
+\label{sec:org432bcb4}
+\subsubsection{Recursion}
+\label{sec:orge3e6755}
 A node's maximum depth, is the larger maximum depth of its left and right subtree plus one. Base case: if a node is nullptr, maximum depth is zero.
-\chapter{Solution}
-\label{sec:org0e94a7c}
-\section{C++}
-\label{sec:org927a5de}
-\subsection{Recursion. Time (88.44\%) Space (91.28\%)}
-\label{sec:orga17fd7a}
+\subsection{Solution}
+\label{sec:orgbb4f5fe}
+\subsubsection{C++}
+\label{sec:org3d6b81d}
+\paragraph{Recursion. Time (88.44\%) Space (91.28\%)}
+\label{sec:org1056b56}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -698,22 +698,22 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [0/3]}
-\label{sec:org96d06ce}
+\subsection{todos [0/3]}
+\label{sec:org271658b}
 \begin{itemize}
 \item[{$\square$}] implement DFS approach
 \item[{$\square$}] read about the discussion page for more methods and ideas
 \item[{$\square$}] make notes in your data structure notes about DFS and BFS
 \end{itemize}
-\part{110. Balanced Binary Tree}
-\label{sec:orgf01a8c8}
-\chapter{Problem Statement}
-\label{sec:orgf33104c}
+\section{110. Balanced Binary Tree}
+\label{sec:org61f0b50}
+\subsection{Problem Statement}
+\label{sec:org788bbef}
 \href{https://leetcode.com/problems/balanced-binary-tree/}{Link}
-\chapter{Analysis}
-\label{sec:org15e3ea0}
-\section{Recursion}
-\label{sec:orga27fb19}
+\subsection{Analysis}
+\label{sec:org648931c}
+\subsubsection{Recursion}
+\label{sec:org6ee7ba9}
 The balanced tree should satisfy the following conditions:
 \begin{enumerate}
 \item its left subtree is balanced
@@ -723,12 +723,12 @@ The balanced tree should satisfy the following conditions:
 
 So, we can use two recursive function to finish these works. One will give the height of a tree (used in 3). Another will determine if a subtree is balanced or not (used in 1 and 2), we use the function we are trying to develop itself.
 
-\chapter{Solution}
-\label{sec:orgc5d5531}
-\section{C++}
-\label{sec:org2549a8b}
-\subsection{recursion}
-\label{sec:org33183e9}
+\subsection{Solution}
+\label{sec:orge0734d3}
+\subsubsection{C++}
+\label{sec:org9fabe87}
+\paragraph{recursion}
+\label{sec:orgd759f71}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -760,24 +760,24 @@ public:
 };
 
 \end{minted}
-\chapter{todos [1/4]}
-\label{sec:org5fe6bba}
+\subsection{todos [1/4]}
+\label{sec:orgafee81a}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] read discussion page to get more ideas, try to implement them
 \item[{$\square$}] write down analysis of those other solutions
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{111. Minimum Depth of Binary Tree}
-\label{sec:org11094a9}
-\chapter{Problem Statement}
-\label{sec:orge3e8d17}
+\section{111. Minimum Depth of Binary Tree}
+\label{sec:orge0f2476}
+\subsection{Problem Statement}
+\label{sec:org0581486}
 \href{https://leetcode.com/problems/minimum-depth-of-binary-tree/}{Link}
-\chapter{Analysis}
-\label{sec:org381aaa6}
-\section{Recursion}
-\label{sec:orga4c283a}
-The idea is similar with \hyperref[org44e1234]{Maximum Depth of Binary Tree}. We may use:
+\subsection{Analysis}
+\label{sec:orgcede001}
+\subsubsection{Recursion}
+\label{sec:orgafdb72d}
+The idea is similar with \hyperref[org09d5ac3]{Maximum Depth of Binary Tree}. We may use:
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 return min(minDepth(root->left), minDepth(root->right)) + 1;
 \end{minted}
@@ -794,12 +794,12 @@ The above tree's node 1 has only one child. The other child is \texttt{nullptr}.
 \item otherwise, return the minimum of \texttt{minDept(left)} and \texttt{minDept(right)}.
 \end{itemize}
 
-\chapter{Solution}
-\label{sec:org1bc5afb}
-\section{C++}
-\label{sec:orgc4a4ed3}
-\subsection{recursion}
-\label{sec:orgbd27d5f}
+\subsection{Solution}
+\label{sec:org44c3cad}
+\subsubsection{C++}
+\label{sec:org0ec5271}
+\paragraph{recursion}
+\label{sec:org45947bb}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -833,23 +833,23 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/4]}
-\label{sec:orgf7927d7}
+\subsection{todos [1/4]}
+\label{sec:orga0f121c}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] try DFS
 \item[{$\square$}] read discussion and explore more ideas
 \item[{$\square$}] try to implement other ideas
 \end{itemize}
-\part{112. Path Sum}
-\label{sec:org37a1775}
-\chapter{Problem Statement}
-\label{sec:orged498f8}
+\section{112. Path Sum}
+\label{sec:orgacd67d1}
+\subsection{Problem Statement}
+\label{sec:org76ca043}
 \href{https://leetcode.com/problems/path-sum/}{Link}
-\chapter{Analysis}
-\label{sec:org944391e}
-\section{Recursion}
-\label{sec:org8285c80}
+\subsection{Analysis}
+\label{sec:org66b6521}
+\subsubsection{Recursion}
+\label{sec:org831b33a}
 The goal is to find a root-to-leaf path such that sum of all values stored in node is the given sum: \texttt{sum}. We can start from root. Notice that, if \texttt{root->left} or \texttt{root->right} has a path that can add up to \texttt{sum - root->val}, a path is found. This implies that we can recursively call the function itself and find if there is any path that can have \texttt{sum - root->val} target.
 
 One thing should be noticed that is, we have to go down all the way to a leaf to find out the final answer that whether the path of this leaf to root satisfies or not. So there is only two base cases:
@@ -860,12 +860,12 @@ One thing should be noticed that is, we have to go down all the way to a leaf to
 
 For other situations, we continue call the function. Do not pass in \texttt{nullptr}.
 
-\chapter{Solution}
-\label{sec:org5eb9887}
-\section{C++}
-\label{sec:org9140e65}
-\subsection{recursion (88\%, 92\%)}
-\label{sec:orge1e9efd}
+\subsection{Solution}
+\label{sec:orgab202ae}
+\subsubsection{C++}
+\label{sec:org332e28e}
+\paragraph{recursion (88\%, 92\%)}
+\label{sec:orgf3b00ab}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -898,23 +898,23 @@ public:
     }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:orgf109894}
+\subsection{todos [1/3]}
+\label{sec:orgd436082}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your recursion solution and analysis
 \item[{$\square$}] work on the DFS approach
 \item[{$\square$}] check discussion, find out other ideas, understand and implement them
 \end{itemize}
 
-\part{113. Path Sum II}
-\label{sec:orgf577d11}
-\chapter{Problem Statement}
-\label{sec:org2eccc0b}
+\section{113. Path Sum II}
+\label{sec:org63bde7c}
+\subsection{Problem Statement}
+\label{sec:org64559ec}
 \href{https://leetcode.com/problems/path-sum-ii/}{Link}
-\chapter{Analysis}
-\label{sec:org4c066fe}
-\section{DFS}
-\label{sec:org7d9385c}
+\subsection{Analysis}
+\label{sec:org63dc31a}
+\subsubsection{DFS}
+\label{sec:org249e8fc}
 In DFS, you use a stack to keep track of your path. This problem requires you to find out all the path that satisfies the requirement. So you have to do book-keeping. The basic DFS idea is as follows.
 \begin{enumerate}
 \item we push the root into a stack: \texttt{v}.
@@ -925,12 +925,12 @@ In DFS, you use a stack to keep track of your path. This problem requires you to
 \item after the while loop, the stack becomes empty, which means all nodes are visited. Then we return the result.
 \end{enumerate}
 
-\chapter{Solution}
-\label{sec:org87654b7}
-\section{C++}
-\label{sec:org7a028d8}
-\subsection{DFS (80\%, 40\%)}
-\label{sec:org0eed6d7}
+\subsection{Solution}
+\label{sec:orgb710522}
+\subsubsection{C++}
+\label{sec:org28d8607}
+\paragraph{DFS (80\%, 40\%)}
+\label{sec:org225cfcb}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -1013,29 +1013,29 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/4]}
-\label{sec:org5552cf9}
+\subsection{todos [1/4]}
+\label{sec:org7991981}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your DFS solution and analysis
 \item[{$\square$}] work on the recursion approach
 \item[{$\square$}] check discussion, find out other ideas, understand and implement them
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{121. Best Time to Buy and Sell Stock}
-\label{sec:org8d511e9}
-\chapter{Problem Statement}
-\label{sec:orgb66bd0e}
+\section{121. Best Time to Buy and Sell Stock}
+\label{sec:org81ddc60}
+\subsection{Problem Statement}
+\label{sec:org1cf5573}
 \href{https://leetcode.com/problems/best-time-to-buy-and-sell-stock/}{Link}
-\chapter{Analysis}
-\label{sec:org725f23b}
-\section{Brutal force (my initial solution)}
-\label{sec:org2f8ad43}
+\subsection{Analysis}
+\label{sec:org5fb3a5a}
+\subsubsection{Brutal force (my initial solution)}
+\label{sec:org735af60}
 This is my initial solution. For each stock price, traverse through the rest of the array and calculate each profits. If a profit is found to be larger than the current max profit, assign this value to the max profit. Repeat this to all of the rest points.
 
 The time complexity is:\((N-1)+(N-2)+\ldots+1=\frac{N(N-1)}2=O(N^2)\).
 The space complexity is \(O(1)\), for memories used is not related to input size.
-\section{One pass}
-\label{sec:orgd4f4f80}
+\subsubsection{One pass}
+\label{sec:orgaa8aed6}
 In the brutal force method, we are doing many unnecessary calculations. For example, the input \texttt{prices} is:
 \begin{verbatim}
 [7,1,5,3,6,4]
@@ -1058,12 +1058,12 @@ To obtain the maxprofit, we use two variables to hold the min price upto a point
 
 Time complexity of this algorithm is \(O(N)\), since only one pass is performed. Space complexity is \(O(1)\), since the memory used is not related to input size.
 
-\chapter{Solution}
-\label{sec:orgbb27b77}
-\section{C++}
-\label{sec:org135c21f}
-\subsection{brutal force}
-\label{sec:orgfefcb58}
+\subsection{Solution}
+\label{sec:orgb0308c5}
+\subsubsection{C++}
+\label{sec:org63b5afe}
+\paragraph{brutal force}
+\label{sec:org8e1b268}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1086,8 +1086,8 @@ public:
   }
 };
 \end{minted}
-\subsection{one pass}
-\label{sec:org09293c7}
+\paragraph{one pass}
+\label{sec:org8e3eea1}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1110,8 +1110,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [3/4]}
-\label{sec:orgf783160}
+\subsection{todos [3/4]}
+\label{sec:orgdd34d74}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\boxtimes$}] time complexity analysis of your own solution
@@ -1121,22 +1121,22 @@ public:
 \end{itemize}
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{122. *Best Time to Buy and Sell Stock II \label{org7427125}}
-\label{sec:org5d89995}
-\chapter{Problem Statement}
-\label{sec:orgdbb038c}
+\section{122. *Best Time to Buy and Sell Stock II \label{org6c7ca3c}}
+\label{sec:org3d8584e}
+\subsection{Problem Statement}
+\label{sec:org12bd81d}
 \href{https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/}{Link}
-\chapter{Analysis}
-\label{sec:org7a85b14}
-\section{Initial Analysis (greedy algorithm, failed)}
-\label{sec:orgf346e6f}
+\subsection{Analysis}
+\label{sec:org207f2da}
+\subsubsection{Initial Analysis (greedy algorithm, failed)}
+\label{sec:orgebfefbf}
 When making decisions, how do you know higher profit lies ahead? How do you make the ideal choice when you only have local information, not the global information?
 
 In the \href{https://brilliant.org/wiki/greedy-algorithm/}{example} of greedy algorithm (the Dijkstra's algorithm), the shortest distance a node can get is updated when calculating new distances from a node being visited to unvisited neighbor nodes. If the newly calculated distance is shorter than the old distance, it is updated to reflect the more "global view" of ideal solution. The global aspect of the data is used during decision making because the calculated distance is the sum from beginning to the target node.
 
 Back to this problem. We may need to \textbf{STORE} the max profit to each node, just as we store the minimum accumulative distance in each node in Dijkstra's algorithm's example. In this problem, the concept of neighboring is different from the neighboring nodes in graph. A node and its neighbor can be treated as a buying node and a selling node. So, for a specific node, all nodes after it can be viewed as neighboring node.
-\section{Initial Analysis (plot and recoganize the pattern, greedy algorithm)}
-\label{sec:orga018ab6}
+\subsubsection{Initial Analysis (plot and recoganize the pattern, greedy algorithm)}
+\label{sec:org83ab0f3}
 Take price sequence \texttt{[7,1,5,3,6,4]} as an example. We want to maximize the profit, the the rule of thumb for buying a stock at day \texttt{i} is, the price at the day \texttt{i + 1} is higher than the current day. The rule of thumb for selling a stock at day \texttt{i} is, the price at day \texttt{i + 1} is lower than day \texttt{i}. If \texttt{prices[i + 1] > prices[i]}, we can hold the stock and wait until day \texttt{i + 1} to sell it, to maximize the profit. For each buy-sell operation, we seek to maximize profit of it.
 
 Problems which can be solved by greedy algorithm has following two requirements:
@@ -1160,12 +1160,12 @@ The time complexity of this approach is \(O(N)\). Since you only need to go over
 
 The space complexity of this approach is \(O(N)\) (didn't copy the entire array, the memory used is not related to the total size of the array).
 
-\chapter{Solution}
-\label{sec:org1a77b73}
-\section{C++}
-\label{sec:org0ca9c5d}
-\subsection{plot and recoganize the pattern (greedy algorithm, my first try)}
-\label{sec:orgd7c6a87}
+\subsection{Solution}
+\label{sec:orgb71b33d}
+\subsubsection{C++}
+\label{sec:org991e24a}
+\paragraph{plot and recoganize the pattern (greedy algorithm, my first try)}
+\label{sec:orgbb595c5}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1193,8 +1193,8 @@ public:
 };
 \end{minted}
 
-\chapter{todos [2/4]}
-\label{sec:orgbc7b02f}
+\subsection{todos [2/4]}
+\label{sec:org1c95b2c}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\boxtimes$}] time complexity analysis of your own solution
@@ -1206,26 +1206,26 @@ public:
 \end{itemize}
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{136. Single Number}
-\label{sec:org3f3d541}
-\chapter{Problem Statement}
-\label{sec:orga21906d}
+\section{136. Single Number}
+\label{sec:org7f23ca0}
+\subsection{Problem Statement}
+\label{sec:org2d46c8c}
 \href{https://leetcode.com/problems/single-number/}{Link
 }
-\chapter{Analysis}
-\label{sec:orgfa1803d}
-\section{Hash Table}
-\label{sec:org89a882a}
+\subsection{Analysis}
+\label{sec:org1f76ec3}
+\subsubsection{Hash Table}
+\label{sec:org0b956d5}
 A hash table can be used to store the appearing information of each element. We can traverse the array, and try to find if each element encountered is in the hash table or not. If so, we remove it from the hash table. If not, we insert it into the hash table. The final remaining element would be the single number. This leads to hash table solution 1. The average time complexity for each hash table operation (\texttt{insert(), find(), erase()}) are constant, the worst case for them are linear. Thus, the total average case is \(O(N)\), the total worst case is \(O(N^2)\).
 
 We can improve this a little by using an integer \texttt{sum}. Its initial value is zero. Each time we encounter an element, we check if it is in the hash table. If so, we subtract it from \texttt{sum}. If not, we add it to \texttt{sum}, and insert it into the hash table. This approach doesn't have to call \texttt{erase()}, the subtraction does the job, and time complexity of this step is guaranteed constant. Although the total average and worst time complexity is the same as the above one, it can run faster for certain cases. This leads to hash table solution 2.
 
-\chapter{Solution}
-\label{sec:orgbf915c0}
-\section{C++}
-\label{sec:org25b7411}
-\subsection{hash table I: time (16.06\%) space (15.74\%)}
-\label{sec:orgd5f0b3e}
+\subsection{Solution}
+\label{sec:org73b741f}
+\subsubsection{C++}
+\label{sec:org3197ae9}
+\paragraph{hash table I: time (16.06\%) space (15.74\%)}
+\label{sec:org7ab6967}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1245,8 +1245,8 @@ public:
   }
 };
 \end{minted}
-\subsection{hash table II: 37\%, 15\%}
-\label{sec:orgb3d5f67}
+\paragraph{hash table II: 37\%, 15\%}
+\label{sec:org185775c}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1269,8 +1269,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [3/4]}
-\label{sec:org5cd4061}
+\subsection{todos [3/4]}
+\label{sec:org21d85fa}
 \begin{itemize}
 \item[{$\boxtimes$}] write your solution step (in analysis part), analysis time and space complexity
 \item[{$\boxtimes$}] think about possible improvements
@@ -1282,24 +1282,24 @@ public:
 \end{itemize}
 \item[{$\square$}] read discussion, do additional work (internalize it and write analysis and code)
 \end{itemize}
-\part{160. Intersection of Two Linked Lists}
-\label{sec:orgd1eb4f5}
-\chapter{Problem Statement}
-\label{sec:org4409a8a}
+\section{160. Intersection of Two Linked Lists}
+\label{sec:orgdfbd45c}
+\subsection{Problem Statement}
+\label{sec:org43bcf54}
 \href{https://leetcode.com/problems/intersection-of-two-linked-lists/}{Link}
-\chapter{Analysis}
-\label{sec:org3336db1}
+\subsection{Analysis}
+\label{sec:orgffe9b1e}
 Assume the size of list \texttt{A} is \emph{(m}), and the size of list \texttt{B} is \emph{(n}).
-\section{Brutal force}
-\label{sec:org856b7db}
+\subsubsection{Brutal force}
+\label{sec:org9474171}
 We can traverse list \texttt{A}. For each encountered node, we traverse list \texttt{B} to find out if there is a same node. The time complexity should be \emph{(O(mn)}). Since we don't use other spaces to store any information, the space complexity is \emph{(O(1)}).
 
-\section{Hash table}
-\label{sec:org9f7a763}
+\subsubsection{Hash table}
+\label{sec:org3b28c5b}
 First, we traverse list \texttt{A} to store all the address information of each node in a hash table (e.g. Unordered-set). Then we traverse list \texttt{B} to find out if each node in \texttt{B} is also in the hash table. If so, it is an intersection.
 
-\section{Skip longer list}
-\label{sec:orgc04357a}
+\subsubsection{Skip longer list}
+\label{sec:orgd773cb3}
 Let's consider a simpler situation: list \texttt{A} and list \texttt{B} has the same size. We just need to traverse the two lists one node at a time. If there is an intersection, it must be at the same relative position in the list.
 
 In this problem, we may not have lists that with same size. However, if two linked lists intersect at some point, the merged part's length does not exceed the size of the shorter list. This means we can skip some beginning parts of the longer list because intersection could not possibly happen there. For example:
@@ -1324,14 +1324,14 @@ So the steps to solve this problem are:
 
 The time complexity: \(O(n)\) or \(O(m)\), depends on which is bigger. The space used is not related to the input size, thus space complexity is \(O(1)\).
 
-\section{Two pointer}
-\label{sec:orgdb3957e}
-\chapter{Solution}
-\label{sec:org344904d}
-\section{C++}
-\label{sec:org3901853}
-\subsection{brutal force}
-\label{sec:org95e4b2e}
+\subsubsection{Two pointer}
+\label{sec:orgba2a265}
+\subsection{Solution}
+\label{sec:org09b0206}
+\subsubsection{C++}
+\label{sec:org2d32876}
+\paragraph{brutal force}
+\label{sec:org475e925}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for singly-linked list.
@@ -1365,8 +1365,8 @@ public:
   }
 };
 \end{minted}
-\subsection{hash table}
-\label{sec:orgbcfd4ff}
+\paragraph{hash table}
+\label{sec:orgc9ab91e}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for singly-linked list.
@@ -1400,8 +1400,8 @@ public:
   }
 };
 \end{minted}
-\subsection{skip longer lists}
-\label{sec:orgac6351c}
+\paragraph{skip longer lists}
+\label{sec:org1389329}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for singly-linked list.
@@ -1458,21 +1458,21 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:orgf4c520a}
+\subsection{todos [1/3]}
+\label{sec:orga0b4621}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis and solution
 \item[{$\square$}] read the two pointer solution, understand, implement, record
 \item[{$\square$}] read discussion page to see if there is any other solution
 \end{itemize}
-\part{167. Two Sum II - Input array is sorted}
-\label{sec:org26aed3b}
-\chapter{Problem Statement}
-\label{sec:orgd747315}
-\chapter{Analysis}
-\label{sec:orgfa7caf4}
-\section{Using similar idea in \hyperref[orgf2c707f]{1. Two Sum}.}
-\label{sec:orgf8bb289}
+\section{167. Two Sum II - Input array is sorted}
+\label{sec:org29574b9}
+\subsection{Problem Statement}
+\label{sec:org4c45ad7}
+\subsection{Analysis}
+\label{sec:orgf5cf799}
+\subsubsection{Using similar idea in \hyperref[org715fb1a]{1. Two Sum}.}
+\label{sec:org8e707d5}
 In this problem, the array has already been sorted. So we can start from the array, for each encountered element, we calculate the corresponding counterpart. Then we use binary search to find out if it exists in the array. The range is from the next element to the last element.
 
 The first submission was not passed. Then I made some optimization (just for this case). They are:
@@ -1481,12 +1481,12 @@ The first submission was not passed. Then I made some optimization (just for thi
 \item if the counterpart is larger than the largest element in the array, or its smaller than the current element, we pass to next. Since in this situation, no match is possible.
 \item in the binary search function, a constant reference was used to avoid copying of the original array.
 \end{enumerate}
-\chapter{Solution}
-\label{sec:org9c01e15}
-\section{C++}
-\label{sec:orgcb3c32d}
-\subsection{binary search (69\%, 90\%)}
-\label{sec:orga6bfbe9}
+\subsection{Solution}
+\label{sec:org6ed4bb2}
+\subsubsection{C++}
+\label{sec:org9cea495}
+\paragraph{binary search (69\%, 90\%)}
+\label{sec:org480d30f}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1557,29 +1557,29 @@ public:
 
 */
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:orgcfa8dbb}
+\subsection{todos [1/3]}
+\label{sec:org61b9be1}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution
 \item[{$\square$}] try to think about two-pointers method (check discussion page)
 \item[{$\square$}] check discussion page for more ideas
 \end{itemize}
-\part{169. Majority Element}
-\label{sec:orgff21b53}
-\chapter{Problem Statement}
-\label{sec:org383afe9}
+\section{169. Majority Element}
+\label{sec:org0eceb09}
+\subsection{Problem Statement}
+\label{sec:org9523347}
 \href{https://leetcode.com/problems/majority-element/}{Link}
-\chapter{Analysis}
-\label{sec:org6d369f8}
-\section{\texttt{unordered\_map}}
-\label{sec:org0e3a42f}
+\subsection{Analysis}
+\label{sec:org9b934cc}
+\subsubsection{\texttt{unordered\_map}}
+\label{sec:org457329e}
 This is a problem that record the frequency of the element. I use the number as key and the appearing times as value, build an unordered\_map that store this information. As long as a number's appearing times is more than \texttt{size / 2}, it will be the majority element.
-\chapter{Solutions}
-\label{sec:org9245b3d}
-\section{C++}
-\label{sec:orge059b48}
-\subsection{\texttt{unordered\_map} (59\%, 42\%)}
-\label{sec:org2ed4d08}
+\subsection{Solutions}
+\label{sec:org2412427}
+\subsubsection{C++}
+\label{sec:org67e9035}
+\paragraph{\texttt{unordered\_map} (59\%, 42\%)}
+\label{sec:org781029b}
 Not very fast.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -1602,33 +1602,33 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [/]}
-\label{sec:orge4e2225}
+\subsection{todos [/]}
+\label{sec:orgaa06c56}
 \begin{itemize}
 \item[{$\square$}] think about other solution (use about 30 min)
 \item[{$\square$}] read discussion and contemplate other solution
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{206. Reverse Linked List}
-\label{sec:org7fa87d9}
-\chapter{Problem Statement}
-\label{sec:org0f76a55}
+\section{206. Reverse Linked List}
+\label{sec:orgc6ca179}
+\subsection{Problem Statement}
+\label{sec:org1e388d8}
 \href{https://leetcode.com/problems/reverse-linked-list/}{Link}
 
 Notice that the \texttt{head} in this linked list is actually the first node in the list. Not like what you learned in COP 4530.
-\chapter{Analysis}
-\label{sec:org6829d8f}
+\subsection{Analysis}
+\label{sec:orgdd2a762}
 This problem should have some simpler solution. My two solutions are just akward.
-\section{Using Stack (my)}
-\label{sec:orge8c1cd1}
-\section{Recursion (my)}
-\label{sec:org2ccf282}
-\chapter{Solution}
-\label{sec:orgc57be0a}
-\section{C++}
-\label{sec:org5b2c0e6}
-\subsection{Using Stack. time (96\%), space (5\%)}
-\label{sec:orgf562937}
+\subsubsection{Using Stack (my)}
+\label{sec:orgb98b901}
+\subsubsection{Recursion (my)}
+\label{sec:org45a69a3}
+\subsection{Solution}
+\label{sec:org6d219bf}
+\subsubsection{C++}
+\label{sec:org03aeffa}
+\paragraph{Using Stack. time (96\%), space (5\%)}
+\label{sec:orge4117a7}
 This method uses a stack to keep the reverse order. Additional memory is required.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
@@ -1677,32 +1677,32 @@ public:
   }
 };
 \end{minted}
-\subsection{Using Recursion. time (18\%), space (21\%)}
-\label{sec:orgcb39968}
+\paragraph{Using Recursion. time (18\%), space (21\%)}
+\label{sec:orgf1b0001}
 This approach is a very "akward" way to use recursion.
-\chapter{todos [/]}
-\label{sec:orge737988}
+\subsection{todos [/]}
+\label{sec:orgc2bb140}
 \begin{itemize}
 \item[{$\square$}] try to think another way to work this problem
 \item[{$\square$}] read solution, write down thinking process
 \item[{$\square$}] time complexity analysis of your code and solution code
 \end{itemize}
-\part{226. Invert Binary Tree}
-\label{sec:orgef8ae33}
-\chapter{Problem Statement}
-\label{sec:org7d5e608}
+\section{226. Invert Binary Tree}
+\label{sec:org7fe2fec}
+\subsection{Problem Statement}
+\label{sec:org4b99182}
 \href{https://leetcode.com/problems/invert-binary-tree/}{Link}
-\chapter{Analysis}
-\label{sec:orgbe783ec}
-\section{Recursion}
-\label{sec:orgda43623}
+\subsection{Analysis}
+\label{sec:orge9639f0}
+\subsubsection{Recursion}
+\label{sec:org7fe897e}
 To solve this problem recursively, we first invert the left subtree of a node by calling this function, then we invert the right subtree of this node by calling this function. Then we return a pointer to this node. Base case: \texttt{node == nullptr}, in this case we return the node directly, since the invert of a \texttt{nullptr} tree is itself.
-\chapter{Solution}
-\label{sec:org8a901e7}
-\section{C++}
-\label{sec:org988e968}
-\subsection{Recursion. time (91.95\%) space (5.15\%)}
-\label{sec:org0327971}
+\subsection{Solution}
+\label{sec:orge580826}
+\subsubsection{C++}
+\label{sec:org79b60a4}
+\paragraph{Recursion. time (91.95\%) space (5.15\%)}
+\label{sec:org929ef84}
 I don't understand why my code require this amount of space. Needs to be analyzed.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
@@ -1728,47 +1728,47 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [0/2]}
-\label{sec:orgd207058}
+\subsection{todos [0/2]}
+\label{sec:org16247d1}
 \begin{itemize}
 \item[{$\square$}] analyze why my code requires a lot more space than the divide and conquer method
 \item[{$\square$}] read the discussion page for more solution
 \end{itemize}
-\part{242. Valid Anagram}
-\label{sec:orge65e5c5}
-\chapter{Problem Statement}
-\label{sec:org3096297}
+\section{242. Valid Anagram}
+\label{sec:org4f064ce}
+\subsection{Problem Statement}
+\label{sec:org8c23869}
 \href{https://leetcode.com/problems/valid-anagram/}{Link}
-\chapter{Analysis}
-\label{sec:org03a59f1}
-\section{Sort}
-\label{sec:orgd98b7ab}
-\section{Hash Table}
-\label{sec:org50fe4e3}
-\chapter{Solution}
-\label{sec:org082c293}
-\chapter{todos [/]}
-\label{sec:org87fee15}
+\subsection{Analysis}
+\label{sec:org86e7eda}
+\subsubsection{Sort}
+\label{sec:org7f30f74}
+\subsubsection{Hash Table}
+\label{sec:org47e9602}
+\subsection{Solution}
+\label{sec:org6d8031c}
+\subsection{todos [/]}
+\label{sec:org6f3799a}
 \begin{itemize}
 \item[{$\square$}] write down your analysis and solution
 \item[{$\square$}] check solution and discussion section, read and understand other ideas and implement them
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{268. Missing Number}
-\label{sec:org92ad505}
-\chapter{Problem Statement}
-\label{sec:org8935d40}
-\chapter{Analysis}
-\label{sec:orgbad24cb}
-\section{math}
-\label{sec:org049c241}
+\section{268. Missing Number}
+\label{sec:org421af73}
+\subsection{Problem Statement}
+\label{sec:org4b09838}
+\subsection{Analysis}
+\label{sec:orgad4ec26}
+\subsubsection{math}
+\label{sec:orgedde5ea}
 The sum of 1 to n is \texttt{n * (n + 1) / 2}. So, we can calculate this first and then traverse the array, subtract each element from the sum. The final remaining number is equal to the missing number.
-\chapter{Solution}
-\label{sec:org9123b2a}
-\section{C++}
-\label{sec:orgd968d73}
-\subsection{math: time \(O(N)\), space \(O(1)\)}
-\label{sec:orga890822}
+\subsection{Solution}
+\label{sec:org39f4efe}
+\subsubsection{C++}
+\label{sec:org457237e}
+\paragraph{math: time \(O(N)\), space \(O(1)\)}
+\label{sec:orgb8be54d}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1783,8 +1783,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:org4cce3e0}
+\subsection{todos [1/3]}
+\label{sec:org49e312d}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your solution and analysis
 \item[{$\square$}] read solution page, understand and implement each solution, and write down analysis
@@ -1795,16 +1795,16 @@ public:
 \end{itemize}
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{283. Move Zeros \label{org87e6090}}
-\label{sec:org5aabc8b}
-\chapter{Problem Statement}
-\label{sec:org2d5f838}
+\section{283. Move Zeros \label{org251595e}}
+\label{sec:org6772e53}
+\subsection{Problem Statement}
+\label{sec:org3d3562b}
 \href{https://leetcode.com/problems/move-zeroes/}{Link}
-\chapter{Analysis}
-\label{sec:org32ddafa}
+\subsection{Analysis}
+\label{sec:orgaf7b045}
 Make sure you know well the problem statement. For example, in this problem, there is no requirement for the zero element be kepted.
-\section{Two pointers}
-\label{sec:orgbeba167}
+\subsubsection{Two pointers}
+\label{sec:org8857824}
 We can use two iterators to scan and find out zero and non-zero elements in the array, and swap them. For example, we have the following array:
 \begin{verbatim}
 [3,1,0,5,4,6,0,9]
@@ -1838,12 +1838,12 @@ We do this until \texttt{a} goes to the end of the array or \texttt{b} encounter
 
 
 
-\chapter{Solution}
-\label{sec:orge01f81d}
-\section{C++}
-\label{sec:orgf14f5f8}
-\subsection{bubble sort. time (5\%) space (75\%)}
-\label{sec:orgfd24a83}
+\subsection{Solution}
+\label{sec:org989b8fe}
+\subsubsection{C++}
+\label{sec:org308153c}
+\paragraph{bubble sort. time (5\%) space (75\%)}
+\label{sec:org888213b}
 Too slow, time complexity is \(O(N^2)\).
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -1867,8 +1867,8 @@ public:
   }
 };
 \end{minted}
-\subsection{remove zeros. time (35\%) space (34\%)}
-\label{sec:org819f318}
+\paragraph{remove zeros. time (35\%) space (34\%)}
+\label{sec:orgb0c0c3f}
 Still slow. Since the \texttt{erase()} function will reallocate each element after the deleted one. Worst case time complexity should be \(O(N^2)\).
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -1899,8 +1899,8 @@ public:
   }
 };
 \end{minted}
-\subsection{two pointers. time (5\%) space (80\%)}
-\label{sec:orgd1fc219}
+\paragraph{two pointers. time (5\%) space (80\%)}
+\label{sec:org3b302a4}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1920,8 +1920,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [2/3]}
-\label{sec:org8a9ba34}
+\subsection{todos [2/3]}
+\label{sec:org4bc67c7}
 \begin{itemize}
 \item[{$\boxtimes$}] try to think another Solution
 \item[{$\boxtimes$}] write down two pointer solution
@@ -1931,27 +1931,27 @@ public:
 \item[{$\square$}] analyze your solution: time complexity, any extra work performed so it is slow
 \end{itemize}
 \end{itemize}
-\part{344. Reverse String}
-\label{sec:org16392ab}
-\chapter{Problem Statement}
-\label{sec:orga1e454c}
+\section{344. Reverse String}
+\label{sec:orgd683ef6}
+\subsection{Problem Statement}
+\label{sec:orgfe82525}
 \href{https://leetcode.com/problems/reverse-string/}{Link}
-\chapter{Analysis}
-\label{sec:org4eee741}
-\section{Direct swap}
-\label{sec:org8002943}
+\subsection{Analysis}
+\label{sec:orgc194350}
+\subsubsection{Direct swap}
+\label{sec:org4516c25}
 The problem requires to reverse in place. So you can swap each "pairing element" in the array. For example:
 \begin{verbatim}
 ['a', 'b', 'c', 'd', 'e']
 \end{verbatim}
 You swap 'a' and 'e', 'b' and 'd'.
 
-\chapter{Solution}
-\label{sec:org839764d}
-\section{Python}
-\label{sec:orgfe737ba}
-\subsection{direct swap}
-\label{sec:org6e3d2a5}
+\subsection{Solution}
+\label{sec:orgeaab557}
+\subsubsection{Python}
+\label{sec:orgfe93a2c}
+\paragraph{direct swap}
+\label{sec:org369b345}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def reverseString(self, s: List[str]) -> None:
@@ -1964,10 +1964,10 @@ class Solution:
 	    # s[-i - 1] = c
 	    s[i], s[-i - 1] = s[-i - 1], s[i]
 \end{minted}
-\section{C++}
-\label{sec:orgfae8a79}
-\subsection{direct swap}
-\label{sec:org1a80eff}
+\subsubsection{C++}
+\label{sec:orgbd548eb}
+\paragraph{direct swap}
+\label{sec:orgdc4c9a4}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -1979,40 +1979,40 @@ public:
 };
 \end{minted}
 
-\chapter{todos [1/2]}
-\label{sec:org3c88cc0}
+\subsection{todos [1/2]}
+\label{sec:org7c01eca}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution
 \item[{$\square$}] check discussion page
 \end{itemize}
-\part{389. Find the Difference \label{org5c916c2}}
-\label{sec:org88b5637}
-\chapter{Problem Statement}
-\label{sec:org830290d}
+\section{389. Find the Difference \label{org05c36d5}}
+\label{sec:org952133c}
+\subsection{Problem Statement}
+\label{sec:org7b797b9}
 \href{https://leetcode.com/problems/find-the-difference/}{Link}
-\chapter{Analysis}
-\label{sec:org79644d2}
-\section{Sort}
-\label{sec:orgfc189ae}
+\subsection{Analysis}
+\label{sec:org2831e61}
+\subsubsection{Sort}
+\label{sec:org774c7b7}
 The two strings will have only one difference. We can just sort the two strings (use \texttt{std::sort()}, time complexity is \(O(N\log{N})\)). Then we traverse the two strings, return the first character that is different. If no difference found to the end of the original string, we return the last character in the second string.
 
 The time complexity would be \(O(N\log{N})\), which is the amount of time \texttt{std::sort()} requires.
-\section{Summation}
-\label{sec:org36eb341}
+\subsubsection{Summation}
+\label{sec:orgd7530dd}
 We can add (the ASCII value) all characters in \texttt{s} together to get \texttt{sum\_s}, then add all characters in \texttt{t} together to get \texttt{sum\_t}. Then, the different character's ASCII value should be \texttt{sum\_t - sum\_s}.
 
 The time complexity to add all characters for a certain string is \(O(N)\). So the total time complexity is \(O(N)\).
-\section{Hash Table}
-\label{sec:org4d83f7d}
+\subsubsection{Hash Table}
+\label{sec:orgd476f79}
 We can record all characters in \texttt{s} into a hash table that duplicates are allowed (\href{http://www.cplusplus.com/reference/unordered\_set/unordered\_multiset/}{unordered\_multiset} in C++). This is because \texttt{s} might have duplicates. Then, we go through \texttt{t} and try to find if the character we encountered is also in the hash table. If so, we have to erase it from the hash table (this is for situations like \texttt{s} has one certain character, but \texttt{t} has two of this). If not in the hash table, then this is the difference character.
 
 This solution's time complexity is comparable to the sort method. Although the average case should be \(O(N)\). It uses extra space to hold the hash table, so its space complexity is also high \(O(N)\).
-\chapter{Solution}
-\label{sec:org9a91e54}
-\section{C++}
-\label{sec:org8b3554f}
-\subsection{sort}
-\label{sec:org4406e63}
+\subsection{Solution}
+\label{sec:org8b13578}
+\subsubsection{C++}
+\label{sec:org970767c}
+\paragraph{sort}
+\label{sec:orgc0a34d6}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2029,8 +2029,8 @@ public:
   }
 };
 \end{minted}
-\subsection{sum}
-\label{sec:org67fae25}
+\paragraph{sum}
+\label{sec:org5e282d9}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2047,8 +2047,8 @@ public:
   }
 };
 \end{minted}
-\subsection{hash Table}
-\label{sec:org832da96}
+\paragraph{hash Table}
+\label{sec:orgb7c82bc}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2078,31 +2078,31 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:org4773c39}
+\subsection{todos [1/3]}
+\label{sec:org9181e31}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your solution and analysis
 \item[{$\square$}] check discussion page, work on that
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{412. Fizz Buzz}
-\label{sec:orgc5d24e6}
-\chapter{Problem Statement}
-\label{sec:org9df54d3}
+\section{412. Fizz Buzz}
+\label{sec:org9e30ea5}
+\subsection{Problem Statement}
+\label{sec:orgd5c0cb9}
 \href{https://leetcode.com/problems/fizz-buzz/}{Link}
-\chapter{Analysis}
-\label{sec:orga482945}
-\section{Naive solution (check each condition and add string)}
-\label{sec:org746e9e0}
-\section{String concatenation}
-\label{sec:org6b1e622}
+\subsection{Analysis}
+\label{sec:orgf5c78bc}
+\subsubsection{Naive solution (check each condition and add string)}
+\label{sec:org03e6c6f}
+\subsubsection{String concatenation}
+\label{sec:org77c78cd}
 For each sub-condition satisfies, concatenate the specific string to it. This is neater than the naive solution.
-\chapter{Solution}
-\label{sec:orgfc23ea4}
-\section{C++}
-\label{sec:orgf411486}
-\subsection{naive Solution}
-\label{sec:orgf312a7d}
+\subsection{Solution}
+\label{sec:org314bed3}
+\subsubsection{C++}
+\label{sec:org4fee1c5}
+\paragraph{naive Solution}
+\label{sec:orgf27bb6e}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2128,8 +2128,8 @@ public:
   }
 };
 \end{minted}
-\subsection{string concatenation}
-\label{sec:orga2ba31c}
+\paragraph{string concatenation}
+\label{sec:orgcf18649}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2156,8 +2156,8 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/6]}
-\label{sec:orgd1ea116}
+\subsection{todos [1/6]}
+\label{sec:orge919ee6}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] time complexity analysis of your own solution
@@ -2170,15 +2170,15 @@ public:
 \item[{$\square$}] time complexity of these Solutions
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{437. Path Sum III}
-\label{sec:orgc6041f1}
-\chapter{Problem Statement}
-\label{sec:org7eb9a8a}
+\section{437. Path Sum III}
+\label{sec:org72794b3}
+\subsection{Problem Statement}
+\label{sec:orgbc98977}
 \href{https://leetcode.com/problems/path-sum-iii/}{Link}
-\chapter{Analysis}
-\label{sec:orge49f901}
-\section{Double recursion (\textasciitilde{}50\%, 50\%)}
-\label{sec:org800de6d}
+\subsection{Analysis}
+\label{sec:org368395d}
+\subsubsection{Double recursion (\textasciitilde{}50\%, 50\%)}
+\label{sec:org8ed1d33}
 The tricky part is that the path does not need to start or end at the root or a leaf. However, it must go downwards (traveling only from parent nodes to child nodes), this is to say that we don't consider the situation that the path is like: \texttt{left\_child -> node -> right\_child}, which makes things easier.
 
 The tricky part means we may have some paths deep below that sum to the target value, these paths are not connected to the root. In fact, we can conclude that, given a tree (or subtree) starting at \texttt{node}, the paths that sum to the target value are composed of following cases:
@@ -2206,12 +2206,12 @@ It will return the total number of path that containing \texttt{root} and sum to
 \end{enumerate}
 
 Case 3 is when a path only contains the \texttt{root}. Pay attention that if \texttt{root->left} has a path sum to zero, and \texttt{root->val == sum}, then \texttt{left->root} and \texttt{root} are considered two different pathes. If we think in a recursive way, this will account for those paths that from a node but not reaching leaf. The last node in the path is the node that \texttt{node->val is equal to passed in sum}.
-\chapter{Solution}
-\label{sec:org4496b19}
-\section{C++}
-\label{sec:orgbbfeac6}
-\subsection{double recursion}
-\label{sec:orgb7328cf}
+\subsection{Solution}
+\label{sec:orga85cc3b}
+\subsubsection{C++}
+\label{sec:orga7e750c}
+\paragraph{double recursion}
+\label{sec:org990e351}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -2248,29 +2248,29 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:org474b34a}
+\subsection{todos [1/3]}
+\label{sec:org9155b70}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution (including analysis).
 \item[{$\square$}] check discussion panel, find out other solutions. Understand and write analysis, implement the solution
 \item[{$\square$}] write down these analysis
 \end{itemize}
-\part{442. Find All Duplicates in an Array\label{org0e657e9}}
-\label{sec:orga8977fc}
-\chapter{Problem Statement}
-\label{sec:org27bc746}
+\section{442. Find All Duplicates in an Array\label{org7c77290}}
+\label{sec:org0d06e25}
+\subsection{Problem Statement}
+\label{sec:orgb8885a8}
 \href{https://leetcode.com/problems/find-all-duplicates-in-an-array/}{Link}
-\chapter{Analysis}
-\label{sec:org060183c}
-\section{Label Duplicate Number}
-\label{sec:org98c183e}
+\subsection{Analysis}
+\label{sec:org049f4da}
+\subsubsection{Label Duplicate Number}
+\label{sec:org6115aba}
 Label the appearing frequency of each element, using the fact that \texttt{1 <= a[i] <= n}, where n is the size of array. Then count the number that appeared twice.
-\chapter{Solution}
-\label{sec:org4c4aa50}
-\section{C++}
-\label{sec:orgdc02a80}
-\subsection{Label duplicate number (96\%, 16\%)}
-\label{sec:orgcbb225e}
+\subsection{Solution}
+\label{sec:orgd045170}
+\subsubsection{C++}
+\label{sec:org1e1746c}
+\paragraph{Label duplicate number (96\%, 16\%)}
+\label{sec:orgca574f4}
 This one use an extra vector to hold the labeling information.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -2292,36 +2292,36 @@ public:
 };
 \end{minted}
 
-\chapter{todos [/]}
-\label{sec:org7f55ba0}
+\subsection{todos [/]}
+\label{sec:org113d208}
 \begin{itemize}
 \item[{$\square$}] think about the way to use original vector to hold labeling information
 \item[{$\square$}] read other solutions
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{448. Find All Numbers Disappeared in an Array}
-\label{sec:orgf1bf82e}
-\chapter{Problem Statement}
-\label{sec:orga16a144}
+\section{448. Find All Numbers Disappeared in an Array}
+\label{sec:org04c7eca}
+\subsection{Problem Statement}
+\label{sec:orgbfa56d6}
 \href{https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/}{Link}
-\chapter{Analysis}
-\label{sec:orge03fe50}
-\section{Label Appearance of Numbers}
-\label{sec:orgb867d2d}
-This is similar with \hyperref[org0e657e9]{Problem 442}. Label the appearing frequency of each element, using the fact that \texttt{1 <= a[i] <= n}, where n is the size of array. Then count the number that appearing frequency is 0.
+\subsection{Analysis}
+\label{sec:org53371bb}
+\subsubsection{Label Appearance of Numbers}
+\label{sec:org00c6820}
+This is similar with \hyperref[org7c77290]{Problem 442}. Label the appearing frequency of each element, using the fact that \texttt{1 <= a[i] <= n}, where n is the size of array. Then count the number that appearing frequency is 0.
 
 You can use either a new vector to hold the labeling information, or the original passed-in vector.
 
-\section{Use Unordered-set}
-\label{sec:orgfb4c3c1}
+\subsubsection{Use Unordered-set}
+\label{sec:org59114c4}
 Use an unordered-set to store all appeared number. Then traverse from 1 to N to find out if one number is in the set, if not, it is one disappearing number, push to result. This method's time complexity is \(O(N)\) on average, but \(O(N^2)\) for worst cases, due to the time complexity of \texttt{insert()} and \texttt{find()} in unordered-set.
 
-\chapter{Solution}
-\label{sec:org62c2fbe}
-\section{C++}
-\label{sec:org3025055}
-\subsection{Label appearance of numbers (97\%, 15\%)}
-\label{sec:org8b068d3}
+\subsection{Solution}
+\label{sec:orga448a73}
+\subsubsection{C++}
+\label{sec:org09a1547}
+\paragraph{Label appearance of numbers (97\%, 15\%)}
+\label{sec:orgbe1f66f}
 Space can be optimized by using original passed-in vector.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -2344,8 +2344,8 @@ public:
   }
 };
 \end{minted}
-\subsection{Use unordered-set (13\%, 7\%)}
-\label{sec:org1fce9a5}
+\paragraph{Use unordered-set (13\%, 7\%)}
+\label{sec:org30b2c73}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2367,20 +2367,20 @@ public:
 
 // Total complexity: average: O(N), worst: O(N^2), still bound by O(N^2)
 \end{minted}
-\chapter{todos [/]}
-\label{sec:orgd7c8fd8}
+\subsection{todos [/]}
+\label{sec:org2be045b}
 \begin{itemize}
 \item[{$\square$}] think about using the original vector to hold labeling information
 \item[{$\square$}] read other solutions
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{461. Hamming Distance \label{org8ed06d1}}
-\label{sec:org798a5df}
-\chapter{Problem Statement}
-\label{sec:orge6bca9a}
+\section{461. Hamming Distance \label{org1510eda}}
+\label{sec:org0dd8444}
+\subsection{Problem Statement}
+\label{sec:orgb86d3ed}
 \href{https://leetcode.com/problems/hamming-distance/}{Link}
-\chapter{Analysis}
-\label{sec:org9d62ecd}
+\subsection{Analysis}
+\label{sec:org9b916ea}
 To compare two numbers bitwisely, we may need the fact that a number mod 2 is equal to the last digit of its binary form. For example:
 \begin{verbatim}
 x = 1 (0 0 0 1)
@@ -2388,12 +2388,12 @@ y = 4 (0 1 0 0)
 x % 2 = 1
 y % 2 = 0
 \end{verbatim}
-\chapter{Solution}
-\label{sec:org99e72de}
-\section{C++}
-\label{sec:orgf4db64f}
-\subsection{Time(14.63\%)}
-\label{sec:orgd2442a8}
+\subsection{Solution}
+\label{sec:org9be71d7}
+\subsubsection{C++}
+\label{sec:orgcc1ac21}
+\paragraph{Time(14.63\%)}
+\label{sec:org52a646f}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2412,8 +2412,8 @@ public:
   }
 };
 \end{minted}
-\subsection{Time(94.5\%)}
-\label{sec:org874708a}
+\paragraph{Time(94.5\%)}
+\label{sec:org5dd0557}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2431,16 +2431,16 @@ public:
   }
 };
 \end{minted}
-\subsection{Questions}
-\label{sec:org3ff6235}
+\paragraph{Questions}
+\label{sec:org951e9ee}
 Why the second solution is faster than the previous one?
 \begin{itemize}
 \item Bitwise XOR used.
 \end{itemize}
-\section{Python}
-\label{sec:org91ccdd0}
-\subsection{Faster than 97.37\%}
-\label{sec:org7596514}
+\subsubsection{Python}
+\label{sec:orgb5675b1}
+\paragraph{Faster than 97.37\%}
+\label{sec:org0e40e4d}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{python}
 class Solution:
     def hammingDistance(self, x: int, y: int) -> int:
@@ -2453,22 +2453,22 @@ class Solution:
 	return result
 \end{minted}
 However, this algorithm is exactly the same as C++'s first version. Why such huge speed variance?
-\part{477. Total Hamming Distance}
-\label{sec:orge39c108}
-\chapter{Problem Statement}
-\label{sec:orge76b315}
+\section{477. Total Hamming Distance}
+\label{sec:orgf16c087}
+\subsection{Problem Statement}
+\label{sec:org22d8df6}
 \href{https://leetcode.com/problems/total-hamming-distance/}{Link}
-\chapter{Analysis}
-\label{sec:org3f02060}
-This problem is similar with \hyperref[org8ed06d1]{P461}, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
+\subsection{Analysis}
+\label{sec:orgdbaac2c}
+This problem is similar with \hyperref[org1510eda]{P461}, but you can't direcly solve it using that idea (see the first solution). The size of the input is large:
 \begin{itemize}
 \item Elements of the given array are in the range of \(0\) to \(10^9\)
 \item Length of the array will not exceed \(10^4\)
 \end{itemize}
 
-\section{First Attempt (too slow)}
-\label{sec:org453a0ca}
-My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers (\hyperref[org8ed06d1]{P461}), the code is shown in solution section. However, this approach is too slow to pass the test.
+\subsubsection{First Attempt (too slow)}
+\label{sec:org43e092f}
+My first attempt is just go over all the combinations in the input array: \((x_i, x_j)\) and call the function that calculate the hamming distance of two integers (\hyperref[org1510eda]{P461}), the code is shown in solution section. However, this approach is too slow to pass the test.
 
 The time complexity of the function that calculates the hamming distance of two integers is not huge, just \(O(1)\). The real time consuming part is the combination. It is simply:
 \[
@@ -2485,8 +2485,8 @@ bit#: 1234 5678
 \end{verbatim}
 The bit at 1, 2, 4, 8 are not contributing to the total Hamming distance count, but we still include it and spend time verifying. This flaw can be solved in the grouping idea.
 
-\section{Grouping}
-\label{sec:org5ef0b08}
+\subsubsection{Grouping}
+\label{sec:orgc3be45e}
 \href{https://leetcode.com/problems/total-hamming-distance/discuss/96250/C++-O(n)-runtime-O(1)-space}{Reference}
 
 The idea of grouping is we count the total hamming distance as a whole. And we only count those valid bits (bits that will contribute to the total Hamming distance). Specifically, at any giving time, we divide the array into two groups \(G_0, G_1\). The rule of grouping is:
@@ -2521,12 +2521,12 @@ The difference at bit 3, 4, 6 should still be counted toward the total Hamming d
 At each round, we first go over the list and divide the numbers into two groups. This process is \(O(N)\). To calculate the contribution to total Hamming distance at this round is just a matter of multiplication, so the time complexity is \(O(1)\). Thus, for one round, time complexity is \(O(N)\). There are potentially \texttt{8 * sizeof(int)} bits to be trimmed, this is the number of rounds we are going to run, which is a constant not related to \(N\). Thus the total complexity is: \(O(N)\).
 
 \textbf{Additional notes (2019/5/26)} It is not a good idea to \textbf{TRIM} the numbers, which may add additional complexities. We can just use a for loop to compare all \texttt{8 * sizeof(int)} bits on integer. The range of iterating number (i) is from 0 to 31. At each iteration, we compare the value at i-th bit (starting from zero) with 1. To achieve this, we need use two operators (bitwise \textbf{AND} and left shift). Notice that the bitwise \textbf{AND} is 1 only if both bits are 1.
-\chapter{Solution}
-\label{sec:org975b1b3}
-\section{C++}
-\label{sec:org1340dd7}
-\subsection{Not Accepted (too slow)}
-\label{sec:orgdd299b5}
+\subsection{Solution}
+\label{sec:orge1c26f4}
+\subsubsection{C++}
+\label{sec:orgb870a62}
+\paragraph{Not Accepted (too slow)}
+\label{sec:org26bf5ba}
 This algorithm is too slow.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -2554,8 +2554,8 @@ public:
   }
 };
 \end{minted}
-\subsection{Grouping. time (6.59\%) space (5.13\%)}
-\label{sec:org10a0a2e}
+\paragraph{Grouping. time (6.59\%) space (5.13\%)}
+\label{sec:orge93843b}
 This is the first version after I read and apply the idea of grouping numbers with different Least Significant bit. Although it is still slow, it is accepted\ldots{}..
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -2598,8 +2598,8 @@ There are many reasons why this solution is expensive. Some of them are listed b
 \begin{itemize}
 \item There is no need to actually use two vectors to \textbf{STORE} each number in two vectors. You just need to count the number.
 \end{itemize}
-\subsection{Grouping\_example. time (88.24\%, 49.76\%)}
-\label{sec:org02f8b98}
+\paragraph{Grouping\_example. time (88.24\%, 49.76\%)}
+\label{sec:orgdce4146}
 This is from the discussion (grouping idea).
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
@@ -2638,23 +2638,23 @@ In line 11, the code reads: \texttt{if ( nums[j] \& (1 << i) ) setCount++;}. The
 
 Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - N_{G_1}\), where \(N\) is the total number of integers, which is equal to \texttt{nums.size()}.
 
-\chapter{todos [3/4]}
-\label{sec:org5b0327e}
+\subsection{todos [3/4]}
+\label{sec:org3e83156}
 \begin{itemize}
 \item[{$\boxtimes$}] Write the analysis of grouping idea and my code
 \item[{$\boxtimes$}] Read code in reference of grouping idea, make notes
 \item[{$\boxtimes$}] Check other possible solution and make future plan
 \item[{$\square$}] Try to generalize this problem
 \end{itemize}
-\part{543. Diameter of Binary Tree}
-\label{sec:orge1da233}
-\chapter{Problem Statement}
-\label{sec:orgf776f3c}
+\section{543. Diameter of Binary Tree}
+\label{sec:orgf9e0c86}
+\subsection{Problem Statement}
+\label{sec:orgae863dd}
 \href{https://leetcode.com/problems/diameter-of-binary-tree/}{Link}
-\chapter{Analysis}
-\label{sec:org5777839}
-\section{Direct recursion}
-\label{sec:org907646e}
+\subsection{Analysis}
+\label{sec:org868ed31}
+\subsubsection{Direct recursion}
+\label{sec:org307fea0}
 Just as stated in the problem statement, the longest path between any two nodes may not pass through the root. So, for a given node, the longest path of this node may have three cases:
 \begin{enumerate}
 \item longest path is in its left subtree, and does not pass this node;
@@ -2671,12 +2671,12 @@ Also, we have to consider the base case:
 \item its right subtree is \texttt{nullptr}
 \end{enumerate}
 
-\chapter{Solution}
-\label{sec:org508987e}
-\section{C++}
-\label{sec:org1796305}
-\subsection{direct recursion (5\%, 5\%)}
-\label{sec:orga6a16ba}
+\subsection{Solution}
+\label{sec:org47a8bc8}
+\subsubsection{C++}
+\label{sec:org531cdde}
+\paragraph{direct recursion (5\%, 5\%)}
+\label{sec:org25e5627}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /**
  * Definition for a binary tree node.
@@ -2710,29 +2710,29 @@ public:
 
 \end{minted}
 
-\chapter{todos [/]}
-\label{sec:org8497188}
+\subsection{todos [/]}
+\label{sec:orgb2d5ab8}
 \begin{itemize}
 \item[{$\square$}] check solution and study
 \item[{$\square$}] implement solution by yourself
 \item[{$\square$}] write down different ways of thinking about this problem
 \end{itemize}
-\part{557. Reverse Words in a String III}
-\label{sec:orgd2fea79}
-\chapter{Problem Statement}
-\label{sec:orga58ef50}
+\section{557. Reverse Words in a String III}
+\label{sec:org617d484}
+\subsection{Problem Statement}
+\label{sec:orgb82f1bf}
 \href{https://leetcode.com/problems/reverse-words-in-a-string-iii/}{Link}
-\chapter{Analysis}
-\label{sec:org21e6dc8}
-\section{Python-use \texttt{reversed()} and \texttt{split()}}
-\label{sec:orgc659ca3}
+\subsection{Analysis}
+\label{sec:org0bda166}
+\subsubsection{Python-use \texttt{reversed()} and \texttt{split()}}
+\label{sec:orgab0ffb8}
 This approach is trivial, including using two built-in methods: \texttt{reversed()} and \texttt{split()}. First, the input string is splitted into a list. Each element in the list is a word in the string (separated by whitespaces). Then, these substrings were reversed and added to another empty list to form the sentence. A space should be added after each word. You have to get rid of tailing space.
-\chapter{Solution}
-\label{sec:orgf26538c}
-\section{Python}
-\label{sec:org3c26509}
-\subsection{use \texttt{reversed()} and \texttt{split()}}
-\label{sec:orge6f6478}
+\subsection{Solution}
+\label{sec:org4483042}
+\subsubsection{Python}
+\label{sec:org86ee82e}
+\paragraph{use \texttt{reversed()} and \texttt{split()}}
+\label{sec:orga2ba887}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def reverseWords(s: str) -> str:
@@ -2744,32 +2744,32 @@ class Solution:
 
 	return ''.join(reversed_list)
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:org3c46960}
+\subsection{todos [1/2]}
+\label{sec:orga8b8ee5}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysiss
 \item[{$\square$}] read discussion/solution page for more ideas
 \end{itemize}
-\part{559. Maximum Depth of N-ary Tree \label{org70f4277}}
-\label{sec:org397f852}
-\chapter{Problem Statement}
-\label{sec:orgd34af69}
-\chapter{Analysis}
-\label{sec:org0ede5d8}
-\section{Recursion}
-\label{sec:orga132df5}
-The recursion idea is similar with \hyperref[org44e1234]{104. Maximum Depth of Binary Tree}. In this problem, the tree is N-ary rather than binary. And the node struct of the tree is slightly different from the binary tree. A vector is used to keep record of all the child nodes of one parent node. So, when doing recursion, you traverse the vector and apply the recursive function for each child.
+\section{559. Maximum Depth of N-ary Tree \label{org8c2b4a3}}
+\label{sec:org8193ec2}
+\subsection{Problem Statement}
+\label{sec:orgcd55aba}
+\subsection{Analysis}
+\label{sec:orgb68c172}
+\subsubsection{Recursion}
+\label{sec:org319aa5e}
+The recursion idea is similar with \hyperref[org09d5ac3]{104. Maximum Depth of Binary Tree}. In this problem, the tree is N-ary rather than binary. And the node struct of the tree is slightly different from the binary tree. A vector is used to keep record of all the child nodes of one parent node. So, when doing recursion, you traverse the vector and apply the recursive function for each child.
 
 We are allowed to modify the tree node. So we can store the intermediate result in the node->val. Details are shown in the code.
-\section{DFS}
-\label{sec:orgee08073}
+\subsubsection{DFS}
+\label{sec:org5640f3b}
 
-\chapter{Solution}
-\label{sec:orgc111c4b}
-\section{C++}
-\label{sec:org6a7fb30}
-\subsection{recursion}
-\label{sec:org441baf4}
+\subsection{Solution}
+\label{sec:orge133587}
+\subsubsection{C++}
+\label{sec:orged964c5}
+\paragraph{recursion}
+\label{sec:org6c61e29}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 /*
 // Definition for a Node.
@@ -2827,8 +2827,8 @@ public:
 
 */
 \end{minted}
-\chapter{todos [1/5]}
-\label{sec:org78288f8}
+\subsection{todos [1/5]}
+\label{sec:org44ceb88}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your recursive solution
 \item[{$\square$}] think about DFS traversal, implement and write down analysis
@@ -2836,15 +2836,15 @@ public:
 \item[{$\square$}] try new idea
 \item[{$\square$}] generalize
 \end{itemize}
-\part{581. Shortest Unsorted Continuous Subarray}
-\label{sec:org2714f2b}
-\chapter{Problem Statement}
-\label{sec:org6b6bd5b}
+\section{581. Shortest Unsorted Continuous Subarray}
+\label{sec:org0263fd0}
+\subsection{Problem Statement}
+\label{sec:orgbdae6c5}
 \href{https://leetcode.com/problems/shortest-unsorted-continuous-subarray/}{Link}
-\chapter{Analysis}
-\label{sec:orgd688572}
-\section{Use sorting}
-\label{sec:orgae73d55}
+\subsection{Analysis}
+\label{sec:org0407f1a}
+\subsubsection{Use sorting}
+\label{sec:org2ac9f9f}
 Let's compare the original array with its sorted version. For example, we have:
 \begin{verbatim}
 original: 2 6 4 8 10  9  15
@@ -2863,12 +2863,12 @@ Steps to solve this problem:
 \item return \texttt{end\_differ\_index - start\_differ\_index}, which is the length of the shortest unsorted continuous subarray. If the original array is already sorted, this value would be zero.
 \end{enumerate}
 
-\chapter{Solution}
-\label{sec:org185fc7f}
-\section{C++}
-\label{sec:orgbe304ad}
-\subsection{use sorting}
-\label{sec:org9a068d1}
+\subsection{Solution}
+\label{sec:orgc27ec9a}
+\subsubsection{C++}
+\label{sec:orga382681}
+\paragraph{use sorting}
+\label{sec:org0e2b6a1}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -2900,32 +2900,32 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:org09325eb}
+\subsection{todos [1/3]}
+\label{sec:org47c0c16}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis and solution
 \item[{$\square$}] check solution page, study, understand and implement them
 \item[{$\square$}] study first solution (brutal force)
 \end{itemize}
-\part{617. Merge Two Binary Trees}
-\label{sec:orgd40a39e}
-\chapter{Problem Statement}
-\label{sec:org7c14ef6}
+\section{617. Merge Two Binary Trees}
+\label{sec:orga7ab074}
+\subsection{Problem Statement}
+\label{sec:orgd6b2317}
 \href{https://leetcode.com/problems/merge-two-binary-trees/}{Link}
-\chapter{Analysis}
-\label{sec:org8cd9787}
-\section{Recursive Method}
-\label{sec:orgacdf6e5}
+\subsection{Analysis}
+\label{sec:orge9ea515}
+\subsubsection{Recursive Method}
+\label{sec:org730b277}
 Use recursiion to solve this problem.
-\section{Iterative Method (using stack)}
-\label{sec:org9b09ca1}
+\subsubsection{Iterative Method (using stack)}
+\label{sec:orgbed0f2f}
 
-\chapter{Solution}
-\label{sec:org6ee058c}
-\section{C++}
-\label{sec:orgc9672f0}
-\subsection{Recursion Time (97.09\%) Space(37.01\%)}
-\label{sec:org4848eb9}
+\subsection{Solution}
+\label{sec:org3376c6c}
+\subsubsection{C++}
+\label{sec:orga529f76}
+\paragraph{Recursion Time (97.09\%) Space(37.01\%)}
+\label{sec:orgcdbe4d2}
 Recursion.
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 /**
@@ -2953,30 +2953,30 @@ public:
   }
 };
 \end{minted}
-\subsection{Iterative}
-\label{sec:org9e1c082}
-\chapter{todos [0/2]}
-\label{sec:org8cd0af7}
+\paragraph{Iterative}
+\label{sec:org5654caa}
+\subsection{todos [0/2]}
+\label{sec:org94d4b46}
 \begin{itemize}
 \item[{$\square$}] read the other solution (iterate the tree using stack), and understand it
 \item[{$\square$}] write code based on the other solution
 \end{itemize}
-\part{653. Two Sum IV - Input is a BST}
-\label{sec:org5843fcd}
-\chapter{Problem Statement}
-\label{sec:org1bdeb0f}
+\section{653. Two Sum IV - Input is a BST}
+\label{sec:orga5d5fca}
+\subsection{Problem Statement}
+\label{sec:orgfafb54f}
 \href{https://leetcode.com/problems/two-sum-iv-input-is-a-bst/}{Link}
-\chapter{Analysis}
-\label{sec:org2de7054}
-\section{Recursion}
-\label{sec:orgbfb8c20}
+\subsection{Analysis}
+\label{sec:org32b141f}
+\subsubsection{Recursion}
+\label{sec:org88bbb7d}
 We use a recursion to traverse the whole tree. For each node encountered, we use another recursive function to search the whole tree to see whether the counterpart exists in the tree. Be aware that we don't use same node twice, so you have to consider this case in this find counterpart function.
 
 
-\chapter{Solution}
-\label{sec:orga9b7b17}
-\chapter{todos [/]}
-\label{sec:orgf486d17}
+\subsection{Solution}
+\label{sec:org66cb097}
+\subsection{todos [/]}
+\label{sec:orgd21af0e}
 \begin{itemize}
 \item[{$\square$}] write down your own solution and analysis
 \item[{$\square$}] try DFS method
@@ -2984,22 +2984,22 @@ We use a recursion to traverse the whole tree. For each node encountered, we use
 \item[{$\square$}] write down analysis of additional solution
 \item[{$\square$}] generalize the problem
 \end{itemize}
-\part{657. Robot Return to Origin}
-\label{sec:org97ba7e5}
-\chapter{Problem Statement}
-\label{sec:orgeb94d2e}
+\section{657. Robot Return to Origin}
+\label{sec:org39b5b20}
+\subsection{Problem Statement}
+\label{sec:org3cc4249}
 \href{https://leetcode.com/problems/robot-return-to-origin/}{Link}
-\chapter{Analysis}
-\label{sec:orgfffe56c}
-\section{Determine if instructions are paired}
-\label{sec:orgdd5c06c}
+\subsection{Analysis}
+\label{sec:org4dfbf1c}
+\subsubsection{Determine if instructions are paired}
+\label{sec:org5b7db03}
 If a \texttt{'L'} is paired with a \texttt{'R'}, then the effect of their moves will be canceled. Same idea for \texttt{'U'} and \texttt{'D'}. So, we can just count the total number of the instructions and see if they can cancel each other.
-\chapter{Solution}
-\label{sec:org3578a99}
-\section{Python}
-\label{sec:org35fe345}
-\subsection{count instruction number}
-\label{sec:orged32112}
+\subsection{Solution}
+\label{sec:org9c4cbcb}
+\subsubsection{Python}
+\label{sec:orgf58bb7d}
+\paragraph{count instruction number}
+\label{sec:orgbe9166f}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def judgeCircle(self, moves: str) -> bool:
@@ -3008,21 +3008,21 @@ class Solution:
 
 	return moves.count('L') == moves.count('R') and moves.count('U') == moves.count('D')
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:org1cbe7fd}
+\subsection{todos [1/2]}
+\label{sec:org715be35}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis and solution
 \item[{$\square$}] check discussion page
 \end{itemize}
-\part{696. Count Binary Substrings}
-\label{sec:org5b82245}
-\chapter{Problem Statement}
-\label{sec:org55640c1}
+\section{696. Count Binary Substrings}
+\label{sec:orgf8d77f1}
+\subsection{Problem Statement}
+\label{sec:org3ce13be}
 \href{https://leetcode.com/problems/count-binary-substrings/}{Link}
-\chapter{Analysis}
-\label{sec:org16e3fe0}
-\section{Collect meta-substrings \label{org37b6754}}
-\label{sec:orgaafabcc}
+\subsection{Analysis}
+\label{sec:orgc1cad87}
+\subsubsection{Collect meta-substrings \label{orgada03b0}}
+\label{sec:org9d5750e}
 First, we have to be aware that how to divide the input string into separate parts and count. The valid substring should have all 0s and 1s grouped together. So, we may want to divide the string into meta-substrings. A meta-substring is a substring that each 0 and 1 are grouped together. For example, an input of \texttt{'00101000111100101'} can be divided into following meta-substrings:
 \begin{verbatim}
 '001'
@@ -3040,8 +3040,8 @@ For each meta-substring, we count the number of valid substring. It is clear tha
 My approach is to use two lists to hold each character. One is for the first appearing number, another is for the second appearing number. The next time we meet the first appearing number again, we stop and check the current meta-substring (which is stored in the two lists). Then, we copy the content in second appearing number list to the first appearing number list and continue to count.
 
 The explanation is messy, you can check the code part.
-\section{Count length of single number substring}
-\label{sec:orga7d7d27}
+\subsubsection{Count length of single number substring}
+\label{sec:org98ee2b1}
 We can go through the string and count the length of each same-character contiguous blokcs. For example, for string \texttt{"011010011100"}, each substring and its length are:
 \begin{verbatim}
 substring length
@@ -3057,7 +3057,7 @@ View horizontally:
 \begin{verbatim}
 [0 11 0 1 00 111 00]
 \end{verbatim}
-Then, we go through this list of substrings. Each breakpoint has an event of character change (either from 0 to 1, or from 1 to 0). We compare the length of the substrings at left and right side of the breakpoint. The number of valid substrings is the shorter length (explained in the first analysis part, \hyperref[org37b6754]{collect meta substrings}). Thus we have:
+Then, we go through this list of substrings. Each breakpoint has an event of character change (either from 0 to 1, or from 1 to 0). We compare the length of the substrings at left and right side of the breakpoint. The number of valid substrings is the shorter length (explained in the first analysis part, \hyperref[orgada03b0]{collect meta substrings}). Thus we have:
 \begin{verbatim}
 [0 11 0 1 00 111 00]
  ----
@@ -3087,8 +3087,8 @@ Start from the second character, and go through the string. If current character
 The solution is leet code has another way to count (which is better).
 
 After we get the list \texttt{lengths}, we can find smaller value for \texttt{(lengths[0], lengths[1])}, \texttt{(lengths[1], lengths[2])}, \ldots{}, \texttt{(lengths[n - 1], lengths[n])}
-\section{Count total number on the fly}
-\label{sec:org0d345e4}
+\subsubsection{Count total number on the fly}
+\label{sec:orga59e77f}
 There is a way to get the final number of valid substrings without using extra space. It is similar with the above analysis. But we don't use a list to hold the length info of each single number substring.
 
 We can calculate the number of valid substrings as soon as we get the length of adjacent 1-substring and 0-substring. So we use \texttt{prev} and \texttt{cur} to hold the length of previous substring and current substring (the previous substring is composed of character different from the current substring. If previous substring is 111.., the current substring is 000\ldots{}). 
@@ -3097,12 +3097,12 @@ Just like the second analysis, when we go througiteratingh the string, if a brea
 
 After the iteration, we still need to add \texttt{min(prev, cur)} to the final answer as this is not included during the iteration (go through the for loop manually and you'll understand).
 
-\chapter{Solution}
-\label{sec:orgf99d898}
-\section{Python}
-\label{sec:org47fff3f}
-\subsection{count meta-strings}
-\label{sec:org9ff4454}
+\subsection{Solution}
+\label{sec:org9601fe9}
+\subsubsection{Python}
+\label{sec:org0468f37}
+\paragraph{count meta-strings}
+\label{sec:orgce90e41}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 # count meta-substring
 # a meta-substring is the substring that each 0 and 1 are grouped together
@@ -3144,8 +3144,8 @@ class Solution:
 	return result
 
 \end{minted}
-\subsection{count length of single number substring}
-\label{sec:org691beb3}
+\paragraph{count length of single number substring}
+\label{sec:orgd749dc8}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def countBinarySubstrings(self, s: str) -> int:
@@ -3167,8 +3167,8 @@ class Solution:
 
 	return ans
 \end{minted}
-\subsection{count the total number on the fly}
-\label{sec:orga722653}
+\paragraph{count the total number on the fly}
+\label{sec:org7d6020b}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def countBinarySubstrings(self, s: str) -> int:
@@ -3187,8 +3187,8 @@ class Solution:
 	return ans
 
 \end{minted}
-\chapter{todos [2/3]}
-\label{sec:org1c2450f}
+\subsection{todos [2/3]}
+\label{sec:org6a942d2}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis and Solution
 \item[{$\square$}] time complexity analysis
@@ -3198,21 +3198,21 @@ class Solution:
 \item[{$\boxtimes$}] Linear scan
 \end{itemize}
 \end{itemize}
-\part{771. Jewels and Stones}
-\label{sec:org1a5050e}
-\chapter{Problem Statement}
-\label{sec:orga02f87a}
+\section{771. Jewels and Stones}
+\label{sec:orged8d7ad}
+\subsection{Problem Statement}
+\label{sec:org90501b4}
 \href{https://leetcode.com/problems/jewels-and-stones/}{Link}
-\chapter{Analysis}
-\label{sec:org84a165b}
-\section{Brutal force}
-\label{sec:orga4a0818}
-\chapter{Solution}
-\label{sec:orgdce2115}
-\section{C++}
-\label{sec:org9384344}
-\subsection{\(N^2\) Time (96.35\%) Space (79.64\%)}
-\label{sec:orgf693cc4}
+\subsection{Analysis}
+\label{sec:org53f97e8}
+\subsubsection{Brutal force}
+\label{sec:org347617f}
+\subsection{Solution}
+\label{sec:org3573209}
+\subsubsection{C++}
+\label{sec:orgdf45869}
+\paragraph{\(N^2\) Time (96.35\%) Space (79.64\%)}
+\label{sec:org0399c01}
 \begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3233,32 +3233,32 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [0/4]}
-\label{sec:org287975f}
+\subsection{todos [0/4]}
+\label{sec:org52c75b9}
 \begin{itemize}
 \item[{$\square$}] write down your own solution and analysis
 \item[{$\square$}] check solution and discussion for other ideas
 \item[{$\square$}] implement other ideas, write down analysis
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{804. Unique Morse Code Words}
-\label{sec:orga8369f0}
-\chapter{Problem Statement}
-\label{sec:org388eae6}
+\section{804. Unique Morse Code Words}
+\label{sec:org64c21f0}
+\subsection{Problem Statement}
+\label{sec:org110274c}
 \href{https://leetcode.com/problems/unique-morse-code-words/}{Link}
-\chapter{Analysis}
-\label{sec:org36a7bf1}
-\section{Hash Table}
-\label{sec:org471a975}
+\subsection{Analysis}
+\label{sec:orga8fc41a}
+\subsubsection{Hash Table}
+\label{sec:org230e9d0}
 Generally speaking, this problem wants to find how many unique elements in a collection of elements. We can use a hash table to get this done. Since we don't need ordering, we can use an unordered\_set.
 
 To solve this problem, simplily translate the word first, then insert the translated Mores phrase into the hash table. \texttt{unordered\_set} in C++ doesn't allow duplicates, so if an element that is identical to an element inside the hash table, it will not be inserted. At the end, we just simplily return the size of the hash table.
-\chapter{Solution}
-\label{sec:org9026fb5}
-\section{C++}
-\label{sec:org21f15db}
-\subsection{hash Table}
-\label{sec:orgc5f7542}
+\subsection{Solution}
+\label{sec:orge680c42}
+\subsubsection{C++}
+\label{sec:org5da7ecc}
+\paragraph{hash Table}
+\label{sec:orge545c59}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3293,29 +3293,29 @@ public:
 
 */
 \end{minted}
-\chapter{todos [1/3]}
-\label{sec:org08c7f92}
+\subsection{todos [1/3]}
+\label{sec:orgd8ff985}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] check discussion page for more space-efficient solution
 \item[{$\square$}] try to implement and write down your update
 \end{itemize}
-\part{824. Goat Latin}
-\label{sec:org250f3b9}
-\chapter{Problem Statement}
-\label{sec:org2551a19}
+\section{824. Goat Latin}
+\label{sec:org1f4c9bd}
+\subsection{Problem Statement}
+\label{sec:org420c4fb}
 \href{https://leetcode.com/problems/goat-latin/}{Link}
-\chapter{Analysis}
-\label{sec:orgd50386d}
-\section{Modify the word directly}
-\label{sec:org6671694}
+\subsection{Analysis}
+\label{sec:orgc171063}
+\subsubsection{Modify the word directly}
+\label{sec:orgf9c53e5}
 The problem has already given the instructions on how to modify the word.
-\chapter{Solution}
-\label{sec:orgfcf1b4f}
-\section{Python}
-\label{sec:org45d7a5f}
-\subsection{modify the word directly}
-\label{sec:org6fe37e4}
+\subsection{Solution}
+\label{sec:org16586fa}
+\subsubsection{Python}
+\label{sec:orga09d522}
+\paragraph{modify the word directly}
+\label{sec:orgb52fcf7}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def toGoatLatin(self, S: str) -> str:
@@ -3339,8 +3339,8 @@ class Solution:
 
 	return ''.join(words)
 \end{minted}
-\chapter{todos [1/6]}
-\label{sec:orgf0c2d08}
+\subsection{todos [1/6]}
+\label{sec:org35645ab}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] time complexity analysis of your own solution
@@ -3349,14 +3349,14 @@ class Solution:
 \item[{$\square$}] time complexity of these Solutions
 \item[{$\square$}] generalize this problem
 \end{itemize}
-\part{929. Unique Email Addresses}
-\label{sec:orgc24afe3}
-\chapter{Problem Statement}
-\label{sec:org28c7576}
-\chapter{Analysis}
-\label{sec:orge64175e}
-\section{Python string manipulation}
-\label{sec:orgaca366b}
+\section{929. Unique Email Addresses}
+\label{sec:orgcac75e0}
+\subsection{Problem Statement}
+\label{sec:orgbbf3495}
+\subsection{Analysis}
+\label{sec:org5543300}
+\subsubsection{Python string manipulation}
+\label{sec:org0043483}
 Use member functions provided by python string class to solve this problem.
 \begin{enumerate}
 \item split the string into two parts: before the @ and after the @
@@ -3364,12 +3364,12 @@ Use member functions provided by python string class to solve this problem.
 \item add modified first part + @ + second part (domain part) in a set. Set is used to keep uniqueness of the email address
 \item After analyzing all the strings in the given list, return the length of the set, which is the number of unique email address
 \end{enumerate}
-\chapter{Solution}
-\label{sec:org1759ae1}
-\section{Python}
-\label{sec:orga97aba4}
-\subsection{use string member functions}
-\label{sec:org9116133}
+\subsection{Solution}
+\label{sec:orge94d004}
+\subsubsection{Python}
+\label{sec:orgb7445d8}
+\paragraph{use string member functions}
+\label{sec:orgcb77e62}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def numUniqueEmails(self, emails: List[str]) -> int:
@@ -3382,28 +3382,28 @@ class Solution:
 
 	return len(unique_emails)
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:orgadf3d80}
+\subsection{todos [1/2]}
+\label{sec:orge1d2420}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your solution and analysis
 \item[{$\square$}] read discussion page
 \end{itemize}
-\part{938. Range Sum of BST}
-\label{sec:orgf3fb35a}
-\chapter{Problem Statement}
-\label{sec:org3359399}
+\section{938. Range Sum of BST}
+\label{sec:org165f067}
+\subsection{Problem Statement}
+\label{sec:org24af3e7}
 \href{https://leetcode.com/problems/range-sum-of-bst/}{Link}
-\chapter{Analysis}
-\label{sec:org4d10552}
-\section{Recursion (brutal and stupid)}
-\label{sec:orgec70e63}
+\subsection{Analysis}
+\label{sec:orge152c3a}
+\subsubsection{Recursion (brutal and stupid)}
+\label{sec:orge188032}
 The tree is composed of left subtree, the node, and the right subtree. The base case is when the root is pointing to \texttt{nullptr}, in this case, we should return 0.
 
 Thus, we call the function itself to find out the range sum of left subtree and right subtree first, then we check the \texttt{node->val}. If it is within the range, we add it to the whole sum, otherwise, we ignore it.
 
 This algorithmm is easy to follow, but it does a lot of unnecessary work (didn't use the fact that this is a binary search tree, which satisfies: \texttt{node->left->val < node->val < node->right->val}, given "the binary search tree is guaranteed to have unique values"). If \texttt{node->val} is smaller than \texttt{L}, then we have no reason to check \texttt{rangeSumBST(node->left, L, R)}, since any value contained in this branch of subtree is bound to be smaller than \texttt{node->val}, thus not within the range \texttt{[L, R]}. Similarliy if \texttt{node->val} is greater than \texttt{R}, we don't have to check \texttt{rangeSumBST(node->right, L, R)}. This thought gives a better recursion algorithm.
-\section{DFS}
-\label{sec:org496438f}
+\subsubsection{DFS}
+\label{sec:org0db5d16}
 DFS allows us to traverse the tree in a deapth first manner (go deep first). It will eventually go over all the nodes one by one. We use a stack to perform the DFS, we also need an associative container to hold record of visited nodes. The basic steps is this:
 \begin{enumerate}
 \item create a stack and an unordered\_set
@@ -3418,14 +3418,14 @@ DFS allows us to traverse the tree in a deapth first manner (go deep first). It 
 
 By DFS, we can traverse the whole tree's each node in a depth-first manner. We can get the range sum along the way.
 
-\chapter{Solution}
-\label{sec:orga827cba}
+\subsection{Solution}
+\label{sec:org0a96f6d}
 
-\section{C++}
-\label{sec:org775be59}
+\subsubsection{C++}
+\label{sec:org6778e55}
 
-\subsection{recursion (stupid)}
-\label{sec:org40f97a9}
+\paragraph{recursion (stupid)}
+\label{sec:org5299bc6}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3439,8 +3439,8 @@ public:
 };
 \end{minted}
 
-\subsection{recursion (better)}
-\label{sec:org204bfad}
+\paragraph{recursion (better)}
+\label{sec:orgfbd6b56}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3460,8 +3460,8 @@ public:
 };
 \end{minted}
 
-\subsection{DFS (slow, 5\% and 6\%)}
-\label{sec:orgfc018e2}
+\paragraph{DFS (slow, 5\% and 6\%)}
+\label{sec:org14f0e74}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3517,23 +3517,23 @@ public:
 };
 \end{minted}
 
-\chapter{todos [1/3]}
-\label{sec:org81b3c09}
+\subsection{todos [1/3]}
+\label{sec:orga3257a7}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your analysis and solution (recursion and DFS)
 \item[{$\square$}] check solution's DFS, study and re-implement
 \item[{$\square$}] read discussion page, to gain more understanding of possible solution
 \item[{$\square$}] re-implement and write down analysis
 \end{itemize}
-\part{1021. Remove Outermost Parenthese}
-\label{sec:orgf3e7ddf}
-\chapter{Problem Statement}
-\label{sec:org01a50bc}
+\section{1021. Remove Outermost Parenthese}
+\label{sec:org2294bd9}
+\subsection{Problem Statement}
+\label{sec:org7cff5d3}
 \href{https://leetcode.com/problems/remove-outermost-parentheses/}{Link}
-\chapter{Analysis}
-\label{sec:org5aaecf6}
-\section{Stack}
-\label{sec:orgeb209e1}
+\subsection{Analysis}
+\label{sec:org1a038e0}
+\subsubsection{Stack}
+\label{sec:orgb76616f}
 We have to first understand a valid parentheses string and a primitive valid parentheses string. This is similar with base of a vector space.
 
 A valid parentheses string can be viewed as a string that has balanced parenthese (by saying balance, I mean the number of '(' and ')' are the same, also their appearing sequence matches). We can use a stack to check the validity of a parentheses string.
@@ -3557,14 +3557,14 @@ Steps:
 \end{enumerate}
 
 
-\section{Two pointers}
-\label{sec:orgeb1f9e8}
-\chapter{Solution}
-\label{sec:org6b5ec0b}
-\section{C++}
-\label{sec:org7a9a480}
-\subsection{Stack}
-\label{sec:orgd05e5c5}
+\subsubsection{Two pointers}
+\label{sec:orgde0a6f4}
+\subsection{Solution}
+\label{sec:org41ca53a}
+\subsubsection{C++}
+\label{sec:orgf6d4cb9}
+\paragraph{Stack}
+\label{sec:org8c58dd8}
 \begin{minted}[breaklines=true,breakanywhere=true]{c++}
 class Solution {
 public:
@@ -3602,37 +3602,37 @@ public:
   }
 };
 \end{minted}
-\chapter{todos [1/4]}
-\label{sec:orgc0aeca0}
+\subsection{todos [1/4]}
+\label{sec:org27ec91c}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution and analysis
 \item[{$\square$}] read discussion, collect possible solution ideas
 \item[{$\square$}] think about the possible solution, re-implement them
 \item[{$\square$}] write down analysis for these other solutions
 \end{itemize}
-\part{1108. Defanging an IP Address}
-\label{sec:org78a34b1}
-\chapter{Problem Statement}
-\label{sec:orgddfa311}
+\section{1108. Defanging an IP Address}
+\label{sec:org69f3089}
+\subsection{Problem Statement}
+\label{sec:org6add1ae}
 \href{https://leetcode.com/problems/defanging-an-ip-address/}{Link}
-\chapter{Analysis}
-\label{sec:org7b47bd3}
-\section{Direct replace}
-\label{sec:orgf87b6c3}
+\subsection{Analysis}
+\label{sec:org1ec718b}
+\subsubsection{Direct replace}
+\label{sec:orga110ce9}
 Search the string, for each \texttt{'.'} encountered, replace it with \texttt{'[.]'}
-\chapter{Solution}
-\label{sec:org9c8772b}
-\section{Python}
-\label{sec:orga3b3082}
-\subsection{direct replace}
-\label{sec:org1acc0b6}
+\subsection{Solution}
+\label{sec:orgc2d8e8b}
+\subsubsection{Python}
+\label{sec:org2a0d061}
+\paragraph{direct replace}
+\label{sec:org146ffb1}
 \begin{minted}[breaklines=true,breakanywhere=true]{python}
 class Solution:
     def defangIPaddr(self, address: str) -> str:
 	return address.replace('.', '[.]')
 \end{minted}
-\chapter{todos [1/2]}
-\label{sec:orgea95c76}
+\subsection{todos [1/2]}
+\label{sec:orgbca62a1}
 \begin{itemize}
 \item[{$\boxtimes$}] write down your own solution
 \item[{$\square$}] check discussion page

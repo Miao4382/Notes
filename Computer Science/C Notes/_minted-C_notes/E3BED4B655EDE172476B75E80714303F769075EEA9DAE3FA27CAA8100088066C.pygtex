@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{o}{*} \PYG{n+nf}{malloc}\PYG{p}{(}\PYG{k+kt}{size\PYGZus{}t} \PYG{n}{n}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{o}{*} \PYG{n+nf}{calloc}\PYG{p}{(}\PYG{k+kt}{size\PYGZus{}t} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{size\PYGZus{}t} \PYG{n}{size}\PYG{p}{);}
+\end{Verbatim}

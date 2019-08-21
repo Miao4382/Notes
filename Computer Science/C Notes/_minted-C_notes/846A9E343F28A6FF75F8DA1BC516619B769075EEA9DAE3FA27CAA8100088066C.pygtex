@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n}{fscanf}\PYG{p}{(}\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{fp}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{format}\PYG{p}{,} \PYG{p}{...)}
+\PYG{k+kt}{int} \PYG{n}{fprintf}\PYG{p}{(}\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{fp}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{format}\PYG{p}{,} \PYG{p}{...)}
+\end{Verbatim}

@@ -1,4 +1,4 @@
-% Created 2019-08-08 Thu 16:30
+% Created 2019-08-18 Sun 19:43
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -33,8 +33,12 @@
 
 \tableofcontents
 
-\section{Some Facts}
-\label{sec:orgf2518f1}
+
+\section{Generals}
+\label{sec:org69d40bd}
+\subsection{Some Facts}
+\label{sec:orgfa05534}
+Below are some general facts about C language.
 \begin{itemize}
 \item assignments associate from right to left.
 \item arithemetic operators associate left to right
@@ -55,19 +59,20 @@ printf("%d", (int) a);
 \end{minted}
 result will be \texttt{2}.
 \item unary operator associate right to left (like \texttt{*}, \texttt{++}, \texttt{-{}-})
+\item strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault
 \end{itemize}
 
-place holder.
+Place holder.
 
-\section{headers}
-\label{sec:orgfa82a67}
+\subsection{headers}
+\label{sec:orgc296512}
 \begin{itemize}
 \item \texttt{<stdio.h>}: contains input/output functions
 \item \texttt{<ctype.h>}: some functions regarding to characters
 \end{itemize}
 
-\section{\texttt{printf()} formatting}
-\label{sec:org1ec38e4}
+\subsection{\texttt{printf()} formatting}
+\label{sec:orgac90b10}
 Check p26-p27 of the textbook.
 
 Use \texttt{\%} with symbols to print the variables in different format.
@@ -85,8 +90,8 @@ printf("%d", a)  //print a in format of integer
 printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 \end{minted}
-\section{Symbolic Constants}
-\label{sec:orgdd3ac23}
+\subsection{Symbolic Constants}
+\label{sec:org1cf8acf}
 A \texttt{\#define} line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: \texttt{\#define} \emph{name} \emph{replacement text}. You put this at the head of your code (outside scope of any function to make it globally). Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -106,16 +111,16 @@ int main() {
 }
 \end{minted}
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a \texttt{\#define} line.
-\section{Character Input and Output}
-\label{sec:org1fd928a}
+\subsection{Character Input and Output}
+\label{sec:org7da847b}
 \begin{itemize}
 \item \texttt{getchar()}: it reads the next input character from a text stream and returns that (from the buffer?).
 \item \texttt{putchar()}: it prints a character each time it is called and passed a char into.
 \end{itemize}
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, \texttt{'a'} is actually \texttt{97}.
-\section{Arrays}
-\label{sec:org1a090ff}
+\subsection{Arrays}
+\label{sec:orgf64a9de}
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int nums[100];
@@ -134,8 +139,8 @@ int main() {
   return 0;
 }
 \end{minted}
-\section{Enumeration constant}
-\label{sec:orgfec9e5a}
+\subsection{Enumeration constant}
+\label{sec:org9f04c87}
 An enumeration is a list of constant integer values. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 enum boolean { NO, YES };
@@ -157,8 +162,8 @@ Names in different enumerations must be distinct. Values need not be distinct in
 #define FEB 2
 // etc
 \end{minted}
-\section{type-cast an expression}
-\label{sec:orgd5720dd}
+\subsection{type-cast an expression}
+\label{sec:orge18f903}
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int main() {
@@ -168,8 +173,8 @@ int main() {
 }
 \end{minted}
 In the above example, when being printed, the type of \texttt{n} has been modified to \texttt{float}. Notice that \texttt{n} itself is not altered. This is called a \emph{cast}, it is an unary operator, has the same high precedence as other unary operators.
-\section{Bitwise operators}
-\label{sec:orge4e4dc9}
+\subsection{Bitwise operators}
+\label{sec:orge59a959}
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -185,13 +190,13 @@ They are:
 \end{itemize}
 
 The precedence of the bitwise operators \texttt{\&}, \texttt{\textasciicircum{}} and \texttt{|} is lower than \texttt{==} and \texttt{!=}.
-\section{Operators can be used with assignment operators}
-\label{sec:orgfd28329}
+\subsection{Operators can be used with assignment operators}
+\label{sec:org60a9a0b}
 p64
 
 \texttt{+, -, *, /, \%, <<, >>, \&, \textasciicircum{}, |}
-\section{External Variables}
-\label{sec:org96f509d}
+\subsection{External Variables}
+\label{sec:org4af5759}
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an \texttt{extern} declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int addNum(int a) {
@@ -201,8 +206,8 @@ int addNum(int a) {
 }
 \end{minted}
 Array sizes must be specified with the definition, but are optional with an \texttt{extern} declaration.
-\section{Command-line Arguments}
-\label{sec:org685786e}
+\subsection{Command-line Arguments}
+\label{sec:org48e349b}
 p128 in CPL.
 
 We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter \texttt{ehco}, followed by a series of arguments:
@@ -225,8 +230,8 @@ Basically, when \texttt{main()} is called, it is called with two arguments: \tex
 \end{verbatim}
 \end{itemize}
 
-\subsection{Example: \texttt{echo}}
-\label{sec:orgfbece89}
+\subsubsection{Example: \texttt{echo}}
+\label{sec:org6cde602}
 Knowing this, we can write a program that mimic the \texttt{echo} function: re-print what we typed in when we invoke the program to terminal:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -241,8 +246,8 @@ int main(int argc, char* argv[]) {
 }
 \end{minted}
 
-\subsection{Example: \texttt{pattern\_finding}}
-\label{sec:orgba86c16}
+\subsubsection{Example: \texttt{pattern\_finding}}
+\label{sec:orgbf5b394}
 This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
 \begin{verbatim}
 $ pattern_finding love < text.txt
@@ -291,8 +296,8 @@ int getlines(char* line, int max) {
 }
 \end{minted}
 
-\subsection{Optional arguments example: \texttt{pattern\_finding} extended}
-\label{sec:org8be8e17}
+\subsubsection{Optional arguments example: \texttt{pattern\_finding} extended}
+\label{sec:org0352dd4}
 Now we extend our \texttt{pattern\_finding} program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
 
 There is no magic about optional arguments. They are collected as strings in \texttt{argv[]} when the program is invoked, just like anyother strings occured when invoking the function. We extend the \texttt{pattern\_finding} program to include support for two optional arguments:
@@ -395,149 +400,43 @@ int getlines(char* line, int max) {
 }
 \end{minted}
 
-\section{Pointers to Functions}
-\label{sec:org7b7faaf}
-It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on. In this section, a sorting program will be used as an example to illustrate the idea. It will also combine the command line arguments.
+\subsection{Pointers to Functions}
+\label{sec:orge2ff1f1}
+It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
 
-\subsection{Schematic picture}
-\label{sec:org3eff501}
-The sorting program has following feature:
-\begin{enumerate}
-\item the program can be invoked by \texttt{\$ sort -n < text.txt} or \texttt{\$ sort < text.txt}
-\item if optional argument \texttt{-n} is used, the lines will be sorted numerically, otherwise, lines will be sorted lexicographically
-\item read all lines of input and store them
-\item sort the lines by sorting pointers pointing to them (based on wether \texttt{-n} is given or not)
-\item print the lines in order
-\end{enumerate}
+To declare a pointer to a function, you write:
+\begin{verbatim}
+return_type (*ptr_name)(parameter1_type, parameter2_type, ...)
+\end{verbatim}
+Explanation:
+\begin{itemize}
+\item \texttt{return\_type}: the return type of the function this pointer pointing to.
+\item \texttt{ptr\_name}: the name of the pointer variable
+\item \texttt{parameter\_type}: the type of the function this pointer referring to.
+\end{itemize}
 
-
-\subsection{Implementation}
-\label{sec:orgad64327}
-For the base program (read lines and qsort them), please check the corresponding example code.
-
-Code for this part (along with explanations):
+Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
-#define MAXLINES 5000  // max number of lines to be sorted
-
-char* lineptr[MAXLINES];  // an array of char pointers to text lines
-
-int readlines(char* lineptr[], int maxlines);
-void writelines(char* lineptr[], int nlines);
-// the fourth parameter is a pointer to function, we may choose different comparing functions to be used in sorting 
-void qsorts(void* lineptr[], int left, int right, int (*comp)(void*, void*));
-int numcmp(char*, char*);
-
-// with optional arguments
-int main(int argc, char* argv[]) {
-  int nlines;  // hold the total number of lines read
-  int numeric = 0;  // flag of -n option; 1 if numeric sort requested 
-
-  // check if optional argument is typed
-  if (argc > 1 && strcmp(argv[1], "-n") == 0)
-    numeric = 1;
-
-  // read lines and sort according to numeric value
-  if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-    /* qsorts(lineptr, 0, nlines - 1); */
-    qsorts((void **) lineptr, 0, nlines - 1, (int (*)(void*, void*))(numeric ? numcmp : strcmp));
-
-    writelines(lineptr, nlines);
-    return 0;
-  }
-
-  else {
-    printf("error: input too big to sort\n");
-    return 1;
-  }
-
+int add(int a, int b) {
+  return a + b;
 }
 
-#define MAXLEN 1000  // max length of any input line
-int getlines(char*, int);
-char* alloc(int);  // memory allocator, declared here, compiled in a separate file (using example 5-4: a memory allocator toy)
-
-/* readlines(): 
-How does this work:
-- use getlines() function to get each line from the input buffer and store in line[] variable; Also store the length of each line (not including )
-- call alloc() to request a chunk of memory from a pre-allocated memory space (reservoir), a pointer to this chunk of memory will hold the address
-- call strcpy() to copy content in line[] to the requested chunk of memory
-- store the memory address hold in p to lineptr[]'s slots
-store each read-line to the C-string array pointed by lineptr
-The maximum input line number is the maxlines parameter
-*/
-int readlines(char* lineptr[], int maxlines) {
-  int len;  // hold the length of line being read 
-  int nlines;  // hold the number of lines read, should be smaller than maxlines
-
-  char* p;  // a pointer used to hold the address of allocated 
-  char line[MAXLEN];  // temp char array to hold currently read line, pass in getline() function
-
-  nlines = 0;
-
-  while ((len = getlines(line, MAXLEN)) > 0)  // if len > 0, a line has been read
-    /* 
-    - if line num exceeded max, or memory allocation failed (not enough room)
-    - the amount of memory is len, which is returned by getlines()
-    - this length contains the tailing '\n' character. So len = # of char + 1
-    - but we'll replace '\n' with '\0'
-    - also, line[] filled by getlines() has following structure:
-      ['a', 'b', 'c', '\n', '\0']
-      after replacing '\n' with '\0':
-      ['a', 'b', 'c', '\0', '\0']
-      We'll only allocate room for four chars, but the fifth one will still be copied to the master reservoir (used by alloc() to dispense memory). It will be over-written by the first letter of next line, because alloc() thinks this slot is the next empty slot, and the next request: p = alloc(len) will return p pointing to this.
-    */
-    if (nlines >= maxlines || (p = alloc(len)) == NULL)
-      return -1;  // indicate readlines() function failed to read all the lines
-    else {
-      line[len - 1] = '\0';  // replace '\n' with '\0', so line[] is a C-string
-      strcpy(p, line);  // copy content in line to spaces pointed by p
-      lineptr[nlines++] = p;  // the address stored in p is now in lineptr[] 
-    }
-
-  return nlines;  // return the number of lines read from the input buffer
+int main() {
+  int (*a)(int, int);
+  a = &add;
+  printf("%d\n", (*a)(2, 3));
 }
+\end{minted}
+When calling the function pointer, you have to use parenthese to enclose \texttt{*} and pointer name. Use \texttt{\&} and function name to get the "address" of the function.
 
-/* writelines(): 
-Print the lines stored in the master reservoir by dereferencing pointer stored in lineptr[] 
-*/
-void writelines(char* lineptr[], int nlines) {
-  for (int i = 0; i < nlines; i++)
-    printf("%s\n", lineptr[i]);
-}
+\subsubsection{Example: qsort() which takes a comp() function pointer}
+\label{sec:org12e72bd}
+(Example 5-11).
 
-/* swap(): 
-Swap two elements in an array of pointers. Used by qsorts()
-Parameters:
-  void* v[]: an array of pointers, potentially to any type 
-  int i: index of first element 
-  int j: index of second element
-
-swap v[i] and v[j]
-*/
-void swap(void* v[], int i, int j) {
-  void* temp;
-  temp = v[j];
-  v[j] = v[i];
-  v[i] = temp;
-}
-
-
-/* qsorts(): 
-Sort v[left] ... v[right] into increasing order
-Parameters:
-  void* v[]: void* is a generic pointer type, here, it means pointer accepts an array of pointers to any type (like template?)
-  int left: left boundary of sorting 
-  int right: right boundary of sorting
-  int (*comp)(void*, void*): a pointer to a function which accepts two void* arguments (two pointers to any type), the return type of this function is int.
-
-Pay attention that comp is declared as a pointer to function. We can use it as a normal function by dereferencing it : (*comp)
-
-The parenthese is needed when writting the parameter or actual using function in the body of qsorts. If no parenthese, int *comp(void*, void*) means a function named copm that returns a pointer to integer (not a pointer to function!)
-*/
+A quick sort function which takes a function pointer to be used in its body to sort is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
 void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
   int last;
 
@@ -555,41 +454,368 @@ void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
   qsorts(v, left, last - 1, comp);
   qsorts(v, last + 1, right, comp);
 }
+\end{minted}
 
-/* numcmp(): 
-compare s1 and s2 on a leading numeric value
-*/
-int numcmp(char* s1, char* s2) {
-  double v1, v2;
+\section{Input and Output}
+\label{sec:orgd3a4d50}
 
-  v1 = atof(s1);
-  v2 = atof(s2);
+\subsection{Standard Input and Output}
+\label{sec:org59e2149}
+\subsubsection{Input redirection}
+\label{sec:org552643d}
+In many environments, a file may be substituted for the keyboard as the source of standard input by using the \texttt{<} convention for input redirection. For example, we have following code:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <stdio.h>
 
-  if (v1 < v2)
-    return -1;
-  else if (v1 > v2)
-    return 1;
-  else 
-    return 0;
+int main() {
+  char c;
+  while ((c = getchar()) != EOF)
+    printf("%c", c);
+
+  return 0;
 }
+\end{minted}
+When we call the program, we use \texttt{<} to redirect standard input with a file:
+\begin{verbatim}
+$ ./a.out < out.txt
+\end{verbatim}
+the effect of this program is to print all content in \texttt{out.txt} to standard output.
+\subsubsection{Output redirection}
+\label{sec:org5a3dde2}
+We can also redirect a program's standard output to a file. We use \texttt{>} convention to do it, the syntax is:
+\begin{verbatim}
+$./a.out > result.txt
+\end{verbatim}
+in this way, all standard output of \texttt{a.out} will be redirected to file \texttt{result.txt}. The file will be created if not exist.
 
+Output produced by \texttt{putchar()} and \texttt{printf()} are the same, they will both finds its way to the standard output.
+\subsubsection{Pipe between two programs}
+\label{sec:orgc988ab9}
+It is possible to use one program's standard output as another program's standard input:
+\begin{verbatim}
+$./prog1 | ./prog2
+\end{verbatim}
+the above line puts the standard output of \texttt{prog1} into the standard input of \texttt{prog2}.
 
-int getlines(char* line, int max) {
-  char ch;
-  int count;
+\subsubsection{Include header file}
+\label{sec:org95c5129}
+When you include a file with brackets \texttt{<>}, the compiler will search the header in a standard set of places (typically: \texttt{/usr/include}).
 
-  // count < max - 1 for storing the last null terminator
-  for (count = 0; count < max - 1 && (ch = getchar()) != EOF && ch != '\n'; ++count)
-    *(line++) = ch;
+\subsubsection{Macros in standard library}
+\label{sec:org9fe6402}
+"Functions" like \texttt{getchar} and \texttt{putchar} in \texttt{<stdio.h>}, and \texttt{tolower} in \texttt{<ctype.h>} are often macros, thus avoiding the overhead of a function call per character.
 
-  if (ch == '\n') {
-    *(line++) = ch;
-    count++;
+\subsubsection{Formatted output: printf}
+\label{sec:org4ebb770}
+p167 on textbook. A table of \texttt{printf()}'s conversion characters are shown in table 7-1 in the book (p168).
+
+A width or precision may be specified as \texttt{.*}, the value is computed by converting the next argument (which must be an \texttt{int}). For example:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int main(int argc, char* argv[]) {
+  char* s = "abcdefg";
+  int length = 4;
+  printf("%.*s\n", length, s);
+  return 0;
+}
+\end{minted}
+the above program printed the first \texttt{length} characters in string \texttt{s}. Don't forget the dot before \texttt{*}.
+
+\subsubsection{Function \texttt{sprintf()}}
+\label{sec:orgfe39442}
+This function does the same conversions as \texttt{printf()}. It accepts a \texttt{char* string} argument, and will place the result in \texttt{string} instead of to the standard output. \texttt{string} must big enough to receive the result.
+
+\subsection{Variable-length Argument Lists}
+\label{sec:org0be70ec}
+This section will use an implementation of a minimal version of \texttt{printf()} to show how to write a function that processes a Variable-length argument list in a portable way.
+
+\subsubsection{Declare a function that takes varying amounts of arguments}
+\label{sec:org2dfce07}
+To declare a function whose argument number is not fixed (which may vary), we do:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void miniPrintf(char* format, ...)
+\end{minted}
+the declaration \texttt{...} means that the number and types of these arguments may vary. It can only appear at the end of a list of named argument (there must be at least one named argument).
+
+\subsubsection{Traverse the argument list and final cleanup}
+\label{sec:org32640b0}
+The standard header \texttt{<stdarg.h>} contains a set of macro definitions that define how to step through an argument list. To build functions that takes varying amounts of arguments, you have to include \texttt{<stdarg.h>}.
+
+\paragraph{Type \texttt{va\_list}}
+\label{sec:org7b8e374}
+A data type named \texttt{va\_list} is defined in \texttt{<stdarg.h>}. We declare a variable of this type, then use this variable to refer to each unnamed argument passed in the function. It works like a pointer. For example, we can have following declaration:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <stdarg.h>
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+\end{minted}
+
+\paragraph{Macro \texttt{va\_start}}
+\label{sec:orgae69dc4}
+After the declaration \texttt{va\_list ap;}, \texttt{ap} is an object of type \texttt{va\_list}. How to use it to actually point to the unnamed arguments? We begin by using a macro named \texttt{va\_start}. After declaring \texttt{ap}, we call this macro to "initiate" \texttt{ap}:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <stdarg.h>
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+\end{minted}
+\texttt{va\_start()} "accepts" two tokens. The first one is the \texttt{va\_list} type variable which will be used to refer to unnamed arguments in turn, here we use \texttt{ap}. The second one should be the \textbf{LAST} named argument from the function call. \texttt{va\_start} will use this to locate the beginning of unnamed argument. After this line, \texttt{ap} will be referring to the first unnamed argument.
+
+But how could we "retrieve" the unnamed argument being referred by \texttt{ap} and move to next argument? We call \texttt{va\_arg} macro to do this job.
+
+\paragraph{Macro \texttt{va\_arg}}
+\label{sec:org5fbcdb0}
+\texttt{va\_arg} is a macro defined in \texttt{<stdarg.h>}. It "accepts" two tokens, the first one is an object of \texttt{va\_list} type (we used \texttt{ap}), the second one is the type name you wish to collect from current argument which \texttt{ap} is appointing to. When this macro is called, it returns one argument of the type you specified and steps \texttt{ap} to the next. The type name you provided will be used by \texttt{va\_arg} to determine what type to return and how big a step to take. You have to use another variable of the same type to hold the returned argument, so you can use later.
+
+For example, following call of \texttt{va\_arg} will return an integer argument, and we hold it using an integer variable named \texttt{ival}:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int ival;
+ival = va_arg(ap, int);
+\end{minted}
+
+\paragraph{Macro \texttt{va\_end}}
+\label{sec:orgcc59aa3}
+\texttt{va\_end} is a macro defined in \texttt{<stdarg.h>}. It takes one token, which is the \texttt{va\_list} object we used in the program. This macro will do whatever needs to cleanup. It must be called before the function returns:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+va_end(ap);
+\end{minted}
+
+\subsubsection{\texttt{miniPrintf()} example}
+\label{sec:orgb0897c8}
+In this example, \texttt{miniPrintf()} takes two arguments, the first one is a pointer to char, which will be the format string or content it will be printing. Every character of \texttt{\%} indicates there is an argument in the argument list waiting to be printed in a certain format. Here, we just use the next character after \texttt{\%} to determine what type of argument we retrieve from the argument list. The function is declared as:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <stdarg.h>
+#include <stdio.h>
+void miniPrintf(char* format, ...)
+\end{minted}
+To retrieve arguments in the unamed argument list, we declare an object of type \texttt{va\_list}:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+va_list ap;
+char *p;  // to traverse format string
+char* sval;  // to hold string argument
+int ival;  // to hold integer argument
+double dval;  // to hold double argument
+\end{minted}
+Before processing, we need to initialize the \texttt{va\_list} object:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+va_start(ap, format);
+\end{minted}
+Then, we go over the \texttt{format} string. If no \texttt{\%} encountered, we call \texttt{putchar()} to print it directly:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
   }
 
-  *line = '\0';  // add null terminator to the array 
-
-  return count;  // not containing the '\0' terminator 
-} 
+  // do things when '%' is found
+}
 \end{minted}
+When \texttt{\%} is found, we need to check the next character and determine what data type we need to retrieve from the unamed argument list:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
+  }
+
+  switch (*++p) {  // check next char
+  case 'd':
+    ival = va_arg(ap, int);
+    printf("%d", ival);
+    break;
+  }
+  case 'f':
+    dval = va_arg(ap, double);
+    printf("%f", dval);
+    break;
+  case 's':
+    for (sval = va_arg(ap, char*); *sval; sval++)
+      putchar(*sval);
+    break;
+  default:
+    putchar(*p);
+    break;
+}
+\end{minted}
+When the style token after \texttt{\%} is \texttt{s}, it means we have to print a string. So the return type of \texttt{va\_arg} is a pointer to \texttt{char}. We print the C-string one character by one character, until we reach the \texttt{'\textbackslash{}0'} terminator.
+
+\subsection{Formated Input: \texttt{scanf()}}
+\label{sec:orgb49388f}
+p171.
+
+\subsubsection{A simple example}
+\label{sec:orge2c2c52}
+An example of using \texttt{scanf()}:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <stdio.h>
+
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
+  int num;
+  scanf("%d%d%d%d", &a, &b, &c, &d);
+  printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);
+
+  return 0;
+}
+\end{minted}
+here, we read four inputs and store them to four variables. Notice we have to pass in the address of each variable to \texttt{scanf()}. In this way, \texttt{scanf()} can modify the variable directly (passed by value).
+
+\subsubsection{Declaration and arguments}
+\label{sec:orgc2629b6}
+\texttt{scanf()} is declared as:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int scanf(char *format, ...)
+\end{minted}
+
+It will use the \texttt{format} string to retrieve information via certain format, convert them and assign to variables in the followed list. \texttt{scanf()} stops when it exhausts its format string, or when some input fails to match the control specification. It returns the number of successfully matched and assigned input items (to variable in the unamed argument lists).
+
+The \texttt{format} string may contain:
+\begin{enumerate}
+\item blanks or tabs. These will be automatically ignored
+\item ordinary characters (not \texttt{\%}). \texttt{scanf()} will try to match these characters with the corresponding non-whitespace character of the input stream. For example:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+scanf("%dabcde%d", &a, &b);
+printf("a = %d\nb = %d\n", a, b);
+\end{minted}
+input: \texttt{1abcde2}, output:
+\begin{verbatim}
+a = 1
+b = 2
+\end{verbatim}
+\item conversion specifications, which is explained below.
+\end{enumerate}
+
+A conversion specification is some characters starting with \texttt{\%}, which will be used by \texttt{scanf()} to convert the next \textbf{input field} and assign to corresponding variable. An input field is defined as a string of non-white space characters; it extends either to the next white space character or until the field width has been reached (the width of the field may be specified by conversion specification, see below).
+
+In the conversion specification, we may find:
+\begin{itemize}
+\item \%: indicating starting of a conversion specification
+\item *: assignment suppresion marker. If this is present, the input field is skipped, no assignment to variable is made
+\item number: a number that specifies the maximum width of the input field (of which this current conversion specification is taking care)
+\item \texttt{h, l or L}: indicating the width of the target. \texttt{\%h}: a short integer; \texttt{\%l}: a long integer.
+\item a conversion character: indicating what type to convert to, like \texttt{\%d, \%c, \%s} etc. (i.e. the interpretation of the input field).
+\end{itemize}
+
+Some examples of using \texttt{scanf()} can be found on p172, 173.
+
+\subsection{File Access}
+\label{sec:org5b1cc03}
+\subsubsection{Opening a file}
+\label{sec:orgdef26a3}
+The \texttt{<stdio.h>} library has a type \texttt{FILE} and a function \texttt{fopen()} that provides tools to work on files. The function \texttt{fopen()}'s declaration is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+FILE *fopen(char* name, char* mode)
+\end{minted}
+It accepts the name of the file and mode for opening this file. It will return a pointer to a \texttt{FILE} object. The type \texttt{FILE} is defined with a \texttt{typedef}, and is a structure that contains information about the file, such as:
+\begin{itemize}
+\item location of a buffer
+\item current character position in the buffer
+\item file openning mode: read or write
+\item error states: if error has occurred
+\item EOF states: whether end of file has occurred
+\end{itemize}
+
+To obtain a pointer to a file, we do:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+FILE* fp;
+fp = fopen(name, mode);
+\end{minted}
+the allowable modes include:
+\begin{itemize}
+\item r: read mode
+\item w: write mode
+\item a: append mode
+\item b: append b to open in binary mode (for some systems)
+\end{itemize}
+
+When errors occurred during file opening, \texttt{fopen()} will return a \texttt{NULL}.
+\subsubsection{Accessing the file}
+\label{sec:org4a6f15a}
+Once the file is opened, we access it through the \texttt{FILE} pointer \texttt{fp}. We have following choices:
+\begin{itemize}
+\item \texttt{char getc(FILE *fp)}: (maybe) a macro that accepts a \texttt{FILE} pointer, returns the next character from the file (character position is recorded inside the \texttt{FILE} object). It returns \texttt{EOF} for end of file or error.
+\item \texttt{char putc(char c, FILE *fp)}: (maybe) a macro that accepts a character \texttt{c} and a \texttt{FILE} pointer. It will write \texttt{c} to the file and returns the character written, or returns \texttt{EOF} if an error occurs.
+\end{itemize}
+
+After using the file, we have to call \texttt{fclose()} to disconnect program from the file, freeing the file pointer for another file.
+
+\subsubsection{\texttt{stdin}, \texttt{stdout} and \texttt{stderr}}
+\label{sec:org4f4f3de}
+When a C program is started, the operating system environment is responsible for opening three files and providing file pointers for them to the program. These files are:
+\begin{itemize}
+\item standard input, file pointer: \texttt{stdin}
+\item standard output, file pointer: \texttt{stdout}
+\item standard error, file pointer: \texttt{stderr}
+\end{itemize}
+These file pointers are declared in \texttt{<stdio.h>}. Normally, \texttt{stdin} is connected to the keyboard, \texttt{stdout} and \texttt{stderr} are connected to the screen. \texttt{stdin} and \texttt{stdout} may be redirected to files or pipes as described earlier. Pay attention that \texttt{stderr} normally appears on the screen even if the standard output is redirected, this prevents error message disappearing down the pipeline. 
+
+Since C programs use these three file pointers to communicate with outside components, when we get char from input, or print char on output, we are actually getting or printing these characters via these file pointers to the final destination (standard input, standard output and standard error). Thus, \texttt{getchar()} and \texttt{putchar(c)} can be defined in terms of \texttt{getc, putc, stdin} and \texttt{stdout} as:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#define getchar() getc(stdin)
+#define putchar(c) putc((c), stdout)
+\end{minted}
+
+\subsubsection{Formatted input and output of files}
+\label{sec:org109af3f}
+To format input or output of files, we can use \texttt{fscanf()} and \texttt{fprintf()}. These functions are similar with \texttt{scanf()} and \texttt{printf()}, except the firs argument is a file pointer. The declaration of these two functions are:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int fscanf(FILE *fp, char* format, ...)
+int fprintf(FILE *fp, char* format, ...)
+\end{minted}
+
+An example of sending formated error message to \texttt{stderr} is:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+fprintf(stderr, "Error occurred!\n");
+\end{minted}
+\subsubsection{Example: replicate program \texttt{cat}}
+\label{sec:orgc738dc9}
+p176: normal error handling
+
+p177: advanced error handling (using \texttt{stderr} and \texttt{exit()})
+\subsubsection{Line input and output}
+\label{sec:org4333733}
+The standard library provides an input routine \texttt{fgets()}, which can reads the next input line (including \texttt{'\textbackslash{}n'} character) from a \texttt{FILE} pointer to a char array. It will return a \texttt{char} pointer pointing to this char array. Its declaration is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+char *fgets(char* line, int maxline, FILE *fp);
+\end{minted}
+At most \texttt{maxline - 1} characters will be read. The resulting line is automatically terminated with \texttt{'\textbackslash{}0'}. When end of file reached or error occurred, it returns \texttt{NULL}.
+
+The standard library provides an output routine \texttt{fputs()}, which can write a string (which need not contain a newline) to a file. The declaration is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int fputs(char* line, FILE *fp);
+\end{minted}
+It returns \texttt{EOF} if an error occurs, and zero otherwise.
+
+The library functions \texttt{gets} and \texttt{puts} are similar to \texttt{fgets} and \texttt{fputs}, but operate on \texttt{FILE} pointers \texttt{stdin} and \texttt{stdout}. \texttt{gets} deletes the terminal \texttt{'\textbackslash{}n'}, and \texttt{puts} adds it.
+\subsection{MISC Functions}
+\label{sec:org959aba3}
+\subsubsection{Storage Management}
+\label{sec:org4bfeaa8}
+Two functions are used to obtain blocks of memory dynamically:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void* malloc(size_t n);
+void* calloc(size_t n, size_t size);
+\end{minted}
+
+\texttt{malloc()} will return a pointer to \texttt{n} bytes of uninitialized storage, or \texttt{NULL} if the request cannot be satisfied.
+
+\texttt{calloc()} will return a pointer to enough space for an array of \texttt{n} objects of the specified size, or \texttt{NULL} if the request cannot be satisfied. The storage is initialized to zero.
+
+The pointer returned by \texttt{malloc()} or \texttt{calloc()} has the proper alignment for the object requested (proper amount of memory), however, it must be case into the appropriate type before assigning to a pointer to hold. For example:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int* ip;
+ip = (int*) calloc(n, sizeof(int));
+\end{minted}
+
+To free the space pointed by a pointer \texttt{p}, of which initially obtained by a call to \texttt{malloc()} or \texttt{calloc()}, we can call \texttt{free(p)}.
+\section{Place Holder}
+\label{sec:org1b2749b}
 \end{document}

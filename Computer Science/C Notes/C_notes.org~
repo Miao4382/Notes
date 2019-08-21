@@ -7,6 +7,8 @@
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
+
+* Generals
 *** Some Facts
 - assignments associate from right to left.
 - arithemetic operators associate left to right
@@ -27,6 +29,7 @@
   #+end_src
   result will be ~2~.
 - unary operator associate right to left (like ~*~, ~++~, ~--~)
+- strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault
 
 place holder.
 
@@ -394,5 +397,105 @@ void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
 }
 #+end_src
 
+* Input and Output
+
+** Standard Input and Output
+*** Input redirection
+In many environments, a file may be substituted for the keyboard as the source of standard input by using the ~<~ convention for input redirection. For example, we have following code:
+#+begin_src c
+#include <stdio.h>
+
+int main() {
+  char c;
+  while ((c = getchar()) != EOF)
+    printf("%c", c);
+
+  return 0;
+}
+#+end_src
+When we call the program, we use ~<~ to redirect standard input with a file:
+#+BEGIN_EXAMPLE
+$ ./a.out < out.txt
+#+END_EXAMPLE
+the effect of this program is to print all content in ~out.txt~ to standard output.
+*** Output redirection
+We can also redirect a program's standard output to a file. We use ~>~ convention to do it, the syntax is:
+#+BEGIN_EXAMPLE
+$./a.out > result.txt
+#+END_EXAMPLE
+in this way, all standard output of ~a.out~ will be redirected to file ~result.txt~. The file will be created if not exist.
+
+Output produced by ~putchar()~ and ~printf()~ are the same, they will both finds its way to the standard output.
+*** Pipe between two programs
+It is possible to use one program's standard output as another program's standard input:
+#+BEGIN_EXAMPLE
+$./prog1 | ./prog2
+#+END_EXAMPLE
+the above line puts the standard output of ~prog1~ into the standard input of ~prog2~.
+
+*** Include header file
+When you include a file with brackets ~<>~, the compiler will search the header in a standard set of places (typically: ~/usr/include~).
+
+*** Macros in standard library
+"Functions" like ~getchar~ and ~putchar~ in ~<stdio.h>~, and ~tolower~ in ~<ctype.h>~ are often macros, thus avoiding the overhead of a function call per character.
+
+*** Formatted output: printf
+p167 on textbook. A table of ~printf()~'s conversion characters are shown in table 7-1 in the book (p168).
+
+A width or precision may be specified as ~.*~, the value is computed by converting the next argument (which must be an ~int~). For example:
+#+begin_src c
+int main(int argc, char* argv[]) {
+  char* s = "abcdefg";
+  int length = 4;
+  printf("%.*s\n", length, s);
+  return 0;
+}
+#+end_src
+the above program printed the first ~length~ characters in string ~s~. Don't forget the dot before ~*~.
+
+*** Function ~sprintf()~
+This function does the same conversions as ~printf()~. It accepts a ~char* string~ argument, and will place the result in ~string~ instead of to the standard output. ~string~ must big enough to receive the result.
+
+** Variable-length Argument Lists
+This section will use an implementation of a minimal version of ~printf()~ to show how to write a function that processes a Variable-length argument list in a portable way.
+
+*** Declare a function that takes varying amounts of arguments
+To declare a function whose argument number is not fixed (which may vary), we do:
+#+begin_src c
+void miniPrintf(char* format, ...)
+#+end_src
+the declaration ~...~ means that the number and types of these arguments may vary. It can only appear at the end of a list of named argument (there must be at least one named argument).
+
+*** Traverse the argument list
+The standard header ~<stdarg.h>~ contains a set of macro definitions that define how to step through an argument list. To build functions that takes varying amounts of arguments, you have to include ~<stdarg.h>~.
+
+**** Type ~va_list~
+A data type named ~va_list~ is defined in ~<stdarg.h>~. We declare a variable of this type, then use this variable to refer to each unnamed argument passed in the function. It works like a pointer. For example, we can have following declaration:
+#+begin_src c
+#include <stdarg.h>
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+#+end_src
+
+**** Macro ~va_start~
+Now ~ap~ is an object of type ~va_list~. How to use it to actually point to the unnamed arguments? We begin by using a macro named ~va_start~. After declaring ~ap~, we call this macro to "initiate" ~ap~:
+#+begin_src c
+#include <stdarg.h>
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+#+end_src
+~va_start()~ "accepts" two tokens. The first one is the ~va_list~ type variable which will be used to refer to unnamed arguments in turn, here we use ~ap~. The second one should be the *LAST* named argument from the function call. ~va_start~ will use this to locate the beginning of unnamed argument. After this line, ~ap~ will be referring to the first unnamed argument.
+
+But how could we "retrieve" the unnamed argument being referred by ~ap~ and move to next argument?
+
+**** Macro ~va_arg~
+~va_arg~ is a macro defined in ~<stdarg.h>~.
 
 
+* Place Holder

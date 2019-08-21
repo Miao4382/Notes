@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{for} \PYG{p}{(}\PYG{n}{p} \PYG{o}{=} \PYG{n}{format}\PYG{p}{;} \PYG{o}{*}\PYG{n}{p}\PYG{p}{;} \PYG{n}{p}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{p} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}\PYGZpc{}\PYGZsq{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{putchar}\PYG{p}{(}\PYG{o}{*}\PYG{n}{p}\PYG{p}{);}
+    \PYG{k}{continue}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{c+c1}{// do things when \PYGZsq{}\PYGZpc{}\PYGZsq{} is found}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

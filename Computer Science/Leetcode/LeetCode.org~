@@ -1423,10 +1423,22 @@ public:
   }
 };
 #+end_src
-*** todos [/]
-- [ ] think about other solution (use about 30 min)
+*** todos [1/3]
+- [X] think about other solution (use about 30 min)
 - [ ] read discussion and contemplate other solution
-- [ ] generalize the problem 
+- [ ] generalize the problem
+** 198. House Robber
+*** Problem Statement
+[[https://leetcode.com/problems/house-robber/][Link]]
+*** Analysis
+
+*** Solution
+
+*** todos [0/4]
+- [ ] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 206. Reverse Linked List
 *** Problem Statement
 [[https://leetcode.com/problems/reverse-linked-list/][Link]]
@@ -1820,6 +1832,147 @@ public:
 - [X] write down your solution and analysis
 - [ ] check discussion page, work on that
 - [ ] generalize the problem
+** 406. Queue Reconstruction by Height
+*** Problem Statement
+[[https://leetcode.com/problems/queue-reconstruction-by-height/][Link]]
+*** Analysis
+**** Swap person in the queue
+The idea is similar with bubble sort. We traverse the array, for each person, we determine whether it needs swap or not. A person needs swap means, the number of people with equal or greater height than this person before it is different from the corresponding number indicated by this person. For example:
+#+BEGIN_EXAMPLE
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+#+END_EXAMPLE
+The first person says its height is 7, and there are 0 person infront of it has a height greater or equal 7. This is true, this person doesn't need swap. Then we go to the next person, which is ~[4,4]~. It says the person's height is 4 and there should be 4 persons in front of it whose height is at least 4. This is not the case, so person ~[4,4]~ needs to swap.
+
+If the counted number is lower than the indicated number, we should move the current person forward, otherwise, we move the current person backward. To swap, we traverse forward or backward to determine the final position of where should we swap to. Then we do the swap. Take above array as example, we need to swap backward, and ~[7,1], [5,0], [6,1]~ are all having a height equal or greater than ~[4,4]~, so we swap ~[4,4]~ and ~[6,1]~. Then we marked this round has been swapped.
+
+We keep scanning and swapping the array until a run has not swapped, which means each person is at the right position.
+
+*[?]*The time complexity of a single run is \(O(N^2)\), plus additional costs to run until no swapped happened during a run.
+**** Place person to the right position directly
+From hint 1:
+#+BEGIN_QUOTE
+What can you say about the position of the shortest person? 
+If the position of the shortest person is i, how many people would be in front of the shortest person?
+#+END_QUOTE
+
+From hint 2:
+#+BEGIN_QUOTE
+Once you fix the position of the shortest person, what can you say about the position of the second shortest person?
+#+END_QUOTE
+
+The idea is to put each person directly into the final position. We need an empty array to start working with, declare one named ~rp[]~. Assume a person is ~[a,b]~. It means the person's height is ~a~, and there should be ~b~ persons with a height greater or equal to ~a~. If this person is the shortest person, we can directly place it at ~rp[b]~. Why? because there are ~b~ empty slots in front of this slot, and since this person is the shortest person, any other person placed in these slots have a height higher than the shortest person.
+
+When we place the rest of the persons ~[a,b]~, we must be aware that ~rp[b]~ might not be the final position, because we don't know the number of person with greater or equavalent height of that person in front of this person, so we must count from ~rp[0]~, until we have met enough slots that:
+1. is empty (which means in future a valid person will be placed here)
+2. contains a person with valid height
+The slots found by this way may not be used because it might be occupied by other person. So we must navigate the array until we find the first empty slot.
+
+To be familiar with this algorithm, try to work out the following example (already sorted):
+#+BEGIN_EXAMPLE
+[[3,4],[4,0],[5,2],[7,1],[8,1],[9,0]]
+#+END_EXAMPLE
+
+Time complexity: sort the array takes \(O(N\log{N}})\). When inserting each person, we may take upto \(O(k)\) time to count and find an available slot, where \(k\) is the current number of empty or "shorter" slots in the array. Thus the total time complexity is \(O(N^2)\).
+*** Solution
+**** C++
+***** swap
+#+begin_src c++
+class Solution {
+public:
+  vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    // check empty 
+    if (people.empty())
+      return people;
+    
+    bool swapped = true;
+    int size = people.size();
+    int count;
+    int swap_index;
+    
+    while (swapped) {
+      swapped = false;
+      for (int i = 0; i < size; i++) {
+        count = 0;
+        // count # of people who has greater or equal height with people[i]
+        for (int j = 0; j < i; j++)
+          if (people[j][0] >= people[i][0])
+            count++;
+        
+        // check count 
+        if (count > people[i][1]) {
+          swap_index = i;
+          while (count > people[i][1]) {
+            swap_index--;
+            if (people[swap_index][0] >= people[i][0])
+              count--;
+          }
+          swap(people[swap_index], people[i]);
+          swapped = true;
+        }
+        
+        else if (count < people[i][1]) {
+          swap_index = i;
+          while (count < people[i][1]) {
+            swap_index++;
+            if (people[swap_index][0] >= people[i][0])
+              count++;
+          }
+          swap(people[swap_index], people[i]);
+          swapped = true;
+        }        
+      }
+    }
+    
+    // when while loop terminates, no swap happened, all people in position
+    return people;
+  }
+};
+#+end_src
+***** place person direcly into final position
+#+begin_src c++
+class Solution {
+public:
+  // comparing functors used by sort()
+  struct Comp {
+    bool operator()(const vector<int>& a, const vector<int>& b) const {
+      if (a[0] == b[0])
+        return a[1] < b[1];
+      
+      return a[0] < b[0];
+    }
+  };
+  
+  vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    // sort people 
+    sort(people.begin(), people.end(), Comp());
+    
+    // create another array and initialize
+    int size = people.size();
+    vector<vector<int>> rp(size);
+    for (int i = 0; i < size; i++) rp[i] = { -1, -1 };
+    int count;
+    int j;
+    
+    // put each people to right position
+    for (int i = 0; i < size; i++) {
+      for (j = 0, count = 0; count < people[i][1]; j++)  // count valid slots
+        if (rp[j][0] == -1 && rp[j][1] == -1 || rp[j][0] >= people[i][0])
+          count++;
+      while(!(rp[j][0] == -1 && rp[j][1] == -1))  // move to next empty slot
+        j++;
+      rp[j] = people[i];
+    }
+    
+    return rp;
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] read solution and work on that
+- [ ] generalize this problem
 ** 412. Fizz Buzz
 *** Problem Statement
 [[https://leetcode.com/problems/fizz-buzz/][Link]]
@@ -2757,6 +2910,130 @@ class Solution:
 - [X] check solution page and re-implement them
   - [X] Group by character
   - [X] Linear scan
+** 739. Daily Temperature
+*** Problem Statement
+[[https://leetcode.com/problems/daily-temperatures/][Link]]
+*** Analysis
+**** Brutal force (time limit exceeded)
+This solution is not accepted due to high time complexity. For each temperature, we scan the rest temperatures and find out the first one that is higher than it, then we compute the distance between these two. If none found, the distance is set to 0.
+
+The time complexity is \(O(N^2)\).
+**** Record information (accepted, very slow)
+In the brutal force, we have missed much information. We can, however, use an initial scan to hold the information that the indexes of temperatures that are higher than a certain temperature. We do it as follows:
+
+Declare a 2D array temp[i][j], there are 71 entrys of temp[i], corresponding to the temperature range[30, 100]. Each temp[i] is a vector of int, which stores the index of temperatures in T[] that are higher than value i.
+
+After we obtain such 2D array, we scan T, for each encountered temperature (T[i]), we traverse temp[T[i]], temp[T[i]] is a vector holding indexes that has higher temperature than T[i], we compare each temp[T[i]][j], and find out the first index that temp[T[i]][j] > i, the distance between these two are the value we are looking for. If none exist, the value should be 0.
+
+In implementation, we only allocate 71 slots for temp[][] to record temperatures. So the relation between index and temperature should be:
+#+BEGIN_EXAMPLE
+index       temperature
+  0             30
+  1             31
+       ......
+  71            100  
+#+END_EXAMPLE
+
+This solution is also very slow. The time complexity for building the 2D array is \(O(71N)\), the time complexity for searching appropriate index is unfortunately, still \(O(N^2)\) for extreme cases.
+
+One point we can optimize is when we searching the 2D array, we use binary search instead of linear search. This can increase the speed to an acceptable range (be accepted as a solution), but it is still *VERY SLOW*. The time complexity of this part using binary search is: \(N\log{N}\).
+**** SOL. Next array
+This method is inspired by solution: next array. In the record information method, we recorded the appearing index of each temperature. However, after a closer look you'll find that it is not necessary to keep all that information (not to say we have to search the first larger index!). In fact, we can process the array in reverse order. We still have to keep the record of temperature and their appearing index, but since we are processing in a reverse order, we only need to keep the last appearing index from the end. When we are dealing with a temperature, all we care is the first appearing index after that temperature, so that's all we need to record. And we can build this record and analyze each slot in one run.
+
+Don't need to use a hash table since each temperature ~[30,100]~ is unique, so we can use it directly.
+*** Solution
+**** C++
+***** brutal force (time limit exceeded)
+#+begin_src c++
+vector<int> dailyTemperatures(vector<int>& T) {
+  
+  vector<int> counts;
+  int count;
+  
+  for (int i = 0; i < T.size(); i++) {
+    count = 0;
+    
+    for (int j = i + 1; j < T.size(); j++) 
+      if (T[j] > T[i]) {
+        count = j - i;
+        break;
+      }
+    
+    counts.push_back(count);
+  }
+  
+  return counts;
+  
+}
+
+#+end_src
+***** record information (binary search, accepted, very slow)
+#+begin_src c++
+vector<int> dailyTemperatures(vector<int>& T) {
+  // build the temp[][] 2D record array 
+  vector<vector<int>> temp(71);
+  for (int i = 0; i < T.size(); i++)
+    for (int j = 0; j < T[i] - 30; j++)
+      temp[j].push_back(i);
+  
+  // find out answer
+  vector<int> ret(T.size());
+  int count;
+
+  for (int i = 0; i < ret.size(); i++) {
+    count = 0;
+    
+    for (int j = 0; j < temp[T[i] - 30].size(); j++)
+      if (i < temp[T[i] - 30][j]) {
+        count = temp[T[i] - 30][j] - i;
+        break;
+      }
+    ret[i] = count;
+  }
+  
+  return ret;
+}
+
+#+end_src
+***** next array
+#+begin_src c++
+/*Notes: 
+Inspired by sol-next array
+use array instead of hash table to store the next occurence of a temperature (faster?)
+*/
+class Solution {
+public:
+  vector<int> dailyTemperatures(vector<int>& T) {
+    // initialize the temperature table
+    int temp[71];
+    for (int i = 0; i < 71; i++)
+      temp[i] = -1;
+    
+    // iterate from the back
+    int size = T.size();
+    vector<int> ret(size);
+    int count;
+    for (int i = size - 1; i >= 0; --i) {
+      count = size + 1;
+      for (int j = T[i] + 1; j <= 100; j++)
+        if (temp[j - 30] != -1 && count > temp[j - 30] - i)
+          count = temp[j - 30] - i;
+      
+      ret[i] = (count == size + 1) ? 0 : count;
+      temp[T[i] - 30] = i;
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [-] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [X] next array
+  - [ ] stack
+- [ ] generalize this problem
 ** 771. Jewels and Stones
 *** Problem Statement
 [[https://leetcode.com/problems/jewels-and-stones/][Link]]

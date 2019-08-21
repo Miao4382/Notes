@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}define getchar() getc(stdin)}
+\PYG{c+cp}{\PYGZsh{}define putchar(c) putc((c), stdout)}
+\end{Verbatim}
