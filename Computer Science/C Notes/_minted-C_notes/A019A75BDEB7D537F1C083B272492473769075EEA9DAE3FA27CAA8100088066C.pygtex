@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
+
+\PYG{k+kt}{void} \PYG{n+nf}{error}\PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{format}\PYG{p}{,} \PYG{p}{...)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{va\PYGZus{}list} \PYG{n}{args}\PYG{p}{;}
+  \PYG{n}{va\PYGZus{}start}\PYG{p}{(}\PYG{n}{args}\PYG{p}{,} \PYG{n}{format}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

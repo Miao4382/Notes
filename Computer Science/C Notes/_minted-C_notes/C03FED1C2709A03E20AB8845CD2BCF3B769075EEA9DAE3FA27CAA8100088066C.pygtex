@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{vfprintf}\PYG{p}{(}\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{fp}\PYG{p}{,} \PYG{k}{const} \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{format}\PYG{p}{,} \PYG{k+kt}{va\PYGZus{}list} \PYG{n}{arg}\PYG{p}{);}
+\end{Verbatim}

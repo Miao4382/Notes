@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}  // for exit() function}
+
+\PYG{k+kt}{void} \PYG{n+nf}{error}\PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{format}\PYG{p}{,} \PYG{p}{...)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{va\PYGZus{}list} \PYG{n}{args}\PYG{p}{;}  \PYG{c+c1}{// for retrieving arguments}
+  \PYG{n}{va\PYGZus{}start}\PYG{p}{(}\PYG{n}{args}\PYG{p}{,} \PYG{n}{format}\PYG{p}{);}  \PYG{c+c1}{// initialize args}
+
+  \PYG{c+c1}{// print error messages}
+  \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}error: \PYGZdq{}}\PYG{p}{);}
+  \PYG{n}{vfprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{n}{format}\PYG{p}{,} \PYG{n}{args}\PYG{p}{);}
+  \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+  \PYG{c+c1}{// call exit() to stop the program}
+  \PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}fcntl.h\PYGZgt{}}
+
+\PYG{k+kt}{int} \PYG{n}{fd}\PYG{p}{;}  \PYG{c+c1}{// to hold file descriptor}
+\PYG{k+kt}{char} \PYG{n}{name}\PYG{p}{[]} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}abc.txt\PYGZdq{}}\PYG{p}{;}  \PYG{c+c1}{// the file name}
+\PYG{n}{fd} \PYG{o}{=} \PYG{n}{open}\PYG{p}{(}\PYG{n}{name}\PYG{p}{,} \PYG{n}{O\PYGZus{}RDONLY}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\end{Verbatim}

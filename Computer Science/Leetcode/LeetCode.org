@@ -360,6 +360,293 @@ public:
 *** todos [1/2]
 - [X] write down your solution and analysis
 - [ ] check solution
+** 62. Unique Paths
+*** Problem Statement
+[[https://leetcode.com/problems/unique-paths/][Link]]
+*** Analysis
+**** Recursion (top-down)
+The robot can only travel down or right, one step at a time. The final goal is at ~m × n~, the robot starts at ~1 × 1~. So it has to go ~m - 1~ in right direction, ~n - 1~ in down direction to reach the final goal.
+
+The last step to the final goal could be a moving-right step or a moving-down step. So, the total number of unique paths to reach ~(m, n)~ is:
+#+begin_src c++
+uniquePath(m, n) = uniquePath(m - 1, n) + uniquePath(m, n - 1);
+#+end_src
+
+~uniquePath(m - 1, n)~ is the number of ways to reach ~(m - 1, n)~, then do a moving-down to reach ~(m, n)~.
+
+~uniquePath(m, n - 1)~ is the number of ways to reach ~(m, n - 1)~, then do a moving-right to reach ~(m, n)~.
+
+The base case is when ~m == 1~ or ~n == 1~, because this means the number of ways to reach to goal in a one dimensional grid. When ~m == 1~, the robot can't move right. When ~n == 1~, the robot can move down. So there is only one possible path. In this case, we return 1.
+
+The recursion method will calculate redundant terms. For example, when calculating ~uniquePath(m - 1, n) + uniquePath(m, n - 1)~, we are calling ~uniquePath(m - 1, n - 1)~ twice.
+**** Recursion (top-down with bookkeeping by 2D array)
+The first recursion method does a lot of unnecessary redundant calculations. We can avoid this by recording each calculated result. Before calling function recursively to get the result, we first look for the value if it is calculated. If not, we call recursive function to calculate.
+
+For a 2D grid, we need a 2D array ~p~ to record results. ~p[i][j]~ means the unique ways to reach ~(i, j)~.
+**** Iteration (bottom-up with bookkeeping by 2D array)
+To avoid the recursive stack, we can approach the problem in an iterative way. The reason why we need to call recursive function to calculate ~uniquePath(m, n)~ is, when we need ~uniquePath(m, n)~, ~uniquePath(m - 1, n)~ and ~uniquePath(m, n - 1)~ is not ready. We can first calculate them before we need ~uniquePath(m, n)~.
+
+We still use a 2D array ~p~ to keep all the intermediate result.
+
+The number of unique ways to reach ~(i, j)~ is the number of unique ways to reach ~(i - 1, j)~ plus the number of unique ways to reach ~(i, j - 1)~, this is illustrated below:
+#+BEGIN_EXAMPLE
+   p2
+
+p1 p
+
+p = p1 + p2
+#+END_EXAMPLE
+For each row (iterate each row), we calculate the unique ways to reach each slot (iterate each column in each row), and record that number. So, in the above illustration, if ~p~ is at slot ~(i,j)~, then ~p2 == p[i-1][j]~, ~p1 == p[i][j - 1]~. When ~i == 1~ or ~j == 1~, ~p[i][j] == 1~.
+
+In this way, we can calculate the intermediate result in a bottom-up fashion.
+**** Iteration (bottom-up with bookkeeping by 1D array)
+Take a closer look at the 2D bookkeeping array in the above example, we find that when we calculate the path number at certain slot ~x~, we are only using the last calculated row (shown in ~o~) and the previous calculated value (~p~), as shown below:
+#+BEGIN_EXAMPLE
+••••••••••
+ooooOooooo
+•••px•••••
+x = p + O
+#+END_EXAMPLE
+Thus, we can use a 1D array to keep the information. After we calculate ~x~, we update the value in the 1D array so we can use when we calculate path number in the next row. Furthermore, after we update, the previous calculated value (~p~) is just this value:
+#+BEGIN_EXAMPLE
+••••••••••
+••••••••••   
+••••x•••••
+x = p + O    ooopOooooo (bookkeeping 1D array)
+O = x  (O now is set to the just-calculated value, x)
+#+END_EXAMPLE
+
+The base case when ~i == 1~ or ~j == 1~ can be considered by initializing the bookkeeping array with 1 (check the evolving solution code for details).
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+class Solution {
+public:
+  int uniquePaths(int m, int n) {
+    // base case 
+    if (m == 1 || n == 1)
+      return 1;
+    
+    return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+  }
+};
+#+end_src
+***** recursion (with bookkeeping by 2D array)
+#+begin_src c++
+#define dimension 101
+class Solution {
+public:
+  /* const int dimension = 101; */
+  
+  int count(int m, int n, int p[dimension][dimension]) {
+    // base case
+    if (m == 1 || n == 1) {
+      p[m][n] = 1;
+      return 1;
+    }
+    
+    // check if result has been calculated
+    if (p[m - 1][n] == -1)
+      p[m - 1][n] = count(m - 1, n, p);
+    if (p[m][n - 1] == -1)
+      p[m][n - 1] = count(m, n - 1, p);
+    
+    return p[m - 1][n] + p[m][n - 1];
+  }
+  
+  int uniquePaths(int m, int n) {
+    // initialize 2D array
+    int p[dimension][dimension];
+    for (int i = 0; i < dimension; i++)
+      for (int j = 0; j < dimension; j++)
+        p[i][j] = -1;
+    
+    return count(m, n, p);
+  }
+};
+#+end_src
+***** iterative (with bookkeeping by 2D array)
+#+begin_src c++
+#define dimension 101
+class Solution {
+public: 
+  int uniquePaths(int m, int n) {
+    // initialize 2D array
+    int p[dimension][dimension];
+    
+    // bottom up counting
+    for (int i = 1; i <= m; i++)
+      for (int j = 1; j <= n; j++)
+        if (i == 1 || j == 1)
+          p[i][j] = 1;
+        else
+          p[i][j] = p[i - 1][j] + p[i][j - 1];
+    
+    return p[m][n];
+  }
+};
+#+end_src
+***** iterative (with bookkeeping by 1D array)
+#+begin_src c++
+#define DIMENSION 100
+class Solution {
+public: 
+  int uniquePaths(int m, int n) {
+    // initialize 1D array
+    int p[DIMENSION];
+    for (int i = 0; i < DIMENSION; i++)
+      p[i] = 1;
+    
+    // bottom up counting
+    for (int i = 1; i < n; i++)
+      for (int j = 1; j < m; j++)
+        p[j] += p[j - 1];
+    
+    return p[m - 1];
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] read Li Jianchao's post
+  
+- [ ] generalize this problem
+** 64. Minimum Path Sum
+*** Problem Statement
+[[https://leetcode.com/problems/minimum-path-sum/][Link]]
+*** Analysis
+**** Recursion (no bookkeeping)
+At each block, you can move right (except the last column) or move down (except the last row). After moving, you can call the function again to calculate the new minSum of the remaining grid resulted from your choice. We need a helper function which accepts the ~grid~, and two integer parameters ~row~ and ~col~ to indicate the current grid.
+
+There 2 base cases for the recursion function:
+1. we reached the last column. Since we can't move right any more, we just move to the last row and calculate the path sum and return.
+2. we reached the last row. Since we can't move down any more, we just move to the last column and calculate the path sum and return.
+
+Otherwise, we call function recursively to see which direction gives us smaller sum. This method will calculate redundant sub-grids. For example:
+#+BEGIN_EXAMPLE
+|1|3|1|
+|1|5|1|
+|4|2|1|
+move right: minSum = 1 + |3|1|
+                         |5|1|
+                         |2|1|
+                         
+move down: minSum = 1 + |1|5|1|
+                        |4|2|1|
+                        
+
+grid |5|1| is calculated twice.
+     |2|1|
+
+#+END_EXAMPLE
+we are at slot 1. We can either chose moving right or down. The subsequent calculation is shown above, with redundant calculation.
+**** Recursion (bookkeeping)
+To avoid redundant calculation, we use a 2D vector to hold the calculated value. Before invoking recursive function to get some value, we check this 2D vector to see if that value is calculated or not. We update this 2D array after each calculation. This can effectively prevent redundant calculation. The space complexity is ~m × n~.
+**** Iterative (bookkeeping using original array)
+The iterative way is build the min path sum array in a bottom-up way. Notice that we can use the given 2D vector to do the bookkeeping. Just alter the value in a slot, so the value in slot becomes the minimum path sum to reach that slot. We iterate each row, for each row, we iterate each column.
+
+The space complexity is \(O(1))\), Time complexity is \(O(M \times N)\).
+
+*** Solution
+**** C++
+***** recursion (no bookkeeping)
+#+begin_src c++
+class Solution {
+public:
+  int minSum(vector<vector<int>>& grid, int row, int col) {
+    // base case 1: can't move right
+    if (col == grid[0].size() - 1) {
+      int sum = 0;
+      for (int i = row; i < grid.size(); i++)
+        sum += grid[i][col];
+      return sum;
+    }
+    
+    // base case 2: can't move down
+    if (row == grid.size() - 1) {
+      int sum = 0;
+      for (int i = col; i < grid[0].size(); i++)
+        sum += grid[row][i];
+      return sum;
+    }
+    
+    // can move right or down 
+    return grid[row][col] + min(minSum(grid, row + 1, col), minSum(grid, row, col + 1));
+  }
+  
+  int minPathSum(vector<vector<int>>& grid) {
+    return minSum(grid, 0, 0);
+  }
+};
+#+end_src
+***** recursion (bookkeeping)
+#+begin_src c++
+class Solution {
+public:
+  int minSum(vector<vector<int>>& grid, int row, int col, vector<vector<int>>& val) {
+    // check if val[row][col] is calculated or not
+    if (val[row][col] != -1)
+      return val[row][col];
+    
+    // base case 1: can't move right
+    if (col == grid[0].size() - 1) {
+      val[row][col] = 0;
+      for (int i = row; i < grid.size(); i++)
+        val[row][col] += grid[i][col];      
+      return val[row][col];
+    }
+    
+    // base case 2: can't move down
+    if (row == grid.size() - 1) {
+      val[row][col] = 0;
+      for (int i = col; i < grid[0].size(); i++)
+        val[row][col] += grid[row][i];
+      return val[row][col];
+    }
+    
+    // can move right or down
+    val[row][col] = grid[row][col] + min(minSum(grid, row + 1, col, val), minSum(grid, row, col + 1, val));
+    return val[row][col];
+  }
+  
+  int minPathSum(vector<vector<int>>& grid) {
+    // initialize a value grid to hold calculated value
+    vector<vector<int>> val(grid.size(), vector<int>(grid[0].size(), -1));
+    
+    return minSum(grid, 0, 0, val);
+  }
+};
+#+end_src
+***** iterative (bookkeeping)
+#+begin_src c++
+class Solution {
+public:
+  int minPathSum(vector<vector<int>>& grid) {
+    // calculate first row and first col 
+    for (int i = 1; i < grid.size(); i++)
+      grid[i][0] = grid[i - 1][0] + grid[i][0];
+    
+    for (int i = 1; i < grid[0].size(); i++)
+      grid[0][i] = grid[0][i - 1] + grid[0][i];
+    
+    // calculate min sum to reach each block
+    for (int i = 1; i < grid.size(); i++)
+      for (int j = 1; j < grid[0].size(); j++)
+        grid[i][j] = grid[i][j] + min(grid[i - 1][j], grid[i][j - 1]);
+    
+    return grid[grid.size() - 1][grid[0].size() - 1];
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 70. Climbing Stairs
 *** Problem Statement
 [[https://leetcode.com/problems/climbing-stairs/][Link]]
@@ -2733,6 +3020,51 @@ class Solution:
         return result
 #+end_src
 However, this algorithm is exactly the same as C++'s first version. Why such huge speed variance?
+** 476. Number Complemen
+*** Problem Statement
+[[https://leetcode.com/problems/number-complement/][Link]]
+*** Analysis
+**** bit manipulation (my solution)
+The complement is the set negation of the number. But all leading zeros in the binary form is changed into one, you have to use a mask to get rid of them. Example:
+#+BEGIN_EXAMPLE
+ 5: ...000000 101
+~5: ...111111 010
+ 2: ...000000 010
+#+END_EXAMPLE
+We use a ~mask~ initialized as =~0=, then for each leading zero in ~num~, we set bit in corresponding position in ~mask~ as 0. This process is repeated until we encounter the first non-zero bit in ~num~, then the ~mask~ would be:
+#+BEGIN_EXAMPLE
+   5: ...000000 101
+  ~5: ...111111 010
+mask: ...000000 111
+   2: ...000000 010
+#+END_EXAMPLE
+Then, we just simplily do a set intersection between =~num= and ~mask~, to get the complement of ~num~.
+
+Time complexity: \(O(1)\). The input is just one integer, at most 32 bit has to traverse. So the time complexity is constant.
+*** Solution
+**** C++
+***** bit manipulation (my solution)
+#+begin_src c++
+class Solution {
+public:
+  int findComplement(int num) {
+    int mask = ~0;
+    int bit = 1 << 31;
+    
+    while (!(num & bit)) {
+      mask &= ~bit;
+      bit >>= 1;
+    }
+    
+    return (~num) & mask;
+  }
+};
+#+end_src
+*** todos [3/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [X] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 477. Total Hamming Distance
 *** Problem Statement
 [[https://leetcode.com/problems/total-hamming-distance/][Link]]
@@ -3197,7 +3529,6 @@ This is higher than \(O(N^2(\log{N})^3)\), lower than \(O(N^2(\log{N})^4)\).
 
 
 
-
 *** Solution
 
 *** todos [2/4]
@@ -3655,6 +3986,68 @@ class Solution:
 - [ ] check solution/discussion page for more ideas
 - [ ] implement them, and write down corresponding analysis
 - [ ] time complexity of these Solutions
+- [ ] generalize this problem
+** 876. Middle of the Linked List
+*** Problem Statement
+[[https://leetcode.com/problems/middle-of-the-linked-list/][Link]]
+*** Analysis
+**** Use an array to hold each node
+We iterate the linked list and keep each node in a vector, then we return the middle one directly. Time complexity: \(O(N)\), space complexity: \(O(N)\).
+**** Iterate twice
+We iterate the linked list to get the size, then we iterate again to get the middle node. Time complexity: \(O(N)\), space complexity: \(O(1)\).
+**** Fast and slow pointer (from solution)
+
+*** Solution
+**** C++
+***** use array to hold each node
+#+begin_src c++
+class Solution {
+public:
+  ListNode* middleNode(ListNode* head) {
+    if (head == nullptr)
+      return nullptr;
+    
+    vector<ListNode*> list;
+    while (head != nullptr) {
+      list.push_back(head);
+      head = head->next;
+    }
+    
+    return list[list.size() / 2];
+  }
+};
+#+end_src
+***** iterate twice
+#+begin_src c++
+class Solution {
+public:
+  ListNode* middleNode(ListNode* head) {
+    if (head == nullptr)
+      return head;
+    
+    // get size of linked list
+    int size = 0;
+    ListNode* temp = head;
+    while (temp != nullptr) {
+      size++;
+      temp = temp->next;
+    }
+    
+    // get middle node
+    temp = head;
+    int middle = size / 2;
+    while (middle-- != 0)
+      temp = temp->next;
+    
+    return temp;
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] fast and slow pointer 
 - [ ] generalize this problem
 ** 929. Unique Email Addresses
 *** Problem Statement

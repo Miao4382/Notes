@@ -360,6 +360,161 @@ public:
 *** todos [1/2]
 - [X] write down your solution and analysis
 - [ ] check solution
+** 62. Unique Paths
+*** Problem Statement
+[[https://leetcode.com/problems/unique-paths/][Link]]
+*** Analysis
+**** Recursion (top-down)
+The robot can only travel down or right, one step at a time. The final goal is at ~m × n~, the robot starts at ~1 × 1~. So it has to go ~m - 1~ in right direction, ~n - 1~ in down direction to reach the final goal.
+
+The last step to the final goal could be a moving-right step or a moving-down step. So, the total number of unique paths to reach ~(m, n)~ is:
+#+begin_src c++
+uniquePath(m, n) = uniquePath(m - 1, n) + uniquePath(m, n - 1);
+#+end_src
+
+~uniquePath(m - 1, n)~ is the number of ways to reach ~(m - 1, n)~, then do a moving-down to reach ~(m, n)~.
+
+~uniquePath(m, n - 1)~ is the number of ways to reach ~(m, n - 1)~, then do a moving-right to reach ~(m, n)~.
+
+The base case is when ~m == 1~ or ~n == 1~, because this means the number of ways to reach to goal in a one dimensional grid. When ~m == 1~, the robot can't move right. When ~n == 1~, the robot can move down. So there is only one possible path. In this case, we return 1.
+
+The recursion method will calculate redundant terms. For example, when calculating ~uniquePath(m - 1, n) + uniquePath(m, n - 1)~, we are calling ~uniquePath(m - 1, n - 1)~ twice.
+**** Recursion (top-down with bookkeeping by 2D array)
+The first recursion method does a lot of unnecessary redundant calculations. We can avoid this by recording each calculated result. Before calling function recursively to get the result, we first look for the value if it is calculated. If not, we call recursive function to calculate.
+
+For a 2D grid, we need a 2D array ~p~ to record results. ~p[i][j]~ means the unique ways to reach ~(i, j)~.
+**** Iteration (bottom-up with bookkeeping by 2D array)
+To avoid the recursive stack, we can approach the problem in an iterative way. The reason why we need to call recursive function to calculate ~uniquePath(m, n)~ is, when we need ~uniquePath(m, n)~, ~uniquePath(m - 1, n)~ and ~uniquePath(m, n - 1)~ is not ready. We can first calculate them before we need ~uniquePath(m, n)~.
+
+We still use a 2D array ~p~ to keep all the intermediate result.
+
+The number of unique ways to reach ~(i, j)~ is the number of unique ways to reach ~(i - 1, j)~ plus the number of unique ways to reach ~(i, j - 1)~, this is illustrated below:
+#+BEGIN_EXAMPLE
+   p2
+
+p1 p
+
+p = p1 + p2
+#+END_EXAMPLE
+For each row (iterate each row), we calculate the unique ways to reach each slot (iterate each column in each row), and record that number. So, in the above illustration, if ~p~ is at slot ~(i,j)~, then ~p2 == p[i-1][j]~, ~p1 == p[i][j - 1]~. When ~i == 1~ or ~j == 1~, ~p[i][j] == 1~.
+
+In this way, we can calculate the intermediate result in a bottom-up fashion.
+**** Iteration (bottom-up with bookkeeping by 1D array)
+Take a closer look at the 2D bookkeeping array in the above example, we find that when we calculate the path number at certain slot ~x~, we are only using the last calculated row (shown in ~o~) and the previous calculated value (~p~), as shown below:
+#+BEGIN_EXAMPLE
+••••••••••
+ooooOooooo
+•••px•••••
+x = p + O
+#+END_EXAMPLE
+Thus, we can use a 1D array to keep the information. After we calculate ~x~, we update the value in the 1D array so we can use when we calculate path number in the next row. Furthermore, after we update, the previous calculated value (~p~) is just this value:
+#+BEGIN_EXAMPLE
+••••••••••
+••••••••••   
+••••x•••••
+x = p + O    ooopOooooo (bookkeeping 1D array)
+O = x  (O now is set to the just-calculated value, x)
+#+END_EXAMPLE
+
+The base case when ~i == 1~ or ~j == 1~ can be considered by initializing the bookkeeping array with 1 (check the evolving solution code for details).
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+class Solution {
+public:
+  int uniquePaths(int m, int n) {
+    // base case 
+    if (m == 1 || n == 1)
+      return 1;
+    
+    return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+  }
+};
+#+end_src
+***** recursion (with bookkeeping by 2D array)
+#+begin_src c++
+#define dimension 101
+class Solution {
+public:
+  /* const int dimension = 101; */
+  
+  int count(int m, int n, int p[dimension][dimension]) {
+    // base case
+    if (m == 1 || n == 1) {
+      p[m][n] = 1;
+      return 1;
+    }
+    
+    // check if result has been calculated
+    if (p[m - 1][n] == -1)
+      p[m - 1][n] = count(m - 1, n, p);
+    if (p[m][n - 1] == -1)
+      p[m][n - 1] = count(m, n - 1, p);
+    
+    return p[m - 1][n] + p[m][n - 1];
+  }
+  
+  int uniquePaths(int m, int n) {
+    // initialize 2D array
+    int p[dimension][dimension];
+    for (int i = 0; i < dimension; i++)
+      for (int j = 0; j < dimension; j++)
+        p[i][j] = -1;
+    
+    return count(m, n, p);
+  }
+};
+#+end_src
+***** iterative (with bookkeeping by 2D array)
+#+begin_src c++
+#define dimension 101
+class Solution {
+public: 
+  int uniquePaths(int m, int n) {
+    // initialize 2D array
+    int p[dimension][dimension];
+    
+    // bottom up counting
+    for (int i = 1; i <= m; i++)
+      for (int j = 1; j <= n; j++)
+        if (i == 1 || j == 1)
+          p[i][j] = 1;
+        else
+          p[i][j] = p[i - 1][j] + p[i][j - 1];
+    
+    return p[m][n];
+  }
+};
+#+end_src
+***** iterative (with bookkeeping by 1D array)
+#+begin_src c++
+#define DIMENSION 100
+class Solution {
+public: 
+  int uniquePaths(int m, int n) {
+    // initialize 1D array
+    int p[DIMENSION];
+    for (int i = 0; i < DIMENSION; i++)
+      p[i] = 1;
+    
+    // bottom up counting
+    for (int i = 1; i < n; i++)
+      for (int j = 1; j < m; j++)
+        p[j] += p[j - 1];
+    
+    return p[m - 1];
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] read Li Jianchao's post
+  
+- [ ] generalize this problem
 ** 70. Climbing Stairs
 *** Problem Statement
 [[https://leetcode.com/problems/climbing-stairs/][Link]]
@@ -496,6 +651,163 @@ class Solution:
 - [X] write down your own solution and analysis
 - [ ] time complexity analysis of your solution
 - [ ] check discussion page for more solutions
+** 94. Binary Tree Inorder Traversal
+*** Problem Statement
+[[https://leetcode.com/problems/binary-tree-inorder-traversal/][Link]]
+*** Analysis
+**** Recursion
+For a given node, the inorder traversal is:
+- visit its left subtree
+- visit its own value
+- visit its right subtree
+
+We call the function recursively to visit its left and right subtree. In order to save space, we pass the result vector by reference. The base case is when the ~TreeNode~ pointer is ~nullptr~, for this case, we return directly. Otherwise, we call the function to traverse its left subtree first (the traversal result will be recorded in the vector), then add its own value to the vector, then call the function again to traverse its right subtree. We need to build a helper function to do the actual traversal.
+
+The time complexity of this method is \(O(N)\). Since the recursive function is: \(T(N) = 2\dot T(\frac{N}{2} + 1)\). (or we only visit each node once).
+**** Traversal using Stack (with book keeping visited nodes)
+We use a stack ~s~ to do a DFS traverse of the tree. A hash table will be used to record the visited nodes.
+
+We use a while loop to perform the traversal. The termination condition of the while loop is when the stack is empty (which means no more node to visit). Before the loop, we first push the root into the stack.
+
+Inside the loop, we check whether the left child of ~s~ exists or not. If it exists and it is not visited, we push it to the stack. Otherwise, it means the left branch of ~s.top()~ has been visited, we now record its value (~s.top()->val~) and pop it out of the stack. Then we check if its right subtree exists and not visited, if so, we push it into the stack.
+
+This algorithm requires additional space to hold the visiting record.
+**** Traversal using Stack (without book keeping visited nodes)
+In fact, we don't need to book keeping the visited nodes. Because we pushed each visited nodes in the stack. We use a ~TreeNode~ pointer ~curr~ to hold the next node we are going to push into the stack. Initially, ~curr = root~.
+
+The traversal while loop's stop condition is:
+1. the next node we are going to push into stack is ~nullptr~
+2. the stack is empty
+
+The first thing we do in this loop is to push all left subtree of ~curr~ into the stack, until we meet the left most node, we use a while loop to do this and update ~curr~ during each run:
+#+begin_src c++
+while (curr != nullptr) {
+  s.push(curr);
+  curr = curr->left;
+}
+#+end_src
+When this loop ends, ~curr~ is ~nullptr~, which is the left child of ~s.top()~. We record ~s.top()~'s value into the returning vector and pop it out of the stack (because it is already visited). Then we update ~curr~ so it points to right child of the previous ~s.top()~. Because after visiting the node, we should visit its right child, if there is any. These operations are shown below:
+#+begin_src c++
+// now curr == nullptr
+curr = s.top();
+ret.push_back(curr->val);
+s.pop();
+curr = curr->right;
+#+end_src
+Whether or not we push ~curr~ into the stack depends on wether or not its empty. This will be determined in the next run of the while loop. In this way, all tree nodes are visited.
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  void in(vector<int>& v, TreeNode* t) {
+    // check empty case 
+    if (t == nullptr)
+      return;
+    
+    // traverse left subtree
+    in(v, t->left);
+    
+    // record current node
+    v.push_back(t->val);
+    
+    // traverse right subtree 
+    in(v, t->right);
+  }
+  
+  vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> ret;
+    in(ret, root);
+    return ret;
+  }
+};
+#+end_src
+***** stack (use hash table to record visited nodes)
+#+begin_src c++
+class Solution {
+public:
+  
+  vector<int> inorderTraversal(TreeNode* root) {
+    if (root == nullptr)
+      return {};
+    
+    stack<TreeNode*> s;  // to hold TreeNode
+    s.push(root);
+    unordered_set<TreeNode*> visited;  // hold visited nodes
+    vector<int> ret;
+    TreeNode* temp;
+    
+    while(!s.empty()) {
+      if (s.top() -> left != nullptr && visited.find(s.top() -> left) == visited.end()) {
+        s.push(s.top() -> left);
+        visited.insert(s.top());
+      }
+
+      else {
+        ret.push_back(s.top() -> val);
+        temp = s.top() -> right;
+        s.pop();
+        if (temp != nullptr && visited.find(temp) == visited.end()) {
+          s.push(temp);
+          visited.insert(temp);
+        }
+      }
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+***** stack (no book keeping)
+#+begin_src c++
+class Solution {
+public:
+  
+  vector<int> inorderTraversal(TreeNode* root) {
+    if (root == nullptr)
+      return {};
+    
+    stack<TreeNode*> s;
+    vector<int> ret;
+    TreeNode* curr = root;
+    
+    while (curr != nullptr || !s.empty()) {
+      // trace to end of left subtree
+      while (curr != nullptr) {
+        s.push(curr);
+        curr = curr->left;
+      }
+      
+      // curr is now nullptr, s.top() has no left child
+      curr = s.top();
+      s.pop();    
+      ret.push_back(curr->val);
+      curr = curr->right;
+         
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [-] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [X] stack
+  - [ ] Morris traversal
+- [ ] generalize this problem
 ** 101. Symmetric Tree
 *** Problem Statement
 [[https://leetcode.com/problems/symmetric-tree/][Link]]
@@ -1431,9 +1743,306 @@ public:
 *** Problem Statement
 [[https://leetcode.com/problems/house-robber/][Link]]
 *** Analysis
+**** recursion I (book keeping sub-max profit)
+Intuitively, we can use recursion to solve this problem. Adjacent houses are not allowed to loot. Given a list of positive integers ~nums~, which represents the amount of money of each house, we can say that the max ammount loot way must be either including the first house or not including the first house. So, we just need to compare following two results:
+- ~nums[0] + rob(nums[2:])~
+- ~nums[1] + rob(nums[3:])~
+The base case is when the ~nums[]~ passed in has 3, 2, 1 or 0 house(s) left. We can determine the max value easily.
+
+This method is easy to understand, but it has a disadvantage. It will have many redundant calculation. For example, to calculate ~rob(nums[2:])~, we need to compare:
+- ~nums[2] + rob(nums[4:])~
+- ~nums[3] + rob(nums[5:])~
+To calculate ~rob(nums[3:])~, we need to compare:
+- ~nums[3] + rob(nums[5:])~
+-  ~nums[4] + rob(nums[6:])~
+We can see that we have calculated ~rob(nums[5:])~ twice.
+
+To improve this, we have to record what has been calculated. We can use a hash table to store the result of ~rob(nums[i:])~, which means the max profit we can get from looting the subarray ~nums[i:]~. The hashed key can be ~i~, and the value is the calculated profit.
+
+Each time before we recursively calling ~rob()~ to calculate a profit from looting a subarray, we first check whether this value has been calculated or not. If it is calculated, we use it directly, otherwise we calculate it and add to the hash table so future function call can use it, instead of calculating again.
+
+(In fact, we don't need to use a hash table, a simple array is enough)
+**** recursion II (cleaner, book keeping)
+The above recursion works from the begining to the end. We can think in different ways to approach this problem. [[https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-How-to-approach-most-of-DP-problems.][Reference]].
+
+When robbing house ~i~, the robber has two options:
+1. rob house ~i~
+2. don't rob house ~i~
+
+If choosing 1, the total profit is: ~rob(i - 2) + nums[i]~, where ~nums[i]~ is the profit of robbing house ~i~, ~rob(i - 2)~ is the maximum profit gained from robbing previous houses (to house ~i - 2~).
+
+If choosing 2, the total profit is ~rob(i - 1)~. Thus, we have following relation:
+#+BEGIN_EXAMPLE
+rob(i) = max(rob(i - 2) + nums[i], rob(i - 1))
+#+END_EXAMPLE
+Similarliy, when we calculate ~rob(i - 2)~ and ~rob(i - 1)~, we calculate redundant terms. For example, we calculated ~rob(i - 2)~ and ~rob(i - 3)~ twice. So, we use an array ~p[i]~ to record the value of ~rob(i)~.
+
+To implement this recurrent relation, we need a helper function with following header:
+#+begin_src c++
+int rob(const vector<int>& nums, int i)
+#+end_src
+where ~i~ is the index of house to rob. To calculate the maximum profit, we pass in the last house:
+#+begin_src c++
+rob(nums, nums.size() - 1);
+#+end_src
+
+The base case of this helper function is simplily ~i < 0~, when this is the case, it means back calculating reached beyongd the first house, we return 0.
+
+We use an array ~p[]~ to Each time before calling ~rob()~ recursively to calculate ~rob(i)~, we check if this has been calculated or not (by checking the value of ~p[i]~, we can initialize ~p[]~ to all -1). If it is already calculated, we return it directly, otherwise, we call ~rob()~ recursively to calculate.
+**** recursion III (combine I and II)
+This approach combines thought in I and II. It requires slightly more edge cases than II, these two methods is essentially the same, especially when comes to efficiency. The code is shown in Solution section.
+**** dynamic programming
+[[https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-How-to-approach-most-of-DP-problems.][Reference]]
+
+This particular problem and most of others can be approached by following steps:
+1. find recursive relation
+2. recursive (top-down)
+3. recursive + bookkeeping (top-down)
+4. iterative + bookkeeping (bottom-up)
+5. iterative + N variables (bottom-up)
+
+A problem might be suitable for dynamic programming if it can be splitted into smaller one and solve in similar way (dynamic programming is very similar to recursion). First, we try to find the recursive relation. The reason why we don't rely on recursion solely is that, for some problems, recursive functions are performing redundant work. One example is using recursion to calculate Fibonacci sequence. An other example is this problem (we analyzed this in the recursion I, II section).
+
+At first glance we approach this kind problem in a top-down manner, i.e. from big problem to small problem. For instance, we have:
+#+begin_src c++
+rob(i) = max(rob(i - 2) + nums[i], rob(i - 1))
+#+end_src
+In order to get ~rob(i)~, we calculate ~rob(i - 2)~ and ~rob(i - 1)~. This is a top-down approach.
+
+To reduce redundant calculating, we bookkeeping those already calculated value, so we can use it directly if it is asked again. This leads to step 3, and it is how recursion I, II, III works. However, they are still using top-down approach, it involves recursive calls so it is expensive. Look closer to their calculation step, we can find that in order to calculate a top-value (~rob(i)~), they have to recursively call themselves to calculate a down-value first (~rob(i - 1)~ and ~rob(i - 2)~). The idea is, if we can calculate the down-value first, record them in somewhere, then the top-value can be calculated without a recursive call, just visit those calculated down-value. This leads to step 4, a bottom-up, iterative approach to get the final answer. Bottom-up means we first calculate bottom-value (or down-value), then calculate up-value (or top-value). It is an iterative approach because we don't need to use recursive call to calculate each value, the bottom-up order guarantees that each time we calculate an up-value, we have components (bottom-parts) ready to use.
+
+Back to this problem. We use recursive ideas from recursion II (my original recursion cal be also used, but it needs to calculate from end to begin, I'll try this idea later). To calculate ~rob(i)~ we have to calculate ~rob(i - 2)~ and ~rob(i - 1)~ first. Thinking in this way is thinking in top-down recursive way. How about thinking in this way: we first calculate ~rob(i - 2)~ and ~rob(i - 1)~, then we try to solve ~rob(i)~, this is exactly how we approach it via iterative bottom-up approach. You may ask: what is the difference? The core difference is at the time of calculating ~rob(i)~, the value of ~rob(i - 1)~ and ~rob(i - 2)~ is calculated or not. If it is not calculated, we have to use recursive call to calculate. If it is calculated, we simplily use the value (so no recursion involed). To do the bookkeeping of calculated ~rob(i - 1)~ and ~rob(i - 2)~, we still use an array ~p[]~.
+
+We take ~nums == [2,7,9,3,1]~ as an example. The maximum profit we can get from robbing until house 0 (~nums[0]~) is obviously the value stored in house 0, so we have:
+#+BEGIN_EXAMPLE
+nums: 2  7  9  3  1
+p:    2
+#+END_EXAMPLE
+The maximum profit we can get from robbing until house 1 is 7. Because we have two options:
+1. rob house 0 and leave house 1 un-robbed
+2. rob house 1 and leave house 0 un-robbed. 
+Option 2 has higher profit, so we have:
+#+BEGIN_EXAMPLE
+nums: 2  7  9  3  1
+p:    2  7
+#+END_EXAMPLE
+The maximum profit we can get from robbing until house 2 is 11. Because we have two options:
+1. rob house 2 (profit 9) and all the profit from robbing house until house 0 (2), the total is 11
+2. don't rob house 2, you get all the profit from robbing house until house 1 (7), the total is 7
+Option 1 has higher profit, so we fill 11 to ~p[2]~:
+#+BEGIN_EXAMPLE
+nums: 2  7  9  3  1
+p:    2  7  11
+#+END_EXAMPLE
+The maximum profit we can get from robbing until house 3 is 11. Because we have two options:
+1. rob house 3 (profit 3) and all the profit from robbing house until house 1 (7), the total is 10
+2. don't rob house 3, you get all the profit from robbing house until house 2 (11), the total is 11
+Option 2 has higher profit, so we fill 11 to ~p[3]~:
+#+BEGIN_EXAMPLE
+nums: 2  7  9  3  1
+p:    2  7  11 11
+#+END_EXAMPLE
+The maximum profit we can get from robbing until house 4 is 12. Because we have two options:
+1. rob house 4 (profit 1) and all the profit from robbing house until house 2 (11), the total is 12
+2. don't rob house 4, you get all the profit from robbing house until house 3 (11), the total is 11
+Option 1 has higher profit, so we fill 12 to ~p[4]~.
+
+Now, the problem has been solved. The maximum profit we can get is 12. Pay attention that ~p[i]~ is the maximum possible profit you can get from robbing house ~i~.
+
+There is one more thing we can optimize, which is step 5. If you take a closer look to ~p[]~, you'll find all we used is ~p[i - 2]~ and ~p[i - 1]~. In fact, we don't need previous ~p[j], j < i - 2~ because they are accounted in ~p[i - 2]~ and ~p[i - 1]~. So, we could just use two variables to represent the accumulating maximum profit. We just need to update these two variables after we get each maximum profit along the intermediate steps. We name the two variables as ~p1~ and ~p2~
+
+To depict this process, take ~[2,7,9,3,1]~ as an example:
+#+BEGIN_EXAMPLE
+index:0  1  2  3  4
+nums: 2  7  9  3  1
+p:    2  7
+      p1 p2 ?
+#+END_EXAMPLE
+The array ~p~ is used as reference. Now we are determining value at ~?~, it should be: ~max(nums[2] + p1, p2)~, let it be ~r~, then we move to next house:
+#+BEGIN_EXAMPLE
+index:0  1  2  3  4
+nums: 2  7  9  3  1
+p:    2  7  11
+      p1 p2 r
+         p1 p2 ?
+#+END_EXAMPLE
+Now we are determining value at ~?~. We update so the current ~p1~ holds previous ~p2~, current ~p2~ holds calculated ~r~. This is how we use two variables to do bookkeeping. Similarliy, when we move to next:
+#+BEGIN_EXAMPLE
+index:0  1  2  3  4
+nums: 2  7  9  3  1
+p:    2  7  11 11
+      p1 p2 r  r
+         p1 p2 r
+            p1 p2 ?
+#+END_EXAMPLE
+
+After iterating over the ~nums[]~, we just return ~p2~, because it holds the most recent calculated maximum profit.
 
 *** Solution
+**** C++
+***** recursion I (book keeping intermediate result)
+#+begin_src c++
+class Solution {
+public:
+  unordered_map<int, int> maxResults;
+  
+  int maxNonadjacentArray(vector<int>::iterator start, const vector<int>& nums) {
+    if (start >= nums.end())
+      return 0;
+    
+    if (start + 1 == nums.end())
+      return *start;
+    
+    int max_first, max_second;
+    int max_2, max_3, max_4;
+    unordered_map<int, int>::iterator itr;
+    
+    // try to find max_2, if not, calculate it and insert into maxResults
+    itr = maxResults.find(start + 2 - nums.begin());
+    
+    if (itr == maxResults.end()) {
+      max_2 = maxNonadjacentArray(start + 2, nums);
 
+      maxResults.insert({{start + 2 - nums.begin(), max_2}});
+    }
+    
+    else
+      max_2 = (*itr).second;
+    
+    // try to find max_3, if not, calculate it and insert into maxResults
+    itr = maxResults.find(start + 3 - nums.begin());
+    
+    if (itr == maxResults.end()) {
+      max_3 = maxNonadjacentArray(start + 3, nums);
+
+      maxResults.insert({{start + 3 - nums.begin(), max_3}});
+    }
+    
+    else
+      max_3 = (*itr).second;
+
+    // try to find max_4, if not, calculate it and insert into maxResults
+    itr = maxResults.find(start + 4 - nums.begin());
+    
+    if (itr == maxResults.end()) {
+      max_4 = maxNonadjacentArray(start + 4, nums);
+
+      maxResults.insert({{start + 4 - nums.begin(), max_4}});
+    }
+    
+    else
+      max_4 = (*itr).second;
+    
+    // calculate max_first and max_second 
+    max_first = *start + max(max_2, max_3);
+    
+    max_second = *(start + 1) + max(max_3, max_4);
+    
+    return max(max_first, max_second);
+  }
+  
+  int rob(vector<int>& nums) {
+    return maxNonadjacentArray(nums.begin(), nums);
+  }
+};
+#+end_src
+***** recursion II(better, cleaner approach)
+#+begin_src c++
+class Solution {
+public:
+  vector<int> p;
+  
+  int rob(vector<int>& nums) {
+    p.resize(nums.size());
+    for (int i = 0; i < nums.size(); ++i)
+      p[i] = -1;
+    
+    return rob(nums, nums.size() - 1);
+  }
+  
+private:
+  int rob(vector<int>& nums, int i) {
+    if (i < 0)
+      return 0;
+    
+    if (p[i] >= 0)
+      return p[i];  // i-th profit already calculated
+    
+    // i-th profit not calculated  
+    p[i] = max(nums[i] + rob(nums, i - 2), rob(nums, i - 1));
+    return p[i];
+  }
+};
+#+end_src
+***** recursion III (combine I and II)
+#+begin_src c++
+/*Notes: 
+This solution combines the idea in review I (my original thought, count from the beginning of the array) and review II (1. use an array to hold intermediate result; 2. use index rather than range to regulate range; 3. shorter and better edge cases)
+*/
+class Solution {
+public:
+  vector<int> p;
+  
+  int rob(vector<int>& nums) {
+    // edge case 1
+    if (nums.empty())
+      return 0;
+    // edge case 2
+    if (nums.size() == 1)
+      return nums[0];
+    
+    p.resize(nums.size());
+    for (int i = 0; i < nums.size(); ++i)
+      p[i] = -1;
+    
+    return max(nums[0] + rob(nums, 2), nums[1] + rob(nums, 3));
+  }
+  
+private:
+  int rob(vector<int>& nums, int i) {
+    // base case: out of bound
+    if (i > nums.size() - 1)
+      return 0;
+    
+    // base case 2: (i + 1) out of bound
+    if (i == nums.size() - 1)
+      return nums[i];
+    
+    if (p[i] < 0)  // not calculated
+      p[i] = max(nums[i] + rob(nums, i + 2), nums[i + 1] + rob(nums, i + 3));
+    
+    return p[i];
+  }
+};
+#+end_src
+***** dynamic programming (bottom-up, array bookkeeping)
+#+begin_src c++
+class Solution {
+public:  
+  int rob(vector<int>& nums) {
+    if (nums.empty())
+      return 0;
+    
+    if (nums.size() == 1)
+      return nums[0];
+    
+    vector<int> p(nums.size());
+    
+    p[0] = nums[0];
+    p[1] = max(nums[0], nums[1]);
+    
+    for (int i = 2; i < nums.size(); i++) {
+      p[i] = max(nums[i] + p[i - 2], p[i - 1]);
+    }
+    
+    return p[p.size() - 1];
+  }
+};
+#+end_src
+***** dynamic programming (bottom-up, N-variable bookkeeping)
+#+begin_src c++
+
+#+end_src
 *** todos [0/4]
 - [ ] write down your own solution and analysis
 - [ ] time complexity analysis of your own solution
@@ -2707,6 +3316,52 @@ public:
 *** todos [0/2]
 - [ ] read the other solution (iterate the tree using stack), and understand it
 - [ ] write code based on the other solution
+** 647. Palindromic Substrings
+*** Problem Statement
+[[https://leetcode.com/problems/palindromic-substrings/][Link]]
+*** Analysis
+**** Brutal force (accepted, slow)
+This approach enumerates all substrings and determine if they are palindrome or not, and count the number in the process.
+
+Each single character is a palindrome, so we can start from length ~i = 2~. For each palindrome with length ~i~, we start from index ~j = 0~ to ~n - i - 2~, where ~n~ is the total length of the original string. ~n - i - 2~ is the last starting index of substring with a length of ~i~. For each substring, we iterate over the characters, using ~k~. Namely, ~s[k]~ is each character in substring starting at ~j~ with length ~i~, the range of the index of this substring is ~[j,j + i - 1]~.
+
+To determine if a substring is a palindrome, we check the if the first letter is the same as the last, and the second letter is the same as the second from the last, etc. So, we compare:
+#+BEGIN_EXAMPLE
+s[j]         s[j + i - 1]
+s[j + 1]     s[j + i - 2]
+s[j + 2]     s[j + i - 3]
+...
+#+END_EXAMPLE
+We only need to compare to the half way of the list. For ~k~ in range of ~[j, j+1, j+2, ..., j + i/2 - 1]~. And the compared index from the end is: ~j + i - 1 - (k - j)~, which is: ~2*j + i - k - 1~. If any two pairs not equal, this substring is not a palindrome, we break the loop. If the loop is not breaked during the iteration from ~k == j~ to ~k == j + i/2 - 1~, the substring is a palindrome.
+
+Time complexity is high, I ran several tests (of ~"aaa...aa"~ with varying length) and counted the operation number:
+#+BEGIN_EXAMPLE
+1: 0
+2: 1
+5: 13
+10: 95
+15: 308
+20: 715
+25: 1378
+30: 2360
+35: 3723
+105: 97838
+525: 12093003
+#+END_EXAMPLE
+This is higher than \(O(N^2(\log{N})^3)\), lower than \(O(N^2(\log{N})^4)\). 
+
+
+
+*** Solution
+
+*** todos [2/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+  - [ ] Expand Around Center
+  - [ ] Manacher's Algorithm
+  - [ ] Dynamic Programming
+- [ ] generalize this problem
 ** 653. Two Sum IV - Input is a BST
 *** Problem Statement
 [[https://leetcode.com/problems/two-sum-iv-input-is-a-bst/][Link]]

@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}define say\PYGZus{}hi\PYGZus{}5\PYGZus{}times  for (int i = 0; i \PYGZlt{} 5; i++) \PYGZbs{}}
+\PYG{c+cp}{			  printf(\PYGZdq{}Hi\PYGZbs{}n\PYGZdq{});}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{n}{say\PYGZus{}hi\PYGZus{}5\PYGZus{}times}
+  \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

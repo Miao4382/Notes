@@ -9,7 +9,8 @@
 #+LATEX_CLASS_OPTIONS: [12pt]
 
 * Generals
-*** Some Facts
+** Some Facts
+Below are some general facts about C language.
 - assignments associate from right to left.
 - arithemetic operators associate left to right
 - relational operators have lower precedence than arithmetic operators
@@ -31,13 +32,13 @@
 - unary operator associate right to left (like ~*~, ~++~, ~--~)
 - strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault
 
-place holder.
+Place holder.
 
-*** headers
+** headers
 - ~<stdio.h>~: contains input/output functions
 - ~<ctype.h>~: some functions regarding to characters
   
-*** ~printf()~ formatting
+** ~printf()~ formatting
 Check p26-p27 of the textbook.
 
 Use ~%~ with symbols to print the variables in different format.
@@ -55,7 +56,7 @@ printf("%d", a)  //print a in format of integer
 printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 #+end_src
-*** Symbolic Constants
+** Symbolic Constants
 A ~#define~ line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: ~#define~ /name/ /replacement text/. You put this at the head of your code (outside scope of any function to make it globally). Example:
 #+begin_src c
 #include <stdio.h>
@@ -75,12 +76,12 @@ int main() {
 }
 #+end_src
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a ~#define~ line.
-*** Character Input and Output
+** Character Input and Output
 - ~getchar()~: it reads the next input character from a text stream and returns that (from the buffer?).
 - ~putchar()~: it prints a character each time it is called and passed a char into.
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, ~'a'~ is actually ~97~.
-*** Arrays
+** Arrays
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 #+begin_src c
 int nums[100];
@@ -99,7 +100,7 @@ int main() {
   return 0;
 }
 #+end_src
-*** Enumeration constant
+** Enumeration constant
 An enumeration is a list of constant integer values. For example:
 #+begin_src c
 enum boolean { NO, YES };
@@ -121,7 +122,7 @@ Names in different enumerations must be distinct. Values need not be distinct in
 #define FEB 2
 // etc
 #+end_src
-*** type-cast an expression
+** type-cast an expression
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 #+begin_src c
 int main() {
@@ -131,7 +132,7 @@ int main() {
 }
 #+end_src
 In the above example, when being printed, the type of ~n~ has been modified to ~float~. Notice that ~n~ itself is not altered. This is called a /cast/, it is an unary operator, has the same high precedence as other unary operators.
-*** Bitwise operators
+** Bitwise operators
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -145,11 +146,11 @@ They are:
 - =~=  : one's complement (unary)
 
 The precedence of the bitwise operators ~&~, ~^~ and ~|~ is lower than ~==~ and ~!=~.
-*** Operators can be used with assignment operators
+** Operators can be used with assignment operators
 p64
 
 ~+, -, *, /, %, <<, >>, &, ^, |~
-*** External Variables
+** External Variables
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an ~extern~ declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 #+begin_src c
 int addNum(int a) {
@@ -159,7 +160,7 @@ int addNum(int a) {
 }
 #+end_src
 Array sizes must be specified with the definition, but are optional with an ~extern~ declaration.
-*** Command-line Arguments
+** Command-line Arguments
 p128 in CPL.
 
 We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter ~ehco~, followed by a series of arguments:
@@ -180,7 +181,7 @@ Basically, when ~main()~ is called, it is called with two arguments: ~argc~ and 
   ["echo", "hello", "world", 0]
   #+END_EXAMPLE
 
-**** Example: ~echo~
+*** Example: ~echo~
 Knowing this, we can write a program that mimic the ~echo~ function: re-print what we typed in when we invoke the program to terminal:
 #+begin_src c
 #include <stdio.h>
@@ -195,7 +196,7 @@ int main(int argc, char* argv[]) {
 }
 #+end_src
 
-**** Example: ~pattern_finding~
+*** Example: ~pattern_finding~
 This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
 #+BEGIN_EXAMPLE
 $ pattern_finding love < text.txt
@@ -244,7 +245,7 @@ int getlines(char* line, int max) {
 }
 #+end_src
 
-**** Optional arguments example: ~pattern_finding~ extended
+*** Optional arguments example: ~pattern_finding~ extended
 Now we extend our ~pattern_finding~ program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
 
 There is no magic about optional arguments. They are collected as strings in ~argv[]~ when the program is invoked, just like anyother strings occured when invoking the function. We extend the ~pattern_finding~ program to include support for two optional arguments:
@@ -345,7 +346,7 @@ int getlines(char* line, int max) {
 }
 #+end_src
 
-*** Pointers to Functions
+** Pointers to Functions
 It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
 
 To declare a pointer to a function, you write:
@@ -373,7 +374,7 @@ int main() {
 #+end_src
 When calling the function pointer, you have to use parenthese to enclose ~*~ and pointer name. Use ~&~ and function name to get the "address" of the function.
 
-**** Example: qsort() which takes a comp() function pointer
+*** Example: qsort() which takes a comp() function pointer
 (Example 5-11).
 
 A quick sort function which takes a function pointer to be used in its body to sort is as follows:
@@ -466,7 +467,7 @@ void miniPrintf(char* format, ...)
 #+end_src
 the declaration ~...~ means that the number and types of these arguments may vary. It can only appear at the end of a list of named argument (there must be at least one named argument).
 
-*** Traverse the argument list
+*** Traverse the argument list and final cleanup
 The standard header ~<stdarg.h>~ contains a set of macro definitions that define how to step through an argument list. To build functions that takes varying amounts of arguments, you have to include ~<stdarg.h>~.
 
 **** Type ~va_list~
@@ -481,7 +482,7 @@ void miniPrintf(char* format, ...) {
 #+end_src
 
 **** Macro ~va_start~
-Now ~ap~ is an object of type ~va_list~. How to use it to actually point to the unnamed arguments? We begin by using a macro named ~va_start~. After declaring ~ap~, we call this macro to "initiate" ~ap~:
+After the declaration ~va_list ap;~, ~ap~ is an object of type ~va_list~. How to use it to actually point to the unnamed arguments? We begin by using a macro named ~va_start~. After declaring ~ap~, we call this macro to "initiate" ~ap~:
 #+begin_src c
 #include <stdarg.h>
 void miniPrintf(char* format, ...) {
@@ -492,10 +493,349 @@ void miniPrintf(char* format, ...) {
 #+end_src
 ~va_start()~ "accepts" two tokens. The first one is the ~va_list~ type variable which will be used to refer to unnamed arguments in turn, here we use ~ap~. The second one should be the *LAST* named argument from the function call. ~va_start~ will use this to locate the beginning of unnamed argument. After this line, ~ap~ will be referring to the first unnamed argument.
 
-But how could we "retrieve" the unnamed argument being referred by ~ap~ and move to next argument?
+But how could we "retrieve" the unnamed argument being referred by ~ap~ and move to next argument? We call ~va_arg~ macro to do this job.
 
 **** Macro ~va_arg~
-~va_arg~ is a macro defined in ~<stdarg.h>~.
+~va_arg~ is a macro defined in ~<stdarg.h>~. It "accepts" two tokens, the first one is an object of ~va_list~ type (we used ~ap~), the second one is the type name you wish to collect from current argument which ~ap~ is appointing to. When this macro is called, it returns one argument of the type you specified and steps ~ap~ to the next. The type name you provided will be used by ~va_arg~ to determine what type to return and how big a step to take. You have to use another variable of the same type to hold the returned argument, so you can use later.
 
+For example, following call of ~va_arg~ will return an integer argument, and we hold it using an integer variable named ~ival~:
+#+begin_src c
+int ival;
+ival = va_arg(ap, int);
+#+end_src
+
+**** Macro ~va_end~
+~va_end~ is a macro defined in ~<stdarg.h>~. It takes one token, which is the ~va_list~ object we used in the program. This macro will do whatever needs to cleanup. It must be called before the function returns:
+#+begin_src c
+va_end(ap);
+#+end_src
+
+*** ~miniPrintf()~ example
+In this example, ~miniPrintf()~ takes two arguments, the first one is a pointer to char, which will be the format string or content it will be printing. Every character of ~%~ indicates there is an argument in the argument list waiting to be printed in a certain format. Here, we just use the next character after ~%~ to determine what type of argument we retrieve from the argument list. The function is declared as:
+#+begin_src c
+#include <stdarg.h>
+#include <stdio.h>
+void miniPrintf(char* format, ...)
+#+end_src
+To retrieve arguments in the unamed argument list, we declare an object of type ~va_list~:
+#+begin_src c
+va_list ap;
+char *p;  // to traverse format string
+char* sval;  // to hold string argument
+int ival;  // to hold integer argument
+double dval;  // to hold double argument
+#+end_src
+Before processing, we need to initialize the ~va_list~ object:
+#+begin_src c
+va_start(ap, format);
+#+end_src
+Then, we go over the ~format~ string. If no ~%~ encountered, we call ~putchar()~ to print it directly:
+#+begin_src c
+for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
+  }
+
+  // do things when '%' is found
+}
+#+end_src
+When ~%~ is found, we need to check the next character and determine what data type we need to retrieve from the unamed argument list:
+#+begin_src c
+for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
+  }
+
+  switch (*++p) {  // check next char
+  case 'd':
+    ival = va_arg(ap, int);
+    printf("%d", ival);
+    break;
+  }
+  case 'f':
+    dval = va_arg(ap, double);
+    printf("%f", dval);
+    break;
+  case 's':
+    for (sval = va_arg(ap, char*); *sval; sval++)
+      putchar(*sval);
+    break;
+  default:
+    putchar(*p);
+    break;
+}
+#+end_src
+When the style token after ~%~ is ~s~, it means we have to print a string. So the return type of ~va_arg~ is a pointer to ~char~. We print the C-string one character by one character, until we reach the ~'\0'~ terminator.
+
+** Formated Input: ~scanf()~
+p171.
+
+*** A simple example
+An example of using ~scanf()~:
+#+begin_src c
+#include <stdio.h>
+
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
+  int num;
+  scanf("%d%d%d%d", &a, &b, &c, &d);
+  printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);
+
+  return 0;
+}
+#+end_src
+here, we read four inputs and store them to four variables. Notice we have to pass in the address of each variable to ~scanf()~. In this way, ~scanf()~ can modify the variable directly (passed by value).
+
+*** Declaration and arguments
+~scanf()~ is declared as:
+#+begin_src c
+int scanf(char *format, ...)
+#+end_src
+
+It will use the ~format~ string to retrieve information via certain format, convert them and assign to variables in the followed list. ~scanf()~ stops when it exhausts its format string, or when some input fails to match the control specification. It returns the number of successfully matched and assigned input items (to variable in the unamed argument lists).
+
+The ~format~ string may contain:
+1. blanks or tabs. These will be automatically ignored
+2. ordinary characters (not ~%~). ~scanf()~ will try to match these characters with the corresponding non-whitespace character of the input stream. For example:
+   #+begin_src c
+   scanf("%dabcde%d", &a, &b);
+   printf("a = %d\nb = %d\n", a, b);
+   #+end_src
+   input: ~1abcde2~, output:
+   #+BEGIN_EXAMPLE
+   a = 1
+   b = 2
+   #+END_EXAMPLE
+3. conversion specifications, which is explained below.
+
+A conversion specification is some characters starting with ~%~, which will be used by ~scanf()~ to convert the next *input field* and assign to corresponding variable. An input field is defined as a string of non-white space characters; it extends either to the next white space character or until the field width has been reached (the width of the field may be specified by conversion specification, see below).
+
+In the conversion specification, we may find:
+- %: indicating starting of a conversion specification
+- *: assignment suppresion marker. If this is present, the input field is skipped, no assignment to variable is made
+- number: a number that specifies the maximum width of the input field (of which this current conversion specification is taking care)
+- ~h, l or L~: indicating the width of the target. ~%h~: a short integer; ~%l~: a long integer.
+- a conversion character: indicating what type to convert to, like ~%d, %c, %s~ etc. (i.e. the interpretation of the input field).
+
+Some examples of using ~scanf()~ can be found on p172, 173.
+
+** File Access<<file_access>>
+*** Opening a file
+The ~<stdio.h>~ library has a type ~FILE~ and a function ~fopen()~ that provides tools to work on files. The function ~fopen()~'s declaration is as follows:
+#+begin_src c
+FILE *fopen(char* name, char* mode)
+#+end_src
+It accepts the name of the file and mode for opening this file. It will return a pointer to a ~FILE~ object. The type ~FILE~ is defined with a ~typedef~, and is a structure that contains information about the file, such as:
+- location of a buffer
+- current character position in the buffer
+- file openning mode: read or write
+- error states: if error has occurred
+- EOF states: whether end of file has occurred
+
+To obtain a pointer to a file, we do:
+#+begin_src c
+FILE* fp;
+fp = fopen(name, mode);
+#+end_src
+the allowable modes include:
+- r: read mode
+- w: write mode
+- a: append mode
+- b: append b to open in binary mode (for some systems)
+
+When errors occurred during file opening, ~fopen()~ will return a ~NULL~.
+*** Accessing the file
+Once the file is opened, we access it through the ~FILE~ pointer ~fp~. We have following choices:
+- ~char getc(FILE *fp)~: (maybe) a macro that accepts a ~FILE~ pointer, returns the next character from the file (character position is recorded inside the ~FILE~ object). It returns ~EOF~ for end of file or error.
+- ~char putc(char c, FILE *fp)~: (maybe) a macro that accepts a character ~c~ and a ~FILE~ pointer. It will write ~c~ to the file and returns the character written, or returns ~EOF~ if an error occurs.
+
+After using the file, we have to call ~fclose()~ to disconnect program from the file, freeing the file pointer for another file.
+
+*** ~stdin~, ~stdout~ and ~stderr~
+When a C program is started, the operating system environment is responsible for opening three files and providing file pointers for them to the program. These files are:
+- standard input, file pointer: ~stdin~
+- standard output, file pointer: ~stdout~
+- standard error, file pointer: ~stderr~
+These file pointers are declared in ~<stdio.h>~. Normally, ~stdin~ is connected to the keyboard, ~stdout~ and ~stderr~ are connected to the screen. ~stdin~ and ~stdout~ may be redirected to files or pipes as described earlier. Pay attention that ~stderr~ normally appears on the screen even if the standard output is redirected, this prevents error message disappearing down the pipeline. 
+
+Since C programs use these three file pointers to communicate with outside components, when we get char from input, or print char on output, we are actually getting or printing these characters via these file pointers to the final destination (standard input, standard output and standard error). Thus, ~getchar()~ and ~putchar(c)~ can be defined in terms of ~getc, putc, stdin~ and ~stdout~ as:
+#+begin_src c
+#define getchar() getc(stdin)
+#define putchar(c) putc((c), stdout)
+#+end_src
+
+*** Formatted input and output of files
+To format input or output of files, we can use ~fscanf()~ and ~fprintf()~. These functions are similar with ~scanf()~ and ~printf()~, except the firs argument is a file pointer. The declaration of these two functions are:
+#+begin_src c
+int fscanf(FILE *fp, char* format, ...)
+int fprintf(FILE *fp, char* format, ...)
+#+end_src
+
+An example of sending formated error message to ~stderr~ is:
+#+begin_src c
+fprintf(stderr, "Error occurred!\n");
+#+end_src
+*** Example: replicate program ~cat~
+p176: normal error handling
+
+p177: advanced error handling (using ~stderr~ and ~exit()~)
+*** Line input and output
+The standard library provides an input routine ~fgets()~, which can reads the next input line (including ~'\n'~ character) from a ~FILE~ pointer to a char array. It will return a ~char~ pointer pointing to this char array. Its declaration is as follows:
+#+begin_src c
+char *fgets(char* line, int maxline, FILE *fp);
+#+end_src
+At most ~maxline - 1~ characters will be read. The resulting line is automatically terminated with ~'\0'~. When end of file reached or error occurred, it returns ~NULL~.
+
+The standard library provides an output routine ~fputs()~, which can write a string (which need not contain a newline) to a file. The declaration is as follows:
+#+begin_src c
+int fputs(char* line, FILE *fp);
+#+end_src
+It returns ~EOF~ if an error occurs, and zero otherwise.
+
+The library functions ~gets~ and ~puts~ are similar to ~fgets~ and ~fputs~, but operate on ~FILE~ pointers ~stdin~ and ~stdout~. ~gets~ deletes the terminal ~'\n'~, and ~puts~ adds it.
+** MISC Functions
+*** Storage Management
+Two functions are used to obtain blocks of memory dynamically:
+#+begin_src c
+void* malloc(size_t n);
+void* calloc(size_t n, size_t size);
+#+end_src
+
+~malloc()~ will return a pointer to ~n~ bytes of uninitialized storage, or ~NULL~ if the request cannot be satisfied.
+
+~calloc()~ will return a pointer to enough space for an array of ~n~ objects of the specified size, or ~NULL~ if the request cannot be satisfied. The storage is initialized to zero.
+
+The pointer returned by ~malloc()~ or ~calloc()~ has the proper alignment for the object requested (proper amount of memory), however, it must be case into the appropriate type before assigning to a pointer to hold. For example:
+#+begin_src c
+int* ip;
+ip = (int*) calloc(n, sizeof(int));
+#+end_src
+
+To free the space pointed by a pointer ~p~, of which initially obtained by a call to ~malloc()~ or ~calloc()~, we can call ~free(p)~.
+* The UNIX System Interface
+** File Descriptors
+In the UNIX operating system, all input and output is done by reading or writing files. All peripheral devices are abstracted as files in the file system. So, a single homogeneous interface handles all communication between a program and peripheral devices.
+
+Consider an example of a C program that read content from, or write content to files on the system. Before you can do this, you must inform the system that you wish to *ACCESS* that particular file. The system will check your right to do so (does the file exist? do you have permission to access it?). If you have the access, the system will return a *small non-negative integer* called a /file descriptor/.
+
+A file descriptor is a small non-negative integer, which is an abstract indicator (handle) used to access a file on the system (a file can be an actual file, a pipe, a network socket). All information about an open file is maintained by the system, the user program refers to the file only by the file descriptor.
+
+As mentioned, the input/output are also abstracted as files on the system. If a program wants to access them, it must intend the system to check acceesbility and return the corresponding file descriptors to the program. However, since input/output are used so commonly, that when a program is called by the command interpreter (the "shell"), three files will be opened, their file descriptors ~0~, ~1~ and ~2~, will be returned to program so it can use it. By default, the three files are keyboard file (for input), monitor file and monitor file (for output and error display). In fact, the three file descriptors ~0~, ~1~ and ~2~, are used as ways for standard input, standard output and standard error of the program. The program don't have to worry about opening files to use them.
+
+The user of a program can redirect I/O to and from files with ~<~ and ~>~ when typing the shell command. If these symbols are used, the default assignment of file descriptor ~0~ and ~1~ will be changed to the named files. For example:
+#+BEGIN_EXAMPLE
+$prog < text1.txt
+#+END_EXAMPLE
+In the above example, the ~text1.txt~ file will replace keyboard file as the standard input file, system will use file descriptor ~0~ to identify ~text1.txt~ and return file descriptor ~0~ to ~prog~. ~prog~ will use file descriptor ~0~ to get input.
+
+Similarly, for standard output redirect:
+#+BEGIN_EXAMPLE
+$prog > result.txt
+#+END_EXAMPLE
+the ~result.txt~ file will replace monitor file as the standard output file, system will use file descriptor ~1~ to identify ~result.txt~ and return file descriptor ~1~ to ~prog~. ~prog~ will use file descriptor ~1~ to do output.
+
+Pay attention that, the change of file assignments are done by the shell, not the program. For program, it always deal with file descriptor ~0~, ~1~ and ~2~. It does not know where is input coming from and where is output going to.
+** Low Level I/O: ~read()~ and ~write()~
+Input and output uses the ~read~ and ~write~ system calls. These two system calls are accessed from C programs through two functions called [[http://man7.org/linux/man-pages/man2/read.2.html][~read()~]] and [[http://man7.org/linux/man-pages/man2/write.2.html][~write()~]]. To use these two functions, you have to ~#include <unistd.h>~. The function header for the two functions are:
+#+begin_src c
+ssize_t read(int fd, char *buf, size_t count)
+ssize_t write(int fd, char *buf, size_t count)
+#+end_src
+~read(fd, buf, count)~ attempts to read up to ~count~ bytes from the file referred to by the file descriptor ~fd~ into the buffer started at ~buf~. The returning value of ~read()~ can be:
+1. the number of bytes read from ~fd~. When ~fd~ doesn't have enough data, the returned value may be smaller than ~count~.
+2. 0. This indicates end of file has been reached, nothing is read from ~fd~.
+3. -1. This indicates error occurred.
+
+~write(fd, buf, count)~ writes up to ~count~ bytes from the buffer starting at ~buf~ to the file referred to by the file descriptor ~fd~. The returning value of ~write()~ can be:
+1. the number of bytes written to ~fd~. If this number is different from ~count~, it indicates an error has occurred, for example: there is insufficient space on the underlying physical medium.
+
+Any number of bytes can be read or written in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
+*** Example: copy input to output
+This example will show the basic use of ~read()~ and ~write()~ function. In order to receive what we read from ~read()~, we need a buffer to hold it. We read data from ~fd~ to the buffer, and call ~write()~ to put the content in buffer to ~fd~. We repeat this process until the returned value of ~read()~ is not positive (0 or -1).
+
+We'll use ~0~ as the file descriptor in ~read()~, since this is the standard input file descriptor. We'll use ~1~ as the file descriptor in ~write()~, since this is the standard output file descriptor. The code is as follows:
+#+begin_src c
+#include <unistd.h>
+
+#define BUFSIZ 5
+/* copy input to output */
+int main() {
+  char buf[BUFSIZ];
+  int n;  // hold the number of bytes read
+  
+  while ((n = read(0, buf, BUFSIZ)) > 0)
+    write(1, buf, n);
+  
+  return 0;
+}
+#+end_src
+The buffer size is defined as 5. This means each system call we'll process 5 characters. But the reading will not stop unless 0 or -1 is returned by ~read()~. If file descriptor ~0~ is referring keyboard file (keyboard is the standard input), it will continue to read until the keyboard buffer is empty, then the program will wait until the user type other things (I guess these typed-in characters will first go to the keyboard buffer, then they will be read by program). For example, if we print the number of characters being read during each while loop, by adding ~printf("\n%d characters has been read.\n", n);~ into the while loop. Then we call the program (use default standard input), and input: ~12345678~, the result in console would be:
+#+BEGIN_EXAMPLE
+12345678
+12345
+5 characters has been read.
+678
+
+4 characters has been read.
+#+END_EXAMPLE
+Notice that each call of ~read()~ only read 5 characters.
+*** Example: ~getchar()~
+We can use ~read()~ to construct ~getchar()~, which is higher-level routine. First, let's compare the function header of these two functions:
+#+begin_src c
+ssize_t read(int fd, char *buf, size_t count)
+char getchar(void)
+#+end_src
+Function ~getchar()~ has no parameter, it returns one character that is read from input stream. It does not require the user of ~getchar()~ bother the idea of file descriptor, buffer or the number of characters read. It conceals these details in its implementation so user can use it directly in the expected way. This is an example of using lower-level bricks to build higher level structures in the software architecture.
+
+The implementation is simple:
+#+begin_src c
+#include <unistd.h>
+#include <stdio.h>
+
+char getcharacter(void) {
+  char c;
+  return ((read(0, &c, 1)) == 1) ? c : EOF;
+}
+
+int main() {
+  char c;
+  
+  while ((c = getcharacter()) != EOF)
+    printf("%c", c);
+  return 0;
+}
+#+end_src
+** Open, Creat, Close, Unlink
+When a C program is invoked, only the three default files will be automatically opened and linked to the program (they are standard input, standard output and standard error files, refered by file descriptors ~0~, ~1~ and ~2~).
+
+If you want to work with other files, you have to explicitly open other files in order to read or write them. In section [[file_access][File Access]], we mentioned a way of operating files by routines defined in ~<stdio.h>~. Here, we introduce low-level system calls to do this.
+
+There are two system calls for file operation: ~open()~ and ~creat()~.
+*** ~open()~
+**** Generals
+The documentation for ~open()~ can be found [[http://man7.org/linux/man-pages/man2/open.2.html][here]].
+
+The header of this system call is:
+#+begin_src c
+int open(char *name, int flags, int perms);
+#+end_src
+*Parameters*
+- ~name~: the file name you want to open
+- ~flags~: an ~int~ that specifies how the file is to be opened (constants are defined in ~<fcntl.h>~):
+  - ~O_RDONLY~: open for read-only
+  - ~O_WRONLY~: open for write-only
+  - ~O_RDWR~: open for reading and writing
+- ~perms~: (not mentioned in the book), it is always zero for the uses of ~open()~ that we will discuss)
+
+    
+*Return value*
+
+The return value of ~open()~ is a file descriptor, it will be the lowest-numbered file descriptor not currently open for the process. The file descriptor can be used by subsequent system calls, such as ~read()~, ~write()~.
+**** Example: open a file for reading 
 
 * Place Holder

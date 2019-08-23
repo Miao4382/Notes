@@ -1283,4 +1283,7 @@ asdd
 *** Code
 *** <explain how flag works and enum _flags{}, and macros that checking these flags>
 *** <explain macro getc(p)>
+*** <explain macro putc(x,p)>
+*** <explain macro getchar()>
+*** <explain macro putchar(x)>
 * Place Holder

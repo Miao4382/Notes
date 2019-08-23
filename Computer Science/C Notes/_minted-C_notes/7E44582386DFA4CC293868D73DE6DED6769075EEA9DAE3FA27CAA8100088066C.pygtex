@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}define max(A, B) ((A) \PYGZgt{} (B) ? (A) : (B))}
+\end{Verbatim}

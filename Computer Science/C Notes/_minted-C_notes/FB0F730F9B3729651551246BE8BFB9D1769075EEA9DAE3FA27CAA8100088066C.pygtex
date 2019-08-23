@@ -1,0 +1,42 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}   // for displaying error message}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}  // for exit() function}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}unistd.h\PYGZgt{}  // for read(), write()}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}fcntl.h\PYGZgt{}   // for open(), creat()}
+\PYG{c+cp}{\PYGZsh{}define PERMS 0666   }\PYG{c+c1}{// default permission flag for copied file}
+		     \PYG{c+c1}{// RW for owner, group, others}
+\PYG{c+cp}{\PYGZsh{}define BUFFER 100   }\PYG{c+c1}{// buffer size for a single call of read()}
+
+\PYG{c+cm}{/* cp: copy f1 to f2 */}
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{argc}\PYG{p}{,} \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{argv}\PYG{p}{[])} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{fd1}\PYG{p}{,} \PYG{n}{fd2}\PYG{p}{;}  \PYG{c+c1}{// hold two file descriptors}
+  \PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{;}  \PYG{c+c1}{// hold number of bytes read from file1}
+  \PYG{k+kt}{char} \PYG{n}{buf}\PYG{p}{[}\PYG{n}{BUFFER}\PYG{p}{];}
+
+  \PYG{c+c1}{// check number of command line arguments}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{argc} \PYG{o}{!=} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Usage: cp f1 f2\PYGZdq{}}\PYG{p}{);}
+    \PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{c+c1}{// oepn first file and create second file, exit if error occurred}
+  \PYG{k}{if} \PYG{p}{((}\PYG{n}{fd1} \PYG{o}{=} \PYG{n}{open}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{O\PYGZus{}RDONLY}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{))} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}  \PYG{c+c1}{// open failed}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: can\PYGZsq{}t open \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]);}
+    \PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{if} \PYG{p}{((}\PYG{n}{fd2} \PYG{o}{=} \PYG{n}{creat}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{],} \PYG{n}{PERMS}\PYG{p}{))} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}  \PYG{c+c1}{// create failed}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: can\PYGZsq{}t create \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]);}
+    \PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{c+c1}{// use read() and write() system to copy file}
+  \PYG{k}{while} \PYG{p}{((}\PYG{n}{n} \PYG{o}{=} \PYG{n}{read}\PYG{p}{(}\PYG{n}{fd1}\PYG{p}{,} \PYG{n}{buf}\PYG{p}{,} \PYG{n}{BUFFER}\PYG{p}{))} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{!=} \PYG{n}{write}\PYG{p}{(}\PYG{n}{fd2}\PYG{p}{,} \PYG{n}{buf}\PYG{p}{,} \PYG{n}{n}\PYG{p}{))} \PYG{p}{\PYGZob{}}  \PYG{c+c1}{// check if write succeeded}
+      \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: couldn\PYGZsq{}t write on file \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]);}
+      \PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
