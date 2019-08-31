@@ -56,26 +56,6 @@ printf("%d", a)  //print a in format of integer
 printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 #+end_src
-** Symbolic Constants
-A ~#define~ line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: ~#define~ /name/ /replacement text/. You put this at the head of your code (outside scope of any function to make it globally). Example:
-#+begin_src c
-#include <stdio.h>
-
-#define LOWER 0
-#define UPPER 300
-#define STEP 20
-
-int main() {
-  
-  for (int i = LOWER; i <= UPPER; i += STEP) {
-    printf("%5d\t%20f", i, 5 * (i - 32) / 9.0);
-    printf("\n");
-  }
-  
-  return 0;
-}
-#+end_src
-Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a ~#define~ line.
 ** Character Input and Output
 - ~getchar()~: it reads the next input character from a text stream and returns that (from the buffer?).
 - ~putchar()~: it prints a character each time it is called and passed a char into.
@@ -150,6 +130,27 @@ The precedence of the bitwise operators ~&~, ~^~ and ~|~ is lower than ~==~ and 
 p64
 
 ~+, -, *, /, %, <<, >>, &, ^, |~
+** Symbolic Constants
+A ~#define~ line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: ~#define~ /name/ /replacement text/. You put this at the head of your code (outside scope of any function to make it globally). Example:
+#+begin_src c
+#include <stdio.h>
+
+#define LOWER 0
+#define UPPER 300
+#define STEP 20
+
+int main() {
+  
+  for (int i = LOWER; i <= UPPER; i += STEP) {
+    printf("%5d\t%20f", i, 5 * (i - 32) / 9.0);
+    printf("\n");
+  }
+  
+  return 0;
+}
+#+end_src
+Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a ~#define~ line.
+* Functions and Program Structure
 ** External Variables
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an ~extern~ declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 #+begin_src c
@@ -160,6 +161,104 @@ int addNum(int a) {
 }
 #+end_src
 Array sizes must be specified with the definition, but are optional with an ~extern~ declaration.
+** The C Preprocessor
+*** File Inclusion
+*** Macro Substitution
+**** General
+A definition of a macro Substitution has the form:
+#+begin_src c
+#define name replacement_text
+#+end_src
+After this line, subsequent occurrences of the token ~name~ will be replaced by the ~replacement_text~. ~name~ has the same form as a variable name (so no white space is allowed between characters), ~replacement_text~ is arbiturary.
+
+~replacement_text~ is the rest of the line. If you need long definition, you can place a ~'\'~ at the end of each line to be continued. For example:
+#+begin_src c
+#include <stdio.h>
+#define say_hi_5_times  (for (int i = 0; i < 5; i++) \
+                          printf("Hi\n");)
+
+int main() {
+  say_hi_5_times
+  return 0;
+}
+#+end_src
+This program will print ~"Hi"~ 5 times. Notice that there is no ~;~ after the macro, this is because ~say_hi_5_times~ calls for a macro substitution, every occurrence of ~say_hi_5_times~ will be replaced by:
+#+begin_src c
+for (int i = 0; i < 5; i++)
+  printf("Hi\n");
+#+end_src
+Thus, after preprocessing, the code is actually:
+#+begin_src c
+#include <stdio.h>
+
+int main() {
+  for (int i = 0; i < 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i < 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i < 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i < 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i < 5; i++)
+    printf("Hi\n");
+    
+  return 0;
+}
+#+end_src
+Notice: you can use ~'\'~ inside the parenthese.
+
+**** Arguments
+It is possible to define macros with arguments, so the replacement text can be different for different calls of the macro. For example:
+#+begin_src c
+#define max(A, B) ((A) > (B) ? (A) : (B))
+#+end_src
+Do not treat it as function call, there is nothing relating to function happening here. It is still a macro substitution. Each occurrence of a formal parameter (here ~A~ or ~B~) will be replaced by the corresponding actual argument. For example, if ~max(p+q, r+s)~ appeared, after preprocessing, this line will become:
+#+begin_src c
+((p+q) > (r+s) ? (p+q) : (r+s))
+#+end_src
+
+You can even put function names in the parameter:
+#+begin_src c
+#include <stdio.h>
+#define plus(A, B) (A)() + (B)()
+
+int one() {
+  return 1;
+}
+
+int two() {
+  return 2;
+}
+
+int main() {
+  printf("result: %d", plus(one, two));
+  return 0;
+}
+#+end_src
+The output is: ~result: 3~
+**** Pitfalls
+There are pitfalls hidden in the macro substitution. For example, in the ~max()~ macro:
+#+begin_src c
+#define max(A, B) ((A) > (B) ? (A) : (B))
+#+end_src
+each expression is evaluated twice. Thus usages like ~max(i++, j++)~ will increment the larger value twice (first in the comparing part, next in the "returning" part). User of ~max(i++, j++)~ may expect single increment.
+
+An other example of pitfall is
+#+begin_src c
+#define square(x) x * x
+#+end_src
+Notice there is no parenthese, so if we have an expression like ~square(a + 1)~, after macro substitution, the actual expression is:
+#+begin_src c
+a + 1 * a + 1
+#+end_src
+which is not ~(a + 1) * (a + 1)~. So, make sure to use parenthese to enclose your parameters to avoid such mistake. In the above example, ~square(x)~ should be:
+#+begin_src c
+#define square(x) ((x) * (x))
+#+end_src
+
+*** Conditional Inclusion
+* Pointers and Arrays
 ** Command-line Arguments
 p128 in CPL.
 
@@ -510,7 +609,7 @@ ival = va_arg(ap, int);
 va_end(ap);
 #+end_src
 
-*** ~miniPrintf()~ example
+*** Example: ~miniPrintf()~ <<mini_printf>>
 In this example, ~miniPrintf()~ takes two arguments, the first one is a pointer to char, which will be the format string or content it will be printing. Every character of ~%~ indicates there is an argument in the argument list waiting to be printed in a certain format. Here, we just use the next character after ~%~ to determine what type of argument we retrieve from the argument list. The function is declared as:
 #+begin_src c
 #include <stdarg.h>
@@ -631,11 +730,15 @@ The ~<stdio.h>~ library has a type ~FILE~ and a function ~fopen()~ that provides
 FILE *fopen(char* name, char* mode)
 #+end_src
 It accepts the name of the file and mode for opening this file. It will return a pointer to a ~FILE~ object. The type ~FILE~ is defined with a ~typedef~, and is a structure that contains information about the file, such as:
-- location of a buffer
-- current character position in the buffer
-- file openning mode: read or write
-- error states: if error has occurred
-- EOF states: whether end of file has occurred
+- a pointer to a buffer
+  - a buffer is used so file can be read in large chunks
+- a count of the number of characters left in the buffer
+- a pointer to the next character position in the buffer
+- the file descriptor
+- flags describing:
+  - file openning mode: read or write
+  - error states: if error has occurred
+  - EOF states: whether end of file has occurred
 
 To obtain a pointer to a file, we do:
 #+begin_src c
@@ -670,7 +773,7 @@ Since C programs use these three file pointers to communicate with outside compo
 #+end_src
 
 *** Formatted input and output of files
-To format input or output of files, we can use ~fscanf()~ and ~fprintf()~. These functions are similar with ~scanf()~ and ~printf()~, except the firs argument is a file pointer. The declaration of these two functions are:
+To format input or output of files, we can use ~fscanf()~ and ~fprintf()~. These functions are similar with ~scanf()~ and ~printf()~, except the first argument is a file pointer. The declaration of these two functions are:
 #+begin_src c
 int fscanf(FILE *fp, char* format, ...)
 int fprintf(FILE *fp, char* format, ...)
@@ -741,12 +844,25 @@ the ~result.txt~ file will replace monitor file as the standard output file, sys
 
 Pay attention that, the change of file assignments are done by the shell, not the program. For program, it always deal with file descriptor ~0~, ~1~ and ~2~. It does not know where is input coming from and where is output going to.
 ** Low Level I/O: ~read()~ and ~write()~
-Input and output uses the ~read~ and ~write~ system calls. These two system calls are accessed from C programs through two functions called [[http://man7.org/linux/man-pages/man2/read.2.html][~read()~]] and [[http://man7.org/linux/man-pages/man2/write.2.html][~write()~]]. To use these two functions, you have to ~#include <unistd.h>~. The function header for the two functions are:
+Input and output uses the ~read~ and ~write~ system calls. These two system calls are accessed from C programs through two functions called [[http://man7.org/linux/man-pages/man2/read.2.html][~read()~]] and [[http://man7.org/linux/man-pages/man2/write.2.html][~write()~]]. To use these two functions, you have to ~#include <unistd.h>~.
+*** ~read()~
+The function header for ~read()~ is:
 #+begin_src c
 ssize_t read(int fd, char *buf, size_t count)
-ssize_t write(int fd, char *buf, size_t count)
 #+end_src
-~read(fd, buf, count)~ attempts to read up to ~count~ bytes from the file referred to by the file descriptor ~fd~ into the buffer started at ~buf~. The returning value of ~read()~ can be:
+*Parameters*
+
+- ~fd~: file descriptor, referring the file you wish to read data from
+- ~buf~: a pointer to a chunk of memory where the program store the data read from the file. Should be a pointer to a char or an array of char, since each char type is one byte. The data is read byte-by-byte.
+- ~count~: amount of information you want to read from the file in one call of ~read()~, in bytes
+
+*Behavior*
+
+~read(fd, buf, count)~ attempts to read up to ~count~ bytes from the file referred to by the file descriptor ~fd~ into the buffer started at ~buf~.
+
+*Return Value*
+
+The return value of ~read()~ can be:
 1. the number of bytes read from ~fd~. When ~fd~ doesn't have enough data, the returned value may be smaller than ~count~.
 2. 0. This indicates end of file has been reached, nothing is read from ~fd~.
 3. -1. This indicates error occurred.
@@ -754,7 +870,29 @@ ssize_t write(int fd, char *buf, size_t count)
 ~write(fd, buf, count)~ writes up to ~count~ bytes from the buffer starting at ~buf~ to the file referred to by the file descriptor ~fd~. The returning value of ~write()~ can be:
 1. the number of bytes written to ~fd~. If this number is different from ~count~, it indicates an error has occurred, for example: there is insufficient space on the underlying physical medium.
 
-Any number of bytes can be read or written in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
+Any number of bytes can be read in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
+*** ~write()~
+The function header for ~write()~ is:
+#+begin_src c
+ssize_t write(int fd, char *buf, size_t count)
+#+end_src
+
+*Parameters*
+
+- ~fd~: the file descriptor referring the file you want to write data to
+- ~buf~: a pointer to a chunk of memory where the program store the data ready to be written to the file. Should be a pointer to a char or an array of char, since each char type is one byte. The data is read byte-by-byte.
+- ~count~: amount of information you want to write to the file in one call of ~write()~, in bytes
+
+*Behavior*
+
+~write(fd, buf, count)~ writes up to ~count~ bytes from the buffer starting at ~buf~ to the file referred to by the file descriptor ~fd~.
+
+*Return Value*
+
+The return value of ~write()~ can be:
+1. the number of bytes written to ~fd~. If this number is different from ~count~, it indicates an error has occurred, for example: there is insufficient space on the underlying physical medium. This can be used to do error checking.
+
+Any number of bytes can be written in one call, as mentioned in ~read()~.
 *** Example: copy input to output
 This example will show the basic use of ~read()~ and ~write()~ function. In order to receive what we read from ~read()~, we need a buffer to hold it. We read data from ~fd~ to the buffer, and call ~write()~ to put the content in buffer to ~fd~. We repeat this process until the returned value of ~read()~ is not positive (0 or -1).
 
@@ -810,7 +948,7 @@ int main() {
   return 0;
 }
 #+end_src
-** Open, Creat, Close, Unlink
+** ~open()~, ~creat()~, ~close()~, ~unlink()~
 When a C program is invoked, only the three default files will be automatically opened and linked to the program (they are standard input, standard output and standard error files, refered by file descriptors ~0~, ~1~ and ~2~).
 
 If you want to work with other files, you have to explicitly open other files in order to read or write them. In section [[file_access][File Access]], we mentioned a way of operating files by routines defined in ~<stdio.h>~. Here, we introduce low-level system calls to do this.
@@ -835,7 +973,317 @@ int open(char *name, int flags, int perms);
     
 *Return value*
 
-The return value of ~open()~ is a file descriptor, it will be the lowest-numbered file descriptor not currently open for the process. The file descriptor can be used by subsequent system calls, such as ~read()~, ~write()~.
-**** Example: open a file for reading 
+If successful, the return value of ~open()~ is a file descriptor, it will be the lowest-numbered file descriptor not currently open for the process. The file descriptor can be used by subsequent system calls, such as ~read()~, ~write()~.
 
+If not successful, return -1.
+
+**** Example: open a file for reading 
+The code is as follows:
+#+begin_src c
+#include <fcntl.h>
+
+int fd;  // to hold file descriptor
+char name[] = "abc.txt";  // the file name
+fd = open(name, O_RDONLY, 0)
+#+end_src
+*** ~creat()~
+**** Generals
+The documentation for ~creat()~ can be found [[https://linux.die.net/man/3/creat][here]].
+
+The header of this system call is:
+#+begin_src c
+int creat(char *name, int perms);
+#+end_src
+*Parameters*
+- ~name~: the file name to be created
+- ~perms~: this integer specifies the permission of the file to be created. UNIX file system associates a small integer (with a length of 9-bits) with each file to specify the permission information of them. This integer controls different types of access by different users:
+  - Access types:
+    - read
+    - write
+    - execute
+  - User types:
+    - owner of the file
+    - the owner's group
+    - all others
+  This is a 9-bit long integer, so we can use a 3-digit octal number for specifying the permissions. For example, ~0755~ (octal number for: ~1 1110 1101~) specifies read, write and execute permission for the owner; and read, execute permission for all others.
+
+
+*Return value*
+
+~creat()~ will return a file descriptor if it was able to creat the file. Otherwise, it will return -1.
+
+If the file already exists, ~creat()~ will truncate it to zero length.
+*** ~close()~
+The function ~close(int fd)~ breaks the connection between a file descriptor and an open file, and frees the file descriptor for use with some other file.
+*** ~unlink()~
+The function ~unlink(char *name)~ removes the file ~name~ from the file system.
+
+*** Example: mini ~cp~ program
+This is a simple version of ~cp~ program. It copies one file to another. The file names are given as command line arguments. It will not copy the permission flag (the 3-digit octal number that describes the permission of the file), but invent a default permission of the copied file.
+
+The behavior of the program is:
+#+BEGIN_EXAMPLE
+$ cp file_1 file_2
+#+END_EXAMPLE
+After typing the above line, a file named ~file_2~ will be created, with the same content as ~file_1~. 
+
+How to copy? First, we have the file name from the command line argument (should be ~argv[1]~ and ~argv[2]~). We use system call ~open()~ to open the first file (the file being copied), and use system call ~creat()~ to create a file with name ~argv[2]~. We use two integer variable to hold the file descriptor returned by this two system calls. If no error occurred, we use ~read()~ system call to read content in ~file_1~ to our buffer, then use ~write()~ system call to write content in our buffer to the file. If there is any error occurred during the writing process (i.e. the returned value of ~write()~ is different from the intended value), we display error.
+
+In this first version,we call ~printf()~ to display error message through standard output, and call ~exit(1)~ to exit the program. The code is as follows:
+#+begin_src c
+#include <stdio.h>   // for displaying error message
+#include <stdlib.h>  // for exit() function
+#include <unistd.h>  // for read(), write()
+#include <fcntl.h>   // for open(), creat()
+#define PERMS 0666   // default permission flag for copied file
+                     // RW for owner, group, others
+#define BUFFER 100   // buffer size for a single call of read()
+
+/* cp: copy f1 to f2 */                    
+int main(int argc, char *argv[]) {
+  int fd1, fd2;  // hold two file descriptors
+  int n;  // hold number of bytes read from file1
+  char buf[BUFFER];
+
+  // check number of command line arguments
+  if (argc != 3) {
+    printf("Usage: cp f1 f2");
+    exit(1);
+  }
+
+  // oepn first file and create second file, exit if error occurred
+  if ((fd1 = open(argv[1], O_RDONLY, 0)) == -1) {  // open failed
+    printf("Error: can't open %s\n", argv[1]);
+    exit(1);
+  }
+
+  if ((fd2 = creat(argv[2], PERMS)) == -1) {  // create failed
+    printf("Error: can't create %s\n", argv[2]);
+    exit(1);
+  }
+
+  // use read() and write() system to copy file
+  while ((n = read(fd1, buf, BUFFER)) > 0)
+    if (n != write(fd2, buf, n)) {  // check if write succeeded
+      printf("Error: couldn't write on file %s\n", argv[2]);
+      exit(1);
+    }
+
+  return 0;
+}                    
+#+end_src
+*** Example: mini ~cp~ program with self-implemented ~error()~ display
+Here, we implement a function called ~error()~ to combine following function calls:
+1. ~printf("...", argv[...])~
+2. ~exit(1)~
+
+In short, it will display error information to standard error file, then call ~exit(1)~ to stop the program.
+
+This is similar with the simple ~printf()~ function we built [[mini_printf][earlier]]. It is a function with variable-length argument lists. To process this kind of function, we ~#include <stdarg.h>~, and the header is:
+#+begin_src c
+void error(char *format, ...)
+#+end_src
+The three dots represents this function may have variable-length argument(s) after the named argument ~format~. To navigate each un-named argument, we declare a ~va_list~ type object and initialize it:
+#+begin_src c
+#include <stdarg.h>
+
+void error(char *format, ...) {
+  va_list args;
+  va_start(args, format);
+}
+#+end_src
+
+Then, we use ~fprintf()~ to print error message to ~stderr~ (this is a file pointer):
+#+begin_src c
+  fprintf(stderr, "error: ");
+  vfprintf(stderr, format, args);
+  fprintf(stderr, '\n');
+#+end_src
+
+Here, we use other version of ~fprintf()~ to print the argument related error message: ~vfprintf()~. Its header is as follows:
+#+begin_src c
+int vfprintf(FILE *fp, const char *format, va_list arg);
+#+end_src
+
+*Parameters*
+
+- ~fp~: pointer to a ~FILE~ object that identifies an output stream
+- ~format~: C string that contains a format string that follows the same specifications as in ~printf()~
+- ~arg~ a variable of ~va_list~ type which has been initialized by calling the ~va_start~ macro.
+
+*Return Value*
+
+If succeed, the total number of characters written is returned.
+
+*Behavior*
+
+Writes the C string pointed by ~format~ to the file pointed by ~fp~, replacing any format specifier in the same way as ~printf()~ does, using the elements in the variable argument list identified by ~arg~, which is a ~va_list~ type object initialized by the ~va_start~ macro. So, we don't have to manually scan the ~format~ string and when a ~'%'~ is found, call ~va_arg()~ to retrieve the next argument in ~arg~ and print according to its type (check [[mini_printf][miniPrintf()]] for details of how this is done).
+
+In another words, this function is like automatically extracting all arguments in ~arg~ and call:
+#+begin_src c
+fprintf(stderr, format, arg1, arg2, arg3);
+#+end_src
+
+After displaying error message, we call ~va_end()~ macro to end the argument retrieving. Then we call ~exit(1)~ to stop the program. The combined code is as follows:
+#+begin_src c
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>  // for exit() function
+
+void error(char *format, ...) {
+  va_list args;  // for retrieving arguments
+  va_start(args, format);  // initialize args
+
+  // print error messages
+  fprintf(stderr, "error: ");
+  vfprintf(stderr, format, args);
+  fprintf(stderr, "\n");
+
+  // call exit() to stop the program
+  exit(1);
+}
+#+end_src
+
+Now ~error()~ has been defined, we call ~error()~ directly when an error occurred, instead of ~printf()~ and ~exit()~. The code is as follows:
+#+begin_src c
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#define PERMS 0666  // permission code: RW for owner, group, others
+#define BUFFSIZE 100  // buffer size for read(), write()
+
+void error(char *format, ...);
+
+int main(int argc, char *argv[]) {
+  int f1, f2, n;
+  char buf[BUFFSIZE];
+
+  // try to open files and display error message if failed
+  if (argc != 3)  // check command line argument amount
+    error("Usage: cp from to");
+  if ((f1 = open(argv[1], O_RDONLY, 0)) == -1)
+    error("cp: can't open %s", argv[1]);
+  if ((f2 = creat(argv[2], PERMS)) == -1)
+    error("cp: can't create %s, mode%03o", argv[2], PERMS);
+    
+  // copy
+  while ((n = read(f1, buf, BUFFSIZE)) > 0)
+    if (write(f2, buf, n) != n)
+      error("cp: write error on file %s", argv[2]);
+
+  return 0;
+}
+#+end_src
+*** Exercise: mini ~cat~ program
+This is exercise 8-1 in the textbook. The behavior of ~cat~ is:
+- if no other file name provided as command line arguments, read from standard input and write to standard output file.
+- if other file name provided as command line arguments, read from each file and write to standard output file.
+- if error occured, use ~error()~ to print error message and stop the program
+
+The code is as follows (with simple explanations)
+#+begin_src c
+#include <stdio.h>  // for stdin, stderr, stdout file pointers
+#include <unistd.h>  // for read(), write()
+#include <stdlib.h>  // for exit()
+#include <stdarg.h>  // for variant-length argument function error()
+#include <fcntl.h>  // for open() mode flags
+
+#define BUFFSIZE 100
+
+void error(char *format, ...);
+
+int main(int argc, char *argv[]) {
+
+  char buf[BUFFSIZE];  // buffer for read(), write()
+  int n;  // count byte number
+  int fd;  // to hold input file descriptor
+  
+  // check number of arguments
+  if (argc == 1) {  // copy stdin to stdout
+    while ((n = read(0, buf, BUFFSIZE)) > 0)
+      if (n != write(1, buf, n))
+        error("cat: write error to standard output");
+    if (n == -1)
+      error("cat: read error from standard input");
+  } else {
+    while (--argc > 0) {
+      // try to open file
+      if ((fd = open(*++argv, O_RDONLY, 0)) == -1)
+        error("cat: can't open %s", *(argv));
+      // write to file 
+      while ((n = read(fd, buf, BUFFSIZE)) > 0)
+        if (n != write(1, buf, n))
+          error("cat: write error to standard output");
+      if (n == -1)
+        error("cat: read error from file %s", *(--argv));
+      close(fd);  // free fd, so it is ready for next file 
+    }
+  }
+  
+  
+  return 0;
+}
+
+void error(char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  
+  fprintf(stderr, "Error: ");
+  vfprintf(stderr, format, args);
+  fprintf(stderr, "\n");
+  
+  va_end(args);
+  exit(1);
+}
+#+end_src
+** Random Access: ~lseek()~
+The system call ~lseek()~ provides a way to move around in a file without reading or writing any data.
+*** ~lseek()~
+The header of ~lseek()~ is as follows:
+#+begin_src c
+long lseek(int fd, long offset, int origin);
+#+end_src
+
+*Parameters*
+
+- ~fd~: the file descriptor which referring the file that are being worked with
+- ~offset~: number of bytes that ~lseek()~ offsets the current position.
+- ~origin~: the code for the position used as relative starting point to measure ~offset~. ~origin~ can have following values:
+  - 0: ~offset~ is to be measured from the beginning
+  - 1: ~offset~ is to be measured from the current position
+  - 2: ~offset~ is to be measured from the end
+
+*Return Value*
+
+If no error occurred, returns a ~long~ that gives the new position in the file. Return -1 if an error occurs.
+
+*Behavior*
+
+After calling this function, the current working position of file referred by ~fd~ will be moved to the new position (affects system calls like ~read()~ and ~write()~). Pay attention that if position is beyond the range of the file, ~read()~ will have error, ~write()~ will add ~null~ between the end of file to the beginning of newly written content.
+*** Examples
+If we want to append data to the end of a file, we open a file in a mode that supports write, then call ~lseek(fd, 0L, 2)~, so the current working position will move to end of file.
+
+To get back to beginning (~rewind()~), we just need to call ~lseek(fd, 0L, 0)~.
+** Example: an implementation of ~fopen()~ and ~getc()~
+ Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a ~FILE~ type with a ~typedef~, it contains information about a file:
+- a pointer to a buffer
+  - a buffer is used so file can be read in large chunks
+- a count of the number of characters left in the buffer
+- a pointer to the next character position in the buffer
+- the file descriptor
+- flags describing:
+  - file openning mode: read or write
+  - error states: if error has occurred
+  - EOF states: whether end of file has occurred
+sd
+asdd
+*** Code
+*** <explain how flag works and enum _flags{}, and macros that checking these flags>
+*** <explain macro getc(p)>
+*** <explain macro putc(x,p)>
+*** <explain macro getchar()>
+*** <explain macro putchar(x)>
 * Place Holder

@@ -1,0 +1,2685 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-08-27 Tue 18:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org7053e66">1. Generals</a>
+<ul>
+<li><a href="#orgeb5e6cd">1.1. Some Facts</a></li>
+<li><a href="#org5d85de7">1.2. headers</a></li>
+<li><a href="#orga5ece1e">1.3. <code>printf()</code> formatting</a></li>
+<li><a href="#org4caff2e">1.4. Character Input and Output</a></li>
+<li><a href="#org778e16a">1.5. Arrays</a></li>
+<li><a href="#org9d7d979">1.6. Enumeration constant</a></li>
+<li><a href="#orgb1e31e9">1.7. type-cast an expression</a></li>
+<li><a href="#orge1f128f">1.8. Bitwise operators</a></li>
+<li><a href="#org250705c">1.9. Operators can be used with assignment operators</a></li>
+<li><a href="#orgd370d06">1.10. Symbolic Constants</a></li>
+</ul>
+</li>
+<li><a href="#orge4a342d">2. Functions and Program Structure</a>
+<ul>
+<li><a href="#org03e259d">2.1. External Variables</a></li>
+<li><a href="#orgff39cf2">2.2. The C Preprocessor</a>
+<ul>
+<li><a href="#org42ff3dc">2.2.1. File Inclusion</a></li>
+<li><a href="#org6800269">2.2.2. Macro Substitution</a>
+<ul>
+<li><a href="#orgb8310ed">2.2.2.1. General</a></li>
+<li><a href="#orgde403df">2.2.2.2. Arguments</a></li>
+<li><a href="#orgdbb2f0c">2.2.2.3. Pitfalls</a></li>
+</ul>
+</li>
+<li><a href="#org68a42dd">2.2.3. Conditional Inclusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5814482">3. Pointers and Arrays</a>
+<ul>
+<li><a href="#orgf44a5f8">3.1. Command-line Arguments</a>
+<ul>
+<li><a href="#org9dd88e2">3.1.1. Example: <code>echo</code></a></li>
+<li><a href="#org883176b">3.1.2. Example: <code>pattern_finding</code></a></li>
+<li><a href="#org3477efa">3.1.3. Optional arguments example: <code>pattern_finding</code> extended</a></li>
+</ul>
+</li>
+<li><a href="#org3c67c14">3.2. Pointers to Functions</a>
+<ul>
+<li><a href="#org39b4442">3.2.1. Example: qsort() which takes a comp() function pointer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org35431ff">4. Input and Output</a>
+<ul>
+<li><a href="#org97c153e">4.1. Standard Input and Output</a>
+<ul>
+<li><a href="#org90f3c71">4.1.1. Input redirection</a></li>
+<li><a href="#org90b258f">4.1.2. Output redirection</a></li>
+<li><a href="#org4157cfe">4.1.3. Pipe between two programs</a></li>
+<li><a href="#org14b5f31">4.1.4. Include header file</a></li>
+<li><a href="#orgbfce7c3">4.1.5. Macros in standard library</a></li>
+<li><a href="#org6fae4bd">4.1.6. Formatted output: printf</a></li>
+<li><a href="#org5d3181a">4.1.7. Function <code>sprintf()</code></a></li>
+</ul>
+</li>
+<li><a href="#orgeea8fc6">4.2. Variable-length Argument Lists</a>
+<ul>
+<li><a href="#orgf1209cb">4.2.1. Declare a function that takes varying amounts of arguments</a></li>
+<li><a href="#orgb44b026">4.2.2. Traverse the argument list and final cleanup</a>
+<ul>
+<li><a href="#org14f11a4">4.2.2.1. Type <code>va_list</code></a></li>
+<li><a href="#orge9f423d">4.2.2.2. Macro <code>va_start</code></a></li>
+<li><a href="#org5b272ca">4.2.2.3. Macro <code>va_arg</code></a></li>
+<li><a href="#orgf3e02d7">4.2.2.4. Macro <code>va_end</code></a></li>
+</ul>
+</li>
+<li><a href="#orgc7c1da3">4.2.3. Example: <code>miniPrintf()</code> </a></li>
+</ul>
+</li>
+<li><a href="#org0d00566">4.3. Formated Input: <code>scanf()</code></a>
+<ul>
+<li><a href="#orgf23ea64">4.3.1. A simple example</a></li>
+<li><a href="#orgbdebf96">4.3.2. Declaration and arguments</a></li>
+</ul>
+</li>
+<li><a href="#org905f670">4.4. File Access</a>
+<ul>
+<li><a href="#org3f1c769">4.4.1. Opening a file</a></li>
+<li><a href="#org1bbc8d8">4.4.2. Accessing the file</a></li>
+<li><a href="#org30b38a1">4.4.3. <code>stdin</code>, <code>stdout</code> and <code>stderr</code></a></li>
+<li><a href="#org22a8344">4.4.4. Formatted input and output of files</a></li>
+<li><a href="#org3e888ad">4.4.5. Example: replicate program <code>cat</code></a></li>
+<li><a href="#org3c0197a">4.4.6. Line input and output</a></li>
+</ul>
+</li>
+<li><a href="#org35cbc64">4.5. MISC Functions</a>
+<ul>
+<li><a href="#orgd8f5399">4.5.1. Storage Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org58ee376">5. The UNIX System Interface</a>
+<ul>
+<li><a href="#orgf245e9f">5.1. File Descriptors</a></li>
+<li><a href="#orga6073cf">5.2. Low Level I/O: <code>read()</code> and <code>write()</code></a>
+<ul>
+<li><a href="#org5542581">5.2.1. <code>read()</code></a></li>
+<li><a href="#org2faabc1">5.2.2. <code>write()</code></a></li>
+<li><a href="#orgbbbc964">5.2.3. Example: copy input to output</a></li>
+<li><a href="#org9adde13">5.2.4. Example: <code>getchar()</code></a></li>
+</ul>
+</li>
+<li><a href="#orgdf5ff0d">5.3. <code>open()</code>, <code>creat()</code>, <code>close()</code>, <code>unlink()</code></a>
+<ul>
+<li><a href="#orgb8ec0ce">5.3.1. <code>open()</code></a>
+<ul>
+<li><a href="#orgb51859d">5.3.1.1. Generals</a></li>
+<li><a href="#org4f2ffd7">5.3.1.2. Example: open a file for reading</a></li>
+</ul>
+</li>
+<li><a href="#org919ef90">5.3.2. <code>creat()</code></a>
+<ul>
+<li><a href="#org4bc1522">5.3.2.1. Generals</a></li>
+</ul>
+</li>
+<li><a href="#org5714e4b">5.3.3. <code>close()</code></a></li>
+<li><a href="#org2fa0f40">5.3.4. <code>unlink()</code></a></li>
+<li><a href="#org0483087">5.3.5. Example: mini <code>cp</code> program</a></li>
+<li><a href="#org6728877">5.3.6. Example: mini <code>cp</code> program with self-implemented <code>error()</code> display</a></li>
+<li><a href="#org531607d">5.3.7. Exercise: mini <code>cat</code> program</a></li>
+</ul>
+</li>
+<li><a href="#org7fa7a54">5.4. Random Access: <code>lseek()</code></a>
+<ul>
+<li><a href="#org31c5f1e">5.4.1. <code>lseek()</code></a></li>
+<li><a href="#org61a2393">5.4.2. Examples</a></li>
+</ul>
+</li>
+<li><a href="#org2d3f59e">5.5. Example: an implementation of <code>fopen()</code> and <code>getc()</code></a>
+<ul>
+<li><a href="#orgbd5a50f">5.5.1. <code>FILE</code> type build-up and Macros</a>
+<ul>
+<li><a href="#orgd44a713">5.5.1.1. Setting flags</a></li>
+<li><a href="#org2b2b3ea">5.5.1.2. Macro <code>getc()</code></a></li>
+<li><a href="#org472871c">5.5.1.3. Macro <code>putc()</code></a></li>
+</ul>
+</li>
+<li><a href="#orgf55ba3e">5.5.2. <code>fopen()</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge39320e">6. Place Holder</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7053e66" class="outline-2">
+<h2 id="org7053e66"><span class="section-number-2">1</span> Generals</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgeb5e6cd" class="outline-3">
+<h3 id="orgeb5e6cd"><span class="section-number-3">1.1</span> Some Facts</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Below are some general facts about C language.
+</p>
+<ul class="org-ul">
+<li>assignments associate from right to left.</li>
+<li>arithemetic operators associate left to right</li>
+<li>relational operators have lower precedence than arithmetic operators</li>
+<li>expressions connected by <code>&amp;&amp;</code> or <code>||</code> are evaluated left to right. <code>&amp;&amp;</code> has a higher precedence than <code>||</code>, both are lower than relational and equality operators. (higher than assignment operators?)</li>
+<li>printable characters are always positive</li>
+<li>The standard headers <code>&lt;limits.h&gt;</code> and <code>&lt;float.h&gt;</code> contain symbolic constants for all of the sizes of basic data types, along with other properties of the machine and compiler.</li>
+<li>a leading 0 (zero) on an integer constant means octal</li>
+<li>a leading <code>0x</code> or <code>0X</code> (zero x) means hexadecimal.</li>
+<li>you can use escape sequence to represent number. Check it at p51. The complete set of escape sequences are in p52.</li>
+<li><code>strlen()</code> function and other string functions are declared in the standard header <code>&lt;string.h&gt;</code>.</li>
+<li>external and static variables are initialized to zero by default.</li>
+<li>for portability, specify <code>signed</code> or <code>unsigned</code> if non-character data is to be stored in <code>char</code> variables. (p58)</li>
+<li><p>
+to perform a type conversion:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">double a = 2.5;
+printf("%d", (int) a);  
+</pre>
+</div>
+<p>
+result will be <code>2</code>.
+</p></li>
+<li>unary operator associate right to left (like <code>*</code>, <code>++</code>, <code>--</code>)</li>
+<li>strcpy() function in C needs a pointer to a character array! A pointer to character will cause segmentation fault</li>
+</ul>
+
+<p>
+Place holder.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5d85de7" class="outline-3">
+<h3 id="org5d85de7"><span class="section-number-3">1.2</span> headers</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li><code>&lt;stdio.h&gt;</code>: contains input/output functions</li>
+<li><code>&lt;ctype.h&gt;</code>: some functions regarding to characters</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga5ece1e" class="outline-3">
+<h3 id="orga5ece1e"><span class="section-number-3">1.3</span> <code>printf()</code> formatting</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Check p26-p27 of the textbook.
+</p>
+
+<p>
+Use <code>%</code> with symbols to print the variables in different format.
+Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">printf("%c", a)  //print a in format of character
+printf("%s", a)  //print a in format of character string
+printf("%nc", a)  //print a in format of character, using a character width of size n (at least)
+printf("%f", a)  //print a in format of float
+printf("%nf", a)  //print a in format of float, using a width of size n
+printf("%n.0f", a)  //print a in format of float, using a character width of size n, with no decimal point and no fraction digits
+printf("%n.mf", a)  //print a in format of float, using a character width of size n, with decimal point and m fraction digits
+printf("%0.mf", a)  //print a in format of float, with decimal point and m fraction digits. The width is not constrained.
+printf("%d", a)  //print a in format of integer
+printf("%o", a)  //print a in format of octal integer
+printf("%x", a)  //print a in format of hexadecimal integer
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4caff2e" class="outline-3">
+<h3 id="org4caff2e"><span class="section-number-3">1.4</span> Character Input and Output</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li><code>getchar()</code>: it reads the next input character from a text stream and returns that (from the buffer?).</li>
+<li><code>putchar()</code>: it prints a character each time it is called and passed a char into.</li>
+</ul>
+
+<p>
+Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, <code>'a'</code> is actually <code>97</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org778e16a" class="outline-3">
+<h3 id="org778e16a"><span class="section-number-3">1.5</span> Arrays</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int nums[100];
+</pre>
+</div>
+<p>
+Remember to initialize each slot:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">for (int i = 0; i &lt; 100; i++)
+  nums[i] = 0;
+</pre>
+</div>
+
+<p>
+You can also to use assignment operator and <code>{ }</code> to initialize the array when defining. For example, the following C-string is initialized when being defined:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int main() {
+  char s[] = {'a', 'b', 'c' };
+  printf("%s", s);
+  return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9d7d979" class="outline-3">
+<h3 id="org9d7d979"><span class="section-number-3">1.6</span> Enumeration constant</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+An enumeration is a list of constant integer values. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">enum boolean { NO, YES };
+</pre>
+</div>
+<p>
+The first name in an <code>enum</code> has value 0, the next 1, and so on, unless explicit values are specified:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">enum boolean { YES = 1, NO = 0 };
+</pre>
+</div>
+
+<p>
+If not all values are specified, unspecified values continue the progression from the last specified value:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">enum months { JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
+// FEB is 2, MAR is 3, etc.
+</pre>
+</div>
+
+<p>
+Names in different enumerations must be distinct. Values need not be distinct in the same enumeration. Enumeration works like using <code>#define</code> to associate constant values with names:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define JAN 1
+#define FEB 2
+// etc
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb1e31e9" class="outline-3">
+<h3 id="orgb1e31e9"><span class="section-number-3">1.7</span> type-cast an expression</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Explicit type conversions can be forced ("coerced") in any expression. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int main() {
+  int n = 2;
+  printf("%f", (float) n);
+  return 0;
+}
+</pre>
+</div>
+<p>
+In the above example, when being printed, the type of <code>n</code> has been modified to <code>float</code>. Notice that <code>n</code> itself is not altered. This is called a <i>cast</i>, it is an unary operator, has the same high precedence as other unary operators.
+</p>
+</div>
+</div>
+<div id="outline-container-orge1f128f" class="outline-3">
+<h3 id="orge1f128f"><span class="section-number-3">1.8</span> Bitwise operators</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+p62
+</p>
+
+<p>
+There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
+</p>
+
+<p>
+They are:
+</p>
+<ul class="org-ul">
+<li><code>&amp;</code>  : bitwise AND</li>
+<li><code>|</code>  : bitwise inclusive OR</li>
+<li><code>^</code>  : bitwise exclusive OR</li>
+<li><code>&lt;&lt;</code> : left shift</li>
+<li><code>&gt;&gt;</code> : right shift</li>
+<li><code>~</code>  : one's complement (unary)</li>
+</ul>
+
+<p>
+The precedence of the bitwise operators <code>&amp;</code>, <code>^</code> and <code>|</code> is lower than <code>==</code> and <code>!=</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org250705c" class="outline-3">
+<h3 id="org250705c"><span class="section-number-3">1.9</span> Operators can be used with assignment operators</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+p64
+</p>
+
+<p>
+<code>+, -, *, /, %, &lt;&lt;, &gt;&gt;, &amp;, ^, |</code>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd370d06" class="outline-3">
+<h3 id="orgd370d06"><span class="section-number-3">1.10</span> Symbolic Constants</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+A <code>#define</code> line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: <code>#define</code> <i>name</i> <i>replacement text</i>. You put this at the head of your code (outside scope of any function to make it globally). Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+#define LOWER 0
+#define UPPER 300
+#define STEP 20
+
+int main() {
+
+  for (int i = LOWER; i &lt;= UPPER; i += STEP) {
+    printf("%5d\t%20f", i, 5 * (i - 32) / 9.0);
+    printf("\n");
+  }
+
+  return 0;
+}
+</pre>
+</div>
+<p>
+Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a <code>#define</code> line.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge4a342d" class="outline-2">
+<h2 id="orge4a342d"><span class="section-number-2">2</span> Functions and Program Structure</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org03e259d" class="outline-3">
+<h3 id="org03e259d"><span class="section-number-3">2.1</span> External Variables</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an <code>extern</code> declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int addNum(int a) {
+  extern int ADDAMOUNT;  // variable ADDAMOUNT is in different source file
+
+  return a + ADDAMOUNT;
+}
+</pre>
+</div>
+<p>
+Array sizes must be specified with the definition, but are optional with an <code>extern</code> declaration.
+</p>
+</div>
+</div>
+<div id="outline-container-orgff39cf2" class="outline-3">
+<h3 id="orgff39cf2"><span class="section-number-3">2.2</span> The C Preprocessor</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org42ff3dc" class="outline-4">
+<h4 id="org42ff3dc"><span class="section-number-4">2.2.1</span> File Inclusion</h4>
+</div>
+<div id="outline-container-org6800269" class="outline-4">
+<h4 id="org6800269"><span class="section-number-4">2.2.2</span> Macro Substitution</h4>
+<div class="outline-text-4" id="text-2-2-2">
+</div>
+<div id="outline-container-orgb8310ed" class="outline-5">
+<h5 id="orgb8310ed"><span class="section-number-5">2.2.2.1</span> General</h5>
+<div class="outline-text-5" id="text-2-2-2-1">
+<p>
+A definition of a macro Substitution has the form:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define name replacement_text
+</pre>
+</div>
+<p>
+After this line, subsequent occurrences of the token <code>name</code> will be replaced by the <code>replacement_text</code>. <code>name</code> has the same form as a variable name (so no white space is allowed between characters), <code>replacement_text</code> is arbiturary.
+</p>
+
+<p>
+<code>replacement_text</code> is the rest of the line. If you need long definition, you can place a <code>'\'</code> at the end of each line to be continued. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#define say_hi_5_times  (for (int i = 0; i &lt; 5; i++) \
+			  printf("Hi\n");)
+
+int main() {
+  say_hi_5_times
+  return 0;
+}
+</pre>
+</div>
+<p>
+This program will print <code>"Hi"</code> 5 times. Notice that there is no <code>;</code> after the macro, this is because <code>say_hi_5_times</code> calls for a macro substitution, every occurrence of <code>say_hi_5_times</code> will be replaced by:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">for (int i = 0; i &lt; 5; i++)
+  printf("Hi\n");
+</pre>
+</div>
+<p>
+Thus, after preprocessing, the code is actually:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+int main() {
+  for (int i = 0; i &lt; 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i &lt; 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i &lt; 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i &lt; 5; i++)
+    printf("Hi\n");
+  for (int i = 0; i &lt; 5; i++)
+    printf("Hi\n");
+
+  return 0;
+}
+</pre>
+</div>
+<p>
+Notice: you can use <code>'\'</code> inside the parenthese.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde403df" class="outline-5">
+<h5 id="orgde403df"><span class="section-number-5">2.2.2.2</span> Arguments</h5>
+<div class="outline-text-5" id="text-2-2-2-2">
+<p>
+It is possible to define macros with arguments, so the replacement text can be different for different calls of the macro. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define max(A, B) ((A) &gt; (B) ? (A) : (B))
+</pre>
+</div>
+<p>
+Do not treat it as function call, there is nothing relating to function happening here. It is still a macro substitution. Each occurrence of a formal parameter (here <code>A</code> or <code>B</code>) will be replaced by the corresponding actual argument. For example, if <code>max(p+q, r+s)</code> appeared, after preprocessing, this line will become:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">((p+q) &gt; (r+s) ? (p+q) : (r+s))
+</pre>
+</div>
+
+<p>
+You can even put function names in the parameter:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#define plus(A, B) (A)() + (B)()
+
+int one() {
+  return 1;
+}
+
+int two() {
+  return 2;
+}
+
+int main() {
+  printf("result: %d", plus(one, two));
+  return 0;
+}
+</pre>
+</div>
+<p>
+The output is: <code>result: 3</code>
+</p>
+</div>
+</div>
+<div id="outline-container-orgdbb2f0c" class="outline-5">
+<h5 id="orgdbb2f0c"><span class="section-number-5">2.2.2.3</span> Pitfalls</h5>
+<div class="outline-text-5" id="text-2-2-2-3">
+<p>
+There are pitfalls hidden in the macro substitution. For example, in the <code>max()</code> macro:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define max(A, B) ((A) &gt; (B) ? (A) : (B))
+</pre>
+</div>
+<p>
+each expression is evaluated twice. Thus usages like <code>max(i++, j++)</code> will increment the larger value twice (first in the comparing part, next in the "returning" part). User of <code>max(i++, j++)</code> may expect single increment.
+</p>
+
+<p>
+An other example of pitfall is
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define square(x) x * x
+</pre>
+</div>
+<p>
+Notice there is no parenthese, so if we have an expression like <code>square(a + 1)</code>, after macro substitution, the actual expression is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">a + 1 * a + 1
+</pre>
+</div>
+<p>
+which is not <code>(a + 1) * (a + 1)</code>. So, make sure to use parenthese to enclose your parameters to avoid such mistake. In the above example, <code>square(x)</code> should be:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define square(x) ((x) * (x))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org68a42dd" class="outline-4">
+<h4 id="org68a42dd"><span class="section-number-4">2.2.3</span> Conditional Inclusion</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org5814482" class="outline-2">
+<h2 id="org5814482"><span class="section-number-2">3</span> Pointers and Arrays</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgf44a5f8" class="outline-3">
+<h3 id="orgf44a5f8"><span class="section-number-3">3.1</span> Command-line Arguments</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+p128 in CPL.
+</p>
+
+<p>
+We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter <code>ehco</code>, followed by a series of arguments:
+</p>
+<pre class="example">
+$ echo hello world
+</pre>
+<p>
+then press enter. The command line window will repeat the inputed arguments:
+</p>
+<pre class="example">
+$ echo hello world
+$ hello world
+</pre>
+<p>
+The two strings <code>"hello"</code> and <code>"world"</code> are two arguments passed in echo program.
+</p>
+
+<p>
+Basically, when <code>main()</code> is called, it is called with two arguments: <code>argc</code> and <code>argv</code>.
+</p>
+<ul class="org-ul">
+<li><code>argc</code>: stands for argument count. It is the number of command-line arguments when the program was invoked (i.e. how many strings are there in the line that invoked the program). In the above echo example, <code>argc == 3</code>, the three strings are: "echo", "hello" and "world", respectively.</li>
+<li><p>
+<code>argv</code>: stands for argument vector. It is a pointer to an array of character strings that contain the actual arguments, one per string. You can imagine when you type in command line to invoke a program, what you typed in was stored somewhere in an array of character strings. Additionally, the standard requires that <code>argv[argc]</code> be a null pointer. In the echo example, you typed "echo hello world", and following array of characters was stored:
+</p>
+<pre class="example">
+["echo", "hello", "world", 0]
+</pre></li>
+</ul>
+</div>
+
+<div id="outline-container-org9dd88e2" class="outline-4">
+<h4 id="org9dd88e2"><span class="section-number-4">3.1.1</span> Example: <code>echo</code></h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+Knowing this, we can write a program that mimic the <code>echo</code> function: re-print what we typed in when we invoke the program to terminal:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+int main(int argc, char* argv[]) {
+  while (*(++argv))
+    printf("%s%s", *argv, *(argv + 1) ? " " : "");  // the second %s is for the space
+
+  printf("\n");
+
+  return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org883176b" class="outline-4">
+<h4 id="org883176b"><span class="section-number-4">3.1.2</span> Example: <code>pattern_finding</code></h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
+</p>
+<pre class="example">
+$ pattern_finding love &lt; text.txt
+</pre>
+<p>
+it will print all lines that contain <code>love</code> to the terminal.
+</p>
+
+<p>
+The program uses <code>strstr()</code> to search the existence of a certain keyword in target string. We also write a <code>getline()</code> function to get one single line from input buffer (using <code>getchar()</code>). Pay attention that in the new C library (<code>stdio.h</code>), a <code>getline()</code> function has been added. So we rename our function to <code>getlines()</code>. The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#define MAXLINE 1000
+
+int getlines(char* line, int max);
+
+//find: print lines that match pattern from 1st arg 
+int main(int argc, char* argv[]) {
+  char line[MAXLINE];  // used to hold a line of string
+  int found = 0;
+
+  if (argc != 2)
+    printf("Usage: find pattern\n");
+  else
+    while (getlines(line, MAXLINE) &gt; 0)
+      if (strstr(line, argv[1]) != NULL) {
+	printf("No.%d: %s", ++found, line);
+      }
+
+  return found;
+}
+
+int getlines(char* line, int max) {
+  char ch;
+
+  while (--max &gt; 0 &amp;&amp; (ch = getchar()) != EOF &amp;&amp; ch != '\n') {
+    *(line++) = ch;
+  }
+
+  if (ch == '\n')
+    *(line++) = ch;  // no need to worry about not enough space, since if ch == '\n', it is not stored in line yet, because the loop was not executed
+  *line = '\0';
+
+  if (ch == EOF)
+    return -1;
+
+  return 1;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3477efa" class="outline-4">
+<h4 id="org3477efa"><span class="section-number-4">3.1.3</span> Optional arguments example: <code>pattern_finding</code> extended</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+Now we extend our <code>pattern_finding</code> program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
+</p>
+
+<p>
+There is no magic about optional arguments. They are collected as strings in <code>argv[]</code> when the program is invoked, just like anyother strings occured when invoking the function. We extend the <code>pattern_finding</code> program to include support for two optional arguments:
+</p>
+<ol class="org-ol">
+<li>-x: print lines that doesn't contain the target pattern;</li>
+<li>-n: in addition to print lines, the program will also print the corresponding line number before the line.</li>
+</ol>
+<p>
+So, the program can be invoked in following way:
+</p>
+<pre class="example">
+$ pattern_finding -n -x keyword &lt; text.txt
+</pre>
+<p>
+in this case, when <code>main()</code> is called, <code>argc == 4</code>, <code>*argv == {"pattern_finding", "-n", "-x", "keyword"}</code>. <code>&lt; text.txt</code> is just redirect <code>stdin</code> to the text.
+</p>
+
+<p>
+Or, we can combine the two optional arguments:
+</p>
+<pre class="example">
+$ pattern_finding -xn keyword &lt; text.txt
+</pre>
+<p>
+in this case, when <code>main()</code> is called, <code>argc == 3</code>, <code>*argv == {"pattern_finding", "-xn", "keyword"}</code>.
+</p>
+
+<p>
+Thus, we have to write code to analyze argument strings that has <code>"-xxx"</code> form. Generally, we keep a list of flags inside the program. If we encountered any optional argument in the string, we can set the corresponding flag to true.
+</p>
+
+<p>
+The code and explanation is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#define MAXLINE 1000
+
+int getlines(char* line, int max);
+
+//find: print lines that match pattern from 1st arg 
+// with optional arguments enabled
+int main(int argc, char* argv[]) {
+  char line[MAXLINE];  // temporary container to hold line read from buffer
+  char c;  // to check optional arguments 
+
+  int line_num = 0;  // record the number of line                                                             
+  int except = 0;  // flag of optional argument x, if this is true, print lines that doesn't have pattern  
+  int number = 0;  // flag for optional argument n , if this is true, print the corresponding line number
+  int found = 0;
+
+
+  // check inputted arguments and set flag accordingly
+  // use prefix to skip the first argv (which is the name of the function)
+  while (--argc &gt; 0 &amp;&amp; (*++argv)[0] == '-')  // outter while loop check each "-xxx" styled optional argument 
+    while (c = *++argv[0]) {  // inner while loop check each char in the "-xxx" styled argument
+      switch (c) {
+      case 'x':
+	except = 1;
+	break;
+      case 'n':
+	number = 1;
+	break;
+      default:
+	printf("find: illegal option %c\n", c);
+	argc = 0;  // this will terminate the program
+	found = -1;
+	break;
+      }
+    }
+
+  if (argc != 1)  //we should have only one argument at this point, which is the pattern we are going to find. All optional arguments have been examed by the previous while loop 
+    printf("Usage: find -x -n pattern\n");  // print a message showing how to use this program
+  else
+    while (getlines(line, MAXLINE) &gt; 0) {
+      line_num++;  // update the line number
+
+      /*Notes: 
+	Print the line based on value of variable except and the found result.
+	To print a line, the truth value of found and except should be different. When except = 1, we print lines that not found, so found == 0;
+	When except = 0, we print lines that are found, so found == 1;
+      */
+      if ((strstr(line, *argv) != NULL) != except) {
+	if (number)  // if the number flag is true, we print the line number 
+	  printf("%d", line_num);
+	printf("%s", line);
+	found++;
+      }
+
+    }
+
+  return found;
+
+}
+
+int getlines(char* line, int max) {
+  char ch;
+
+  while (--max &gt; 0 &amp;&amp; (ch = getchar()) != EOF &amp;&amp; ch != '\n') {
+    *(line++) = ch;
+  }
+
+  if (ch == '\n')
+    *(line++) = ch;  // no need to worry about not enough space, since if ch == '\n', it is not stored in line yet, because the loop was not executed
+  *line = '\0';
+
+  if (ch == EOF)
+    return -1;
+
+  return 1;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c67c14" class="outline-3">
+<h3 id="org3c67c14"><span class="section-number-3">3.2</span> Pointers to Functions</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
+</p>
+
+<p>
+To declare a pointer to a function, you write:
+</p>
+<pre class="example">
+return_type (*ptr_name)(parameter1_type, parameter2_type, ...)
+</pre>
+<p>
+Explanation:
+</p>
+<ul class="org-ul">
+<li><code>return_type</code>: the return type of the function this pointer pointing to.</li>
+<li><code>ptr_name</code>: the name of the pointer variable</li>
+<li><code>parameter_type</code>: the type of the function this pointer referring to.</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+int add(int a, int b) {
+  return a + b;
+}
+
+int main() {
+  int (*a)(int, int);
+  a = &amp;add;
+  printf("%d\n", (*a)(2, 3));
+}
+</pre>
+</div>
+<p>
+When calling the function pointer, you have to use parenthese to enclose <code>*</code> and pointer name. Use <code>&amp;</code> and function name to get the "address" of the function.
+</p>
+</div>
+
+<div id="outline-container-org39b4442" class="outline-4">
+<h4 id="org39b4442"><span class="section-number-4">3.2.1</span> Example: qsort() which takes a comp() function pointer</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+(Example 5-11).
+</p>
+
+<p>
+A quick sort function which takes a function pointer to be used in its body to sort is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
+  int last;
+
+  if (left &gt;= right)
+    return;
+
+  swap(v, left, (left + right) / 2);
+  last = left;
+
+  for (int i = left + 1; i &lt;= right; i++)
+    if ((*comp)(v[i], v[left]) &lt; 0)
+      swap(v, i, ++last);
+
+  swap(v, left, last);
+  qsorts(v, left, last - 1, comp);
+  qsorts(v, last + 1, right, comp);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org35431ff" class="outline-2">
+<h2 id="org35431ff"><span class="section-number-2">4</span> Input and Output</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org97c153e" class="outline-3">
+<h3 id="org97c153e"><span class="section-number-3">4.1</span> Standard Input and Output</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-org90f3c71" class="outline-4">
+<h4 id="org90f3c71"><span class="section-number-4">4.1.1</span> Input redirection</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+In many environments, a file may be substituted for the keyboard as the source of standard input by using the <code>&lt;</code> convention for input redirection. For example, we have following code:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+int main() {
+  char c;
+  while ((c = getchar()) != EOF)
+    printf("%c", c);
+
+  return 0;
+}
+</pre>
+</div>
+<p>
+When we call the program, we use <code>&lt;</code> to redirect standard input with a file:
+</p>
+<pre class="example">
+$ ./a.out &lt; out.txt
+</pre>
+<p>
+the effect of this program is to print all content in <code>out.txt</code> to standard output.
+</p>
+</div>
+</div>
+<div id="outline-container-org90b258f" class="outline-4">
+<h4 id="org90b258f"><span class="section-number-4">4.1.2</span> Output redirection</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+We can also redirect a program's standard output to a file. We use <code>&gt;</code> convention to do it, the syntax is:
+</p>
+<pre class="example">
+$./a.out &gt; result.txt
+</pre>
+<p>
+in this way, all standard output of <code>a.out</code> will be redirected to file <code>result.txt</code>. The file will be created if not exist.
+</p>
+
+<p>
+Output produced by <code>putchar()</code> and <code>printf()</code> are the same, they will both finds its way to the standard output.
+</p>
+</div>
+</div>
+<div id="outline-container-org4157cfe" class="outline-4">
+<h4 id="org4157cfe"><span class="section-number-4">4.1.3</span> Pipe between two programs</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+It is possible to use one program's standard output as another program's standard input:
+</p>
+<pre class="example">
+$./prog1 | ./prog2
+</pre>
+<p>
+the above line puts the standard output of <code>prog1</code> into the standard input of <code>prog2</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org14b5f31" class="outline-4">
+<h4 id="org14b5f31"><span class="section-number-4">4.1.4</span> Include header file</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<p>
+When you include a file with brackets <code>&lt;&gt;</code>, the compiler will search the header in a standard set of places (typically: <code>/usr/include</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbfce7c3" class="outline-4">
+<h4 id="orgbfce7c3"><span class="section-number-4">4.1.5</span> Macros in standard library</h4>
+<div class="outline-text-4" id="text-4-1-5">
+<p>
+"Functions" like <code>getchar</code> and <code>putchar</code> in <code>&lt;stdio.h&gt;</code>, and <code>tolower</code> in <code>&lt;ctype.h&gt;</code> are often macros, thus avoiding the overhead of a function call per character.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6fae4bd" class="outline-4">
+<h4 id="org6fae4bd"><span class="section-number-4">4.1.6</span> Formatted output: printf</h4>
+<div class="outline-text-4" id="text-4-1-6">
+<p>
+p167 on textbook. A table of <code>printf()</code>'s conversion characters are shown in table 7-1 in the book (p168).
+</p>
+
+<p>
+A width or precision may be specified as <code>.*</code>, the value is computed by converting the next argument (which must be an <code>int</code>). For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int main(int argc, char* argv[]) {
+  char* s = "abcdefg";
+  int length = 4;
+  printf("%.*s\n", length, s);
+  return 0;
+}
+</pre>
+</div>
+<p>
+the above program printed the first <code>length</code> characters in string <code>s</code>. Don't forget the dot before <code>*</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5d3181a" class="outline-4">
+<h4 id="org5d3181a"><span class="section-number-4">4.1.7</span> Function <code>sprintf()</code></h4>
+<div class="outline-text-4" id="text-4-1-7">
+<p>
+This function does the same conversions as <code>printf()</code>. It accepts a <code>char* string</code> argument, and will place the result in <code>string</code> instead of to the standard output. <code>string</code> must big enough to receive the result.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeea8fc6" class="outline-3">
+<h3 id="orgeea8fc6"><span class="section-number-3">4.2</span> Variable-length Argument Lists</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+This section will use an implementation of a minimal version of <code>printf()</code> to show how to write a function that processes a Variable-length argument list in a portable way.
+</p>
+</div>
+
+<div id="outline-container-orgf1209cb" class="outline-4">
+<h4 id="orgf1209cb"><span class="section-number-4">4.2.1</span> Declare a function that takes varying amounts of arguments</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+To declare a function whose argument number is not fixed (which may vary), we do:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">void miniPrintf(char* format, ...)
+</pre>
+</div>
+<p>
+the declaration <code>...</code> means that the number and types of these arguments may vary. It can only appear at the end of a list of named argument (there must be at least one named argument).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb44b026" class="outline-4">
+<h4 id="orgb44b026"><span class="section-number-4">4.2.2</span> Traverse the argument list and final cleanup</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+The standard header <code>&lt;stdarg.h&gt;</code> contains a set of macro definitions that define how to step through an argument list. To build functions that takes varying amounts of arguments, you have to include <code>&lt;stdarg.h&gt;</code>.
+</p>
+</div>
+
+<div id="outline-container-org14f11a4" class="outline-5">
+<h5 id="org14f11a4"><span class="section-number-5">4.2.2.1</span> Type <code>va_list</code></h5>
+<div class="outline-text-5" id="text-4-2-2-1">
+<p>
+A data type named <code>va_list</code> is defined in <code>&lt;stdarg.h&gt;</code>. We declare a variable of this type, then use this variable to refer to each unnamed argument passed in the function. It works like a pointer. For example, we can have following declaration:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdarg.h&gt;
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9f423d" class="outline-5">
+<h5 id="orge9f423d"><span class="section-number-5">4.2.2.2</span> Macro <code>va_start</code></h5>
+<div class="outline-text-5" id="text-4-2-2-2">
+<p>
+After the declaration <code>va_list ap;</code>, <code>ap</code> is an object of type <code>va_list</code>. How to use it to actually point to the unnamed arguments? We begin by using a macro named <code>va_start</code>. After declaring <code>ap</code>, we call this macro to "initiate" <code>ap</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdarg.h&gt;
+void miniPrintf(char* format, ...) {
+  va_list ap;  // points to each unnamed argument in turn
+  va_start(ap, format);  // make ap point to 1st unnamed argument
+  //...
+}
+</pre>
+</div>
+<p>
+<code>va_start()</code> "accepts" two tokens. The first one is the <code>va_list</code> type variable which will be used to refer to unnamed arguments in turn, here we use <code>ap</code>. The second one should be the <b>LAST</b> named argument from the function call. <code>va_start</code> will use this to locate the beginning of unnamed argument. After this line, <code>ap</code> will be referring to the first unnamed argument.
+</p>
+
+<p>
+But how could we "retrieve" the unnamed argument being referred by <code>ap</code> and move to next argument? We call <code>va_arg</code> macro to do this job.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b272ca" class="outline-5">
+<h5 id="org5b272ca"><span class="section-number-5">4.2.2.3</span> Macro <code>va_arg</code></h5>
+<div class="outline-text-5" id="text-4-2-2-3">
+<p>
+<code>va_arg</code> is a macro defined in <code>&lt;stdarg.h&gt;</code>. It "accepts" two tokens, the first one is an object of <code>va_list</code> type (we used <code>ap</code>), the second one is the type name you wish to collect from current argument which <code>ap</code> is appointing to. When this macro is called, it returns one argument of the type you specified and steps <code>ap</code> to the next. The type name you provided will be used by <code>va_arg</code> to determine what type to return and how big a step to take. You have to use another variable of the same type to hold the returned argument, so you can use later.
+</p>
+
+<p>
+For example, following call of <code>va_arg</code> will return an integer argument, and we hold it using an integer variable named <code>ival</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int ival;
+ival = va_arg(ap, int);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf3e02d7" class="outline-5">
+<h5 id="orgf3e02d7"><span class="section-number-5">4.2.2.4</span> Macro <code>va_end</code></h5>
+<div class="outline-text-5" id="text-4-2-2-4">
+<p>
+<code>va_end</code> is a macro defined in <code>&lt;stdarg.h&gt;</code>. It takes one token, which is the <code>va_list</code> object we used in the program. This macro will do whatever needs to cleanup. It must be called before the function returns:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">va_end(ap);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7c1da3" class="outline-4">
+<h4 id="orgc7c1da3"><span class="section-number-4">4.2.3</span> Example: <code>miniPrintf()</code> <a id="org908efcd"></a></h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+In this example, <code>miniPrintf()</code> takes two arguments, the first one is a pointer to char, which will be the format string or content it will be printing. Every character of <code>%</code> indicates there is an argument in the argument list waiting to be printed in a certain format. Here, we just use the next character after <code>%</code> to determine what type of argument we retrieve from the argument list. The function is declared as:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+void miniPrintf(char* format, ...)
+</pre>
+</div>
+<p>
+To retrieve arguments in the unamed argument list, we declare an object of type <code>va_list</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">va_list ap;
+char *p;  // to traverse format string
+char* sval;  // to hold string argument
+int ival;  // to hold integer argument
+double dval;  // to hold double argument
+</pre>
+</div>
+<p>
+Before processing, we need to initialize the <code>va_list</code> object:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">va_start(ap, format);
+</pre>
+</div>
+<p>
+Then, we go over the <code>format</code> string. If no <code>%</code> encountered, we call <code>putchar()</code> to print it directly:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
+  }
+
+  // do things when '%' is found
+}
+</pre>
+</div>
+<p>
+When <code>%</code> is found, we need to check the next character and determine what data type we need to retrieve from the unamed argument list:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">for (p = format; *p; p++) {
+  if (*p != '%') {
+    putchar(*p);
+    continue;
+  }
+
+  switch (*++p) {  // check next char
+  case 'd':
+    ival = va_arg(ap, int);
+    printf("%d", ival);
+    break;
+  }
+  case 'f':
+    dval = va_arg(ap, double);
+    printf("%f", dval);
+    break;
+  case 's':
+    for (sval = va_arg(ap, char*); *sval; sval++)
+      putchar(*sval);
+    break;
+  default:
+    putchar(*p);
+    break;
+}
+</pre>
+</div>
+<p>
+When the style token after <code>%</code> is <code>s</code>, it means we have to print a string. So the return type of <code>va_arg</code> is a pointer to <code>char</code>. We print the C-string one character by one character, until we reach the <code>'\0'</code> terminator.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d00566" class="outline-3">
+<h3 id="org0d00566"><span class="section-number-3">4.3</span> Formated Input: <code>scanf()</code></h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+p171.
+</p>
+</div>
+
+<div id="outline-container-orgf23ea64" class="outline-4">
+<h4 id="orgf23ea64"><span class="section-number-4">4.3.1</span> A simple example</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+An example of using <code>scanf()</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
+  int num;
+  scanf("%d%d%d%d", &amp;a, &amp;b, &amp;c, &amp;d);
+  printf("a = %d\nb = %d\nc = %d\nd = %d\n", a, b, c, d);
+
+  return 0;
+}
+</pre>
+</div>
+<p>
+here, we read four inputs and store them to four variables. Notice we have to pass in the address of each variable to <code>scanf()</code>. In this way, <code>scanf()</code> can modify the variable directly (passed by value).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbdebf96" class="outline-4">
+<h4 id="orgbdebf96"><span class="section-number-4">4.3.2</span> Declaration and arguments</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+<code>scanf()</code> is declared as:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int scanf(char *format, ...)
+</pre>
+</div>
+
+<p>
+It will use the <code>format</code> string to retrieve information via certain format, convert them and assign to variables in the followed list. <code>scanf()</code> stops when it exhausts its format string, or when some input fails to match the control specification. It returns the number of successfully matched and assigned input items (to variable in the unamed argument lists).
+</p>
+
+<p>
+The <code>format</code> string may contain:
+</p>
+<ol class="org-ol">
+<li>blanks or tabs. These will be automatically ignored</li>
+<li><p>
+ordinary characters (not <code>%</code>). <code>scanf()</code> will try to match these characters with the corresponding non-whitespace character of the input stream. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">scanf("%dabcde%d", &amp;a, &amp;b);
+printf("a = %d\nb = %d\n", a, b);
+</pre>
+</div>
+<p>
+input: <code>1abcde2</code>, output:
+</p>
+<pre class="example">
+a = 1
+b = 2
+</pre></li>
+<li>conversion specifications, which is explained below.</li>
+</ol>
+
+<p>
+A conversion specification is some characters starting with <code>%</code>, which will be used by <code>scanf()</code> to convert the next <b>input field</b> and assign to corresponding variable. An input field is defined as a string of non-white space characters; it extends either to the next white space character or until the field width has been reached (the width of the field may be specified by conversion specification, see below).
+</p>
+
+<p>
+In the conversion specification, we may find:
+</p>
+<ul class="org-ul">
+<li>%: indicating starting of a conversion specification</li>
+<li>*: assignment suppresion marker. If this is present, the input field is skipped, no assignment to variable is made</li>
+<li>number: a number that specifies the maximum width of the input field (of which this current conversion specification is taking care)</li>
+<li><code>h, l or L</code>: indicating the width of the target. <code>%h</code>: a short integer; <code>%l</code>: a long integer.</li>
+<li>a conversion character: indicating what type to convert to, like <code>%d, %c, %s</code> etc. (i.e. the interpretation of the input field).</li>
+</ul>
+
+<p>
+Some examples of using <code>scanf()</code> can be found on p172, 173.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org905f670" class="outline-3">
+<h3 id="org905f670"><span class="section-number-3">4.4</span> File Access<a id="orgff7d961"></a></h3>
+<div class="outline-text-3" id="text-4-4">
+</div>
+<div id="outline-container-org3f1c769" class="outline-4">
+<h4 id="org3f1c769"><span class="section-number-4">4.4.1</span> Opening a file</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+The <code>&lt;stdio.h&gt;</code> library has a type <code>FILE</code> and a function <code>fopen()</code> that provides tools to work on files. The function <code>fopen()</code>'s declaration is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">FILE *fopen(char* name, char* mode)
+</pre>
+</div>
+<p>
+It accepts the name of the file and mode for opening this file. It will return a pointer to a <code>FILE</code> object. The type <code>FILE</code> is defined with a <code>typedef</code>, and is a structure that contains information about the file, such as:
+</p>
+<ul class="org-ul">
+<li>a pointer to a buffer
+<ul class="org-ul">
+<li>a buffer is used so file can be read in large chunks</li>
+</ul></li>
+<li>a count of the number of characters left in the buffer</li>
+<li>a pointer to the next character position in the buffer</li>
+<li>the file descriptor</li>
+<li>flags describing:
+<ul class="org-ul">
+<li>file openning mode: read or write</li>
+<li>error states: if error has occurred</li>
+<li>EOF states: whether end of file has occurred</li>
+</ul></li>
+</ul>
+
+<p>
+To obtain a pointer to a file, we do:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">FILE* fp;
+fp = fopen(name, mode);
+</pre>
+</div>
+<p>
+the allowable modes include:
+</p>
+<ul class="org-ul">
+<li>r: read mode</li>
+<li>w: write mode</li>
+<li>a: append mode</li>
+<li>b: append b to open in binary mode (for some systems)</li>
+</ul>
+
+<p>
+When errors occurred during file opening, <code>fopen()</code> will return a <code>NULL</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org1bbc8d8" class="outline-4">
+<h4 id="org1bbc8d8"><span class="section-number-4">4.4.2</span> Accessing the file</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+Once the file is opened, we access it through the <code>FILE</code> pointer <code>fp</code>. We have following choices:
+</p>
+<ul class="org-ul">
+<li><code>char getc(FILE *fp)</code>: (maybe) a macro that accepts a <code>FILE</code> pointer, returns the next character from the file (character position is recorded inside the <code>FILE</code> object). It returns <code>EOF</code> for end of file or error.</li>
+<li><code>char putc(char c, FILE *fp)</code>: (maybe) a macro that accepts a character <code>c</code> and a <code>FILE</code> pointer. It will write <code>c</code> to the file and returns the character written, or returns <code>EOF</code> if an error occurs.</li>
+</ul>
+
+<p>
+After using the file, we have to call <code>fclose()</code> to disconnect program from the file, freeing the file pointer for another file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org30b38a1" class="outline-4">
+<h4 id="org30b38a1"><span class="section-number-4">4.4.3</span> <code>stdin</code>, <code>stdout</code> and <code>stderr</code></h4>
+<div class="outline-text-4" id="text-4-4-3">
+<p>
+When a C program is started, the operating system environment is responsible for opening three files and providing file pointers for them to the program. These files are:
+</p>
+<ul class="org-ul">
+<li>standard input, file pointer: <code>stdin</code></li>
+<li>standard output, file pointer: <code>stdout</code></li>
+<li>standard error, file pointer: <code>stderr</code></li>
+</ul>
+<p>
+These file pointers are declared in <code>&lt;stdio.h&gt;</code>. Normally, <code>stdin</code> is connected to the keyboard, <code>stdout</code> and <code>stderr</code> are connected to the screen. <code>stdin</code> and <code>stdout</code> may be redirected to files or pipes as described earlier. Pay attention that <code>stderr</code> normally appears on the screen even if the standard output is redirected, this prevents error message disappearing down the pipeline. 
+</p>
+
+<p>
+Since C programs use these three file pointers to communicate with outside components, when we get char from input, or print char on output, we are actually getting or printing these characters via these file pointers to the final destination (standard input, standard output and standard error). Thus, <code>getchar()</code> and <code>putchar(c)</code> can be defined in terms of <code>getc, putc, stdin</code> and <code>stdout</code> as:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#define getchar() getc(stdin)
+#define putchar(c) putc((c), stdout)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org22a8344" class="outline-4">
+<h4 id="org22a8344"><span class="section-number-4">4.4.4</span> Formatted input and output of files</h4>
+<div class="outline-text-4" id="text-4-4-4">
+<p>
+To format input or output of files, we can use <code>fscanf()</code> and <code>fprintf()</code>. These functions are similar with <code>scanf()</code> and <code>printf()</code>, except the first argument is a file pointer. The declaration of these two functions are:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int fscanf(FILE *fp, char* format, ...)
+int fprintf(FILE *fp, char* format, ...)
+</pre>
+</div>
+
+<p>
+An example of sending formated error message to <code>stderr</code> is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">fprintf(stderr, "Error occurred!\n");
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3e888ad" class="outline-4">
+<h4 id="org3e888ad"><span class="section-number-4">4.4.5</span> Example: replicate program <code>cat</code></h4>
+<div class="outline-text-4" id="text-4-4-5">
+<p>
+p176: normal error handling
+</p>
+
+<p>
+p177: advanced error handling (using <code>stderr</code> and <code>exit()</code>)
+</p>
+</div>
+</div>
+<div id="outline-container-org3c0197a" class="outline-4">
+<h4 id="org3c0197a"><span class="section-number-4">4.4.6</span> Line input and output</h4>
+<div class="outline-text-4" id="text-4-4-6">
+<p>
+The standard library provides an input routine <code>fgets()</code>, which can reads the next input line (including <code>'\n'</code> character) from a <code>FILE</code> pointer to a char array. It will return a <code>char</code> pointer pointing to this char array. Its declaration is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">char *fgets(char* line, int maxline, FILE *fp);
+</pre>
+</div>
+<p>
+At most <code>maxline - 1</code> characters will be read. The resulting line is automatically terminated with <code>'\0'</code>. When end of file reached or error occurred, it returns <code>NULL</code>.
+</p>
+
+<p>
+The standard library provides an output routine <code>fputs()</code>, which can write a string (which need not contain a newline) to a file. The declaration is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int fputs(char* line, FILE *fp);
+</pre>
+</div>
+<p>
+It returns <code>EOF</code> if an error occurs, and zero otherwise.
+</p>
+
+<p>
+The library functions <code>gets</code> and <code>puts</code> are similar to <code>fgets</code> and <code>fputs</code>, but operate on <code>FILE</code> pointers <code>stdin</code> and <code>stdout</code>. <code>gets</code> deletes the terminal <code>'\n'</code>, and <code>puts</code> adds it.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org35cbc64" class="outline-3">
+<h3 id="org35cbc64"><span class="section-number-3">4.5</span> MISC Functions</h3>
+<div class="outline-text-3" id="text-4-5">
+</div>
+<div id="outline-container-orgd8f5399" class="outline-4">
+<h4 id="orgd8f5399"><span class="section-number-4">4.5.1</span> Storage Management</h4>
+<div class="outline-text-4" id="text-4-5-1">
+<p>
+Two functions are used to obtain blocks of memory dynamically:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">void* malloc(size_t n);
+void* calloc(size_t n, size_t size);
+</pre>
+</div>
+
+<p>
+<code>malloc()</code> will return a pointer to <code>n</code> bytes of uninitialized storage, or <code>NULL</code> if the request cannot be satisfied.
+</p>
+
+<p>
+<code>calloc()</code> will return a pointer to enough space for an array of <code>n</code> objects of the specified size, or <code>NULL</code> if the request cannot be satisfied. The storage is initialized to zero.
+</p>
+
+<p>
+The pointer returned by <code>malloc()</code> or <code>calloc()</code> has the proper alignment for the object requested (proper amount of memory), however, it must be case into the appropriate type before assigning to a pointer to hold. For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int* ip;
+ip = (int*) calloc(n, sizeof(int));
+</pre>
+</div>
+
+<p>
+To free the space pointed by a pointer <code>p</code>, of which initially obtained by a call to <code>malloc()</code> or <code>calloc()</code>, we can call <code>free(p)</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org58ee376" class="outline-2">
+<h2 id="org58ee376"><span class="section-number-2">5</span> The UNIX System Interface</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgf245e9f" class="outline-3">
+<h3 id="orgf245e9f"><span class="section-number-3">5.1</span> File Descriptors</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+In the UNIX operating system, all input and output is done by reading or writing files. All peripheral devices are abstracted as files in the file system. So, a single homogeneous interface handles all communication between a program and peripheral devices.
+</p>
+
+<p>
+Consider an example of a C program that read content from, or write content to files on the system. Before you can do this, you must inform the system that you wish to <b>ACCESS</b> that particular file. The system will check your right to do so (does the file exist? do you have permission to access it?). If you have the access, the system will return a <b>small non-negative integer</b> called a <i>file descriptor</i>.
+</p>
+
+<p>
+A file descriptor is a small non-negative integer, which is an abstract indicator (handle) used to access a file on the system (a file can be an actual file, a pipe, a network socket). All information about an open file is maintained by the system, the user program refers to the file only by the file descriptor.
+</p>
+
+<p>
+As mentioned, the input/output are also abstracted as files on the system. If a program wants to access them, it must intend the system to check acceesbility and return the corresponding file descriptors to the program. However, since input/output are used so commonly, that when a program is called by the command interpreter (the "shell"), three files will be opened, their file descriptors <code>0</code>, <code>1</code> and <code>2</code>, will be returned to program so it can use it. By default, the three files are keyboard file (for input), monitor file and monitor file (for output and error display). In fact, the three file descriptors <code>0</code>, <code>1</code> and <code>2</code>, are used as ways for standard input, standard output and standard error of the program. The program don't have to worry about opening files to use them.
+</p>
+
+<p>
+The user of a program can redirect I/O to and from files with <code>&lt;</code> and <code>&gt;</code> when typing the shell command. If these symbols are used, the default assignment of file descriptor <code>0</code> and <code>1</code> will be changed to the named files. For example:
+</p>
+<pre class="example">
+$prog &lt; text1.txt
+</pre>
+<p>
+In the above example, the <code>text1.txt</code> file will replace keyboard file as the standard input file, system will use file descriptor <code>0</code> to identify <code>text1.txt</code> and return file descriptor <code>0</code> to <code>prog</code>. <code>prog</code> will use file descriptor <code>0</code> to get input.
+</p>
+
+<p>
+Similarly, for standard output redirect:
+</p>
+<pre class="example">
+$prog &gt; result.txt
+</pre>
+<p>
+the <code>result.txt</code> file will replace monitor file as the standard output file, system will use file descriptor <code>1</code> to identify <code>result.txt</code> and return file descriptor <code>1</code> to <code>prog</code>. <code>prog</code> will use file descriptor <code>1</code> to do output.
+</p>
+
+<p>
+Pay attention that, the change of file assignments are done by the shell, not the program. For program, it always deal with file descriptor <code>0</code>, <code>1</code> and <code>2</code>. It does not know where is input coming from and where is output going to.
+</p>
+</div>
+</div>
+<div id="outline-container-orga6073cf" class="outline-3">
+<h3 id="orga6073cf"><span class="section-number-3">5.2</span> Low Level I/O: <code>read()</code> and <code>write()</code></h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Input and output uses the <code>read</code> and <code>write</code> system calls. These two system calls are accessed from C programs through two functions called <a href="http://man7.org/linux/man-pages/man2/read.2.html"><code>read()</code></a> and <a href="http://man7.org/linux/man-pages/man2/write.2.html"><code>write()</code></a>. To use these two functions, you have to <code>#include &lt;unistd.h&gt;</code>.
+</p>
+</div>
+<div id="outline-container-org5542581" class="outline-4">
+<h4 id="org5542581"><span class="section-number-4">5.2.1</span> <code>read()</code></h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+The function header for <code>read()</code> is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">ssize_t read(int fd, char *buf, size_t count)
+</pre>
+</div>
+<p>
+<b>Parameters</b>
+</p>
+
+<ul class="org-ul">
+<li><code>fd</code>: file descriptor, referring the file you wish to read data from</li>
+<li><code>buf</code>: a pointer to a chunk of memory where the program store the data read from the file. Should be a pointer to a char or an array of char, since each char type is one byte. The data is read byte-by-byte.</li>
+<li><code>count</code>: amount of information you want to read from the file in one call of <code>read()</code>, in bytes</li>
+</ul>
+
+<p>
+<b>Behavior</b>
+</p>
+
+<p>
+<code>read(fd, buf, count)</code> attempts to read up to <code>count</code> bytes from the file referred to by the file descriptor <code>fd</code> into the buffer started at <code>buf</code>.
+</p>
+
+<p>
+<b>Return Value</b>
+</p>
+
+<p>
+The return value of <code>read()</code> can be:
+</p>
+<ol class="org-ol">
+<li>the number of bytes read from <code>fd</code>. When <code>fd</code> doesn't have enough data, the returned value may be smaller than <code>count</code>.</li>
+<li>0. This indicates end of file has been reached, nothing is read from <code>fd</code>.</li>
+<li>-1. This indicates error occurred.</li>
+</ol>
+
+<p>
+Any number of bytes can be read in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
+</p>
+</div>
+</div>
+<div id="outline-container-org2faabc1" class="outline-4">
+<h4 id="org2faabc1"><span class="section-number-4">5.2.2</span> <code>write()</code></h4>
+<div class="outline-text-4" id="text-5-2-2">
+<p>
+The function header for <code>write()</code> is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">ssize_t write(int fd, char *buf, size_t count)
+</pre>
+</div>
+
+<p>
+<b>Parameters</b>
+</p>
+
+<ul class="org-ul">
+<li><code>fd</code>: the file descriptor referring the file you want to write data to</li>
+<li><code>buf</code>: a pointer to a chunk of memory where the program store the data ready to be written to the file. Should be a pointer to a char or an array of char, since each char type is one byte. The data is read byte-by-byte.</li>
+<li><code>count</code>: amount of information you want to write to the file in one call of <code>write()</code>, in bytes</li>
+</ul>
+
+<p>
+<b>Behavior</b>
+</p>
+
+<p>
+<code>write(fd, buf, count)</code> writes up to <code>count</code> bytes from the buffer starting at <code>buf</code> to the file referred to by the file descriptor <code>fd</code>.
+</p>
+
+<p>
+<b>Return Value</b>
+</p>
+
+<p>
+The return value of <code>write()</code> can be:
+</p>
+<ol class="org-ol">
+<li>the number of bytes written to <code>fd</code>. If this number is different from <code>count</code>, it indicates an error has occurred, for example: there is insufficient space on the underlying physical medium. This can be used to do error checking.</li>
+</ol>
+
+<p>
+Any number of bytes can be written in one call, as mentioned in <code>read()</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbbbc964" class="outline-4">
+<h4 id="orgbbbc964"><span class="section-number-4">5.2.3</span> Example: copy input to output</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<p>
+This example will show the basic use of <code>read()</code> and <code>write()</code> function. In order to receive what we read from <code>read()</code>, we need a buffer to hold it. We read data from <code>fd</code> to the buffer, and call <code>write()</code> to put the content in buffer to <code>fd</code>. We repeat this process until the returned value of <code>read()</code> is not positive (0 or -1).
+</p>
+
+<p>
+We'll use <code>0</code> as the file descriptor in <code>read()</code>, since this is the standard input file descriptor. We'll use <code>1</code> as the file descriptor in <code>write()</code>, since this is the standard output file descriptor. The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;unistd.h&gt;
+
+#define BUFSIZ 5
+/* copy input to output */
+int main() {
+  char buf[BUFSIZ];
+  int n;  // hold the number of bytes read
+
+  while ((n = read(0, buf, BUFSIZ)) &gt; 0)
+    write(1, buf, n);
+
+  return 0;
+}
+</pre>
+</div>
+<p>
+The buffer size is defined as 5. This means each system call we'll process 5 characters. But the reading will not stop unless 0 or -1 is returned by <code>read()</code>. If file descriptor <code>0</code> is referring keyboard file (keyboard is the standard input), it will continue to read until the keyboard buffer is empty, then the program will wait until the user type other things (I guess these typed-in characters will first go to the keyboard buffer, then they will be read by program). For example, if we print the number of characters being read during each while loop, by adding <code>printf("\n%d characters has been read.\n", n);</code> into the while loop. Then we call the program (use default standard input), and input: <code>12345678</code>, the result in console would be:
+</p>
+<pre class="example">
+12345678
+12345
+5 characters has been read.
+678
+
+4 characters has been read.
+</pre>
+<p>
+Notice that each call of <code>read()</code> only read 5 characters.
+</p>
+</div>
+</div>
+<div id="outline-container-org9adde13" class="outline-4">
+<h4 id="org9adde13"><span class="section-number-4">5.2.4</span> Example: <code>getchar()</code></h4>
+<div class="outline-text-4" id="text-5-2-4">
+<p>
+We can use <code>read()</code> to construct <code>getchar()</code>, which is higher-level routine. First, let's compare the function header of these two functions:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">ssize_t read(int fd, char *buf, size_t count)
+char getchar(void)
+</pre>
+</div>
+<p>
+Function <code>getchar()</code> has no parameter, it returns one character that is read from input stream. It does not require the user of <code>getchar()</code> bother the idea of file descriptor, buffer or the number of characters read. It conceals these details in its implementation so user can use it directly in the expected way. This is an example of using lower-level bricks to build higher level structures in the software architecture.
+</p>
+
+<p>
+The implementation is simple:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+char getcharacter(void) {
+  char c;
+  return ((read(0, &amp;c, 1)) == 1) ? c : EOF;
+}
+
+int main() {
+  char c;
+
+  while ((c = getcharacter()) != EOF)
+    printf("%c", c);
+  return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdf5ff0d" class="outline-3">
+<h3 id="orgdf5ff0d"><span class="section-number-3">5.3</span> <code>open()</code>, <code>creat()</code>, <code>close()</code>, <code>unlink()</code></h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+When a C program is invoked, only the three default files will be automatically opened and linked to the program (they are standard input, standard output and standard error files, refered by file descriptors <code>0</code>, <code>1</code> and <code>2</code>).
+</p>
+
+<p>
+If you want to work with other files, you have to explicitly open other files in order to read or write them. In section <a href="#orgff7d961">File Access</a>, we mentioned a way of operating files by routines defined in <code>&lt;stdio.h&gt;</code>. Here, we introduce low-level system calls to do this.
+</p>
+
+<p>
+There are two system calls for file operation: <code>open()</code> and <code>creat()</code>. To use them in your C program, you have to <code>#include &lt;fcntl.h&gt;</code>.
+</p>
+</div>
+<div id="outline-container-orgb8ec0ce" class="outline-4">
+<h4 id="orgb8ec0ce"><span class="section-number-4">5.3.1</span> <code>open()</code></h4>
+<div class="outline-text-4" id="text-5-3-1">
+</div>
+<div id="outline-container-orgb51859d" class="outline-5">
+<h5 id="orgb51859d"><span class="section-number-5">5.3.1.1</span> Generals</h5>
+<div class="outline-text-5" id="text-5-3-1-1">
+<p>
+The documentation for <code>open()</code> can be found <a href="http://man7.org/linux/man-pages/man2/open.2.html">here</a>.
+</p>
+
+<p>
+The header of this system call is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int open(char *name, int flags, int perms);
+</pre>
+</div>
+<p>
+<b>Parameters</b>
+</p>
+<ul class="org-ul">
+<li><code>name</code>: the file name you want to open</li>
+<li><code>flags</code>: an <code>int</code> that specifies how the file is to be opened (constants are defined in <code>&lt;fcntl.h&gt;</code>):
+<ul class="org-ul">
+<li><code>O_RDONLY</code>: open for read-only</li>
+<li><code>O_WRONLY</code>: open for write-only</li>
+<li><code>O_RDWR</code>: open for reading and writing</li>
+</ul></li>
+<li><code>perms</code>: (not mentioned in the book), it is always zero for the uses of <code>open()</code> that we will discuss)</li>
+</ul>
+
+
+<p>
+<b>Return value</b>
+</p>
+
+<p>
+If successful, the return value of <code>open()</code> is a file descriptor, it will be the lowest-numbered file descriptor not currently open for the process. The file descriptor can be used by subsequent system calls, such as <code>read()</code>, <code>write()</code>.
+</p>
+
+<p>
+If not successful, return -1.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4f2ffd7" class="outline-5">
+<h5 id="org4f2ffd7"><span class="section-number-5">5.3.1.2</span> Example: open a file for reading</h5>
+<div class="outline-text-5" id="text-5-3-1-2">
+<p>
+The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;fcntl.h&gt;
+
+int fd;  // to hold file descriptor
+char name[] = "abc.txt";  // the file name
+fd = open(name, O_RDONLY, 0)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org919ef90" class="outline-4">
+<h4 id="org919ef90"><span class="section-number-4">5.3.2</span> <code>creat()</code></h4>
+<div class="outline-text-4" id="text-5-3-2">
+</div>
+<div id="outline-container-org4bc1522" class="outline-5">
+<h5 id="org4bc1522"><span class="section-number-5">5.3.2.1</span> Generals</h5>
+<div class="outline-text-5" id="text-5-3-2-1">
+<p>
+The documentation for <code>creat()</code> can be found <a href="https://linux.die.net/man/3/creat">here</a>.
+</p>
+
+<p>
+The header of this system call is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int creat(char *name, int perms);
+</pre>
+</div>
+<p>
+<b>Parameters</b>
+</p>
+<ul class="org-ul">
+<li><code>name</code>: the file name to be created</li>
+<li><p>
+<code>perms</code>: this integer specifies the permission of the file to be created. UNIX file system associates a small integer (with a length of 9-bits) with each file to specify the permission information of them. This integer controls different types of access by different users:
+</p>
+<ul class="org-ul">
+<li>Access types:
+<ul class="org-ul">
+<li>read</li>
+<li>write</li>
+<li>execute</li>
+</ul></li>
+<li>User types:
+<ul class="org-ul">
+<li>owner of the file</li>
+<li>the owner's group</li>
+<li>all others</li>
+</ul></li>
+</ul>
+<p>
+This is a 9-bit long integer, so we can use a 3-digit octal number for specifying the permissions. For example, <code>0755</code> (octal number for: <code>1 1110 1101</code>) specifies read, write and execute permission for the owner; and read, execute permission for all others.
+</p></li>
+</ul>
+
+
+<p>
+<b>Return value</b>
+</p>
+
+<p>
+<code>creat()</code> will return a file descriptor if it was able to creat the file. Otherwise, it will return -1.
+</p>
+
+<p>
+If the file already exists, <code>creat()</code> will truncate it to zero length.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5714e4b" class="outline-4">
+<h4 id="org5714e4b"><span class="section-number-4">5.3.3</span> <code>close()</code></h4>
+<div class="outline-text-4" id="text-5-3-3">
+<p>
+The function <code>close(int fd)</code> breaks the connection between a file descriptor and an open file, and frees the file descriptor for use with some other file.
+</p>
+</div>
+</div>
+<div id="outline-container-org2fa0f40" class="outline-4">
+<h4 id="org2fa0f40"><span class="section-number-4">5.3.4</span> <code>unlink()</code></h4>
+<div class="outline-text-4" id="text-5-3-4">
+<p>
+The function <code>unlink(char *name)</code> removes the file <code>name</code> from the file system.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0483087" class="outline-4">
+<h4 id="org0483087"><span class="section-number-4">5.3.5</span> Example: mini <code>cp</code> program</h4>
+<div class="outline-text-4" id="text-5-3-5">
+<p>
+This is a simple version of <code>cp</code> program. It copies one file to another. The file names are given as command line arguments. It will not copy the permission flag (the 3-digit octal number that describes the permission of the file), but invent a default permission of the copied file.
+</p>
+
+<p>
+The behavior of the program is:
+</p>
+<pre class="example">
+$ cp file_1 file_2
+</pre>
+<p>
+After typing the above line, a file named <code>file_2</code> will be created, with the same content as <code>file_1</code>. 
+</p>
+
+<p>
+How to copy? First, we have the file name from the command line argument (should be <code>argv[1]</code> and <code>argv[2]</code>). We use system call <code>open()</code> to open the first file (the file being copied), and use system call <code>creat()</code> to create a file with name <code>argv[2]</code>. We use two integer variable to hold the file descriptor returned by this two system calls. If no error occurred, we use <code>read()</code> system call to read content in <code>file_1</code> to our buffer, then use <code>write()</code> system call to write content in our buffer to the file. If there is any error occurred during the writing process (i.e. the returned value of <code>write()</code> is different from the intended value), we display error.
+</p>
+
+<p>
+In this first version,we call <code>printf()</code> to display error message through standard output, and call <code>exit(1)</code> to exit the program. The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;   // for displaying error message
+#include &lt;stdlib.h&gt;  // for exit() function
+#include &lt;unistd.h&gt;  // for read(), write()
+#include &lt;fcntl.h&gt;   // for open(), creat()
+#define PERMS 0666   // default permission flag for copied file
+		     // RW for owner, group, others
+#define BUFFER 100   // buffer size for a single call of read()
+
+/* cp: copy f1 to f2 */                    
+int main(int argc, char *argv[]) {
+  int fd1, fd2;  // hold two file descriptors
+  int n;  // hold number of bytes read from file1
+  char buf[BUFFER];
+
+  // check number of command line arguments
+  if (argc != 3) {
+    printf("Usage: cp f1 f2");
+    exit(1);
+  }
+
+  // oepn first file and create second file, exit if error occurred
+  if ((fd1 = open(argv[1], O_RDONLY, 0)) == -1) {  // open failed
+    printf("Error: can't open %s\n", argv[1]);
+    exit(1);
+  }
+
+  if ((fd2 = creat(argv[2], PERMS)) == -1) {  // create failed
+    printf("Error: can't create %s\n", argv[2]);
+    exit(1);
+  }
+
+  // use read() and write() system to copy file
+  while ((n = read(fd1, buf, BUFFER)) &gt; 0)
+    if (n != write(fd2, buf, n)) {  // check if write succeeded
+      printf("Error: couldn't write on file %s\n", argv[2]);
+      exit(1);
+    }
+
+  return 0;
+}                    
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6728877" class="outline-4">
+<h4 id="org6728877"><span class="section-number-4">5.3.6</span> Example: mini <code>cp</code> program with self-implemented <code>error()</code> display</h4>
+<div class="outline-text-4" id="text-5-3-6">
+<p>
+Here, we implement a function called <code>error()</code> to combine following function calls:
+</p>
+<ol class="org-ol">
+<li><code>printf("...", argv[...])</code></li>
+<li><code>exit(1)</code></li>
+</ol>
+
+<p>
+In short, it will display error information to standard error file, then call <code>exit(1)</code> to stop the program.
+</p>
+
+<p>
+This is similar with the simple <code>printf()</code> function we built <a href="#org908efcd">earlier</a>. It is a function with variable-length argument lists. To process this kind of function, we <code>#include &lt;stdarg.h&gt;</code>, and the header is:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">void error(char *format, ...)
+</pre>
+</div>
+<p>
+The three dots represents this function may have variable-length argument(s) after the named argument <code>format</code>. To navigate each un-named argument, we declare a <code>va_list</code> type object and initialize it:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdarg.h&gt;
+
+void error(char *format, ...) {
+  va_list args;
+  va_start(args, format);
+}
+</pre>
+</div>
+
+<p>
+Then, we use <code>fprintf()</code> to print error message to <code>stderr</code> (this is a file pointer):
+</p>
+<div class="org-src-container">
+<pre class="src src-c">fprintf(stderr, "error: ");
+vfprintf(stderr, format, args);
+fprintf(stderr, '\n');
+</pre>
+</div>
+
+<p>
+Here, we use other version of <code>fprintf()</code> to print the argument related error message: <code>vfprintf()</code>. Its header is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">int vfprintf(FILE *fp, const char *format, va_list arg);
+</pre>
+</div>
+
+<p>
+<b>Parameters</b>
+</p>
+
+<ul class="org-ul">
+<li><code>fp</code>: pointer to a <code>FILE</code> object that identifies an output stream</li>
+<li><code>format</code>: C string that contains a format string that follows the same specifications as in <code>printf()</code></li>
+<li><code>arg</code> a variable of <code>va_list</code> type which has been initialized by calling the <code>va_start</code> macro.</li>
+</ul>
+
+<p>
+<b>Return Value</b>
+</p>
+
+<p>
+If succeed, the total number of characters written is returned.
+</p>
+
+<p>
+<b>Behavior</b>
+</p>
+
+<p>
+Writes the C string pointed by <code>format</code> to the file pointed by <code>fp</code>, replacing any format specifier in the same way as <code>printf()</code> does, using the elements in the variable argument list identified by <code>arg</code>, which is a <code>va_list</code> type object initialized by the <code>va_start</code> macro. So, we don't have to manually scan the <code>format</code> string and when a <code>'%'</code> is found, call <code>va_arg()</code> to retrieve the next argument in <code>arg</code> and print according to its type (check <a href="#org908efcd">miniPrintf()</a> for details of how this is done).
+</p>
+
+<p>
+In another words, this function is like automatically extracting all arguments in <code>arg</code> and call:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">fprintf(stderr, format, arg1, arg2, arg3);
+</pre>
+</div>
+
+<p>
+After displaying error message, we call <code>va_end()</code> macro to end the argument retrieving. Then we call <code>exit(1)</code> to stop the program. The combined code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;stdlib.h&gt;  // for exit() function
+
+void error(char *format, ...) {
+  va_list args;  // for retrieving arguments
+  va_start(args, format);  // initialize args
+
+  // print error messages
+  fprintf(stderr, "error: ");
+  vfprintf(stderr, format, args);
+  fprintf(stderr, "\n");
+
+  // call exit() to stop the program
+  exit(1);
+}
+</pre>
+</div>
+
+<p>
+Now <code>error()</code> has been defined, we call <code>error()</code> directly when an error occurred, instead of <code>printf()</code> and <code>exit()</code>. The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+#define PERMS 0666  // permission code: RW for owner, group, others
+#define BUFFSIZE 100  // buffer size for read(), write()
+
+void error(char *format, ...);
+
+int main(int argc, char *argv[]) {
+  int f1, f2, n;
+  char buf[BUFFSIZE];
+
+  // try to open files and display error message if failed
+  if (argc != 3)  // check command line argument amount
+    error("Usage: cp from to");
+  if ((f1 = open(argv[1], O_RDONLY, 0)) == -1)
+    error("cp: can't open %s", argv[1]);
+  if ((f2 = creat(argv[2], PERMS)) == -1)
+    error("cp: can't create %s, mode%03o", argv[2], PERMS);
+
+  // copy
+  while ((n = read(f1, buf, BUFFSIZE)) &gt; 0)
+    if (write(f2, buf, n) != n)
+      error("cp: write error on file %s", argv[2]);
+
+  return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org531607d" class="outline-4">
+<h4 id="org531607d"><span class="section-number-4">5.3.7</span> Exercise: mini <code>cat</code> program</h4>
+<div class="outline-text-4" id="text-5-3-7">
+<p>
+This is exercise 8-1 in the textbook. The behavior of <code>cat</code> is:
+</p>
+<ul class="org-ul">
+<li>if no other file name provided as command line arguments, read from standard input and write to standard output file.</li>
+<li>if other file name provided as command line arguments, read from each file and write to standard output file.</li>
+<li>if error occured, use <code>error()</code> to print error message and stop the program</li>
+</ul>
+
+<p>
+The code is as follows (with simple explanations)
+</p>
+<div class="org-src-container">
+<pre class="src src-c">#include &lt;stdio.h&gt;  // for stdin, stderr, stdout file pointers
+#include &lt;unistd.h&gt;  // for read(), write()
+#include &lt;stdlib.h&gt;  // for exit()
+#include &lt;stdarg.h&gt;  // for variant-length argument function error()
+#include &lt;fcntl.h&gt;  // for open() mode flags
+
+#define BUFFSIZE 100
+
+void error(char *format, ...);
+
+int main(int argc, char *argv[]) {
+
+  char buf[BUFFSIZE];  // buffer for read(), write()
+  int n;  // count byte number
+  int fd;  // to hold input file descriptor
+
+  // check number of arguments
+  if (argc == 1) {  // copy stdin to stdout
+    while ((n = read(0, buf, BUFFSIZE)) &gt; 0)
+      if (n != write(1, buf, n))
+	error("cat: write error to standard output");
+    if (n == -1)
+      error("cat: read error from standard input");
+  } else {
+    while (--argc &gt; 0) {
+      // try to open file
+      if ((fd = open(*++argv, O_RDONLY, 0)) == -1)
+	error("cat: can't open %s", *(argv));
+      // write to file 
+      while ((n = read(fd, buf, BUFFSIZE)) &gt; 0)
+	if (n != write(1, buf, n))
+	  error("cat: write error to standard output");
+      if (n == -1)
+	error("cat: read error from file %s", *(--argv));
+      close(fd);  // free fd, so it is ready for next file 
+    }
+  }
+
+
+  return 0;
+}
+
+void error(char *format, ...) {
+  va_list args;
+  va_start(args, format);
+
+  fprintf(stderr, "Error: ");
+  vfprintf(stderr, format, args);
+  fprintf(stderr, "\n");
+
+  va_end(args);
+  exit(1);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7fa7a54" class="outline-3">
+<h3 id="org7fa7a54"><span class="section-number-3">5.4</span> Random Access: <code>lseek()</code></h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+The system call <code>lseek()</code> provides a way to move around in a file without reading or writing any data.
+</p>
+</div>
+<div id="outline-container-org31c5f1e" class="outline-4">
+<h4 id="org31c5f1e"><span class="section-number-4">5.4.1</span> <code>lseek()</code></h4>
+<div class="outline-text-4" id="text-5-4-1">
+<p>
+The header of <code>lseek()</code> is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">long lseek(int fd, long offset, int origin);
+</pre>
+</div>
+
+<p>
+<b>Parameters</b>
+</p>
+
+<ul class="org-ul">
+<li><code>fd</code>: the file descriptor which referring the file that are being worked with</li>
+<li><code>offset</code>: number of bytes that <code>lseek()</code> offsets the current position.</li>
+<li><code>origin</code>: the code for the position used as relative starting point to measure <code>offset</code>. <code>origin</code> can have following values:
+<ul class="org-ul">
+<li>0: <code>offset</code> is to be measured from the beginning</li>
+<li>1: <code>offset</code> is to be measured from the current position</li>
+<li>2: <code>offset</code> is to be measured from the end</li>
+</ul></li>
+</ul>
+
+<p>
+<b>Return Value</b>
+</p>
+
+<p>
+If no error occurred, returns a <code>long</code> that gives the new position in the file. Return -1 if an error occurs.
+</p>
+
+<p>
+<b>Behavior</b>
+</p>
+
+<p>
+After calling this function, the current working position of file referred by <code>fd</code> will be moved to the new position (affects system calls like <code>read()</code> and <code>write()</code>). Pay attention that if position is beyond the range of the file, <code>read()</code> will have error, <code>write()</code> will add <code>null</code> between the end of file to the beginning of newly written content.
+</p>
+</div>
+</div>
+<div id="outline-container-org61a2393" class="outline-4">
+<h4 id="org61a2393"><span class="section-number-4">5.4.2</span> Examples</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<p>
+If we want to append data to the end of a file, we open a file in a mode that supports write, then call <code>lseek(fd, 0L, 2)</code>, so the current working position will move to end of file.
+</p>
+
+<p>
+To get back to beginning (<code>rewind()</code>), we just need to call <code>lseek(fd, 0L, 0)</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d3f59e" class="outline-3">
+<h3 id="org2d3f59e"><span class="section-number-3">5.5</span> Example: an implementation of <code>fopen()</code> and <code>getc()</code></h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+In this section we build a <code>FILE</code> type from scratch and implement <code>fopen()</code> and <code>gect()</code>. We can use what we build to access files through <code>FILE</code> type, not the file descriptor (file descriptors are buried in the back stage).
+</p>
+</div>
+
+
+<div id="outline-container-orgbd5a50f" class="outline-4">
+<h4 id="orgbd5a50f"><span class="section-number-4">5.5.1</span> <code>FILE</code> type build-up and Macros</h4>
+<div class="outline-text-4" id="text-5-5-1">
+<p>
+Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a <code>FILE</code> type with a <code>typedef</code>, it contains information about a file:
+</p>
+<ul class="org-ul">
+<li>a pointer to a buffer
+<ul class="org-ul">
+<li>a buffer is used so file can be read in large chunks</li>
+</ul></li>
+<li>a count of the number of characters left in the buffer</li>
+<li>a pointer to the next character position in the buffer</li>
+<li>the file descriptor</li>
+<li>flags describing:
+<ul class="org-ul">
+<li>file openning mode: read or write</li>
+<li>error states: if error has occurred</li>
+<li>EOF states: whether end of file has occurred</li>
+</ul></li>
+</ul>
+
+<p>
+The code is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">// named constants
+#define NULL      0
+#define EOF       (-1)
+#define BUFSIZ    1024    //buffer size
+#define OPEN_MAX  20      // max number of files open at once
+
+typedef struct _iobuf {
+  int cnt;           // characters left in the buffer
+  char *ptr;         // next character position in the buffer
+  char *base;        // location of buffer 
+  int flag;          // store info bits (mode of file access and other status)
+  int fd;            // file descriptor
+} FILE;
+
+FILE _iob[OPEN_MAX];       // an array of FILE type structures, each element is a FILE
+
+// named constants
+#define stdin  (&amp;_iob[0])  // pointer to _iob[0]
+#define stdout (&amp;_iob[1])  // pointer to _iob[1]
+#define stderr (&amp;_iob[2])  // pointer to _iob[2]
+
+/*Notes: 
+In the FILE structure, we use only one integer flag to record the status bit, thus a single integer can record multiple status (each bit is a flag)
+*/
+enum _flags {     /* a leading zero on an integer constant means octal */
+  _READ  = 01,    /* file open for reading */
+  _WRITE = 02,    /* file open for writing */
+  _UNBUF = 04,    /* file is unbuffered */
+  _EOF   = 010,   /* EOF has occurred on this file */
+  _ERR   = 020    /* error occurred on this file */
+};
+
+int _fillbuf(FILE *);         // function header
+int _flushbuf(int, FILE *);   // function header
+
+// macros with arguments, argument type should be pointer to FILE structure
+#define feof(p) (((p)-&gt;flag &amp; _EOF) != 0)       // when EOF has occurred, this is true
+#define ferror(p) (((p)-&gt;flag &amp; _ERR) != 0)     //when error occurred, this is true
+#define fileno(p) ((p)-&gt;fd)                     // get the file descriptor
+
+#define getc(p) (--(p)-&gt;cnt &gt;= 0 ? (unsigned char) *(p)-&gt;ptr++ : _fillbuf(p))
+#define putc(x,p) (--(p)-&gt;cnt &gt;= 0 ? *(p)-&gt;ptr++ = (x) : _flushbuf((x), p))
+
+#define getchar() getc(stdin)
+#define putchar(x)  putc((x), stdout)
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgd44a713" class="outline-5">
+<h5 id="orgd44a713"><span class="section-number-5">5.5.1.1</span> Setting flags</h5>
+<div class="outline-text-5" id="text-5-5-1-1">
+<p>
+Notice that we have a member in <code>FILE</code> structure named <code>flag</code>. This single integer is used to record various status of the <code>FILE</code> object. Each bit of the inter represents true/false of a specific status. We defined the status in the <code>enum</code> type:
+</p>
+<div class="org-src-container">
+<pre class="src src-c">enum _flags {     /* a leading zero on an integer constant means octal */
+  _READ  = 01,    /* file open for reading */
+  _WRITE = 02,    /* file open for writing */
+  _UNBUF = 04,    /* file is unbuffered */
+  _EOF   = 010,   /* EOF has occurred on this file */
+  _ERR   = 020    /* error occurred on this file */
+};
+</pre>
+</div>
+
+<p>
+To make it clearer, we translate these octal number to binary to see which bit corresponds which information:
+</p>
+<pre class="example">
+00001: read enabled
+00010: write enabled
+00100: file is unbuffered
+01000: EOF reached
+10000: error encountered
+</pre>
+<p>
+To check if <code>flag</code> has any of the above bit set, we just simplily use <code>&amp;</code>, as shown in macros <code>feof()</code>, <code>ferror()</code>, <code>fileno()</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2b2b3ea" class="outline-5">
+<h5 id="org2b2b3ea"><span class="section-number-5">5.5.1.2</span> Macro <code>getc()</code></h5>
+<div class="outline-text-5" id="text-5-5-1-2">
+<p>
+In standard library, <code>getc(p)</code> accepts a pointer to a <code>FILE</code> object, returns the next character from the file.
+</p>
+
+<p>
+In our implementation, to reduce the number of system calls, every required character was first looked in buffer. We first check if <code>cnt</code> is 0. This is an integer in <code>FILE</code> structure recording the number of remaining characters in the buffer. If this is zero, it means the buffer has gone empty. We call function <code>_fillbuf(p)</code> to fill the buffer (the buffer is filled by data retrieved from file via <code>read()</code> system call). If its not zero, we give the next character (pointed by <code>ptr</code> in <code>FILE</code> structure). The character returned is cast into <code>unsigned char</code> type to ensure that all characters will be positive.
+</p>
+
+<p>
+Macro <code>getchar()</code> is also declared, by changing <code>getc(p)</code> to <code>getc(stdin)</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org472871c" class="outline-5">
+<h5 id="org472871c"><span class="section-number-5">5.5.1.3</span> Macro <code>putc()</code></h5>
+<div class="outline-text-5" id="text-5-5-1-3">
+<p>
+In standard library, <code>putc(x,p)</code> accepts a character <code>x</code> and a pointer <code>p</code> to a <code>FILE</code> object. It will write <code>x</code> to the file and returns the <code>x</code>.
+</p>
+
+<p>
+In our implementation, to reduce the number of system calls, every character that is intended to be written into file goes to buffer first (we add it to buffer). In this case, <code>cnt</code> represents the number of free slots in the buffer. First we check if the buffer is full or not. If it is not full (it can still hold additional characters), we push add the character to the position pointed by <code>ptr</code> and update <code>ptr</code>'s position. If the buffer is already full, we call function <code>_flushbuf((x), p)</code> to flush the buffer (call <code>write()</code> to transfer characters in buffer to the file).
+</p>
+
+<p>
+Macro <code>putchar()</code> is also declared, by changing <code>putc(x,p)</code> to <code>putc((x), stdout)</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf55ba3e" class="outline-4">
+<h4 id="orgf55ba3e"><span class="section-number-4">5.5.2</span> <code>fopen()</code></h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge39320e" class="outline-2">
+<h2 id="orge39320e"><span class="section-number-2">6</span> Place Holder</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2019-08-27 Tue 18:50</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

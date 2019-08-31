@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*Notes:}
+\PYG{c+cm}{This solution combines the idea in review I (my original thought, count from the beginning of the array) and review II (1. use an array to hold intermediate result; 2. use index rather than range to regulate range; 3. shorter and better edge cases)}
+\PYG{c+cm}{*/}
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{p}\PYG{p}{;}
+
+  \PYG{k+kt}{int} \PYG{n+nf}{rob}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// edge case 1}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{nums}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}
+      \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{c+c1}{// edge case 2}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+
+    \PYG{n}{p}\PYG{p}{.}\PYG{n}{resize}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{());}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)}
+      \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+
+    \PYG{k}{return} \PYG{n}{max}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{n}{rob}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{rob}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{));}
+  \PYG{p}{\PYGZcb{}}
+
+\PYG{k}{private}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{rob}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{nums}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// base case: out of bound}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZgt{}} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+    \PYG{c+c1}{// base case 2: (i + 1) out of bound}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{==} \PYG{n}{nums}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{k}{return} \PYG{n}{nums}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)}  \PYG{c+c1}{// not calculated}
+      \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{max}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+} \PYG{n}{rob}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n}{nums}\PYG{p}{[}\PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{rob}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{));}
+
+    \PYG{k}{return} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

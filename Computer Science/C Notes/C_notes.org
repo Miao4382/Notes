@@ -867,9 +867,6 @@ The return value of ~read()~ can be:
 2. 0. This indicates end of file has been reached, nothing is read from ~fd~.
 3. -1. This indicates error occurred.
 
-~write(fd, buf, count)~ writes up to ~count~ bytes from the buffer starting at ~buf~ to the file referred to by the file descriptor ~fd~. The returning value of ~write()~ can be:
-1. the number of bytes written to ~fd~. If this number is different from ~count~, it indicates an error has occurred, for example: there is insufficient space on the underlying physical medium.
-
 Any number of bytes can be read in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
 *** ~write()~
 The function header for ~write()~ is:
@@ -953,7 +950,7 @@ When a C program is invoked, only the three default files will be automatically 
 
 If you want to work with other files, you have to explicitly open other files in order to read or write them. In section [[file_access][File Access]], we mentioned a way of operating files by routines defined in ~<stdio.h>~. Here, we introduce low-level system calls to do this.
 
-There are two system calls for file operation: ~open()~ and ~creat()~.
+There are two system calls for file operation: ~open()~ and ~creat()~. To use them in your C program, you have to ~#include <fcntl.h>~.
 *** ~open()~
 **** Generals
 The documentation for ~open()~ can be found [[http://man7.org/linux/man-pages/man2/open.2.html][here]].
@@ -1268,7 +1265,11 @@ If we want to append data to the end of a file, we open a file in a mode that su
 
 To get back to beginning (~rewind()~), we just need to call ~lseek(fd, 0L, 0)~.
 ** Example: an implementation of ~fopen()~ and ~getc()~
- Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a ~FILE~ type with a ~typedef~, it contains information about a file:
+ In this section we build a ~FILE~ type from scratch and implement ~fopen()~ and ~gect()~. We can use what we build to access files through ~FILE~ type, not the file descriptor (file descriptors are buried in the back stage).
+
+
+*** ~FILE~ type build-up and Macros
+Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a ~FILE~ type with a ~typedef~, it contains information about a file:
 - a pointer to a buffer
   - a buffer is used so file can be read in large chunks
 - a count of the number of characters left in the buffer
@@ -1278,9 +1279,97 @@ To get back to beginning (~rewind()~), we just need to call ~lseek(fd, 0L, 0)~.
   - file openning mode: read or write
   - error states: if error has occurred
   - EOF states: whether end of file has occurred
-sd
-asdd
-*** Code
-*** <explain how flag works and enum _flags{}, and macros that checking these flags>
-*** <explain macro getc(p)>
+
+The code is as follows:
+#+begin_src c
+// named constants
+#define NULL      0
+#define EOF       (-1)
+#define BUFSIZ    1024    //buffer size
+#define OPEN_MAX  20      // max number of files open at once
+
+typedef struct _iobuf {
+  int cnt;           // characters left in the buffer
+  char *ptr;         // next character position in the buffer
+  char *base;        // location of buffer 
+  int flag;          // store info bits (mode of file access and other status)
+  int fd;            // file descriptor
+} FILE;
+
+FILE _iob[OPEN_MAX];       // an array of FILE type structures, each element is a FILE
+
+// named constants
+#define stdin  (&_iob[0])  // pointer to _iob[0]
+#define stdout (&_iob[1])  // pointer to _iob[1]
+#define stderr (&_iob[2])  // pointer to _iob[2]
+
+/*Notes: 
+In the FILE structure, we use only one integer flag to record the status bit, thus a single integer can record multiple status (each bit is a flag)
+*/
+enum _flags {     /* a leading zero on an integer constant means octal */
+  _READ  = 01,    /* file open for reading */
+  _WRITE = 02,    /* file open for writing */
+  _UNBUF = 04,    /* file is unbuffered */
+  _EOF   = 010,   /* EOF has occurred on this file */
+  _ERR   = 020    /* error occurred on this file */
+};
+
+int _fillbuf(FILE *);         // function header
+int _flushbuf(int, FILE *);   // function header
+
+// macros with arguments, argument type should be pointer to FILE structure
+#define feof(p) (((p)->flag & _EOF) != 0)       // when EOF has occurred, this is true
+#define ferror(p) (((p)->flag & _ERR) != 0)     //when error occurred, this is true
+#define fileno(p) ((p)->fd)                     // get the file descriptor
+
+#define getc(p) (--(p)->cnt >= 0 ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
+#define putc(x,p) (--(p)->cnt >= 0 ? *(p)->ptr++ = (x) : _flushbuf((x), p))
+
+#define getchar() getc(stdin)
+#define putchar(x)  putc((x), stdout)
+#+end_src
+
+
+**** Setting flags
+
+Notice that we have a member in ~FILE~ structure named ~flag~. This single integer is used to record various status of the ~FILE~ object. Each bit of the inter represents true/false of a specific status. We defined the status in the ~enum~ type:
+#+begin_src c
+enum _flags {     /* a leading zero on an integer constant means octal */
+  _READ  = 01,    /* file open for reading */
+  _WRITE = 02,    /* file open for writing */
+  _UNBUF = 04,    /* file is unbuffered */
+  _EOF   = 010,   /* EOF has occurred on this file */
+  _ERR   = 020    /* error occurred on this file */
+};
+#+end_src
+
+To make it clearer, we translate these octal number to binary to see which bit corresponds which information:
+#+BEGIN_EXAMPLE
+00001: read enabled
+00010: write enabled
+00100: file is unbuffered
+01000: EOF reached
+10000: error encountered
+#+END_EXAMPLE
+To check if ~flag~ has any of the above bit set, we just simplily use ~&~, as shown in macros ~feof()~, ~ferror()~, ~fileno()~.
+
+**** Macro ~getc()~
+
+In standard library, ~getc(p)~ accepts a pointer to a ~FILE~ object, returns the next character from the file.
+
+In our implementation, to reduce the number of system calls, every required character was first looked in buffer. We first check if ~cnt~ is 0. This is an integer in ~FILE~ structure recording the number of remaining characters in the buffer. If this is zero, it means the buffer has gone empty. We call function ~_fillbuf(p)~ to fill the buffer (the buffer is filled by data retrieved from file via ~read()~ system call). If its not zero, we give the next character (pointed by ~ptr~ in ~FILE~ structure). The character returned is cast into ~unsigned char~ type to ensure that all characters will be positive.
+
+Macro ~getchar()~ is also declared, by changing ~getc(p)~ to ~getc(stdin)~.
+
+**** Macro ~putc()~
+
+In standard library, ~putc(x,p)~ accepts a character ~x~ and a pointer ~p~ to a ~FILE~ object. It will write ~x~ to the file and returns the ~x~.
+
+In our implementation, to reduce the number of system calls, every character that is intended to be written into file goes to buffer first (we add it to buffer). In this case, ~cnt~ represents the number of free slots in the buffer. First we check if the buffer is full or not. If it is not full (it can still hold additional characters), we push add the character to the position pointed by ~ptr~ and update ~ptr~'s position. If the buffer is already full, we call function ~_flushbuf((x), p)~ to flush the buffer (call ~write()~ to transfer characters in buffer to the file).
+
+Macro ~putchar()~ is also declared, by changing ~putc(x,p)~ to ~putc((x), stdout)~.
+
+*** ~fopen()~
+
+
 * Place Holder

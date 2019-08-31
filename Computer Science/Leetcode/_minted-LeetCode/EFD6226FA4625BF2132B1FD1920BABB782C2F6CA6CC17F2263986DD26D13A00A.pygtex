@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{k+kt}{int} \PYG{n}{minSum}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}} \PYG{n}{grid}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{row}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{col}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// base case 1: can\PYGZsq{}t move right}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{col} \PYG{o}{==} \PYG{n}{grid}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{].}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+      \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{row}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{grid}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+	\PYG{n}{sum} \PYG{o}{+=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{col}\PYG{p}{];}
+      \PYG{k}{return} \PYG{n}{sum}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{// base case 2: can\PYGZsq{}t move down}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{row} \PYG{o}{==} \PYG{n}{grid}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{sum} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+      \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{col}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{grid}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{].}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+	\PYG{n}{sum} \PYG{o}{+=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{i}\PYG{p}{];}
+      \PYG{k}{return} \PYG{n}{sum}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{// can move right or down}
+    \PYG{k}{return} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{+} \PYG{n}{min}\PYG{p}{(}\PYG{n}{minSum}\PYG{p}{(}\PYG{n}{grid}\PYG{p}{,} \PYG{n}{row} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{col}\PYG{p}{),} \PYG{n}{minSum}\PYG{p}{(}\PYG{n}{grid}\PYG{p}{,} \PYG{n}{row}\PYG{p}{,} \PYG{n}{col} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{));}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k+kt}{int} \PYG{n}{minPathSum}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}} \PYG{n}{grid}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{minSum}\PYG{p}{(}\PYG{n}{grid}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

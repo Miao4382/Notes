@@ -16,10 +16,11 @@
 
 *** Solution
 
-*** todos [0/4]
+*** todos [0/5]
 - [ ] write down your own solution and analysis
 - [ ] time complexity analysis of your own solution
 - [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] read solutions to refine your code
 - [ ] generalize this problem
 ** 1. Two Sum <<P1>>
 *** Problem Statement
@@ -315,6 +316,116 @@ public:
   - [ ] two pass hash table
   - [ ] one pass hash table
   - [ ] write the analysis of each idea
+- [ ] generalize this problem
+** 15. 3Sum
+*** Problem Statement
+[[https://leetcode.com/problems/3sum/][Link]]
+*** Analysis
+**** Two Pointers
+The idea is same as [[P167][P167]], except we now want three sum. To use two pointers, we have to first sort the array, which takes \(O(N\log{N})\) time. Then, we traverse the array. For each number we encountered (~nums[i]~), we calculate the target 2sum that is: ~0 - nums[i]~. Then we search if any two numbers in ~nums[i+1:]~ add to this target. If so, we push it in the result vector. The searching method is two pointers, the same as [[P167][P167]].
+
+Another thing should notice is to avoid duplicate. We'll take ~[-4,-1,-1,0,0,0,0,0,1,2]~ as an example. First we start with ~-4~, the target we are looking for is ~4~:
+#+BEGIN_EXAMPLE
+-4 -1 -1 0 0 0 0 0 1 2
+   ^                 ^
+-1 + 2 = 1 < 4
+
+-4 -1 -1 0 0 0 0 0 1 2
+         ^           ^
+0 + 2 = 2 < 4
+
+-4 -1 -1 0 0 0 0 0 1 2
+                   ^ ^
+1 + 2 = 3 < 4
+
+No match
+#+END_EXAMPLE
+
+There is no match for ~4~, now we move to ~-1~, the target is ~1~:
+#+BEGIN_EXAMPLE
+-4 -1 -1 0 0 0 0 0 1 2
+      ^              ^
+-1 + 2 = 1, target found
+#+END_EXAMPLE
+We have found a target, now we push ~{-1, -1, 2}~ into the result vector. Notice that the array is sorted, it suggests we must move two pointers until they are both pointing to different numbers. This is because to sum to ~1~, if you include ~-1~, then the other number must be ~2~, if you meet other pair ~(-1,2)~, they are duplicate. So you have to move two pointers until you meet two new numbers or two pointers cross each other. To do this:
+#+begin_src c++
+while (++low < high && nums[low] == nums[low-1]);
+while (--high > low && nums[high] == high[high+1]);
+#+end_src
+
+Now we are at:
+#+BEGIN_EXAMPLE
+-4 -1 -1 0 0 0 0 0 1 2
+         ^         ^  
+0 + 1 = 1, target found
+#+END_EXAMPLE
+This is another pair, we push it in the result vector. Then we continue move on using same strategy. We will end up with ~low > high~, loop terminates. Notice that we only look forward: we don't look back to find pairs, this is because if there is any pair in the back, they must have been found by previous loops and stored in the result vector.
+
+The next number is still ~-1~, if the current number is the same as the previous number, we should skip it to avoid duplicate result.
+
+By the above procedures, we can avoid duplicate in our final result vector.
+
+The time complexity of this approach is \(O(N^2)\). The Outer loop will traverse each number until we checked ~nums[size-3]~, because ~nums[size-3]~ is the last term that has three numbers available.
+***** Additional notes
+
+In [[https://leetcode.com/problems/3sum/discuss/7402/Share-my-AC-C%2B%2B-solution-around-50ms-O(N*N)-with-explanation-and-comments][this]] discussion page, we can add a simple ~if~ statement inside the outer loop (the loop that traverse each number and find valid pairs) to increase the performance:
+#+begin_src c++
+target = -nums[i];
+if (target < 0)
+  break;
+#+end_src
+Basically, if ~target < 0~, it means ~nums[i] > 0~, and all ~nums[j] > 0~ for ~j > i~, the sum of three positive numbers can't be zero, so we can just stop here.
+
+*** Solution
+**** C++
+***** two pointers
+#+begin_src c++
+class Solution {
+public:
+  vector<vector<int>> threeSum(vector<int>& nums) {
+    // check capacity 
+    if (nums.size() < 3)
+      return {};
+    
+    int low, high, prev, target;
+    int size = nums.size();
+    vector<vector<int>> ret;
+    
+    sort(nums.begin(), nums.end());
+    
+    for (int i = 0; i < size - 2; i++) {
+      // check if duplicate encountered
+      if (i != 0 && nums[i] == prev)
+        continue;
+      
+      target = -nums[i];
+      low = i + 1;
+      high = size - 1;
+      while (low < high) {
+        if (nums[low] + nums[high] == target) {
+          ret.push_back({nums[i], nums[low], nums[high]});
+          while (++low < high && nums[low] == nums[low-1]);
+          while (--high > low && nums[high] == nums[high+1]);
+        }
+        else if (nums[low] + nums[high] > target)
+          high--;
+        
+        else
+          low++;
+      }
+      
+      prev = nums[i];
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** todos [2/5]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] read solutions to refine your code
 - [ ] generalize this problem
 ** 27. Remove Element <<P27>>
 *** Problem Statement
@@ -940,6 +1051,54 @@ public:
   - [X] stack
   - [ ] Morris traversal
 - [ ] generalize this problem
+** XXXXX95. Unique Binary Search Trees II
+*** Problem Statement
+[[https://leetcode.com/problems/unique-binary-search-trees-ii/][Link]]
+*** Analysis
+**** Analysis of failure
+This problem requires building up the structures of all unique BST which stores values 1, 2, ..., n. This problem can be solved with dynamic programming, so I think may be I can find the recursive relation in this problem. This is the first step.
+
+Even the brutal force recursive solution is fine, as long as I can solve it. The solution function ~generateTrees()~ returns a vector of ~TreeNode*~, which should be the root of each structurally unique BST storing values of ~1, 2, ..., n~.
+***** the relation between ~generateTrees(n)~ and ~generateTrees(n-1)~ I
+
+To solve it in a recursive way, we should analyze whether solving a smaller part of the problem helps solving the bigger one. ~generateTrees(n-1)~ will give me a vector of ~TreeNode*~, which contains pointers to all root node of structurally unique BST that storing values of ~1, 2, ..., n-1~. Then, how do I use this result to build ~generateTrees(n)~? Now I have all possible BST of ~1, 2, ..., n-1~, and I want to insert a new value ~n~ to those trees to make new BST. I have following choices:
+1. for each ~n-1~ trees, insert it to the left child of ~n~'s node, making a new BST. We can make ~n-1~ new BSTs from this strategy. We add them to the back of the vector.
+2. try to insert node ~n~ into each ~n-1~ subtree. *This is where I think this approach doesn't work. Because there are multiple ways to insert node ~n~ to a subtree. For example, I can insert to the first right subtree, and re-arrange the rest of previous right subtree to the left, or I can insert to the second right subtree, and re-arrange the rest of previous right subtrees to its left, creating another new BST, or I can just insert to the right most leaf branch*. This needs a lot of calculations and arrangements, so I give up on this idea.
+
+***** the relation between ~generateTrees(n)~ and ~generateTrees(n-1)~ II
+
+Think in another way. Initially, I made a vector that holds all root nodes for the whole collection. Then, I call a recursive helper function to build each subtree (e.g. if the root value is ~k~, then build the tree by inserting the rest nodes, ~1, 2, ..., k-1, k+1, ..., n~ to this subtree). We have considered all possible number of structurally unique binary search tree for a given root value ~k~. For example, if ~n == 4~, then the initial vector would be:
+#+BEGIN_EXAMPLE
+[
+  [1],
+  [1],
+  [1],
+  [1],
+  [1],
+  [2],
+  [2],
+  [3],
+  [3],
+  [4],
+  [4],
+  [4],
+  [4],
+  [4],
+]
+#+END_EXAMPLE
+then, we call the recursive helper function to build the rest of these binary tree. The function should accept:
+1. a pointer to ~TreeNode~, this node is the root of the BST we are going to build.
+2. an integer ~min~, which is the minimum value in the BST
+3. an integer ~max~, which is the maximum value in the BST
+
+However, for the same root node, we have multiple choices for the left and right subtree. How to count them one by one? How to prevent making identical subtrees? I don't know how to solve this problem. For example, for the first node ~[1]~, we chose ~[2]~ as the right subtree. And when working the second node ~[1]~, how do we know that structure with ~[2]~ as the immediate subtree of ~[1]~ has already been counted? How do we make sure that all BSTs rooted at ~[1]~ can have unique structure?
+*** Solution
+
+*** todos [0/4]
+- [ ] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] generalize this problem
 ** 101. Symmetric Tree
 *** Problem Statement
 [[https://leetcode.com/problems/symmetric-tree/][Link]]
@@ -1452,7 +1611,7 @@ public:
 - [X] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity)
   - [X] one pass
 - [ ] generalize this problem
-** 122. *Best Time to Buy and Sell Stock II <<P122>>
+** 122. Best Time to Buy and Sell Stock II <<P122>>
 *** Problem Statement
 [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/][Link]]
 *** Analysis
@@ -1749,7 +1908,7 @@ public:
 - [X] write down your analysis and solution
 - [ ] read the two pointer solution, understand, implement, record
 - [ ] read discussion page to see if there is any other solution
-** 167. Two Sum II - Input array is sorted
+** 167. Two Sum II - Input array is sorted  <<P167>>
 *** Problem Statement
 *** Analysis
 **** Using similar idea in [[P1][1. Two Sum]].
@@ -1759,6 +1918,32 @@ The first submission was not passed. Then I made some optimization (just for thi
 1. if the current element is the same as the previous element, we pass to next (because the previous element didn't find match, this one won't either)
 2. if the counterpart is larger than the largest element in the array, or its smaller than the current element, we pass to next. Since in this situation, no match is possible.
 3. in the binary search function, a constant reference was used to avoid copying of the original array.
+**** Two Pointers (by Sol)
+We can use two pointers starting from begin and end of the array. Take ~[2,7,8,11,15]~ as an example, the ~target~ we are looking at is ~15~. Initially, two pointers are pointing at begin and end:
+#+BEGIN_EXAMPLE
+2  7  8  11  15
+^            ^
+#+END_EXAMPLE
+We check if their sum is the target. If the sum is larger than target, we move the right pointer left. For example, ~2 + 15 == 17 > 15~, so we move the right pointer:
+#+BEGIN_EXAMPLE
+2  7  8  11  15
+^        ^
+#+END_EXAMPLE
+If the sum is smaller than target, we move the left pointer right:
+#+BEGIN_EXAMPLE
+2  7  8  11  15
+   ^     ^
+#+END_EXAMPLE
+Now, ~7 + 11 > 15~, so we move right pointer left:
+#+BEGIN_EXAMPLE
+2  7  8  11  15
+   ^  ^
+#+END_EXAMPLE
+Since we move the pointer one bit at a time, eventually, we'll meet the two nodes that sum to the target (the condition of this while loop is when ~low < high~ is true, no duplicate allowed, so we stop if ~low == high~).
+
+
+The time complexity is \(O(N)\), the worst case is when two pointers must traverse to adjacent elements, say ~k~ and ~k+1~, then total moving steps are: ~k + n - (k + 1) - 1~, which is ~n - 2~ steps. So time complexity is linear with N.
+
 *** Solution
 **** C++
 ***** binary search (69%, 90%)
@@ -3236,7 +3421,518 @@ Also, we don't have to count integer numbers in \(G_0\), since: \(N_{G_0} = N - 
 - [X] Write the analysis of grouping idea and my code
 - [X] Read code in reference of grouping idea, make notes
 - [X] Check other possible solution and make future plan
-- [ ] Try to generalize this problem  
+- [ ] Try to generalize this problem 
+** 494. Target Sum
+*** Problem Statement
+[[https://leetcode.com/problems/target-sum/][Link]]
+*** Analysis
+**** Recursion, no bookkeeping
+The first step is to find out the recursive relation. For each number in the array: ~nums[i]~, we have two choices: give ~+~ sign to it, or give ~-~ sign to it. If we give ~+~ sign, then we have to search ~S - nums[i]~ in the remaining array. If we give ~-~ sign, then we have to search ~S + nums[i]~ in the remaining array. The total number of ways to achieve target sum is the sum of these two (giving ~+~ and ~-~).
+
+The base case is the last digit. We just need to compare if ~nums[i] == S~ or ~nums[i] == -S~. If any of this two conditions is true, we found one way to sum to target (it could be two, when ~S == -S -> S == 0~.
+
+There will be redundant calculations in recursive calls. We'll deal with this in next method.
+
+Time complexity (from solution): size of recursion tree will be \(2^n\), This is because for each number, we may assign it ~+~ or ~-~, two choices. So, the total number of choices are \(2^n\).
+
+Space complexity (from solution): \(O(n)\), the depth of the recursion tree can go upto \(n\).
+
+**** Recursion, bookkeeping (hash table)
+We use a hash table to hold calculated result. Specifically, we keep the number of ways to sum to target ~S~, at an index of ~start~. To use a hash table, we first determine the key. The key can be a ~pair~ of integers: ~pair<int, int> p(start, S)~. ~p.first~ is the starting index, ~p.second~ is the target sum. We need to provide hash function that hashes a ~pair~ object to a ~size_t~ value:
+#+begin_src c++
+struct hash_pair {
+  size_t operator()(const pair<int, int>& p) const {
+    return p.first ^ p.second;
+  }
+}
+#+end_src
+Then, the hash table is declared as (we are using an ~unordered_map~ to use key-value pair):
+#+begin_src c++
+unordered_map<pair<int, int>, int, hash_pair> val;
+#+end_src
+
+Then, before calculating, we check if this value has been calculated or not. After calculating, we update the key-value pair into the hash table.
+
+*Time complexity*: how do we know how many operations we performed? Sometimes we can return the ~val[][]~ directly, sometimes we have to call recursive function to calculate. We can think it in this way: we are filling the result record array ~val[n][sum]~. ~n~ depends on the size of ~nums~ array, while ~sum~ depends on the range of possible ~sum~.
+
+**** Recursion, bookkeeping (2D array)
+We can use a 2D array to hold pair ~<start, sum>~. Although some ~sum~ generated during the calculation may be negative, the sum of elements in the given array will not exceed 1000 (this means even all numbers are selected ~+~ sign, the total sum will not exceed 1000). So, ~sum + 1000~ will not exceed 2000. For ~sum~ in range of ~[-1000,1000]~, ~sum + 1000~ is in range of ~[0,2000]~. So the index range would be ~[0,2000]~, we use an array with 2001 slots to keep the record.
+
+Before calculating any value of ~<start, sum>~, we check if the value has been calculated or not. If so, we return it directly. Otherwise, we call recursive function to calculate, then update the value: ~val[start][sum + 1000]~.
+
+If based on the above recursion method, we have to check whether intermediate ~sum~ excessed the range ~sum > 1000 || sum < -1000~, if so, return 0.
+
+There is an other recursion method, which accumulates the sum in the process (instead of subtracting or adding in my method). After the final digit contributes to the sum, we compare if the accumulated sum is equal with target sum, if so, return 1 to count this particular path that sum to the target. If not, return 0 (my code needs to check if intermediate ~sum~ exceeds the range in the process, otherwise, index will fall out of range). For details, compare my recursion and solution's recursion.
+
+**** Iteration, bookkeeping (2D array) + hashtable (my)
+***** Step-by-step example: ~[1,1,1,1,1]~
+
+Normally, I can build up the solution based on recursion result (the 2D array bookkeeping one). The goal is to remove recursive call. To do so, we may take a closer look at *WHEN* do we make the recursive call: when the value of ~val[start][sum]~ is not calculated. This term represents the total number of ways to get ~sum~ starting at index ~start~, the summation takes ~nums[start]~ into account. We can either assign ~+~ or ~-~ to to ~nums[start]~. If we assign ~+~, then we just need to find the total number of ways to sum to ~sum - nums[start]~ starting from index ~start+1~. If we assign ~-~, then we just need to find the total number of ways to sum to ~sum + nums[start]~ starting from index ~start+1~. That is, if ~val[start+1][sum+nums[start]]~ and ~val[start+1][sum-nums[start]]~ is known, we can calculate ~val[start][sum]~ directly:
+#+begin_src c++
+val[start][sum] = val[start+1][sum+nums[start]] + val[start+1][sum-nums[start]]
+#+end_src
+This means we maybe able to calculate these two terms first, and calculate the rest terms iteratively: calculate from back and toward head. 
+
+Take ~nums == {1,1,1,1,1}~ as an example:
+#+BEGIN_EXAMPLE
+0 1 2 3 4
+1 1 1 1 1
+#+END_EXAMPLE
+From ~nums[4]~, we know:
+#+BEGIN_EXAMPLE
+val[4][1]  == 1  // when picking + for nums[4]
+val[4][-1] == 1  // when picking - for nums[4]
+#+END_EXAMPLE
+this two spots are all we know. Now let ~start == 3~:
+#+BEGIN_EXAMPLE
+val[3][sum] = val[4][sum+nums[3]] + val[4][sum-nums[3]]
+->
+val[3][sum] = val[4][sum+1] + val[4][sum-1]
+#+END_EXAMPLE
+since all non-zero term we know is ~val[4][1]~ and ~val[4][-1]~, we can only use this two to make whatever possible non-zero term for ~val[3][sum]~. The possible ~sum~ value is:
+#+BEGIN_EXAMPLE
+sum = 0:
+  val[3][0] = val[4][1] + val[4][-1]
+  val[3][0] =     1     +     1
+            = 2
+
+sum = 2:
+  val[3][2] = val[4][3] + val[4][1]
+  val[3][2] =     0     +     1
+            = 1
+
+sum = -2:
+  val[3][-2] = val[4][-1] + val[4][-3]
+  val[3][-2] =     1     +     0
+             = 1            
+#+END_EXAMPLE
+
+Now, we have more non-zero terms of ~val[i][j]~ to use:
+#+BEGIN_EXAMPLE
+val[4][1]  == 1
+val[4][-1] == 1
+val[3][0]  == 2
+val[3][2]  == 1
+val[3][-2] == 1
+#+END_EXAMPLE
+
+Now, let ~start == 2~:
+#+BEGIN_EXAMPLE
+val[2][sum] = val[3][sum+nums[2]] + val[3][sum-nums[2]]
+->
+val[2][sum] = val[3][sum+1] + val[3][sum-1]
+#+END_EXAMPLE
+Similarliy, we want to find out all sum that can make either ~val[3][sum+1]~ or ~val[3][sum-1]~ non-zero, specifically:
+#+BEGIN_EXAMPLE
+sum+1 == 0, 2, -2 -> sum == -1, 1, -3
+sum-1 == 0, 2, -2 -> sum == 1, 3, -1
+#+END_EXAMPLE
+The possible ~sum~ value is then: -3, -1, 1, 3. Corresponding ~val[2][sum]~ is:
+#+BEGIN_EXAMPLE
+sum == -3:
+  val[2][-3] == val[3][-2] + val[3][-4]
+             ==     1      +     0
+             == 1
+
+sum == -1:
+  val[2][-1] == val[3][0] + val[3][-2]
+             ==     2     +     1
+             == 3
+
+sum == 1:
+  val[2][1] == val[3][2] + val[3][0]
+             ==     1    +     2
+             == 3
+
+sum == 3:
+  val[2][3] == val[3][4] + val[3][2]
+             ==     0    +     1
+             == 1             
+#+END_EXAMPLE
+Now, we have following terms to use:
+#+BEGIN_EXAMPLE
+val[2][-3] == 1
+val[2][-1] == 3
+val[2][1]  == 3
+val[2][3]  == 1
+#+END_EXAMPLE
+Let ~start == 1~, then:
+#+BEGIN_EXAMPLE
+val[1][sum] = val[2][sum+nums[1]] + val[2][sum-nums[1]]
+->
+val[1][sum] = val[2][sum+1] + val[2][sum-1]
+#+END_EXAMPLE
+To find all possible ~sum~:
+#+BEGIN_EXAMPLE
+sum + 1 == -3, -1, 1, 3 -> sum == -4, -2, 0, 2
+sum - 1 == -3, -1, 1, 3 -> sum == -2, 0, 2, 4
+#+END_EXAMPLE
+So, the possible value of ~sum~ is -4, -2, 0, 2, 4. We have:
+#+BEGIN_EXAMPLE
+val[1][-4] == val[2][-3] + val[2][-5]
+           == 1 + 0
+           == 1
+val[1][-2] == val[2][-1] + val[2][-3]
+           == 3 + 1
+           == 4
+val[1][0]  == val[2][1] + val[2][-1]
+           == 3 + 3
+           == 6
+val[1][2]  == val[2][3] + val[2][1]
+           == 1 + 3
+           == 4
+val[1][4]  == val[2][5] + val[2][3]
+           == 0 + 1
+           == 1           
+#+END_EXAMPLE
+Now, we have following terms to use:
+#+BEGIN_EXAMPLE
+val[1][-4] == 1
+val[1][-2] == 4
+val[1][0]  == 6
+val[1][2]  == 4
+val[1][4]  == 1
+#+END_EXAMPLE
+Finally, let ~start == 0~, then:
+#+BEGIN_EXAMPLE
+val[0][sum] = val[1][sum+1] + val[1][sum-1]
+#+END_EXAMPLE
+Calculate the possible sum:
+#+BEGIN_EXAMPLE
+sum + 1 == -4, -2, 0, 2, 4 -> sum == -5, -3, -1, 1, 3
+sum - 1 == -4, -2, 0, 2, 4 -> sum == -3, -1, 1, 3, 5
+#+END_EXAMPLE
+The possible ~sum~ is -5, -3, -1, 1, 3, 5. We have:
+#+BEGIN_EXAMPLE
+val[0][-5] == v[1][-4] + v[1][-6]
+           == 1 + 0
+           == 1
+val[0][-3] == v[1][-2] + v[1][-4]
+           == 4 + 1
+           == 5
+val[0][-1] == v[1][0] + v[1][-2]
+           == 6 + 4
+           == 10
+val[0][1]  == v[1][2] + v[1][0]
+           == 4 + 6
+           == 10
+val[0][3]  == v[1][4] + v[1][2]
+           == 1 + 4
+           == 5
+val[0][5]  == v[1][6] + v[1][4]
+           == 0 + 1
+           == 1
+#+END_EXAMPLE
+Now, we have reached index 0, which means we have calculated all the possible ~sum~ from the starting of the array. Besides these ~sum~s, for all other ~sum~, ~val[0][sum] == 0~. These ~sum~s are:
+#+BEGIN_EXAMPLE
+val[0][-5] == 1
+val[0][-3] == 5
+val[0][-1] == 10
+val[0][1]  == 10
+val[0][3]  == 5
+val[0][5]  == 1
+#+END_EXAMPLE
+***** Step-by-step example: ~[1,999]~
+
+Following the code (except the 1000 + part). ~size == 2~. After initialize step:
+#+BEGIN_EXAMPLE
+val[1][999] = 1
+val[1][-999] = 1
+old_sums: [999, -999]
+#+END_EXAMPLE
+Loop ~i = size - 2 == 0~ (the only loop). Find all possible ~new_sum~s:
+#+BEGIN_EXAMPLE
+old_sum == 999
+  new_sum == 1000, 998
+old_sum == -999
+  new_sum == -998, -1000
+
+new_sums: [1000, 998, -998, -1000]
+#+END_EXAMPLE
+
+The possible sum for index ~i == 0~ is: ~[1000, 998, -998, -1000]~. Now go over each possible ~new_sum~ to calculate the number of ways to get to this sum:
+#+BEGIN_EXAMPLE
+val[0][1000] = val[1][1001] + val[1][999] == 1
+val[0][998] = val[1][999] + val[1][997] == 1
+val[0][-998] = val[1][-997] + val[1][-999] == 1
+val[0][-1000] = val[1][-999] + val[1][-1001] == 1
+#+END_EXAMPLE
+***** Step-by-step example: ~[1,1,0]~
+
+One of my algorithm does not work when trialing zero presents, I'm here to find out why. ~size == 3~, after initialization:
+#+BEGIN_EXAMPLE
+val[2][0] == 1
+old_sums: [0]
+#+END_EXAMPLE
+Loop ~i == 1~, find all possible ~new_sum~s:
+#+BEGIN_EXAMPLE
+old_sum == 0:
+  new_sum == 1, -1
+
+new_sums: [1, -1]
+#+END_EXAMPLE
+
+Now, go over each possible ~new_sum~ to calculate the number of ways to get to this sum:
+#+BEGIN_EXAMPLE
+val[1][1] = val[2][2] + val[2][0] == 1
+val[1][-1] = val[2][0] + val[2][-2] == 1
+#+END_EXAMPLE
+
+Now, loop ~i == 0~, ~old_sums: [1, -1]~, find all possible ~new_sum~:
+#+BEGIN_EXAMPLE
+old_sum: 1
+  new_sum == 2, 0
+old_sum: -1
+  new_sum == -2, 0
+
+new_sums: [-2, 0, 2]
+#+END_EXAMPLE
+
+Now, go over each possible ~new_sum~ to calculate the number of ways to get to this sum:
+#+BEGIN_EXAMPLE
+val[0][-2] = val[1][-1] + val[0][-3] == 1
+val[0][0] = val[1][1] + val[1][-1] == 2
+val[0][2] = val[1][3] + val[1][1] == 1
+#+END_EXAMPLE
+
+Obviously, the result of this algorithm is not correct. Because we have an zero at the tail position. When initialization, I used:
+#+begin_src c++
+val[size-1][1000 + nums[size-1]] = 1;
+val[size-1][1000 - nums[size-1]] = 1;
+#+end_src
+So if ~1000 + nums[size-1] == 1000 - nums[size-1]~, we'll only count one for this sum value (actually there are two ways to sum to this value: assigning + and -, this value is zero). To fix this, use ~+=~ instead of ~=~ (this works because every slot is initialized as zero).
+
+
+
+
+
+
+
+
+
+
+
+***** Translate to algorithm
+
+First, we use a 2D array to hold calculated values that we can use to calculate other values. ~val[i][s]~ stores the number of ways to sum to ~s~, starting at index ~i~ in ~nums~. For ~nums[i]~, you have two options:
+1. assign ~+~ to ~nums[i]~
+2. assign ~-~ to ~nums[i]~
+If you choose 1, then ~val[i][s]~ is actually ~val[i+1][s - nums[i]]~. Similarliy, if you choose 2, then ~val[i][s]~ is ~val[i+1][s + nums[i]]~. So, the totle number of ways to sum to ~s~, starting at index ~i~ is:
+#+BEGIN_EXAMPLE
+val[i+1][s - nums[i]] + val[i+1][s + nums[i]]
+#+END_EXAMPLE
+
+One thing should be pointed out is, there are finite number of ~s~ we can get from the sequence of numbers. For example, starting from the last number in ~nums~, the sum we can get is:
+- ~nums[size-1]~: assigning ~+~ to the number
+- ~-nums[size-1]~: assigning ~-~ to the number
+Generally, for an index ~i~, there are finite number of ~sum~ that ~val[i][sum] > 0~  In the formula of ~val[i][s]~, we must select ~s~ so that ~val[i+1][s - nums[i]] > 0~ or ~val[i+1][s + nums[i]] > 0~. To determine all availabe ~s~, we use the possible ~sum~ from number ~nums[i+1]~. For each ~old_sum~, we can have two ~new_sum~:
+1. ~new_sum_1 = old_sum + nums[i]~
+2. ~new_sum_2 = old_sum - nums[i]~
+
+After collecting all possible ~new_sum~, we calculate ~val[i][new_sum]~ according to the given formula.
+
+During implementation, we don't want to count duplicate ~new_sum~, so we can use a hashtable to hold all the possible unique ~new_sum~.
+
+
+
+
+**** Iteration (from solution)
+
+
+*** Solution
+**** C++
+***** recursion, no bookkeeping
+#+begin_src c++
+class Solution {
+public:
+  int find(vector<int>& nums, int start, long S) {
+    // base case, last digit 
+    if (start == nums.size() - 1) {
+      int ret = 0;
+      if (nums[start] == S)
+        ret++;
+      if (nums[start] == -S)
+        ret++;
+      return ret;
+    }
+      
+    // other cases, call recursive function
+    return find(nums, start + 1, S + nums[start]) + find(nums, start + 1, S - nums[start]);
+  }
+  
+  int findTargetSumWays(vector<int>& nums, int S) {
+    return find(nums, 0, S);
+  }
+};
+#+end_src
+***** recursion, with bookkeeping (hash table)
+#+begin_src c++
+class Solution {
+public:
+  // hash function for std::pair<int, int>
+  struct hash_pair {
+    size_t operator()(const pair<int, int>& p) const {
+      return p.first ^ p.second;
+    }
+  };
+  
+  
+  int findSum(vector<int>& nums, int start, int S, unordered_map<pair<int, int>, int, hash_pair>& val) {
+    pair<int, int> p(start, S);
+    // check if calculated
+    if (val.find(p) != val.end())
+      return val[p];
+    
+    // base case, last digit 
+    if (start == nums.size() - 1) {     
+      int ret = 0;
+      if (nums[start] == S)
+        ret++;
+      if (nums[start] == -S)
+        ret++;
+      
+      val[p] = ret;
+      return ret;
+    }
+      
+    // other cases, call recursive function
+    int ret = findSum(nums, start + 1, S + nums[start], val) + findSum(nums, start + 1, S - nums[start], val);
+    val[p] = ret;
+    return ret;
+  }
+  
+  int findTargetSumWays(vector<int>& nums, int S) {
+    // sum of elements not exceeding 1000
+    if (S > 1000 || S < -1000)
+      return 0;
+    
+    // create a hash table to hold the calculated value
+    unordered_map<pair<int, int>, int, hash_pair> val;
+    return findSum(nums, 0, S, val);
+  }
+};
+#+end_src
+***** recursion, with bookkeeping (2D array)
+#+begin_src c++
+/*Notes: 
+
+*/
+class Solution {
+public:
+  int find(vector<int>& nums, int start, int S, int val[20][2001]) {
+    // check if S exceeded range
+    if (S > 1000 || S < -1000)
+      return 0;
+    
+    // check if calculated
+    if (val[start][S + 1000] != 1001)
+      return val[start][S + 1000];
+    
+    // base case, last digit 
+    if (start == nums.size() - 1) {
+      int ret = 0;
+      if (nums[start] == S)
+        ret++;
+      if (nums[start] == -S)
+        ret++;
+      
+      val[start][S + 1000] = ret;
+      return ret;
+    }
+      
+    // other cases, call recursive function
+    int ret = find(nums, start + 1, S + nums[start], val) + find(nums, start + 1, S - nums[start], val);
+    
+    val[start][S + 1000] = ret;
+    return ret;
+  }
+  
+  int findTargetSumWays(vector<int>& nums, int S) {
+    // check S size
+    if (S > 1000 || S < -1000)
+      return 0;
+    
+    // create a 2D array
+    int val[20][2001];
+    for (int i = 0; i < 20; i++)
+      for (int j = 0; j < 2001; j++)
+        val[i][j] = 1001;
+    
+    return find(nums, 0, S, val);
+  }
+};
+#+end_src
+***** iteration, with bookkeeping (2D array) + hashtable (my)
+#+begin_src c++
+class Solution {
+public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    // empty 
+    if (nums.empty())
+      return (S == 0) ? 1 : 0;
+    
+    // large sum
+    if (S > 1000 || S < -1000)
+      return 0;
+    
+    int size = nums.size();
+    int new_sum;
+    unordered_set<int> new_sums, old_sums;
+    
+    // value storage array
+    int val[20][2001];
+    for (int i = 0; i < 20; i++)
+      for (int j = 0; j < 2001; j++)
+        val[i][j] = 0;
+    
+    // initialize
+    val[size-1][1000 + nums[size-1]] += 1;
+    val[size-1][1000 - nums[size-1]] += 1;
+    old_sums.insert(nums[size-1]);
+    old_sums.insert(-nums[size-1]);
+    
+    // calculate all possible sum
+    for (int i = size - 2; i >= 0; --i) {
+      new_sums.clear();
+      // find all possible new_sum when assigning + and - to nums[i]
+      for (auto old_sum : old_sums) {
+        new_sum = old_sum + nums[i];  // assigning +
+        new_sums.insert(new_sum);
+        new_sum = old_sum - nums[i];  // assigning -
+        new_sums.insert(new_sum);
+      }
+      
+      
+      // update val[i][new_sum] for all possible new_sum (starting at i)
+      for (auto new_sum : new_sums) {
+        int old_sum_1 = new_sum + nums[i];
+        int old_sum_2 = new_sum - nums[i];
+        
+        if (old_sum_1 >= -1000 && old_sum_1 <= 1000)
+          val[i][1000 + new_sum] += val[i+1][1000 + old_sum_1];
+        if (old_sum_2 >= -1000 && old_sum_2 <= 1000)
+          val[i][1000 + new_sum] += val[i+1][1000 + old_sum_2];
+        
+        // cout << "val[" << i << "][" << new_sum << "] == " << val[i][1000 + new_sum] << endl;
+      }
+      
+      // update old sum
+      old_sums = new_sums;
+      
+    }
+    
+    return val[0][1000 + S];
+      
+  }
+};
+#+end_src
+
+*** todos [2/5]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis)
+- [ ] read solutions to refine your code
+- [ ] generalize this problem
 ** 543. Diameter of Binary Tree
 *** Problem Statement
 [[https://leetcode.com/problems/diameter-of-binary-tree/][Link]]

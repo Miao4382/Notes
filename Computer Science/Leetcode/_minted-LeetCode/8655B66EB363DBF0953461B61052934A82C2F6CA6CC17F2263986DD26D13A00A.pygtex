@@ -1,0 +1,38 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Solution} \PYG{p}{\PYGZob{}}
+\PYG{k}{public}\PYG{o}{:}
+  \PYG{c+c1}{// comparing functors used by sort()}
+  \PYG{k}{struct} \PYG{n}{Comp} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{bool} \PYG{k}{operator}\PYG{p}{()(}\PYG{k}{const} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{a}\PYG{p}{,} \PYG{k}{const} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{b}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{a}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n}{b}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+	\PYG{k}{return} \PYG{n}{a}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{b}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{];}
+
+      \PYG{k}{return} \PYG{n}{a}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{b}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{};}
+
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}} \PYG{n}{reconstructQueue}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}} \PYG{n}{people}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// sort people}
+    \PYG{n}{sort}\PYG{p}{(}\PYG{n}{people}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{people}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),} \PYG{n}{Comp}\PYG{p}{());}
+
+    \PYG{c+c1}{// create another array and initialize}
+    \PYG{k+kt}{int} \PYG{n}{size} \PYG{o}{=} \PYG{n}{people}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}} \PYG{n}{rp}\PYG{p}{(}\PYG{n}{size}\PYG{p}{);}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{size}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{n}{rp}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{p}{\PYGZcb{};}
+    \PYG{k+kt}{int} \PYG{n}{count}\PYG{p}{;}
+    \PYG{k+kt}{int} \PYG{n}{j}\PYG{p}{;}
+
+    \PYG{c+c1}{// put each people to right position}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{size}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{count} \PYG{o}{\PYGZlt{}} \PYG{n}{people}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{];} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)}  \PYG{c+c1}{// count valid slots}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{||} \PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{n}{people}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{])}
+	  \PYG{n}{count}\PYG{o}{++}\PYG{p}{;}
+      \PYG{k}{while}\PYG{p}{(}\PYG{o}{!}\PYG{p}{(}\PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{))}  \PYG{c+c1}{// move to next empty slot}
+	\PYG{n}{j}\PYG{o}{++}\PYG{p}{;}
+      \PYG{n}{rp}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{people}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{return} \PYG{n}{rp}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

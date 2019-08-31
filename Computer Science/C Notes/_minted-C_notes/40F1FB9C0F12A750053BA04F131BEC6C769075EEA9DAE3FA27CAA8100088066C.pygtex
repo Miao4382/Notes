@@ -1,0 +1,47 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// named constants}
+\PYG{c+cp}{\PYGZsh{}define NULL      0}
+\PYG{c+cp}{\PYGZsh{}define EOF       (\PYGZhy{}1)}
+\PYG{c+cp}{\PYGZsh{}define BUFSIZ    1024    }\PYG{c+c1}{//buffer size}
+\PYG{c+cp}{\PYGZsh{}define OPEN\PYGZus{}MAX  20      }\PYG{c+c1}{// max number of files open at once}
+
+\PYG{k}{typedef} \PYG{k}{struct} \PYG{n}{\PYGZus{}iobuf} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{cnt}\PYG{p}{;}           \PYG{c+c1}{// characters left in the buffer}
+  \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{ptr}\PYG{p}{;}         \PYG{c+c1}{// next character position in the buffer}
+  \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{base}\PYG{p}{;}        \PYG{c+c1}{// location of buffer}
+  \PYG{k+kt}{int} \PYG{n}{flag}\PYG{p}{;}          \PYG{c+c1}{// store info bits (mode of file access and other status)}
+  \PYG{k+kt}{int} \PYG{n}{fd}\PYG{p}{;}            \PYG{c+c1}{// file descriptor}
+\PYG{p}{\PYGZcb{}} \PYG{k+kt}{FILE}\PYG{p}{;}
+
+\PYG{k+kt}{FILE} \PYG{n}{\PYGZus{}iob}\PYG{p}{[}\PYG{n}{OPEN\PYGZus{}MAX}\PYG{p}{];}       \PYG{c+c1}{// an array of FILE type structures, each element is a FILE}
+
+\PYG{c+c1}{// named constants}
+\PYG{c+cp}{\PYGZsh{}define stdin  (\PYGZam{}\PYGZus{}iob[0])  }\PYG{c+c1}{// pointer to \PYGZus{}iob[0]}
+\PYG{c+cp}{\PYGZsh{}define stdout (\PYGZam{}\PYGZus{}iob[1])  }\PYG{c+c1}{// pointer to \PYGZus{}iob[1]}
+\PYG{c+cp}{\PYGZsh{}define stderr (\PYGZam{}\PYGZus{}iob[2])  }\PYG{c+c1}{// pointer to \PYGZus{}iob[2]}
+
+\PYG{c+cm}{/*Notes:}
+\PYG{c+cm}{In the FILE structure, we use only one integer flag to record the status bit, thus a single integer can record multiple status (each bit is a flag)}
+\PYG{c+cm}{*/}
+\PYG{k}{enum} \PYG{n}{\PYGZus{}flags} \PYG{p}{\PYGZob{}}     \PYG{c+cm}{/* a leading zero on an integer constant means octal */}
+  \PYG{n}{\PYGZus{}READ}  \PYG{o}{=} \PYG{l+m+mo}{01}\PYG{p}{,}    \PYG{c+cm}{/* file open for reading */}
+  \PYG{n}{\PYGZus{}WRITE} \PYG{o}{=} \PYG{l+m+mo}{02}\PYG{p}{,}    \PYG{c+cm}{/* file open for writing */}
+  \PYG{n}{\PYGZus{}UNBUF} \PYG{o}{=} \PYG{l+m+mo}{04}\PYG{p}{,}    \PYG{c+cm}{/* file is unbuffered */}
+  \PYG{n}{\PYGZus{}EOF}   \PYG{o}{=} \PYG{l+m+mo}{010}\PYG{p}{,}   \PYG{c+cm}{/* EOF has occurred on this file */}
+  \PYG{n}{\PYGZus{}ERR}   \PYG{o}{=} \PYG{l+m+mo}{020}    \PYG{c+cm}{/* error occurred on this file */}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int} \PYG{n+nf}{\PYGZus{}fillbuf}\PYG{p}{(}\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{p}{);}         \PYG{c+c1}{// function header}
+\PYG{k+kt}{int} \PYG{n+nf}{\PYGZus{}flushbuf}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{,} \PYG{k+kt}{FILE} \PYG{o}{*}\PYG{p}{);}   \PYG{c+c1}{// function header}
+
+\PYG{c+c1}{// macros with arguments, argument type should be pointer to FILE structure}
+\PYG{c+cp}{\PYGZsh{}define feof(p) (((p)\PYGZhy{}\PYGZgt{}flag \PYGZam{} \PYGZus{}EOF) != 0)       }\PYG{c+c1}{// when EOF has occurred, this is true}
+\PYG{c+cp}{\PYGZsh{}define ferror(p) (((p)\PYGZhy{}\PYGZgt{}flag \PYGZam{} \PYGZus{}ERR) != 0)     }\PYG{c+c1}{//when error occurred, this is true}
+\PYG{c+cp}{\PYGZsh{}define fileno(p) ((p)\PYGZhy{}\PYGZgt{}fd)                     }\PYG{c+c1}{// get the file descriptor}
+
+\PYG{c+cp}{\PYGZsh{}define getc(p) (\PYGZhy{}\PYGZhy{}(p)\PYGZhy{}\PYGZgt{}cnt \PYGZgt{}= 0 ? (unsigned char) *(p)\PYGZhy{}\PYGZgt{}ptr++ : \PYGZus{}fillbuf(p))}
+\PYG{c+cp}{\PYGZsh{}define putc(x,p) (\PYGZhy{}\PYGZhy{}(p)\PYGZhy{}\PYGZgt{}cnt \PYGZgt{}= 0 ? *(p)\PYGZhy{}\PYGZgt{}ptr++ = (x) : \PYGZus{}flushbuf((x), p))}
+
+\PYG{c+cp}{\PYGZsh{}define getchar() getc(stdin)}
+\PYG{c+cp}{\PYGZsh{}define putchar(x)  putc((x), stdout)}
+\end{Verbatim}
