@@ -967,6 +967,7 @@ int open(char *name, int flags, int perms);
   - ~O_RDWR~: open for reading and writing
 - ~perms~: (not mentioned in the book), it is always zero for the uses of ~open()~ that we will discuss)
 
+Notice that when openning a file, the content of the file will not be deleted.
     
 *Return value*
 
@@ -1266,8 +1267,7 @@ If we want to append data to the end of a file, we open a file in a mode that su
 To get back to beginning (~rewind()~), we just need to call ~lseek(fd, 0L, 0)~.
 ** Example: an implementation of ~fopen()~ and ~getc()~
  In this section we build a ~FILE~ type from scratch and implement ~fopen()~ and ~gect()~. We can use what we build to access files through ~FILE~ type, not the file descriptor (file descriptors are buried in the back stage).
-
-
+ 
 *** ~FILE~ type build-up and Macros
 Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a ~FILE~ type with a ~typedef~, it contains information about a file:
 - a pointer to a buffer

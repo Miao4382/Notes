@@ -3464,7 +3464,7 @@ If based on the above recursion method, we have to check whether intermediate ~s
 
 There is an other recursion method, which accumulates the sum in the process (instead of subtracting or adding in my method). After the final digit contributes to the sum, we compare if the accumulated sum is equal with target sum, if so, return 1 to count this particular path that sum to the target. If not, return 0 (my code needs to check if intermediate ~sum~ exceeds the range in the process, otherwise, index will fall out of range). For details, compare my recursion and solution's recursion.
 
-**** Iteration, bookkeeping (2D array) + hashtable (my)
+**** Iteration, bookkeeping (2D array) + hashtable, backward (my)
 ***** Step-by-step example: ~[1,1,1,1,1]~
 
 Normally, I can build up the solution based on recursion result (the 2D array bookkeeping one). The goal is to remove recursive call. To do so, we may take a closer look at *WHEN* do we make the recursive call: when the value of ~val[start][sum]~ is not calculated. This term represents the total number of ways to get ~sum~ starting at index ~start~, the summation takes ~nums[start]~ into account. We can either assign ~+~ or ~-~ to to ~nums[start]~. If we assign ~+~, then we just need to find the total number of ways to sum to ~sum - nums[start]~ starting from index ~start+1~. If we assign ~-~, then we just need to find the total number of ways to sum to ~sum + nums[start]~ starting from index ~start+1~. That is, if ~val[start+1][sum+nums[start]]~ and ~val[start+1][sum-nums[start]]~ is known, we can calculate ~val[start][sum]~ directly:
@@ -3711,7 +3711,6 @@ So if ~1000 + nums[size-1] == 1000 - nums[size-1]~, we'll only count one for thi
 
 
 
-
 ***** Translate to algorithm
 
 First, we use a 2D array to hold calculated values that we can use to calculate other values. ~val[i][s]~ stores the number of ways to sum to ~s~, starting at index ~i~ in ~nums~. For ~nums[i]~, you have two options:
@@ -3736,7 +3735,31 @@ During implementation, we don't want to count duplicate ~new_sum~, so we can use
 
 
 
-**** Iteration (from solution)
+**** Iteration (from solution), forward iteration, bookkeeping (2D array)
+The solution uses forward iteration. I found that many times, forward iteration is better than backward iteration, fewer boundary cases, conditions. Next time try to think both of them.
+
+This approach uses similar idea. We use a 2D array to keep intermediate values. The difference is:
+1. ~val[i][j]~ in my solution means the number of ways to sum to ~j~ *STARTING* from index ~i~, these summing ways include the remaining elements in the array (after ~nums[i]~).
+2. ~val[i][j]~ in this solution means the number of ways to sum to ~j~ from ~0~ upto index ~i~, these ways include the elements in front of ~nums[i]~.
+
+This difference makes this method iterate from beginning to end. To calculate the intermediate value:
+#+begin_src c++
+val[i][old_sum - nums[i]] += val[i-1][old_sum];  // assign + to nums[i]
+val[i][old_sum + nums[i]] += val[i-1][old_sum];  // assign - to nums[i]
+#+end_src
+
+The idea is, assume we know ~val[i-1][j]~, then when we proceed to ~nums[i]~, we can either assign + or − to ~nums[i]~, to get new sum ~j + nums[i]~ and ~j - nums[i]~. This two sums are calculated based on old sum ~j~, so the number of ways to calculate to this two sums are ~val[i-1][j]~.
+
+**** Iteration, forward iteration, bookkeeping 1D array
+After closer examining the above solution, you will see we only used the last calculated row of ~val[][]~. This suggests we can use a 1D array to hold this last row and perform the calculation. Specifically, when we calculating the possible sum upto ~i~,we need a 1D array storing the possible sum upto ~i-1~ (this 1D array is named ~old_sums~), and another 1D array storing the possible sum upto ~i~ (which is the result of our calculation, this 1D array is named ~new_sums~). After we calculated each ~new_sums~ and before we move to calculate the next, we update ~old_sums~:
+#+begin_src c++
+old_sums = new_sums;
+#+end_src
+And at beginning of each iteration, we have to reset ~new_sums~:
+#+begin_src c++
+new_sums.assign(2001, 0);  // make each element 0
+#+end_src
+This is to make sure ~new_sums~ only contains possible sum of the current number ~i~.
 
 
 *** Solution
@@ -3926,7 +3949,75 @@ public:
   }
 };
 #+end_src
-
+***** iteration, with bookkeeping (2D array), forward (sol)
+#+begin_src c++
+class Solution {
+public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    // empty case 
+    int n = nums.size();
+    if (n == 0)
+      return (S == 0)? 1 : 0;
+    
+    // val[i][1000 + j] is the number of ways to sum to j, from 0 upto i
+    int val[20][2001];
+    for (int i = 0; i < 20; i++)
+      for (int j = 0; j < 2001; j++)
+        val[i][j] = 0;
+    
+    // initialization, should use +=, rather than directly assignment    
+    val[0][1000+nums[0]] += 1;
+    val[0][1000-nums[0]] += 1;
+    
+    for (int i = 0; i < n - 1; i++) {
+      // find each old_sum and calculate new_sum
+      for (int j = 0; j < 2001; j++)
+        if (val[i][j] != 0) { // old_sum
+          val[i+1][j + nums[i+1]] += val[i][j];
+          val[i+1][j - nums[i+1]] += val[i][j];
+        } 
+    }
+    
+    return (S > 1000 || S < -1000) ? 0: val[n-1][1000+S];
+  }
+};
+#+end_src
+***** iteration, with bookkeeping (1D array), forward
+#+begin_src c++
+class Solution {
+public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    // empty case 
+    int n = nums.size();
+    if (n == 0)
+      return (S == 0)? 1 : 0;
+    
+    // val[i][1000 + j] is the number of ways to sum to j, from 0 upto i
+    vector<int> old_sums(2001, 0);
+    vector<int> new_sums(2001, 0);
+    
+    // initialization, should use +=, rather than directly assignment    
+    old_sums[1000+nums[0]] += 1;
+    old_sums[1000-nums[0]] += 1;
+    new_sums = old_sums;
+    
+    for (int i = 0; i < n - 1; i++) {
+      new_sums.assign(2001, 0);
+      
+      // find each old_sum and calculate new_sum
+      for (int j = 0; j < 2001; j++)
+        if (old_sums[j] != 0) { // old_sum
+          new_sums[j + nums[i+1]] += old_sums[j];
+          new_sums[j - nums[i+1]] += old_sums[j];
+        }
+      
+      old_sums = new_sums;
+    }
+    
+    return (S > 1000 || S < -1000) ? 0: new_sums[1000+S];
+  }
+};
+#+end_src
 *** todos [2/5]
 - [X] write down your own solution and analysis
 - [X] time complexity analysis of your own solution
@@ -4561,6 +4652,129 @@ public:
 - [-] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
   - [X] next array
   - [ ] stack
+- [ ] generalize this problem
+** 746. Min Cost Climbing Stairs
+*** Problem Statement
+[[https://leetcode.com/problems/min-cost-climbing-stairs/][Link]].
+
+Clarification: the top of the stairs is the one after the last index.
+
+*** Analysis
+**** Recursion (without bookkeeping)
+We can build a recursive function that takes two arguments:
+#+begin_src c++
+int count(int start, vector<int>& cost)
+#+end_src
+
+This function helper can give us the minimum cost to climb to top when starting at index ~start~. The base case is the when ~start == size - 1~ or ~start == size - 2~, in these cases, the minimum cost is ~cost[start]~, since we can climb one or two steps. In other cases, the minimum cost is got by recursively calling the function:
+#+begin_src c++
+min(count(start+1, cost), count(start+2, cost))
+#+end_src
+
+This method will do many redundant calculation.
+**** Iteration (with bookkeeping, 1D array, backward bookkeeping)
+Let ~n~ be the size of ~cost[]~. We can use a vector of size ~n~ to hold min cost of each step, i,e, ~val[i]~ is the min cost to reach the top starting at index ~i~. We use a backward iteration to calculate each term. At ~n-1~ step, ~val[n-1] = cost[n-1]~. At ~n-2~ step, ~val[n-2] = cost[n-2]~ (because we can take two steps). For all other steps ~i (i >= 0)~, the min cost can be calculated as the minimum of ~cost[i] + val[i+1]~ and ~cost[i] + val[i+2]~.
+
+This method prevents redundant caculation. Time complexity of iteration approach is \(O(N)\).
+
+**** Iteration (variable bookkeeping, backward iteration)
+We can use three variables to hold the calculated intermediate value. Since the intermediate value contains the previous min cost (min cost is accumulative), we don't need 1D array to keep each intermediate result.
+
+The iteration is backward.
+**** Iteration (variable bookkeeping, forward iteration)
+It is also possible to iterate from beginning to end of the ~cost[]~ array. Just need a little tweak. Code is shown in solution section.
+
+*** Solution
+**** C++
+***** recursion
+#+begin_src c++
+class Solution {
+public:
+  int count(int start, vector<int>& cost) {
+    // base case: start is the last step
+    if (start == cost.size() - 1 || start == cost.size() - 2)
+      return cost[start];
+    
+    // normal case 
+    return min(count(start+1, cost), count(start+2, cost)) + cost[start];
+  }
+  
+  int minCostClimbingStairs(vector<int>& cost) {
+    return min(count(0, cost), count(1, cost));
+  }
+};
+#+end_src
+***** iteration (bookkeeping, 1D array, backward)
+#+begin_src c++
+class Solution {
+public:
+  int minCostClimbingStairs(vector<int>& cost) {
+    int size = cost.size();
+    
+    if (size == 2)
+      return min(cost[0], cost[1]);
+    
+    vector<int> val(size);
+    val[size-1] = cost[size-1];
+    val[size-2] = cost[size-2];
+    
+    for (int i = size - 3; i >= 0; i--)
+      val[i] = min(cost[i] + val[i+1], cost[i] + val[i+2]);
+    
+    return min(val[0], val[1]);
+    
+  }
+};
+#+end_src
+***** iteration (bookkeeping, variables, backward)
+#+begin_src c++
+class Solution {
+public:
+  int minCostClimbingStairs(vector<int>& cost) {
+    int n = cost.size();
+    if(n == 2)
+      return min(cost[0], cost[1]);
+    
+    int a;
+    int b = cost[n-2];
+    int c = cost[n-1];
+    
+    for (int i = n - 3; i >= 0; i--) {
+      a = min(cost[i] + b, cost[i] + c);
+      if (i == 0)
+        break;
+      c = b;
+      b = a;
+    }
+    
+    return min(a, b);
+  }
+};
+#+end_src
+***** iteration (bookkeeping, variable, forward)
+#+begin_src c++
+class Solution {
+public:
+  int minCostClimbingStairs(vector<int>& cost) {   
+    int a = cost[0];
+    int b = cost[1];
+    int c;
+    
+    for (int i = 2; i < cost.size(); i++) {
+      c = cost[i] + min(a, b);
+      a = b;
+      b = c;
+    }          
+    
+    return min(a, b);
+  }
+};
+#+end_src
+*** todos [2/5]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] read solutions to refine your code
 - [ ] generalize this problem
 ** 771. Jewels and Stones
 *** Problem Statement
