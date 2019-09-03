@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{typedef} \PYG{k}{struct} \PYG{n}{\PYGZus{}iobf} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{cnt}\PYG{p}{;}
+  \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{ptr}\PYG{p}{;}
+  \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{base}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{flag}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{fd}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}} \PYG{k+kt}{FILE}\PYG{p}{;}
+\end{Verbatim}

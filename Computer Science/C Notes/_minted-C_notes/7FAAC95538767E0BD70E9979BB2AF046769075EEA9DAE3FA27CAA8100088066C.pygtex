@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{FILE} \PYG{n}{\PYGZus{}iob}\PYG{p}{[}\PYG{n}{OPEN\PYGZus{}MAX}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+  \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{\PYGZus{}READ}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+  \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{\PYGZus{}WRITE}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+  \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{\PYGZus{}WRITE} \PYG{o}{|} \PYG{n}{\PYGZus{}UNBUF}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

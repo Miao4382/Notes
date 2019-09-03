@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{base} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{base} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{)} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{bufsize}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{EOF}\PYG{p}{;}
+\end{Verbatim}

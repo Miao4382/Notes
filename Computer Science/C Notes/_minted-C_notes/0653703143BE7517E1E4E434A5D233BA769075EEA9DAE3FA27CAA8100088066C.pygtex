@@ -1,0 +1,47 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}fcntl.h\PYGZgt{}    // for open() mode constants}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}file.h\PYGZgt{}     // for defined file structure}
+
+\PYG{c+cp}{\PYGZsh{}define PERMS 0666    }\PYG{c+c1}{// RW for owner, group, others}
+
+\PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n+nf}{fopen}\PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{name}\PYG{p}{,} \PYG{k+kt}{char} \PYG{o}{*}\PYG{n}{mode}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{fd}\PYG{p}{;}     \PYG{c+c1}{// hold file descriptor}
+  \PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{fp}\PYG{p}{;}   \PYG{c+c1}{// a pointer to FILE stored in \PYGZus{}iob[] (defined in file.c)}
+
+  \PYG{c+c1}{// check open mode passed in, if error, return NULL}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{mode} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}r\PYGZsq{}} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{*}\PYG{n}{mode} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}w\PYGZsq{}} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{o}{*}\PYG{n}{mode} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb}{NULL}\PYG{p}{;}
+
+  \PYG{c+c1}{// find an empty slot in \PYGZus{}iob[] array, which holds opened FILE}
+  \PYG{k}{for} \PYG{p}{(}\PYG{n}{fp} \PYG{o}{=} \PYG{n}{\PYGZus{}iob}\PYG{p}{;} \PYG{n}{fp} \PYG{o}{\PYGZlt{}} \PYG{n}{\PYGZus{}iob} \PYG{o}{+} \PYG{n}{OPEN\PYGZus{}MAX}\PYG{p}{;} \PYG{n}{fp}\PYG{o}{++}\PYG{p}{)}
+    \PYG{k}{if} \PYG{p}{((}\PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{flag} \PYG{o}{\PYGZam{}} \PYG{p}{(}\PYG{n}{\PYGZus{}READ} \PYG{o}{|} \PYG{n}{\PYGZus{}WRITE}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+      \PYG{k}{break}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{fp} \PYG{o}{\PYGZgt{}=} \PYG{n}{\PYGZus{}iob} \PYG{o}{+} \PYG{n}{OPEN\PYGZus{}MAX}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb}{NULL}\PYG{p}{;}
+
+  \PYG{c+c1}{// we now have an empty slot of FILE, now deal with mode and create FILE if necessary}
+  \PYG{c+c1}{// create FILE by calling system call, according to different modes}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{mode} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{fd} \PYG{o}{=} \PYG{n}{creat}\PYG{p}{(}\PYG{o}{*}\PYG{n}{name}\PYG{p}{,} \PYG{n}{PERMS}\PYG{p}{);}
+  \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{o}{*}\PYG{n}{mode} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// first try to open the file, if file not exist, create one}
+    \PYG{k}{if} \PYG{p}{((}\PYG{n}{fd} \PYG{o}{=} \PYG{n}{open}\PYG{p}{(}\PYG{o}{*}\PYG{n}{name}\PYG{p}{,} \PYG{n}{O\PYGZus{}WRONLY}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{))} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}  \PYG{c+c1}{// file open failed}
+      \PYG{n}{fd} \PYG{o}{=} \PYG{n}{creat}\PYG{p}{(}\PYG{o}{*}\PYG{n}{name}\PYG{p}{,} \PYG{n}{PERMS}\PYG{p}{);}
+    \PYG{n}{lseek}\PYG{p}{(}\PYG{n}{fd}\PYG{p}{,} \PYG{l+m+mi}{0L}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{else}
+    \PYG{n}{fd} \PYG{o}{=} \PYG{n}{open}\PYG{p}{(}\PYG{o}{*}\PYG{n}{name}\PYG{p}{,} \PYG{n}{O\PYGZus{}RDONLY}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);}
+
+
+  \PYG{c+c1}{// now, update the FILE object (empty FILE object in \PYGZus{}iob[])}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{fd} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb}{NULL}\PYG{p}{;}
+
+  \PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fd} \PYG{o}{=} \PYG{n}{fd}\PYG{p}{;}
+  \PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{cnt} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{base} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+  \PYG{n}{fp}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{flag} \PYG{o}{=} \PYG{p}{(}\PYG{o}{*}\PYG{n}{mode} \PYG{o}{==} \PYG{l+s+sc}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{o}{?} \PYG{n+nl}{\PYGZus{}READ} \PYG{p}{:} \PYG{n}{\PYGZus{}WRITE}\PYG{p}{;}
+
+  \PYG{k}{return} \PYG{n}{fp}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,4 +1,4 @@
-% Created 2019-09-01 Sun 13:26
+% Created 2019-09-02 Mon 13:48
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -35,9 +35,9 @@
 
 
 \section{Generals}
-\label{sec:org127f8bf}
+\label{sec:orgca5ebff}
 \subsection{Some Facts}
-\label{sec:org91ac8bc}
+\label{sec:orgde9011a}
 Below are some general facts about C language.
 \begin{itemize}
 \item assignments associate from right to left.
@@ -65,14 +65,14 @@ result will be \texttt{2}.
 Place holder.
 
 \subsection{headers}
-\label{sec:orgb34860f}
+\label{sec:orgcf5f852}
 \begin{itemize}
 \item \texttt{<stdio.h>}: contains input/output functions
 \item \texttt{<ctype.h>}: some functions regarding to characters
 \end{itemize}
 
 \subsection{\texttt{printf()} formatting}
-\label{sec:orgf7d9de4}
+\label{sec:org7dfd776}
 Check p26-p27 of the textbook.
 
 Use \texttt{\%} with symbols to print the variables in different format.
@@ -91,7 +91,7 @@ printf("%o", a)  //print a in format of octal integer
 printf("%x", a)  //print a in format of hexadecimal integer
 \end{minted}
 \subsection{Character Input and Output}
-\label{sec:orgbecb77f}
+\label{sec:org07cf618}
 \begin{itemize}
 \item \texttt{getchar()}: it reads the next input character from a text stream and returns that (from the buffer?).
 \item \texttt{putchar()}: it prints a character each time it is called and passed a char into.
@@ -99,7 +99,7 @@ printf("%x", a)  //print a in format of hexadecimal integer
 
 Pay attention that a character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant. For example, \texttt{'a'} is actually \texttt{97}.
 \subsection{Arrays}
-\label{sec:orgd1fb6f4}
+\label{sec:orgc180495}
 The syntax is similar with C++. For example, to define an array of integers with a size of 100, you do:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int nums[100];
@@ -119,7 +119,7 @@ int main() {
 }
 \end{minted}
 \subsection{Enumeration constant}
-\label{sec:org762a7ce}
+\label{sec:orgb020127}
 An enumeration is a list of constant integer values. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 enum boolean { NO, YES };
@@ -142,7 +142,7 @@ Names in different enumerations must be distinct. Values need not be distinct in
 // etc
 \end{minted}
 \subsection{type-cast an expression}
-\label{sec:orgb4e7271}
+\label{sec:org476ace6}
 Explicit type conversions can be forced ("coerced") in any expression. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int main() {
@@ -153,7 +153,7 @@ int main() {
 \end{minted}
 In the above example, when being printed, the type of \texttt{n} has been modified to \texttt{float}. Notice that \texttt{n} itself is not altered. This is called a \emph{cast}, it is an unary operator, has the same high precedence as other unary operators.
 \subsection{Bitwise operators}
-\label{sec:orgdcab81e}
+\label{sec:org8994b42}
 p62
 
 There are 6 bitwise operators for bit manipulation. They may be applied to integral operands only.
@@ -170,12 +170,12 @@ They are:
 
 The precedence of the bitwise operators \texttt{\&}, \texttt{\textasciicircum{}} and \texttt{|} is lower than \texttt{==} and \texttt{!=}.
 \subsection{Operators can be used with assignment operators}
-\label{sec:orgddc6967}
+\label{sec:org4da612c}
 p64
 
 \texttt{+, -, *, /, \%, <<, >>, \&, \textasciicircum{}, |}
 \subsection{Symbolic Constants}
-\label{sec:orga9b1dad}
+\label{sec:org6dd946a}
 A \texttt{\#define} line defines a symbolic name or symbolic constants to be a particular string of characters. You use it like: \texttt{\#define} \emph{name} \emph{replacement text}. You put this at the head of your code (outside scope of any function to make it globally). Example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -196,9 +196,9 @@ int main() {
 \end{minted}
 Pay attention that symbolic name or symbolic constants are not variables. They are conventionally written in upper case. No semicolon at the end of a \texttt{\#define} line.
 \section{Functions and Program Structure}
-\label{sec:orgaed490d}
+\label{sec:org77b80b4}
 \subsection{External Variables}
-\label{sec:org219ead8}
+\label{sec:orge3414b5}
 If an external variables is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an \texttt{extern} declaration is mandatory. For example, a function using external variables in a different source file can declare these variables in following manner:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int addNum(int a) {
@@ -209,13 +209,13 @@ int addNum(int a) {
 \end{minted}
 Array sizes must be specified with the definition, but are optional with an \texttt{extern} declaration.
 \subsection{The C Preprocessor}
-\label{sec:org8ff8072}
+\label{sec:org866cf7d}
 \subsubsection{File Inclusion}
-\label{sec:org2d78493}
+\label{sec:org6ba2a14}
 \subsubsection{Macro Substitution}
-\label{sec:org091ddea}
+\label{sec:org06839d9}
 \paragraph{General}
-\label{sec:org1d6e55d}
+\label{sec:org5b2215c}
 A definition of a macro Substitution has the form:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #define name replacement_text
@@ -260,7 +260,7 @@ int main() {
 Notice: you can use \texttt{'\textbackslash{}'} inside the parenthese.
 
 \paragraph{Arguments}
-\label{sec:org5b0bbd4}
+\label{sec:orge4f632c}
 It is possible to define macros with arguments, so the replacement text can be different for different calls of the macro. For example:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #define max(A, B) ((A) > (B) ? (A) : (B))
@@ -290,7 +290,7 @@ int main() {
 \end{minted}
 The output is: \texttt{result: 3}
 \paragraph{Pitfalls}
-\label{sec:org15d966a}
+\label{sec:org08c2cf0}
 There are pitfalls hidden in the macro substitution. For example, in the \texttt{max()} macro:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #define max(A, B) ((A) > (B) ? (A) : (B))
@@ -311,11 +311,11 @@ which is not \texttt{(a + 1) * (a + 1)}. So, make sure to use parenthese to encl
 \end{minted}
 
 \subsubsection{Conditional Inclusion}
-\label{sec:org81c30b4}
+\label{sec:orgc5cb3df}
 \section{Pointers and Arrays}
-\label{sec:org57eee73}
+\label{sec:org4126d2c}
 \subsection{Command-line Arguments}
-\label{sec:org7862999}
+\label{sec:orgde8c3a5}
 p128 in CPL.
 
 We can pass command-line arguments or parameters to a program when it begins executing. An example is the echo program. On the command prompt, you enter \texttt{ehco}, followed by a series of arguments:
@@ -339,7 +339,7 @@ Basically, when \texttt{main()} is called, it is called with two arguments: \tex
 \end{itemize}
 
 \subsubsection{Example: \texttt{echo}}
-\label{sec:orgc4d3636}
+\label{sec:org19a4b20}
 Knowing this, we can write a program that mimic the \texttt{echo} function: re-print what we typed in when we invoke the program to terminal:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -355,7 +355,7 @@ int main(int argc, char* argv[]) {
 \end{minted}
 
 \subsubsection{Example: \texttt{pattern\_finding}}
-\label{sec:orgaa5a204}
+\label{sec:org7e49f70}
 This program will try to find any lines in the input buffer that contains the keyword passed in when invoking it. For example, in command line prompt:
 \begin{verbatim}
 $ pattern_finding love < text.txt
@@ -405,7 +405,7 @@ int getlines(char* line, int max) {
 \end{minted}
 
 \subsubsection{Optional arguments example: \texttt{pattern\_finding} extended}
-\label{sec:org7fa952b}
+\label{sec:org5289820}
 Now we extend our \texttt{pattern\_finding} program so it can accept optional arguments. A convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optical flag or parameter. Optional arguments should be permitted in any order, they can also be combined (a minus sign with two or more optional arguments, without space between each other).
 
 There is no magic about optional arguments. They are collected as strings in \texttt{argv[]} when the program is invoked, just like anyother strings occured when invoking the function. We extend the \texttt{pattern\_finding} program to include support for two optional arguments:
@@ -509,7 +509,7 @@ int getlines(char* line, int max) {
 \end{minted}
 
 \subsection{Pointers to Functions}
-\label{sec:org4f16b9d}
+\label{sec:org058e47b}
 It is possible to define pointers to functions, which can be assigned, placed in arrays, passed to functions, returned by functions, and so on.
 
 To declare a pointer to a function, you write:
@@ -540,7 +540,7 @@ int main() {
 When calling the function pointer, you have to use parenthese to enclose \texttt{*} and pointer name. Use \texttt{\&} and function name to get the "address" of the function.
 
 \subsubsection{Example: qsort() which takes a comp() function pointer}
-\label{sec:org53d1413}
+\label{sec:org483b263}
 (Example 5-11).
 
 A quick sort function which takes a function pointer to be used in its body to sort is as follows:
@@ -565,12 +565,12 @@ void qsorts(void* v[], int left, int right, int (*comp)(void*, void*)) {
 \end{minted}
 
 \section{Input and Output}
-\label{sec:orge753135}
+\label{sec:org3f8a081}
 
 \subsection{Standard Input and Output}
-\label{sec:org85e022e}
+\label{sec:org187bc7e}
 \subsubsection{Input redirection}
-\label{sec:orgebbffeb}
+\label{sec:orgadea412}
 In many environments, a file may be substituted for the keyboard as the source of standard input by using the \texttt{<} convention for input redirection. For example, we have following code:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -589,7 +589,7 @@ $ ./a.out < out.txt
 \end{verbatim}
 the effect of this program is to print all content in \texttt{out.txt} to standard output.
 \subsubsection{Output redirection}
-\label{sec:org5590ac8}
+\label{sec:orgaa14044}
 We can also redirect a program's standard output to a file. We use \texttt{>} convention to do it, the syntax is:
 \begin{verbatim}
 $./a.out > result.txt
@@ -598,7 +598,7 @@ in this way, all standard output of \texttt{a.out} will be redirected to file \t
 
 Output produced by \texttt{putchar()} and \texttt{printf()} are the same, they will both finds its way to the standard output.
 \subsubsection{Pipe between two programs}
-\label{sec:orgda5cf89}
+\label{sec:orgc3b8519}
 It is possible to use one program's standard output as another program's standard input:
 \begin{verbatim}
 $./prog1 | ./prog2
@@ -606,15 +606,15 @@ $./prog1 | ./prog2
 the above line puts the standard output of \texttt{prog1} into the standard input of \texttt{prog2}.
 
 \subsubsection{Include header file}
-\label{sec:org445a012}
+\label{sec:org07a25df}
 When you include a file with brackets \texttt{<>}, the compiler will search the header in a standard set of places (typically: \texttt{/usr/include}).
 
 \subsubsection{Macros in standard library}
-\label{sec:org3126803}
+\label{sec:orge71c186}
 "Functions" like \texttt{getchar} and \texttt{putchar} in \texttt{<stdio.h>}, and \texttt{tolower} in \texttt{<ctype.h>} are often macros, thus avoiding the overhead of a function call per character.
 
 \subsubsection{Formatted output: printf}
-\label{sec:orgd74e911}
+\label{sec:org4f50d30}
 p167 on textbook. A table of \texttt{printf()}'s conversion characters are shown in table 7-1 in the book (p168).
 
 A width or precision may be specified as \texttt{.*}, the value is computed by converting the next argument (which must be an \texttt{int}). For example:
@@ -629,15 +629,15 @@ int main(int argc, char* argv[]) {
 the above program printed the first \texttt{length} characters in string \texttt{s}. Don't forget the dot before \texttt{*}.
 
 \subsubsection{Function \texttt{sprintf()}}
-\label{sec:org190639b}
+\label{sec:org0429fe9}
 This function does the same conversions as \texttt{printf()}. It accepts a \texttt{char* string} argument, and will place the result in \texttt{string} instead of to the standard output. \texttt{string} must big enough to receive the result.
 
 \subsection{Variable-length Argument Lists}
-\label{sec:org269cf3c}
+\label{sec:org3457708}
 This section will use an implementation of a minimal version of \texttt{printf()} to show how to write a function that processes a Variable-length argument list in a portable way.
 
 \subsubsection{Declare a function that takes varying amounts of arguments}
-\label{sec:org9b2d19c}
+\label{sec:orgd722aca}
 To declare a function whose argument number is not fixed (which may vary), we do:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 void miniPrintf(char* format, ...)
@@ -645,11 +645,11 @@ void miniPrintf(char* format, ...)
 the declaration \texttt{...} means that the number and types of these arguments may vary. It can only appear at the end of a list of named argument (there must be at least one named argument).
 
 \subsubsection{Traverse the argument list and final cleanup}
-\label{sec:org1205d1e}
+\label{sec:org91bd766}
 The standard header \texttt{<stdarg.h>} contains a set of macro definitions that define how to step through an argument list. To build functions that takes varying amounts of arguments, you have to include \texttt{<stdarg.h>}.
 
 \paragraph{Type \texttt{va\_list}}
-\label{sec:org9acf568}
+\label{sec:org97f89c8}
 A data type named \texttt{va\_list} is defined in \texttt{<stdarg.h>}. We declare a variable of this type, then use this variable to refer to each unnamed argument passed in the function. It works like a pointer. For example, we can have following declaration:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdarg.h>
@@ -661,7 +661,7 @@ void miniPrintf(char* format, ...) {
 \end{minted}
 
 \paragraph{Macro \texttt{va\_start}}
-\label{sec:org2f9fa82}
+\label{sec:org9fbf188}
 After the declaration \texttt{va\_list ap;}, \texttt{ap} is an object of type \texttt{va\_list}. How to use it to actually point to the unnamed arguments? We begin by using a macro named \texttt{va\_start}. After declaring \texttt{ap}, we call this macro to "initiate" \texttt{ap}:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdarg.h>
@@ -676,7 +676,7 @@ void miniPrintf(char* format, ...) {
 But how could we "retrieve" the unnamed argument being referred by \texttt{ap} and move to next argument? We call \texttt{va\_arg} macro to do this job.
 
 \paragraph{Macro \texttt{va\_arg}}
-\label{sec:org9817541}
+\label{sec:org64cb2b6}
 \texttt{va\_arg} is a macro defined in \texttt{<stdarg.h>}. It "accepts" two tokens, the first one is an object of \texttt{va\_list} type (we used \texttt{ap}), the second one is the type name you wish to collect from current argument which \texttt{ap} is appointing to. When this macro is called, it returns one argument of the type you specified and steps \texttt{ap} to the next. The type name you provided will be used by \texttt{va\_arg} to determine what type to return and how big a step to take. You have to use another variable of the same type to hold the returned argument, so you can use later.
 
 For example, following call of \texttt{va\_arg} will return an integer argument, and we hold it using an integer variable named \texttt{ival}:
@@ -686,14 +686,14 @@ ival = va_arg(ap, int);
 \end{minted}
 
 \paragraph{Macro \texttt{va\_end}}
-\label{sec:org7da9740}
+\label{sec:orgc086f29}
 \texttt{va\_end} is a macro defined in \texttt{<stdarg.h>}. It takes one token, which is the \texttt{va\_list} object we used in the program. This macro will do whatever needs to cleanup. It must be called before the function returns:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 va_end(ap);
 \end{minted}
 
-\subsubsection{Example: \texttt{miniPrintf()} \label{org44b1836}}
-\label{sec:org3af7297}
+\subsubsection{Example: \texttt{miniPrintf()} \label{org4bb8c28}}
+\label{sec:org5638bbf}
 In this example, \texttt{miniPrintf()} takes two arguments, the first one is a pointer to char, which will be the format string or content it will be printing. Every character of \texttt{\%} indicates there is an argument in the argument list waiting to be printed in a certain format. Here, we just use the next character after \texttt{\%} to determine what type of argument we retrieve from the argument list. The function is declared as:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdarg.h>
@@ -753,11 +753,11 @@ for (p = format; *p; p++) {
 When the style token after \texttt{\%} is \texttt{s}, it means we have to print a string. So the return type of \texttt{va\_arg} is a pointer to \texttt{char}. We print the C-string one character by one character, until we reach the \texttt{'\textbackslash{}0'} terminator.
 
 \subsection{Formated Input: \texttt{scanf()}}
-\label{sec:orgd22e8c6}
+\label{sec:orgd9e6592}
 p171.
 
 \subsubsection{A simple example}
-\label{sec:org50a44df}
+\label{sec:org189be9e}
 An example of using \texttt{scanf()}:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <stdio.h>
@@ -777,7 +777,7 @@ int main() {
 here, we read four inputs and store them to four variables. Notice we have to pass in the address of each variable to \texttt{scanf()}. In this way, \texttt{scanf()} can modify the variable directly (passed by value).
 
 \subsubsection{Declaration and arguments}
-\label{sec:org19fc018}
+\label{sec:orga876ad4}
 \texttt{scanf()} is declared as:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int scanf(char *format, ...)
@@ -814,10 +814,10 @@ In the conversion specification, we may find:
 
 Some examples of using \texttt{scanf()} can be found on p172, 173.
 
-\subsection{File Access\label{orgf2b75ea}}
-\label{sec:org6290e16}
+\subsection{File Access\label{org7afd198}}
+\label{sec:orgdb8c47e}
 \subsubsection{Opening a file}
-\label{sec:org8335f85}
+\label{sec:org8b7ec23}
 The \texttt{<stdio.h>} library has a type \texttt{FILE} and a function \texttt{fopen()} that provides tools to work on files. The function \texttt{fopen()}'s declaration is as follows:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 FILE *fopen(char* name, char* mode)
@@ -854,7 +854,7 @@ the allowable modes include:
 
 When errors occurred during file opening, \texttt{fopen()} will return a \texttt{NULL}.
 \subsubsection{Accessing the file}
-\label{sec:org7a417c2}
+\label{sec:org93c4edc}
 Once the file is opened, we access it through the \texttt{FILE} pointer \texttt{fp}. We have following choices:
 \begin{itemize}
 \item \texttt{char getc(FILE *fp)}: (maybe) a macro that accepts a \texttt{FILE} pointer, returns the next character from the file (character position is recorded inside the \texttt{FILE} object). It returns \texttt{EOF} for end of file or error.
@@ -864,7 +864,7 @@ Once the file is opened, we access it through the \texttt{FILE} pointer \texttt{
 After using the file, we have to call \texttt{fclose()} to disconnect program from the file, freeing the file pointer for another file.
 
 \subsubsection{\texttt{stdin}, \texttt{stdout} and \texttt{stderr}}
-\label{sec:org05652a6}
+\label{sec:org08a008e}
 When a C program is started, the operating system environment is responsible for opening three files and providing file pointers for them to the program. These files are:
 \begin{itemize}
 \item standard input, file pointer: \texttt{stdin}
@@ -880,7 +880,7 @@ Since C programs use these three file pointers to communicate with outside compo
 \end{minted}
 
 \subsubsection{Formatted input and output of files}
-\label{sec:orgc61a68f}
+\label{sec:org7044ed8}
 To format input or output of files, we can use \texttt{fscanf()} and \texttt{fprintf()}. These functions are similar with \texttt{scanf()} and \texttt{printf()}, except the first argument is a file pointer. The declaration of these two functions are:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 int fscanf(FILE *fp, char* format, ...)
@@ -892,12 +892,12 @@ An example of sending formated error message to \texttt{stderr} is:
 fprintf(stderr, "Error occurred!\n");
 \end{minted}
 \subsubsection{Example: replicate program \texttt{cat}}
-\label{sec:orgb16e373}
+\label{sec:org3b568dd}
 p176: normal error handling
 
 p177: advanced error handling (using \texttt{stderr} and \texttt{exit()})
 \subsubsection{Line input and output}
-\label{sec:org4e11029}
+\label{sec:orgd1531cb}
 The standard library provides an input routine \texttt{fgets()}, which can reads the next input line (including \texttt{'\textbackslash{}n'} character) from a \texttt{FILE} pointer to a char array. It will return a \texttt{char} pointer pointing to this char array. Its declaration is as follows:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 char *fgets(char* line, int maxline, FILE *fp);
@@ -912,9 +912,9 @@ It returns \texttt{EOF} if an error occurs, and zero otherwise.
 
 The library functions \texttt{gets} and \texttt{puts} are similar to \texttt{fgets} and \texttt{fputs}, but operate on \texttt{FILE} pointers \texttt{stdin} and \texttt{stdout}. \texttt{gets} deletes the terminal \texttt{'\textbackslash{}n'}, and \texttt{puts} adds it.
 \subsection{MISC Functions}
-\label{sec:orga8048a0}
+\label{sec:org002ebf8}
 \subsubsection{Storage Management}
-\label{sec:org2c42521}
+\label{sec:org70a8e97}
 Two functions are used to obtain blocks of memory dynamically:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 void* malloc(size_t n);
@@ -933,9 +933,9 @@ ip = (int*) calloc(n, sizeof(int));
 
 To free the space pointed by a pointer \texttt{p}, of which initially obtained by a call to \texttt{malloc()} or \texttt{calloc()}, we can call \texttt{free(p)}.
 \section{The UNIX System Interface}
-\label{sec:orgd385cbf}
+\label{sec:org59ca7f3}
 \subsection{File Descriptors}
-\label{sec:org1c6d37a}
+\label{sec:orge948826}
 In the UNIX operating system, all input and output is done by reading or writing files. All peripheral devices are abstracted as files in the file system. So, a single homogeneous interface handles all communication between a program and peripheral devices.
 
 Consider an example of a C program that read content from, or write content to files on the system. Before you can do this, you must inform the system that you wish to \textbf{ACCESS} that particular file. The system will check your right to do so (does the file exist? do you have permission to access it?). If you have the access, the system will return a \textbf{small non-negative integer} called a \emph{file descriptor}.
@@ -958,10 +958,10 @@ the \texttt{result.txt} file will replace monitor file as the standard output fi
 
 Pay attention that, the change of file assignments are done by the shell, not the program. For program, it always deal with file descriptor \texttt{0}, \texttt{1} and \texttt{2}. It does not know where is input coming from and where is output going to.
 \subsection{Low Level I/O: \texttt{read()} and \texttt{write()}}
-\label{sec:org51e6165}
+\label{sec:orgff80d5e}
 Input and output uses the \texttt{read} and \texttt{write} system calls. These two system calls are accessed from C programs through two functions called \href{http://man7.org/linux/man-pages/man2/read.2.html}{\texttt{read()}} and \href{http://man7.org/linux/man-pages/man2/write.2.html}{\texttt{write()}}. To use these two functions, you have to \texttt{\#include <unistd.h>}.
 \subsubsection{\texttt{read()}}
-\label{sec:orgf032ac2}
+\label{sec:org167a055}
 The function header for \texttt{read()} is:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 ssize_t read(int fd, char *buf, size_t count)
@@ -989,7 +989,7 @@ The return value of \texttt{read()} can be:
 
 Any number of bytes can be read in one call. The most common values are 1, which means one character at a time ("unbuffered"), or a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
 \subsubsection{\texttt{write()}}
-\label{sec:orgc1b1fb1}
+\label{sec:orgc377666}
 The function header for \texttt{write()} is:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 ssize_t write(int fd, char *buf, size_t count)
@@ -1016,7 +1016,7 @@ The return value of \texttt{write()} can be:
 
 Any number of bytes can be written in one call, as mentioned in \texttt{read()}.
 \subsubsection{Example: copy input to output}
-\label{sec:orge2d6e86}
+\label{sec:org58c34a0}
 This example will show the basic use of \texttt{read()} and \texttt{write()} function. In order to receive what we read from \texttt{read()}, we need a buffer to hold it. We read data from \texttt{fd} to the buffer, and call \texttt{write()} to put the content in buffer to \texttt{fd}. We repeat this process until the returned value of \texttt{read()} is not positive (0 or -1).
 
 We'll use \texttt{0} as the file descriptor in \texttt{read()}, since this is the standard input file descriptor. We'll use \texttt{1} as the file descriptor in \texttt{write()}, since this is the standard output file descriptor. The code is as follows:
@@ -1046,7 +1046,7 @@ The buffer size is defined as 5. This means each system call we'll process 5 cha
 \end{verbatim}
 Notice that each call of \texttt{read()} only read 5 characters.
 \subsubsection{Example: \texttt{getchar()}}
-\label{sec:org0dec9e2}
+\label{sec:org9fb5129}
 We can use \texttt{read()} to construct \texttt{getchar()}, which is higher-level routine. First, let's compare the function header of these two functions:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 ssize_t read(int fd, char *buf, size_t count)
@@ -1073,16 +1073,16 @@ int main() {
 }
 \end{minted}
 \subsection{\texttt{open()}, \texttt{creat()}, \texttt{close()}, \texttt{unlink()}}
-\label{sec:org0622933}
+\label{sec:org67bf4cb}
 When a C program is invoked, only the three default files will be automatically opened and linked to the program (they are standard input, standard output and standard error files, refered by file descriptors \texttt{0}, \texttt{1} and \texttt{2}).
 
-If you want to work with other files, you have to explicitly open other files in order to read or write them. In section \hyperref[orgf2b75ea]{File Access}, we mentioned a way of operating files by routines defined in \texttt{<stdio.h>}. Here, we introduce low-level system calls to do this.
+If you want to work with other files, you have to explicitly open other files in order to read or write them. In section \hyperref[org7afd198]{File Access}, we mentioned a way of operating files by routines defined in \texttt{<stdio.h>}. Here, we introduce low-level system calls to do this.
 
 There are two system calls for file operation: \texttt{open()} and \texttt{creat()}. To use them in your C program, you have to \texttt{\#include <fcntl.h>}.
 \subsubsection{\texttt{open()}}
-\label{sec:orgbee1d48}
+\label{sec:org828b9ca}
 \paragraph{Generals}
-\label{sec:orgdf59897}
+\label{sec:org0480a90}
 The documentation for \texttt{open()} can be found \href{http://man7.org/linux/man-pages/man2/open.2.html}{here}.
 
 The header of this system call is:
@@ -1101,6 +1101,7 @@ int open(char *name, int flags, int perms);
 \item \texttt{perms}: (not mentioned in the book), it is always zero for the uses of \texttt{open()} that we will discuss)
 \end{itemize}
 
+Notice that when openning a file, the content of the file will not be deleted.
 
 \textbf{Return value}
 
@@ -1109,7 +1110,7 @@ If successful, the return value of \texttt{open()} is a file descriptor, it will
 If not successful, return -1.
 
 \paragraph{Example: open a file for reading}
-\label{sec:org113259c}
+\label{sec:orgae8fb82}
 The code is as follows:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 #include <fcntl.h>
@@ -1119,9 +1120,9 @@ char name[] = "abc.txt";  // the file name
 fd = open(name, O_RDONLY, 0)
 \end{minted}
 \subsubsection{\texttt{creat()}}
-\label{sec:org855ee03}
+\label{sec:org7041d9d}
 \paragraph{Generals}
-\label{sec:org8cdd11e}
+\label{sec:orgad221b2}
 The documentation for \texttt{creat()} can be found \href{https://linux.die.net/man/3/creat}{here}.
 
 The header of this system call is:
@@ -1156,14 +1157,14 @@ This is a 9-bit long integer, so we can use a 3-digit octal number for specifyin
 
 If the file already exists, \texttt{creat()} will truncate it to zero length.
 \subsubsection{\texttt{close()}}
-\label{sec:orgf8d0b6e}
+\label{sec:org2956c25}
 The function \texttt{close(int fd)} breaks the connection between a file descriptor and an open file, and frees the file descriptor for use with some other file.
 \subsubsection{\texttt{unlink()}}
-\label{sec:org92d75bb}
+\label{sec:org6aac87c}
 The function \texttt{unlink(char *name)} removes the file \texttt{name} from the file system.
 
 \subsubsection{Example: mini \texttt{cp} program}
-\label{sec:orgac602ab}
+\label{sec:orgc13336e}
 This is a simple version of \texttt{cp} program. It copies one file to another. The file names are given as command line arguments. It will not copy the permission flag (the 3-digit octal number that describes the permission of the file), but invent a default permission of the copied file.
 
 The behavior of the program is:
@@ -1218,7 +1219,7 @@ int main(int argc, char *argv[]) {
 }                    
 \end{minted}
 \subsubsection{Example: mini \texttt{cp} program with self-implemented \texttt{error()} display}
-\label{sec:orgb8af3e0}
+\label{sec:org4437038}
 Here, we implement a function called \texttt{error()} to combine following function calls:
 \begin{enumerate}
 \item \texttt{printf("...", argv[...])}
@@ -1227,7 +1228,7 @@ Here, we implement a function called \texttt{error()} to combine following funct
 
 In short, it will display error information to standard error file, then call \texttt{exit(1)} to stop the program.
 
-This is similar with the simple \texttt{printf()} function we built \hyperref[org44b1836]{earlier}. It is a function with variable-length argument lists. To process this kind of function, we \texttt{\#include <stdarg.h>}, and the header is:
+This is similar with the simple \texttt{printf()} function we built \hyperref[org4bb8c28]{earlier}. It is a function with variable-length argument lists. To process this kind of function, we \texttt{\#include <stdarg.h>}, and the header is:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 void error(char *format, ...)
 \end{minted}
@@ -1267,7 +1268,7 @@ If succeed, the total number of characters written is returned.
 
 \textbf{Behavior}
 
-Writes the C string pointed by \texttt{format} to the file pointed by \texttt{fp}, replacing any format specifier in the same way as \texttt{printf()} does, using the elements in the variable argument list identified by \texttt{arg}, which is a \texttt{va\_list} type object initialized by the \texttt{va\_start} macro. So, we don't have to manually scan the \texttt{format} string and when a \texttt{'\%'} is found, call \texttt{va\_arg()} to retrieve the next argument in \texttt{arg} and print according to its type (check \hyperref[org44b1836]{miniPrintf()} for details of how this is done).
+Writes the C string pointed by \texttt{format} to the file pointed by \texttt{fp}, replacing any format specifier in the same way as \texttt{printf()} does, using the elements in the variable argument list identified by \texttt{arg}, which is a \texttt{va\_list} type object initialized by the \texttt{va\_start} macro. So, we don't have to manually scan the \texttt{format} string and when a \texttt{'\%'} is found, call \texttt{va\_arg()} to retrieve the next argument in \texttt{arg} and print according to its type (check \hyperref[org4bb8c28]{miniPrintf()} for details of how this is done).
 
 In another words, this function is like automatically extracting all arguments in \texttt{arg} and call:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
@@ -1328,7 +1329,7 @@ int main(int argc, char *argv[]) {
 }
 \end{minted}
 \subsubsection{Exercise: mini \texttt{cat} program}
-\label{sec:org22174a2}
+\label{sec:orgb22ed24}
 This is exercise 8-1 in the textbook. The behavior of \texttt{cat} is:
 \begin{itemize}
 \item if no other file name provided as command line arguments, read from standard input and write to standard output file.
@@ -1393,10 +1394,10 @@ void error(char *format, ...) {
 }
 \end{minted}
 \subsection{Random Access: \texttt{lseek()}}
-\label{sec:org49369ab}
+\label{sec:org106283c}
 The system call \texttt{lseek()} provides a way to move around in a file without reading or writing any data.
 \subsubsection{\texttt{lseek()}}
-\label{sec:org2316fde}
+\label{sec:orgf1643a1}
 The header of \texttt{lseek()} is as follows:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
 long lseek(int fd, long offset, int origin);
@@ -1423,17 +1424,16 @@ If no error occurred, returns a \texttt{long} that gives the new position in the
 
 After calling this function, the current working position of file referred by \texttt{fd} will be moved to the new position (affects system calls like \texttt{read()} and \texttt{write()}). Pay attention that if position is beyond the range of the file, \texttt{read()} will have error, \texttt{write()} will add \texttt{null} between the end of file to the beginning of newly written content.
 \subsubsection{Examples}
-\label{sec:org6686298}
+\label{sec:orga4dfe21}
 If we want to append data to the end of a file, we open a file in a mode that supports write, then call \texttt{lseek(fd, 0L, 2)}, so the current working position will move to end of file.
 
 To get back to beginning (\texttt{rewind()}), we just need to call \texttt{lseek(fd, 0L, 0)}.
 \subsection{Example: an implementation of \texttt{fopen()} and \texttt{getc()}}
-\label{sec:org9d90eac}
+\label{sec:org613c348}
 In this section we build a \texttt{FILE} type from scratch and implement \texttt{fopen()} and \texttt{gect()}. We can use what we build to access files through \texttt{FILE} type, not the file descriptor (file descriptors are buried in the back stage).
 
-
 \subsubsection{\texttt{FILE} type build-up and Macros}
-\label{sec:org93cc913}
+\label{sec:org9b29c2a}
 Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a \texttt{FILE} type with a \texttt{typedef}, it contains information about a file:
 \begin{itemize}
 \item a pointer to a buffer
@@ -1502,7 +1502,7 @@ int _flushbuf(int, FILE *);   // function header
 
 
 \paragraph{Setting flags}
-\label{sec:orgf805fb0}
+\label{sec:org0f11971}
 
 Notice that we have a member in \texttt{FILE} structure named \texttt{flag}. This single integer is used to record various status of the \texttt{FILE} object. Each bit of the inter represents true/false of a specific status. We defined the status in the \texttt{enum} type:
 \begin{minted}[breaklines=true,breakanywhere=true]{c}
@@ -1526,7 +1526,7 @@ To make it clearer, we translate these octal number to binary to see which bit c
 To check if \texttt{flag} has any of the above bit set, we just simplily use \texttt{\&}, as shown in macros \texttt{feof()}, \texttt{ferror()}, \texttt{fileno()}.
 
 \paragraph{Macro \texttt{getc()}}
-\label{sec:org95e8017}
+\label{sec:org3818a4d}
 
 In standard library, \texttt{getc(p)} accepts a pointer to a \texttt{FILE} object, returns the next character from the file.
 
@@ -1535,7 +1535,7 @@ In our implementation, to reduce the number of system calls, every required char
 Macro \texttt{getchar()} is also declared, by changing \texttt{getc(p)} to \texttt{getc(stdin)}.
 
 \paragraph{Macro \texttt{putc()}}
-\label{sec:org5b830ba}
+\label{sec:org4147b97}
 
 In standard library, \texttt{putc(x,p)} accepts a character \texttt{x} and a pointer \texttt{p} to a \texttt{FILE} object. It will write \texttt{x} to the file and returns the \texttt{x}.
 
@@ -1544,9 +1544,126 @@ In our implementation, to reduce the number of system calls, every character tha
 Macro \texttt{putchar()} is also declared, by changing \texttt{putc(x,p)} to \texttt{putc((x), stdout)}.
 
 \subsubsection{\texttt{fopen()}}
-\label{sec:orgcb7a71d}
+\label{sec:orgde60c84}
+The original \texttt{fopen()}'s behavior: accepting a file name (\texttt{char *name}) and the file openning mode (\texttt{char *mode}), it will return a pointer to a \texttt{FILE} object, which holds information about the status and information of the file. (\texttt{FILE} object is stored in an array by the system. The array holds all opened file, each file has a \texttt{FILE} object corresponding with). The basic structure of a \texttt{FILE} structure object is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+typedef struct _iobf {
+  int cnt;
+  char *ptr;
+  char *base;
+  int flag;
+  int fd;
+} FILE;
+\end{minted}
+
+The working steps of our implementation of \texttt{fopen()} function is as follows:
+\begin{itemize}
+\item check open mode passed in to make sure it is valid
+\item check the array holding \texttt{FILE} objects (\texttt{\_iob}). If the array is full (all \texttt{FILE} objects in that array are associated with a file), we return a \texttt{NULL} (indicating file openning is not possible at this time). Otherwise, we declare a pointer to \texttt{FILE} and let it point to the next available \texttt{FILE} object in the \texttt{\_iob} array. To determine wehther a \texttt{FILE} object is associated with a file or not, we check the \texttt{fp->flag}. Normally, if a \texttt{FILE} object is associated with a file, it must be opened either for writting or reading.
+\item work by calling system calls to create or open files. The system calls we need is \texttt{open()}, \texttt{creat()} and \texttt{lseek()}. The \texttt{lseek()} is used when the file is opened in appending mode (\texttt{'a'}).
+\item update the \texttt{FILE} object through the \texttt{FILE} pointer \texttt{fp} so it is associated with the file being processed. This includes store the file descriptor returned by system calls to \texttt{fp->fd}, initialize the opening mode in \texttt{FILE} structure.
+\item return the pointer to the \texttt{FILE} object
+\end{itemize}
+
+The code is as follows:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+#include <fcntl.h>    // for open() mode constants
+#include <file.h>     // for defined file structure
+
+#define PERMS 0666    // RW for owner, group, others
+
+FILE *fopen(char *name, char *mode) {
+  int fd;     // hold file descriptor
+  FILE *fp;   // a pointer to FILE stored in _iob[] (defined in file.c)
+
+  // check open mode passed in, if error, return NULL 
+  if (*mode != 'r' && *mode != 'w' && *mode != 'a')
+    return NULL;
+
+  // find an empty slot in _iob[] array, which holds opened FILE
+  for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
+    if ((fp->flag & (_READ | _WRITE) == 0)
+      break;
+  if (fp >= _iob + OPEN_MAX)
+    return NULL;
+
+  // we now have an empty slot of FILE, now deal with mode and create FILE if necessary
+  // create FILE by calling system call, according to different modes
+  if (*mode == 'w')
+    fd = creat(*name, PERMS);
+  else if (*mode == 'a') {
+    // first try to open the file, if file not exist, create one
+    if ((fd = open(*name, O_WRONLY, 0)) == -1)  // file open failed
+      fd = creat(*name, PERMS);
+    lseek(fd, 0L, 2);
+  }
+  else
+    fd = open(*name, O_RDONLY, 0);
 
 
-\section{Place Holder}
-\label{sec:orgb7427c6}
+  // now, update the FILE object (empty FILE object in _iob[])
+  if (fd == -1)
+    return NULL;
+
+  fp->fd = fd;
+  fp->cnt = 0;
+  fp->base = NULL;
+  fp->flag = (*mode == 'r') ? _READ : _WRITE;
+
+  return fp;
+}
+\end{minted}
+
+Notice that, in \texttt{fopen()}, we don't allocate any buffer space (we initialize the buffer pointer \texttt{fp->base}  as \texttt{NULL}, set buffer counter \texttt{fp->cnt} as 0). In \texttt{fopen()}, we mostly do the following two things:
+\begin{enumerate}
+\item getting the file opened and positioned at the right place
+\item setting the flag bits to indicate the proper state.
+\end{enumerate}
+\subsubsection{\texttt{\_fillbuf()}}
+\label{sec:org9ff0d94}
+In function \texttt{fopen()} we didn't engage in allocating new buffer spaces for the \texttt{FILE} object. This is done by the function \texttt{\_fillbuf()}. When working with file pointer, we call the macro \texttt{getc()} to get a character from the opened file. In our implementation, \texttt{getc()} will first examine if the \texttt{fp->cnt} is zero, if so, it will call \texttt{\_fillbuf()} to solve this issue. In a higher level, \texttt{\_fillbuf()} will take care of buffer related operations and return the next character (possibly read the file first and fill the buffer, then get character from the buffer).
+
+The header of \texttt{\_fillbuf()} is:
+\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+int _fillbuf(FILE *p);
+\end{minted}
+
+The working step of \texttt{\_fillbuf()} is as follows:
+\begin{itemize}
+\item first, we have to check the open mode of the file. \texttt{getc()} must work when \texttt{\_READ} flag is set and no errors or end of file reached. If not, return \texttt{EOF}
+\item determine the buffer size. If \texttt{\_UNBUF} flag is set for \texttt{FILE}, the buffer size should be 1. Otherwise, the buffer size is determined by predefined value (\texttt{BUFSIZ}).
+\item check if the \texttt{FILE} object holds buffer that was previously allocated, if not, we have to allocate it and update \texttt{fp->base} to let it store the address of this newly allocated buffer memory.
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+if (fp->base == NULL)
+  if (fp->base = (char*) malloc(bufsize) == NULL)
+    return EOF;
+\end{minted}
+
+The pointer type returned by \texttt{malloc()} is \texttt{void}, we have to cast it into \texttt{char*}. We also checked if the memory allocation is successful. If error occured, return \texttt{EOF}.
+\item after we allocated the memory space, we have to update \texttt{fp->ptr}, so it points to the beginning of the allocated memory space.
+\item use system call \texttt{read()} to read data from file to the buffer (in \texttt{FILE}), update \texttt{fp->cnt} so it reflects
+\item check the return value from \texttt{read()}. The possible return values from \texttt{read()} are:
+\begin{itemize}
+\item the number of bytes read from \texttt{fd} (the file descriptor argument passed in \texttt{read()}
+\item 0: end of file has been reached, nothing is read from \texttt{fd}
+\item -1: error occurred
+\end{itemize}
+If end of file or error occurred, we need to update the flag.
+\item at the end of the \texttt{\_fillbuf()}, we need to return the next character read (this is to finish \texttt{getc()}'s task)
+\end{itemize}
+\subsubsection{Initialization of \texttt{\_iob[]}}
+\label{sec:orgb19e09b}
+We are using an array of \texttt{FILE} structure objects (the structure name is \texttt{\_iobuf}, \texttt{FILE} is a type name referring this structure, defined by \texttt{typedef}) to hold the opened file. We have to define the \texttt{\_iob[]} array somewhere in the program and initialize for \texttt{stdin}, \texttt{stdout} and \texttt{stderr}. These three files use 0, 1 and 2 as their file descriptors. We use this to initialize the \texttt{FILE} object:
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+FILE _iob[OPEN_MAX] = {
+  {0, (char *) 0, (char *) 0, _READ, 0},
+  {0, (char *) 0, (char *) 0, _WRITE, 1},
+  {0, (char *) 0, (char *) 0, _WRITE | _UNBUF, 2}
+};
+\end{minted}
+
+Notice that \texttt{stderr} is to be written unbuffered.
+
+\section{Place holder}
+\label{sec:org197f909}
 \end{document}

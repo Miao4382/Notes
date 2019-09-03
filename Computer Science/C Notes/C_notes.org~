@@ -967,6 +967,7 @@ int open(char *name, int flags, int perms);
   - ~O_RDWR~: open for reading and writing
 - ~perms~: (not mentioned in the book), it is always zero for the uses of ~open()~ that we will discuss)
 
+Notice that when openning a file, the content of the file will not be deleted.
     
 *Return value*
 
@@ -1266,8 +1267,7 @@ If we want to append data to the end of a file, we open a file in a mode that su
 To get back to beginning (~rewind()~), we just need to call ~lseek(fd, 0L, 0)~.
 ** Example: an implementation of ~fopen()~ and ~getc()~
  In this section we build a ~FILE~ type from scratch and implement ~fopen()~ and ~gect()~. We can use what we build to access files through ~FILE~ type, not the file descriptor (file descriptors are buried in the back stage).
-
-
+ 
 *** ~FILE~ type build-up and Macros
 Files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure which is defined as a ~FILE~ type with a ~typedef~, it contains information about a file:
 - a pointer to a buffer
@@ -1370,6 +1370,101 @@ In our implementation, to reduce the number of system calls, every character tha
 Macro ~putchar()~ is also declared, by changing ~putc(x,p)~ to ~putc((x), stdout)~.
 
 *** ~fopen()~
+The original ~fopen()~'s behavior: accepting a file name (~char *name~) and the file openning mode (~char *mode~), it will return a pointer to a ~FILE~ object, which holds information about the status and information of the file. (~FILE~ object is stored in an array by the system. The array holds all opened file, each file has a ~FILE~ object corresponding with). The basic structure of a ~FILE~ structure object is as follows:
+#+begin_src c
+typedef struct _iobf {
+  int cnt;
+  char *ptr;
+  char *base;
+  int flag;
+  int fd;
+} FILE;
+#+end_src
 
+The working steps of our implementation of ~fopen()~ function is as follows:
+- check open mode passed in to make sure it is valid
+- check the array holding ~FILE~ objects (~_iob~). If the array is full (all ~FILE~ objects in that array are associated with a file), we return a ~NULL~ (indicating file openning is not possible at this time). Otherwise, we declare a pointer to ~FILE~ and let it point to the next available ~FILE~ object in the ~_iob~ array. To determine wehther a ~FILE~ object is associated with a file or not, we check the ~fp->flag~. Normally, if a ~FILE~ object is associated with a file, it must be opened either for writting or reading. 
+- work by calling system calls to create or open files. The system calls we need is ~open()~, ~creat()~ and ~lseek()~. The ~lseek()~ is used when the file is opened in appending mode (~'a'~).
+- update the ~FILE~ object through the ~FILE~ pointer ~fp~ so it is associated with the file being processed. This includes store the file descriptor returned by system calls to ~fp->fd~, initialize the opening mode in ~FILE~ structure.
+- return the pointer to the ~FILE~ object
 
-* Place Holder
+The code is as follows:
+#+begin_src c
+#include <fcntl.h>    // for open() mode constants
+#include <file.h>     // for defined file structure
+
+#define PERMS 0666    // RW for owner, group, others
+
+FILE *fopen(char *name, char *mode) {
+  int fd;     // hold file descriptor
+  FILE *fp;   // a pointer to FILE stored in _iob[] (defined in file.c)
+  
+  // check open mode passed in, if error, return NULL 
+  if (*mode != 'r' && *mode != 'w' && *mode != 'a')
+    return NULL;
+  
+  // find an empty slot in _iob[] array, which holds opened FILE
+  for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
+    if ((fp->flag & (_READ | _WRITE) == 0)
+      break;
+  if (fp >= _iob + OPEN_MAX)
+    return NULL;
+    
+  // we now have an empty slot of FILE, now deal with mode and create FILE if necessary
+  // create FILE by calling system call, according to different modes
+  if (*mode == 'w')
+    fd = creat(*name, PERMS);
+  else if (*mode == 'a') {
+    // first try to open the file, if file not exist, create one
+    if ((fd = open(*name, O_WRONLY, 0)) == -1)  // file open failed
+      fd = creat(*name, PERMS);
+    lseek(fd, 0L, 2);
+  }
+  else
+    fd = open(*name, O_RDONLY, 0);
+    
+  
+  // now, update the FILE object (empty FILE object in _iob[])
+  if (fd == -1)
+    return NULL;
+  
+  fp->fd = fd;
+  fp->cnt = 0;
+  fp->base = NULL;
+  fp->flag = (*mode == 'r') ? _READ : _WRITE;
+  
+  return fp;
+}
+#+end_src
+
+Notice that, in ~fopen()~, we don't allocate any buffer space (we initialize the buffer pointer ~fp->base~  as ~NULL~, set buffer counter ~fp->cnt~ as 0). In ~fopen()~, we mostly do the following two things:
+1. getting the file opened and positioned at the right place
+2. setting the flag bits to indicate the proper state.  
+*** ~_fillbuf()~
+In function ~fopen()~ we didn't engage in allocating new buffer spaces for the ~FILE~ object. This is done by the function ~_fillbuf()~. When working with file pointer, we call the macro ~getc()~ to get a character from the opened file. In our implementation, ~getc()~ will first examine if the ~fp->cnt~ is zero, if so, it will call ~_fillbuf()~ to solve this issue. In a higher level, ~_fillbuf()~ will take care of buffer related operations and return the next character (possibly read the file first and fill the buffer, then get character from the buffer).
+
+The header of ~_fillbuf()~ is:
+#+begin_src c++
+int _fillbuf(FILE *p);
+#+end_src
+
+The working step of ~_fillbuf()~ is as follows:
+- first, we have to check the open mode of the file. ~getc()~ must work when ~_READ~ flag is set and no errors or end of file reached. If not, return ~EOF~
+- determine the buffer size. If ~_UNBUF~ flag is set for ~FILE~, the buffer size should be 1. Otherwise, the buffer size is determined by predefined value (~BUFSIZ~).
+- check if the ~FILE~ object holds buffer that was previously allocated, if not, we have to allocate it and update ~fp->base~ to let it store the address of this newly allocated buffer memory.
+  #+begin_src c
+  if (fp->base == NULL)
+    if (fp->base = (char*) malloc(bufsize) == NULL)
+      return EOF;
+  #+end_src
+
+  The pointer type returned by ~malloc()~ is ~void~, we have to cast it into ~char*~. We also checked if the memory allocation is successful. If error occured, return ~EOF~.
+- after we allocated the memory space, we have to update ~fp->ptr~, so it points to the beginning of the allocated memory space.
+- use system call ~read()~ to read data from file to the buffer (in ~FILE~), update ~fp->cnt~ so it reflects
+- check the return value from ~read()~. The possible return values from ~read()~ are:
+  - the number of bytes read from ~fd~ (the file descriptor argument passed in ~read()~
+  - 0: end of file has been reached, nothing is read from ~fd~
+  - -1: error occurred
+  if end of file or error occurred, we need to update the flag.
+
+* Place  holder
