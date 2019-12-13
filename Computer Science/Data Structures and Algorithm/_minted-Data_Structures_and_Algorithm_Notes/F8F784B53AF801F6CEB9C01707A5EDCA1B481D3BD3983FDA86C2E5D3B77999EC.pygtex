@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{comparable}\PYG{o}{\PYGZgt{}}
-\PYG{k+kt}{int} \PYG{n}{AVLTree}\PYG{o}{\PYGZlt{}}\PYG{n}{comparable}\PYG{o}{\PYGZgt{}::}\PYG{n}{height}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{n}{t}\PYG{p}{)} \PYG{k}{const} \PYG{p}{\PYGZob{}}
-  \PYG{k}{return} \PYG{n}{t} \PYG{o}{==} \PYG{k}{nullptr} \PYG{o}{?} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{:} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{height}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

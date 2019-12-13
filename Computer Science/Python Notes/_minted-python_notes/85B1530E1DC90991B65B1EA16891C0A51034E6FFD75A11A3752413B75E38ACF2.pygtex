@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{content} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}abc\PYGZdq{}}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{content}\PYG{o}{.}\PYG{n}{isupper}\PYG{p}{())}
-\end{Verbatim}

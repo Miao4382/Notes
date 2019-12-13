@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{//return true if no element is in the list; otherwise, return false}
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
-\PYG{k+kt}{bool} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{empty}\PYG{p}{()} \PYG{k}{const} \PYG{p}{\PYGZob{}}
-  \PYG{k}{return} \PYG{n}{size}\PYG{p}{()} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

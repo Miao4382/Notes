@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{pygal}
-
-
-\PYG{n}{wm} \PYG{o}{=} \PYG{n}{pygal}\PYG{o}{.}\PYG{n}{maps}\PYG{o}{.}\PYG{n}{world}\PYG{o}{.}\PYG{n}{World}\PYG{p}{()}
-\end{Verbatim}

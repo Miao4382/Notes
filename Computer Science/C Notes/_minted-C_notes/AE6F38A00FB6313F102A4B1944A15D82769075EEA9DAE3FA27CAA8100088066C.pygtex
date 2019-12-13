@@ -1,8 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
-\PYG{k+kt}{void} \PYG{n+nf}{miniPrintf}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{format}\PYG{p}{,} \PYG{p}{...)} \PYG{p}{\PYGZob{}}
-  \PYG{k+kt}{va\PYGZus{}list} \PYG{n}{ap}\PYG{p}{;}  \PYG{c+c1}{// points to each unnamed argument in turn}
-  \PYG{n}{va\PYGZus{}start}\PYG{p}{(}\PYG{n}{ap}\PYG{p}{,} \PYG{n}{format}\PYG{p}{);}  \PYG{c+c1}{// make ap point to 1st unnamed argument}
-  \PYG{c+c1}{//...}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

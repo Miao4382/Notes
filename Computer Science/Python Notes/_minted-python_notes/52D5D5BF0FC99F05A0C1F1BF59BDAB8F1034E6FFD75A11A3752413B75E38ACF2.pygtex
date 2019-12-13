@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{from} \PYG{n+nn}{pygal.maps.world} \PYG{k+kn}{import} \PYG{n}{World}
-
-
-\PYG{n}{wm} \PYG{o}{=} \PYG{n}{World}\PYG{p}{()}
-\end{Verbatim}

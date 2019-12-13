@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{squares} \PYG{o}{=} \PYG{p}{[(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{x}\PYG{o}{**}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{x}\PYG{o}{**}\PYG{l+m+mi}{3}\PYG{p}{)} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{)} \PYG{k}{if} \PYG{n}{x} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{squares}\PYG{p}{)}
-\end{Verbatim}

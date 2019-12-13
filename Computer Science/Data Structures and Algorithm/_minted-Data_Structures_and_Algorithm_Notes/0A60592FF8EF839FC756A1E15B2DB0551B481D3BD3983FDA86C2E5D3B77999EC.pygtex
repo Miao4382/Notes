@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{Derived} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Base} \PYG{p}{\PYGZob{}}
-  \PYG{c+c1}{// class definition}
-  \PYG{c+c1}{// goes here}
-\PYG{p}{\PYGZcb{};}
-\end{Verbatim}

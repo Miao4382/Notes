@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{functools}
-\PYG{c+c1}{\PYGZsh{} doing factorial 4!}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{functools}\PYG{o}{.}\PYG{n}{reduce}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{:} \PYG{n}{x} \PYG{o}{*} \PYG{n}{y}\PYG{p}{,} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)))}
-\end{Verbatim}

@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k+kn}{as} \PYG{n+nn}{plt}
-\PYG{n}{x\PYGZus{}values} \PYG{o}{=} \PYG{p}{[}\PYG{n}{x} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{)]}
-\PYG{n}{y\PYGZus{}values} \PYG{o}{=} \PYG{p}{[}\PYG{n}{x}\PYG{o}{**}\PYG{l+m+mi}{2} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n}{x\PYGZus{}values}\PYG{p}{]}
-
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n}{x\PYGZus{}values}\PYG{p}{,} \PYG{n}{y\PYGZus{}values}\PYG{p}{,} \PYG{n}{c}\PYG{o}{=}\PYG{n}{y\PYGZus{}values}\PYG{p}{,} \PYG{n}{cmap}\PYG{o}{=}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{cm}\PYG{o}{.}\PYG{n}{Greens}\PYG{p}{,} \PYG{n}{edgecolor}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{,} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{40}\PYG{p}{)}
-
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
-\end{Verbatim}

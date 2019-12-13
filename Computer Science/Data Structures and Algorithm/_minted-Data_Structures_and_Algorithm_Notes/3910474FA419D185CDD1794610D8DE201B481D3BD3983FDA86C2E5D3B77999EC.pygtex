@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{*}\PYG{p}{();} \PYG{c+c1}{// return reference}
-\PYG{k}{const} \PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{k}{operator}\PYG{o}{*}\PYG{p}{();} \PYG{c+c1}{// return constant reference}
-\end{Verbatim}

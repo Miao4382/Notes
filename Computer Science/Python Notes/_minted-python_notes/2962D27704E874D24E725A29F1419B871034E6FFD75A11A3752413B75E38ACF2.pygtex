@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{string} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}this is a title\PYGZdq{}}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{string}\PYG{o}{.}\PYG{n}{title}\PYG{p}{())}
-\end{Verbatim}

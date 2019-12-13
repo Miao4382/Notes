@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{enum} \PYG{n}{boolean} \PYG{p}{\PYGZob{}} \PYG{n}{NO}\PYG{p}{,} \PYG{n}{YES} \PYG{p}{\PYGZcb{};}
-\end{Verbatim}

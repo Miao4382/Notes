@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{expression} \PYG{o}{=} \PYG{n+nb+bp}{False}
-\PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{expression}\PYG{p}{:}
-    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The expression is False\PYGZdq{}}\PYG{p}{)}
-\PYG{k}{else}\PYG{p}{:}
-    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The expression is True\PYGZdq{}}\PYG{p}{)}
-\end{Verbatim}

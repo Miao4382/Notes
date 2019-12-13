@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{Student}\PYG{p}{:}
-
-    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{name}\PYG{p}{,} \PYG{n}{major}\PYG{p}{,} \PYG{n}{gpa}\PYG{p}{,} \PYG{n}{is\PYGZus{}on\PYGZus{}probation}\PYG{p}{):}
-	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name} \PYG{o}{=} \PYG{n}{name}
-	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{major} \PYG{o}{=} \PYG{n}{major}
-	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{gpa} \PYG{o}{=} \PYG{n}{gpa}
-	\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}on\PYGZus{}probation} \PYG{o}{=} \PYG{n}{is\PYGZus{}on\PYGZus{}probation}
-\end{Verbatim}

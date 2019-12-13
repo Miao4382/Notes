@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{\PYGZsh{} make an API call and store the response to a variable}
-\PYG{n}{url} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}https://api.github.com/search/repositories?q=language:python\PYGZam{}sort=stars\PYGZsq{}}
-\PYG{n}{r} \PYG{o}{=} \PYG{n}{requests}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{url}\PYG{p}{)}
-\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Status code:\PYGZdq{}}\PYG{p}{,} \PYG{n}{r}\PYG{o}{.}\PYG{n}{status\PYGZus{}code}\PYG{p}{)}
-\end{Verbatim}

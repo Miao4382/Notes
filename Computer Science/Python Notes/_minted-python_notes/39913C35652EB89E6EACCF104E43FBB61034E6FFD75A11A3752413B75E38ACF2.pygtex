@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{print\PYGZus{}name}\PYG{p}{(}\PYG{n}{age}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}friend\PYGZdq{}}\PYG{p}{):}
-    \PYG{k}{print}\PYG{p}{(}\PYG{n}{name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} is\PYGZdq{}}\PYG{p}{,} \PYG{n}{age}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}years old\PYGZdq{}}\PYG{p}{)}
-
-
-\PYG{n}{print\PYGZus{}name}\PYG{p}{(}\PYG{l+m+mi}{23}\PYG{p}{)}
-\end{Verbatim}

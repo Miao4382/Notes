@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{val}\PYG{p}{[}\PYG{n}{start}\PYG{p}{][}\PYG{n}{sum}\PYG{p}{]} \PYG{o}{=} \PYG{n}{val}\PYG{p}{[}\PYG{n}{start}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{sum}\PYG{o}{+}\PYG{n}{nums}\PYG{p}{[}\PYG{n}{start}\PYG{p}{]]} \PYG{o}{+} \PYG{n}{val}\PYG{p}{[}\PYG{n}{start}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{sum}\PYG{o}{\PYGZhy{}}\PYG{n}{nums}\PYG{p}{[}\PYG{n}{start}\PYG{p}{]]}
-\end{Verbatim}

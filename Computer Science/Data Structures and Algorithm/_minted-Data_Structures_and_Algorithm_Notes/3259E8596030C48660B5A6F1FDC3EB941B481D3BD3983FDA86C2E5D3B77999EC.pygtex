@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kt}{int} \PYG{n}{theSize}\PYG{p}{;} \PYG{c+c1}{// number of elements in the list}
-\PYG{n}{Node}\PYG{o}{*} \PYG{n}{head}\PYG{p}{;} \PYG{c+c1}{// store head node}
-\PYG{n}{Node}\PYG{o}{*} \PYG{n}{tail}\PYG{p}{;} \PYG{c+c1}{// store the tail node}
-\end{Verbatim}

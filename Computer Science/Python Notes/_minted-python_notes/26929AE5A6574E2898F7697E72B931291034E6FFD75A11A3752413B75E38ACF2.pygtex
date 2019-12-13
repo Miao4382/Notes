@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{unittest}
-\PYG{k+kn}{from} \PYG{n+nn}{name\PYGZus{}function} \PYG{k+kn}{import} \PYG{n}{get\PYGZus{}formatted\PYGZus{}name}
-\end{Verbatim}

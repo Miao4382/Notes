@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kt}{void} \PYG{n+nf}{balance}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);} \PYG{c+c1}{//internal balance routine}
-\PYG{k+kt}{void} \PYG{n+nf}{rotateWithLeftChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
-\PYG{k+kt}{void} \PYG{n+nf}{rotateWithRightChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
-\PYG{k+kt}{void} \PYG{n+nf}{doubleWithLeftChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
-\PYG{k+kt}{void} \PYG{n+nf}{doubleWithRightChild}\PYG{p}{(}\PYG{n}{AvlNode}\PYG{o}{*} \PYG{o}{\PYGZam{}}\PYG{n}{t}\PYG{p}{);}
-\end{Verbatim}

@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{my\PYGZus{}function}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{B}\PYG{p}{,} \PYG{n}{C}\PYG{p}{):}
-    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}sample function\PYGZdq{}\PYGZdq{}\PYGZdq{}}
-\end{Verbatim}

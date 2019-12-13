@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{hist} \PYG{o}{=} \PYG{n}{Bar}\PYG{p}{()}
-\PYG{n}{worked\PYGZus{}hour} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{]}
-\PYG{n}{hist}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}work hour\PYGZsq{}}\PYG{p}{,} \PYG{n}{worked\PYGZus{}hour}\PYG{p}{)}
-\PYG{n}{hist}\PYG{o}{.}\PYG{n}{x\PYGZus{}labels} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Monday\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Tuesday\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Wednesday\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Thursday\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Friday\PYGZsq{}}\PYG{p}{]}
-\end{Verbatim}

@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{max\PYGZus{}num}\PYG{p}{(}\PYG{n}{num1}\PYG{p}{,} \PYG{n}{num2}\PYG{p}{,} \PYG{n}{num3}\PYG{p}{):}
-    \PYG{k}{if} \PYG{n}{num1} \PYG{o}{\PYGZgt{}=} \PYG{n}{num2} \PYG{o+ow}{and} \PYG{n}{num1} \PYG{o}{\PYGZgt{}=} \PYG{n}{num3}\PYG{p}{:}
-	\PYG{k}{return} \PYG{n}{num1}
-    \PYG{k}{elif} \PYG{n}{num2} \PYG{o}{\PYGZgt{}=} \PYG{n}{num3}\PYG{p}{:}
-	\PYG{k}{return} \PYG{n}{num2}
-    \PYG{k}{else}\PYG{p}{:}
-	\PYG{k}{return} \PYG{n}{num3}
-\end{Verbatim}

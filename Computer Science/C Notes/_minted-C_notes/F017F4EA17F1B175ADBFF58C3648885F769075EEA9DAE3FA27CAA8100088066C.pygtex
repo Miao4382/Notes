@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{enum} \PYG{n}{months} \PYG{p}{\PYGZob{}} \PYG{n}{JAN} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{FEB}\PYG{p}{,} \PYG{n}{MAR}\PYG{p}{,} \PYG{n}{APR}\PYG{p}{,} \PYG{n}{MAY}\PYG{p}{,} \PYG{n}{JUN}\PYG{p}{,} \PYG{n}{JUL}\PYG{p}{,} \PYG{n}{AUG}\PYG{p}{,} \PYG{n}{SEP}\PYG{p}{,} \PYG{n}{OCT}\PYG{p}{,} \PYG{n}{NOV}\PYG{p}{,} \PYG{n}{DEC} \PYG{p}{\PYGZcb{};}
-\PYG{c+c1}{// FEB is 2, MAR is 3, etc.}
-\end{Verbatim}

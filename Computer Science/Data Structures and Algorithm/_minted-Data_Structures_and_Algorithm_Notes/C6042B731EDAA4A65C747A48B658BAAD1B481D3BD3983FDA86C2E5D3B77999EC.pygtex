@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{//utilize copy constructor of the internal container}
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{p}{,} \PYG{k}{typename} \PYG{n}{Container}\PYG{o}{\PYGZgt{}}
-\PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{Container}\PYG{o}{\PYGZgt{}::}\PYG{n}{Stack}\PYG{p}{(}\PYG{k}{const} \PYG{n}{Stack}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{Container}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{o}{:} \PYG{n}{c}\PYG{p}{\PYGZob{}}\PYG{n}{rhs}\PYG{p}{.}\PYG{n}{c}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
-\end{Verbatim}

@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n}{x\PYGZus{}values}\PYG{p}{,} \PYG{n}{y\PYGZus{}values}\PYG{p}{,} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{edgecolors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}red\PYGZsq{}}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} change to red}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n}{x\PYGZus{}values}\PYG{p}{,} \PYG{n}{y\PYGZus{}values}\PYG{p}{,} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{edgecolors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} remove outline}
-\end{Verbatim}

@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{return} \PYG{n+nf}{min}\PYG{p}{(}\PYG{n}{minDepth}\PYG{p}{(}\PYG{n}{root}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{),} \PYG{n}{minDepth}\PYG{p}{(}\PYG{n}{root}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{right}\PYG{p}{))} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
-\end{Verbatim}

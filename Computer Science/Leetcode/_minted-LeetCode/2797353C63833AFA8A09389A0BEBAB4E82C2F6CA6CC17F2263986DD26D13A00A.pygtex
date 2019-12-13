@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{while} \PYG{p}{(}\PYG{n}{curr} \PYG{o}{!=} \PYG{k}{nullptr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
-  \PYG{n}{s}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{curr}\PYG{p}{);}
-  \PYG{n}{curr} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{left}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
-\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
-\PYG{k+kt}{void} \PYG{n}{miniPrintf}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{format}\PYG{p}{,} \PYG{p}{...)}
-\end{Verbatim}

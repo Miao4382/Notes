@@ -1,8 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}}
-\PYG{k+kt}{void} \PYG{n}{HashTable}\PYG{o}{\PYGZlt{}}\PYG{n}{HashedObj}\PYG{o}{\PYGZgt{}::}\PYG{n}{makeEmpty}\PYG{p}{()} \PYG{p}{\PYGZob{}}
-  \PYG{n}{currentSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
-  \PYG{k}{for}\PYG{p}{(}\PYG{k}{auto}\PYG{o}{\PYGZam{}} \PYG{n+nl}{entry} \PYG{p}{:} \PYG{n}{array}\PYG{p}{)} \PYG{c+c1}{//range based for loop}
-    \PYG{n}{entry}\PYG{p}{.}\PYG{n}{info} \PYG{o}{=} \PYG{n}{EMPTY}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{enum} \PYG{n}{\PYGZus{}flags} \PYG{p}{\PYGZob{}}     \PYG{c+cm}{/* a leading zero on an integer constant means octal */}
-  \PYG{n}{\PYGZus{}READ}  \PYG{o}{=} \PYG{l+m+mo}{01}\PYG{p}{,}    \PYG{c+cm}{/* file open for reading */}
-  \PYG{n}{\PYGZus{}WRITE} \PYG{o}{=} \PYG{l+m+mo}{02}\PYG{p}{,}    \PYG{c+cm}{/* file open for writing */}
-  \PYG{n}{\PYGZus{}UNBUF} \PYG{o}{=} \PYG{l+m+mo}{04}\PYG{p}{,}    \PYG{c+cm}{/* file is unbuffered */}
-  \PYG{n}{\PYGZus{}EOF}   \PYG{o}{=} \PYG{l+m+mo}{010}\PYG{p}{,}   \PYG{c+cm}{/* EOF has occurred on this file */}
-  \PYG{n}{\PYGZus{}ERR}   \PYG{o}{=} \PYG{l+m+mo}{020}    \PYG{c+cm}{/* error occurred on this file */}
-\PYG{p}{\PYGZcb{};}
-\end{Verbatim}

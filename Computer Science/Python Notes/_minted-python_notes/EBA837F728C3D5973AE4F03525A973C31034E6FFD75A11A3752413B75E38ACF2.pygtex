@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}what\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}big\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}apple\PYGZdq{}}\PYG{p}{]}
-\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Before pop: \PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
-\PYG{n}{name}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{()}
-\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}After pop: \PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
-\end{Verbatim}

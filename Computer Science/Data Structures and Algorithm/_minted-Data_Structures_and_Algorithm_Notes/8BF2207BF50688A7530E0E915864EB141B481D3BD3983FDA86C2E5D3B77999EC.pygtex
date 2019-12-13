@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{class} \PYG{n+nc}{Dog} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Animal}\PYG{p}{;} \PYG{c+c1}{// Dog is an Animal}
-\PYG{k}{class} \PYG{n+nc}{Tree} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Plant}\PYG{p}{;} \PYG{c+c1}{// Tree is a plant}
-\PYG{k}{class} \PYG{n+nc}{Ginkgo} \PYG{o}{:} \PYG{k}{public} \PYG{n}{Tree}\PYG{p}{;} \PYG{c+c1}{// Ginko is a Tree}
-\end{Verbatim}

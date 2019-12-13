@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{content} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}accab\PYGZdq{}}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{content}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}c\PYGZdq{}}\PYG{p}{))}
-\PYG{k}{print}\PYG{p}{(}\PYG{n}{content}\PYG{p}{)}
-\end{Verbatim}

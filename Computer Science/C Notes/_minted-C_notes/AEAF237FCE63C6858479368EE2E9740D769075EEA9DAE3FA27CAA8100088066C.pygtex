@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kt}{char} \PYG{o}{*}\PYG{n+nf}{fgets}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{line}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{maxline}\PYG{p}{,} \PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{fp}\PYG{p}{);}
-\end{Verbatim}

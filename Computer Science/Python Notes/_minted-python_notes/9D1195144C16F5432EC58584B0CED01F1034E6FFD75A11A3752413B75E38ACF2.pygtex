@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axes}\PYG{p}{()}\PYG{o}{.}\PYG{n}{get\PYGZus{}xaxis}\PYG{p}{()}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axes}\PYG{p}{()}\PYG{o}{.}\PYG{n}{get\PYGZus{}yaxis}\PYG{p}{()}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
-\end{Verbatim}

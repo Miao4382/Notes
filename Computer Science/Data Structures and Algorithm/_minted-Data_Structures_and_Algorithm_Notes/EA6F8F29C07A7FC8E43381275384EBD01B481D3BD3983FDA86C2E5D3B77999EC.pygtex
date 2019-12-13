@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{//return the number of elements in the List}
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
-\PYG{k+kt}{int} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{size}\PYG{p}{()} \PYG{k}{const} \PYG{p}{\PYGZob{}}
-  \PYG{k}{return} \PYG{n}{theSize}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{if} \PYG{n}{item} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{array}\PYG{p}{:}
-    \PYG{c+c1}{\PYGZsh{} do something here}
-\end{Verbatim}

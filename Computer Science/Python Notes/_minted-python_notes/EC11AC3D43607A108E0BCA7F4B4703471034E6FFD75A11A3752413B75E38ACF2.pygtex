@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{useful\PYGZus{}file} \PYG{k+kn}{as} \PYG{n+nn}{uf}
-\PYG{n}{uf}\PYG{o}{.}\PYG{n}{roll\PYGZus{}dice}\PYG{p}{()}
-\end{Verbatim}

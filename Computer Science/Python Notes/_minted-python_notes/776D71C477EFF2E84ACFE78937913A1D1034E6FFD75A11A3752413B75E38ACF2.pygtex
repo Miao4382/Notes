@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{from} \PYG{n+nn}{pygal.style} \PYG{k+kn}{import} \PYG{n}{LightSolarizedStyle}
-\PYG{n}{chart} \PYG{o}{=} \PYG{n}{pygal}\PYG{o}{.}\PYG{n}{StackedLine}\PYG{p}{(}\PYG{n}{fill}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{style}\PYG{o}{=}\PYG{n}{LightSolarizedStyle}\PYG{p}{)}
-\end{Verbatim}

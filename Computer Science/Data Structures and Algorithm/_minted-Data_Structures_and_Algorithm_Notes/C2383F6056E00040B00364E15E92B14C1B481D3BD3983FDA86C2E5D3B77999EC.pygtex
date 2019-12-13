@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
-\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator}\PYG{o}{::}\PYG{n}{const\PYGZus{}iterator}\PYG{p}{()} \PYG{o}{:} \PYG{n}{current} \PYG{p}{\PYGZob{}}\PYG{k}{nullptr}\PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}\PYGZcb{}}
-\end{Verbatim}

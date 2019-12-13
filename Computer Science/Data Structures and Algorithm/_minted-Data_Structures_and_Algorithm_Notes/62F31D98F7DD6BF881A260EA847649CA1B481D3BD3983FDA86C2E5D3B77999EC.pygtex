@@ -1,8 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{//push\PYGZus{}back(): insert the new object as the last element into the list}
-\PYG{c+c1}{//copy version}
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
-\PYG{k+kt}{void} \PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T}\PYG{o}{\PYGZam{}} \PYG{n}{val}\PYG{p}{)} \PYG{p}{\PYGZob{}}
-  \PYG{n}{insert}\PYG{p}{(}\PYG{n}{end}\PYG{p}{(),} \PYG{n}{val}\PYG{p}{);}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

@@ -1,8 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kt}{size\PYGZus{}t} \PYG{n+nf}{hash}\PYG{p}{(}\PYG{k}{const} \PYG{n}{std}\PYG{o}{::}\PYG{n}{string}\PYG{o}{\PYGZam{}} \PYG{n}{key}\PYG{p}{)} \PYG{p}{\PYGZob{}}
-  \PYG{k+kt}{size\PYGZus{}t} \PYG{n}{hashVal} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
-  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{ch}\PYG{p}{:}\PYG{n}{key}\PYG{p}{)}
-    \PYG{n}{hashVal} \PYG{o}{=} \PYG{l+m+mi}{37} \PYG{o}{*} \PYG{n}{hashVal} \PYG{o}{+} \PYG{n}{ch}\PYG{p}{;}
-  \PYG{k}{return} \PYG{n}{hashVal}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}error: \PYGZdq{}}\PYG{p}{);}
-\PYG{n}{vfprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{n}{format}\PYG{p}{,} \PYG{n}{args}\PYG{p}{);}
-\PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{);}
-\end{Verbatim}

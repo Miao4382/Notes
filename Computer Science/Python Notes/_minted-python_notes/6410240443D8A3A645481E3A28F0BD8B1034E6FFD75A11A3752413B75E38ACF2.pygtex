@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{import} \PYG{n+nn}{module\PYGZus{}name}
-\PYG{c+c1}{\PYGZsh{} or:}
-\PYG{k+kn}{import} \PYG{n+nn}{module\PYGZus{}name} \PYG{k+kn}{as} \PYG{n+nn}{m\PYGZus{}n}
-\end{Verbatim}

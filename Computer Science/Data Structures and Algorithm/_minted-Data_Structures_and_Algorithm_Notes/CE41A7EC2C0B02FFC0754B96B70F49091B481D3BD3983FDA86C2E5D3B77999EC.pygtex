@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{//move constructor}
-\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{typename} \PYG{n}{T}\PYG{o}{\PYGZgt{}}
-\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}::}\PYG{n}{List}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{rhs}\PYG{p}{)} \PYG{o}{:} \PYG{n}{theSize}\PYG{p}{\PYGZob{}} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{theSize} \PYG{p}{\PYGZcb{},} \PYG{n}{head}\PYG{p}{\PYGZob{}} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{head} \PYG{p}{\PYGZcb{},} \PYG{n}{tail}\PYG{p}{\PYGZob{}} \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{tail} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZob{}}
-  \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{theSize} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
-  \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{head} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{;}
-  \PYG{n}{rhs}\PYG{p}{.}\PYG{n}{tail} \PYG{o}{=} \PYG{k}{nullptr}\PYG{p}{;}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}
