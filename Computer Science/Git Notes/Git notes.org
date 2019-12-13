@@ -1,0 +1,195 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \linespread {1.5}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [12pt]
+* First-Time Git Setup
+*Three levels of configure*
+
+The three levels of git config parameters are:
+- system wide (applied to every user)
+- user specific (personal git configuration for a single user)
+- local config (only works for a Git directory), works for a single repository
+
+
+To modify git config file for the above levels, you do:
+#+BEGIN_EXAMPLE
+$ gir config --system
+$ git config --global
+$ git config --local
+#+END_EXAMPLE
+
+The third command line can be simply: ~$ git config~ under the local directory (because this is the default option). Each level overrides values in the previous level.
+
+*Set Identity*
+
+The following code set the name and email of the user.
+#+BEGIN_EXAMPLE
+$ git config --global user.name "Yu Miao"
+$ git config --global user.email sila.miao@gmail.com
+#+END_EXAMPLE
+
+*Set Editor*
+
+To configure the default text editor that will be used when Git needs you to type in a message, you do:
+#+BEGIN_EXAMPLE
+git config --global core.editor vim
+#+END_EXAMPLE
+
+*Check Settings*
+
+To check your current settings, you do:
+#+BEGIN_EXAMPLE
+$ git config --list
+#+END_EXAMPLE
+
+To check a single entry, for example, user name:
+#+BEGIN_EXAMPLE
+$ git config user.name
+#+END_EXAMPLE
+
+*Getting Help*
+
+Three equivalent ways to get the comprehensive manual page help for any of the Git commands:
+#+BEGIN_EXAMPLE
+$ git help <verb>
+$ git <verb> --help
+$ man git-<verb>
+#+END_EXAMPLE
+
+~<verb>~ is the operation you want to check.
+* Git Basics
+** Getting a Git Repository
+*** Initializing a repo in an existing directory
+Navigate to the directory and type ~$ git init~. This creates a new subdirectory named ~.git~ which contains all of your necessary repository files---a Git repository skeleton. At this point, nothing in your project is tracked yet.
+
+To start version-controlling existing files, use ~git add~ commands (after you ~git init~):
+#+BEGIN_EXAMPLE
+$ git add *.c
+$ git add LICENSE
+#+END_EXAMPLE
+
+Then, use ~git commit~ to do an initial commit:
+#+BEGIN_EXAMPLE
+$ git commit -m 'initial project version'
+#+END_EXAMPLE
+*** Initializing a repo by cloning an existing repo
+To get a copy of an existing Git repository, you should use ~git clone~. By this command, Git receives a full copy of nearly all data that the serve has: every version of every file for the history of the project is pulled down by default when you run ~git clone~.
+
+You add the url of remote repository after ~git clone~, example:
+#+BEGIN_EXAMPLE
+$ git clone https://github.com/abbeyLC/Proj2.git
+#+END_EXAMPLE
+This command will create a directory named ~Proj2~, initialize a ~.git~ directory inside it, pulls down all the data for that repository, and checks out a working copy of the lates version.
+
+*To clone the project into a different folder, you can specify the new directory name as an additional argument:
+#+BEGIN_EXAMPLE
+$ git clone https://github.com/abbeyLC/Proj2.git myproj2
+#+END_EXAMPLE
+** Recording Changes to the Repository
+*** File Status in Your Repository
+At this point, you have a working version of the project. Typically, you'll want to start making changes and committing snapshots of those changes into your repository each time the project reaches a state you want to record.
+
+Each file in your working directory can be in one of two states: /tracked/ or /untracked/. Tracked files are files that were in the last snapshot (the files that Git knows about). Untracked files are everything else: any files in your working directory that were not in your last snapshot and are not in your staging area.
+
+Specifically, we have:
+- Tracked files
+  - unmodified: files not modified since last commit
+  - modified: files modified since last commit, and not staged
+  - staged: modifications are stored (staged), waiting to be committed.
+- Untracked files
+
+When you commit, your staged changes will be committed, and their status will return to /unmodified/.
+
+When you first clone a repository, all of your files will be tracked and unmodified because Git just checked them out and you haven't edited anything.
+*** Checking File Status
+To check the status, you run ~git status~ command. This command will:
+- check your current branch in this repo
+- check if you have untracked file in this repo (a file that you didn't have in the previous snapshot (commit)). If so, they will be under ~Untracked files~ heading.
+- check if you have modified file in this repo. Modified file (but not staged) will be under ~Changes to be committed~ heading.
+
+Pay attention that, if Git found some untracked files, it won't start including it in your commit snapshots until you explicitly tell it to do so (so you don't accidentally begin including generated binary files or other files you did not mean to include).
+*** Tracking New Files
+To start tracking a file, you use ~git add~ followed by file name:
+#+BEGIN_EXAMPLE
+$ git add README
+#+END_EXAMPLE
+Pay attention that, the version of the file at the time you ran ~git add~ is what will be in the subsequent historical snapshot.
+*** Staging Modified Files
+When you modify a tracked file, and then call ~git status~, you'll see the file appears under a section named ~Changes not staged for commit~. This means the next time you commit, those changes won't be commited to the historical snapshot. To stage it, you run ~git add~ and followed by the file you want to stage. (~git add~ works like "add precisely this content to the next commit", so if you modify a file after you run ~git add~, you have to run it again to stage the latest version of the file).
+*** Short Status
+If you run ~git status -s~ or ~git status --short~, you will get a simplified output of file status.
+*** Ignoring Files
+You can create a file which lists name patterns to match when Git commits or scan untracked files. The file name should be ~.gitignore~. Examples:
+#+BEGIN_EXAMPLE
+# lines started with pound is comments
+
+# ignore all .a files
+*.a
+
+# ! gives exception for a certain rule
+# e.g. track lib.a, even though you're ignoring .a files
+!lib.a
+
+# normally, .gitignore works recursively for all subdirectories
+# put / in the beginning to avoid recursivity
+# e.g. Only ignore TODO file in the current directory
+/TODO
+
+# to specify a directory, put / in the end to specify a directory
+# e.g. ignore all files in any directory named build
+build/
+
+# e.g. ignore all .txt file in directory named doc, but not subdirectories
+doc/*.txt
+
+#e.g. ignore all .pdf files in the doc/ directory and any of its subdirectories
+doc/**/*.pdf
+#+END_EXAMPLE
+*** Viewing Your Staged and Unstaged Changes
+You can use ~git diff~ to see changes you added but *not staged* (so those changes won't be committed to repository in next commit). Basically, it compares what is in your working directory with what is in your staging area. If you've staged all of your changes, ~git diff~ will give you no output.
+
+To view the difference between the staged changes to last commit snapshots, you use ~git diff --staged~ or ~git diff --cached~.
+*** Committing Your Changes
+To commit, use ~git commit~. It will open a text editor to let you input what are those changes about. Use ~git commit -v~ to also include result of ~git diff~ (difference between staged file and working directory) in the commit log. You can also type your commit message inline with the ~commit~ command by specifying it after a ~-m~ flag:
+#+BEGIN_EXAMPLE
+$ git commit -m "Added a Readme file"
+#+END_EXAMPLE
+
+If you want to skip the staging area (just add all changes to stage before commit), you can add a ~-a~ option when you commit: ~git commit -a~, this will automatically add all modified files (not staged) to stage and commit. Notice that this will not add untracked files to the staged area.
+*** Removing Files
+To remove a file from git, you can first remove it in directory, then call ~git rm <FILENAME>~.
+
+Or you can use a ~-f~ option when you are trying to remove a file that has been modified or in the staging area, this will delete it anyway£º ~git rm -f <FILENAME>~.
+
+Another way of removing, is to let Git stop tracking it but still keep that file in your directory. You do: ~git rm --cached <FILENAME>~.
+
+You can pass files, directories and file-glob patterns to the ~git rm~ command (check book).
+** Viewing the Commit History
+Use ~git log~ together with a bunch of options to view the history of the current branch. Check details in the book.
+** Undoing Things
+*** Undo last commit and redo again
+Case: you committed too early, and you want to add additional files to be committed, you can use ~git commit --amend~. Example:
+#+BEGIN_EXAMPLE
+$ git commit -m 'initial commit'
+$ git add forgotten_file
+$ git commit --amend
+#+END_EXAMPLE
+After you commit, you realize you have to include ~forgotten_file~, so you first add it to stage area, and then call ~git commit --amend~. The commit message editor will pop up and you can change the commit messages. Then commit. This will override the previous commit. The previous commit will never show up in the repository history.
+*** Unstaging a Staged File
+If you have a file in stage area, and you want to unstage it (so next commit will not include this file), you do:
+#+BEGIN_EXAMPLE
+$ git reset HEAD <FILENAME>
+#+END_EXAMPLE
+*** Unmodifying a Modified File
+If a file is just simpliy modified (not staged), and you want to unmodify it, you can do: ~git checkout -- <FILENAME>~. The changes will be reverted to most recently-committed version.
+** Working with Remotes
+*** Showing Your Remotes
+
+
+* Place Holder
+
