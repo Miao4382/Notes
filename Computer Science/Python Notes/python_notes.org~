@@ -2,6 +2,7 @@
 #+OPTIONS: H:6
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
 #+LATEX_HEADER: \usepackage{parskip}
+
 #+LATEX_HEADER: \linespread {1.5}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
@@ -3879,6 +3880,144 @@ You can save the figure by calling ~.savefig()~ member function. Example:
 plt.savefig('squares_plot.svg', bbox_inches='tight')
 #+end_src
 The first argument is a filename for the plot image, which will be saved to the same directory as your python file. The second argument trims extra whitespace from the plot.
+** ~numpy~
+*** Array in Numpy
+The key to ~NumPy~ is the array object defined inside it. It is an n-dimensional array of homogeneous types, with many operations being performed in compiled code for performance (higher efficiency). Compared with standard python sequences, array in ~NumPy~ has following feature:
+1. Size is fixed. Modifying the size means creating a new array
+2. Data type stored in each entry of the array must be the same
+3. More efficienct mathematical operations
+
+We have many different ways to create a ~NumPy~ array. In general, any numerical data that is stored in an array-like container can be converted to a ~NumPy~ array through use of array function (~numpy.array()~). You just provide the sequence container as input.
+
+Other functions you can use:
+**** ~numpy.zeros()~
+Accepts a tuple or list which indicates the shape of the zero matrix. It will return a matrix of that shape filled with zeros.
+**** ~numpy.ones()~
+Same as ~numpy.zeros()~, the filled value will be 1.
+**** ~numpy.arange()~
+***** ~arange(num)~
+Accepts number. It will return a 1-D array, containing values from ~0~ to ~num - 1~. By default, the value type is the same type as the input number, but you can change it to other data types (the basic data types defined in ~numpy~). Also, the default step size is 1. For example:
+#+begin_src python
+import numpy as np
+x = np.arange(5.5)
+print(x)
+#+end_src
+result:
+#+BEGIN_EXAMPLE
+[0. 1. 2. 3. 4. 5.]
+#+END_EXAMPLE
+
+
+***** ~arange(num, dtype=)~
+Similar with ~arange(num)~, excepts that the type of the filled value is determined by the flag ~dtype~. For example: ~numpy.arange(num, dtype=numpy.float32)~.
+***** ~arange(start, end)~
+Accepts two numbers. It will return a 1-D array, containing values from ~start~ to ~end - 1~. Default data type will be determined by the type of ~start~ and ~end~. If one of them is integer, another is float, then the returned array will contain float values. Default step size is also one.
+***** ~arange(start, end, stepsize)~
+Similar with ~arange(start, end)~, you can add a third parameter which determines the step size.
+**** ~numpy.linspace()~
+This function creates arrays containing elements that are spaced equally between the specified beginning and end values.
+***** ~numpy.linspace(start, end)~
+It accepts two numbers, and it will return a 1-D array that contains 50 numbers that are spaced equally over ~[start, end]~. 50 is the default number of elements created between ~[start, end]~.
+***** ~numpy.linspace(start, end, num)~
+It is similar with the above one, but the number of elements is given at the third parameter ~num~.
+**** ~numpy.random.random()~
+This function accepts a tuple (or list) that define the shape of a matrix. It will return a matrix filled with random numbers (in range [0, 1)) in that shape.
+*** Member function and attribute  of ~numpy~'s array
+**** ~.min()~
+Return the minimum element.
+**** ~.ravel()~
+This function will return a 1-D array that contains all element of the calling array. The original array is not modified.
+**** ~.reshape()~
+Accepts tuple or direct number indicating the shape you want to change into. It will return a *COPY* of the matrix in changed shape. The original array is not affected. Example:
+#+begin_src python
+import numpy as np
+x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+print(x)
+print(x.reshape(3, 3))
+#+end_src
+result:
+#+BEGIN_EXAMPLE
+[1 2 3 4 5 6 7 8 9]
+[[1 2 3]
+ [4 5 6]
+ [7 8 9]]
+#+END_EXAMPLE
+**** ~.resize()~
+Similar with ~.reshape()~. Except this function will modify the calling array in place.
+**** ~.shape~
+This is an attribute of the array class. It defines the shape of the array. You can assign a tuple to it to change the shape of the array. The number of elements in the array should be able to fill in the shape you changed, otherwise a ~ValueError~ will arise. Example:
+#+begin_src python
+import numpy as np
+x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+print(x)
+x.shape = (3, 3)
+print(x)
+#+end_src
+result:
+#+BEGIN_EXAMPLE
+[1 2 3 4 5 6 7 8 9]
+[[1 2 3]
+ [4 5 6]
+ [7 8 9]]
+#+END_EXAMPLE
+**** ~.sum()~
+Return the summation of all elements.
+**** ~.transpose()~
+This function will return a transposed version of the calling array. The original array is not modified.
+*** Array operations
+Basic operations apply element-wise. The result is a new array with the resultant elements. Example:
+#+BEGIN_EXAMPLE
+>>> a = np.arange(5)
+>>> b = np.arange(5)
+>>> a + b
+array([0, 2, 4, 6, 8])
+>>> a - b
+array([0, 0, 0, 0, 0])
+>>> a > 3
+array([False, False, False, False, True])
+#+END_EXAMPLE
+
+Operations like ~*=~ and ~+=~ will modify the original array.
+*** Linear Algebra Operations
+**** Matrix multiplication
+You can't use ~*~ to perform a matrix multiplication since it is done element-wise. You have to call a function defined in ~numpy~ to do the matrix multiplication: ~numpy.dot(a, b)~.
+**** Matrix transpose
+You can transpose an array by calling its member function: ~a.transpose()~. It will return a transposed ~a~, original array will not be modified.
+**** Matrix inverse
+There is a function (~inv()~) that is defined in ~numpy.linalg.inv()~ that accepts an array and it will return the inverse of the array. You have to make sure the array is a ~n~ by ~n~ matrix.
+**** Creating unit matrix
+Function ~numpy.linalg.eye()~ can do this. You have to pass in the parameter that determines its size.
+**** Calculating trace of a matrix
+Function ~numpy.trace()~ can do this. You have to pass in the array you want to know trace of. If the matrix is not square, you'll get a "partial" trace.
+**** Solve linear matrix equation
+Function ~numpy.linalg.solve()~ can do this. For example, we have the following equations:
+\begin{align*}
+x_1 + 2x_2 &= 5 \\
+3x_1 + 4x_2 &= 7
+\end{align*}
+
+Use matrix notation:
+#+BEGIN_EXAMPLE
+ax = y
+|1 2| |x1| |5|
+|3 4| |x2| |7|
+#+END_EXAMPLE
+
+To solve for x, we call ~numpy.linalg.solve(a, y)~. It will return the solution matrix. Code:
+#+begin_src python
+import numpy as np
+a = np.array([[1, 2], [3, 4]])
+y = np.array([[5.], [7.]])
+
+print(np.linalg.solve(a, y))
+#+end_src
+result:
+#+BEGIN_EXAMPLE
+[[-3.]
+ [ 4.]]
+#+END_EXAMPLE
+**** Get eigenvalues/eigenvectors of matrix
+Function ~numpy.linalg.eig()~ can do this. You pass in a matrix, it will return its eigen value and eigen vector.
 
 ** ~pygal~
 [[http://pygal.org/en/stable/documentation/index.html][Documentation]]

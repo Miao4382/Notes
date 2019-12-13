@@ -1465,6 +1465,18 @@ The working step of ~_fillbuf()~ is as follows:
   - the number of bytes read from ~fd~ (the file descriptor argument passed in ~read()~
   - 0: end of file has been reached, nothing is read from ~fd~
   - -1: error occurred
-  if end of file or error occurred, we need to update the flag.
+  If end of file or error occurred, we need to update the flag.
+- at the end of the ~_fillbuf()~, we need to return the next character read (this is to finish ~getc()~'s task)
+*** Initialization of ~_iob[]~
+We are using an array of ~FILE~ structure objects (the structure name is ~_iobuf~, ~FILE~ is a type name referring this structure, defined by ~typedef~) to hold the opened file. We have to define the ~_iob[]~ array somewhere in the program and initialize for ~stdin~, ~stdout~ and ~stderr~. These three files use 0, 1 and 2 as their file descriptors. We use this to initialize the ~FILE~ object:
+#+begin_src c
+FILE _iob[OPEN_MAX] = {
+  {0, (char *) 0, (char *) 0, _READ, 0},
+  {0, (char *) 0, (char *) 0, _WRITE, 1},
+  {0, (char *) 0, (char *) 0, _WRITE | _UNBUF, 2}
+};
+#+end_src
 
-* Place  holder
+Notice that ~stderr~ is to be written unbuffered.
+
+* Place holder

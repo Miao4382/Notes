@@ -2,7 +2,9 @@
 #+OPTIONS: H:6
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
 #+LATEX_HEADER: \usepackage{parskip}
-
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
 #+LATEX_HEADER: \linespread {1.5}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}

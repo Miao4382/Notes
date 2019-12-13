@@ -6,8 +6,11 @@
 #+LATEX_HEADER: \linespread {1.0}
 #+LATEX_HEADER: \setcounter{tocdepth} {3}
 #+LATEX_HEADER: \setcounter{secnumdepth} {3}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
 #+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [12pt]
+#+LATEX_CLASS_OPTIONS: [11pt]
 
 ** 0. Template <<P>>
 *** Problem Statement
@@ -2798,7 +2801,7 @@ To be familiar with this algorithm, try to work out the following example (alrea
 [[3,4],[4,0],[5,2],[7,1],[8,1],[9,0]]
 #+END_EXAMPLE
 
-Time complexity: sort the array takes \(O(N\log{N}})\). When inserting each person, we may take upto \(O(k)\) time to count and find an available slot, where \(k\) is the current number of empty or "shorter" slots in the array. Thus the total time complexity is \(O(N^2)\).
+Time complexity: sort the array takes \(O(N\log{N})\). When inserting each person, we may take upto \(O(k)\) time to count and find an available slot, where \(k\) is the current number of empty or "shorter" slots in the array. Thus the total time complexity is \(O(N^2)\).
 *** Solution
 **** C++
 ***** swap
@@ -4040,7 +4043,33 @@ Also, we have to consider the base case:
 1. this node is ~nullptr~
 2. its left subtree is ~nullptr~
 3. its right subtree is ~nullptr~
-   
+**** Combine height calculation and max diameter calculation
+Clarify two things:
+- /Height/ of binary tree: 
+- /Max diameter/ of binary tree
+
+The height (or maximum depth) of binary tree is the number of layers from root to the deepest leaf. For example:
+#+BEGIN_EXAMPLE
+     a
+    / \
+   b   c
+  / \
+ d   e
+#+END_EXAMPLE
+The height of above tree with root ~a~ is \(3\). Since there are three layers from root to the deepest layer. You can think of it as the number of nodes in the path from root to deepest node.
+
+The max diameter of binary tree is the number of edges of the longest path between any two nodes in a tree. In the above tree, the longest path would be \(\{d \rightarrow b \rightarrow a \rightarrow c\}\), or \(\{e \rightarrow b \rightarrow a \rightarrow c\}\). Thus the diameter is \(3\).
+
+The longest path should start from one leaf and end at another leaf, if not, we can always extend the path to leaf (like greedy stays ahead argument). Notice that, it may not pass the root node. This observation suggests that the longest path will always pass some node as the *root*, its just that this node may not be the root of the entire tree (is the root of some subtree).
+
+So, we can just calculate the longest path that passes a node for all nodes in the tree, and pick the largest one. The length of longest path passes a node ~t~ can be calculated as:
+#+BEGIN_EXAMPLE
+height(t->left) + height(t->right)
+#+END_EXAMPLE
+Pay attention that ~height = edge + 1~, so the two edges connecting left and right subtree is accounted for. We do this in our height calculation function directly. Keeping a global ~max_diameter~ variable to hold the current max diameter. Code is shown in solution section.
+
+
+
 *** Solution
 **** C++
 ***** direct recursion (5%, 5%)
@@ -4072,6 +4101,42 @@ public:
       return max(height(root), diameterOfBinaryTree(root->left));
     else
       return max(max(height(root->left) + height(root->right) + 2, diameterOfBinaryTree(root->left)), diameterOfBinaryTree(root->right));
+  }
+};
+
+#+end_src
+***** combine height count and max count
+
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int diameterOfBinaryTree(TreeNode* root) {
+    int max_diameter = 0;
+    
+    height(root, max_diameter);
+    
+    return max_diameter;
+  }
+  
+  int height(TreeNode* t, int &max_diameter) {
+    if (t == nullptr)
+      return 0;
+    
+    int height_left = height(t->left, max_diameter);
+    int height_right = height(t->right, max_diameter);
+    
+    max_diameter = max(max_diameter, height_left + height_right);
+    
+    return max(height_left, height_right) + 1;
   }
 };
 

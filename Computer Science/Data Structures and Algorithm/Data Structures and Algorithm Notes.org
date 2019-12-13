@@ -4,10 +4,13 @@
 #+LATEX_HEADER: \usepackage{parskip}
 #+LATEX_HEADER: \setlength\parindent{0pt}
 #+LATEX_HEADER: \linespread {1.0}
-#+LATEX_HEADER: \setcounter{tocdepth} {3}
-#+LATEX_HEADER: \setcounter{secnumdepth} {3}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=9}]
 #+LATEX_CLASS: book
-#+LATEX_CLASS_OPTIONS: [12pt]
+#+LATEX_CLASS_OPTIONS: [11pt]
 
 * C++ Generals
 Most of C++ generals content are from my /Starting out with C++/ notes. 

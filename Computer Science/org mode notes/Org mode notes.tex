@@ -1,6 +1,6 @@
-% Created 2019-05-09 Thu 17:08
+% Created 2019-10-24 Thu 09:03
 % Intended LaTeX compiler: pdflatex
-\documentclass[12pt]{book}
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -16,10 +16,13 @@
 \usepackage{hyperref}
 \usepackage{minted}
 \usepackage[margin=1in] {geometry}
-\linespread {1.5}
+\usepackage{parskip}
+\setlength\parindent{0pt}
+\linespread {1.0}
 \setcounter{tocdepth} {6}
 \setcounter{secnumdepth} {6}
-\setlength\parindent{0pt}
+\usepackage{fontspec}
+\setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
 \date{\today}
 \title{}
 \hypersetup{
@@ -33,102 +36,349 @@
 
 \tableofcontents
 
-\part{Basic Org Tutorial}
-\label{sec:orgce3b29e}
-\chapter{Insert Image}
-\label{sec:orgb0b1285}
-\section{Insert normal image}
-\label{sec:org27a202a}
+\section{Basic Org Tutorial}
+\label{sec:org8484458}
+\subsection{Insert Image}
+\label{sec:org59b9f18}
+\subsubsection{Insert normal image}
+\label{sec:orgaa16faa}
 We use a link to insert image. The format is as follows:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 [[./img/1.jpg]]
-\end{verbatim}
+\end{Verbatim}
 
 You include the path of your image file in the double brackts. \texttt{./} means using the current path. \texttt{./img/1.jpg} means you have a folder named img under current path, and you want to insert an image named 1.jpg (which is stored in img) to the file.
 
 You can add captions and name to your file by:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+CAPTION: "image_caption"
 #+NAME: fig:"image_name"
 [[./img/1.jpg]]
-\end{verbatim}
+\end{Verbatim}
 
-Caption is the title of the image, which will be generated under your image (e.g. Figure x.x "image\_caption", x.x is chapter.figure\_number).
+Caption is the title of the image, which will be generated under your image (e.g. Figure x.x ``image\_caption'', x.x is chapter.figure\_number).
 
 Name is used for internal cross reference. You can create a cross reference inside your file by:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 [[fig:"image_name"]]
-\end{verbatim}
+\end{Verbatim}
 
 You can also adjust the size of your inserted file:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+CAPTION: "image_caption"
 #+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 [[./img/1.jpg]]
-\end{verbatim}
+\end{Verbatim}
 
 
-\section{Insert vector image}
-\label{sec:org300ca35}
+\subsubsection{Insert vector image}
+\label{sec:org89da954}
 I use inkscape to create vector image. When I exported as .svg file, I couldn't insert it. However, if I export the vector image as .pdf file, I can:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+CAPTION: "image_caption"
 #+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 [[./img/1.pdf]]
-\end{verbatim}
+\end{Verbatim}
 
-\section{Change float behavior of Image}
-\label{sec:org1e0ee38}
+\subsubsection{Change float behavior of Image}
+\label{sec:org98e9dae}
 If you add a caption of an image using:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+CAPTION: "image_caption"
-\end{verbatim}
+\end{Verbatim}
 the LaTex export back-end wraps the image in a floating 'figure' environment. So the relative position of your image and your text may not be the same you wrote. You can avoid this floating behavior by adding the following line before the insertion of the image:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+ATTR_LATEX: :float nil
-\end{verbatim}
+\end{Verbatim}
 
 \href{https://orgmode.org/manual/Images-in-LaTeX-export.html}{Reference}
 
 Example:
-\begin{verbatim}
-#+CAPTION: "image_caption"
+\begin{Verbatim}[frame=single]
+#+CAPTION: <image_caption>
 #+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 #+ATTR_LATEX: :float nil
 [[./img/1.pdf]]
-\end{verbatim}
+\end{Verbatim}
 
-\chapter{Multi-lined Equation}
-\label{sec:org06bf409}
-In latex, \texttt{\textbackslash{}[\textbackslash{}]} is for single line display equation (without number). If you want to input a block that contains Multi-lined equation, you have to use:
+\subsection{Indentation}
+\label{sec:orgb2d013a}
+\subsubsection{Org Indentation Mode}
+\label{sec:orgf7dcfff}
+By adding:
+\begin{Verbatim}[frame=single]
+#+STARTUP: indent
+\end{Verbatim}
+you'll activate the indentation mode. Different levels of title will now show only one '*', and will be distinguished by colors and different indentations in org mode.
 
-\texttt{\textbackslash{}begin\{align*\}}
-
-\texttt{a\textasciicircum{}2 + b\textasciicircum{}2 \&= c\textasciicircum{}2 \textbackslash{}\textbackslash{}}
-
-\texttt{x + y \&= z}
-
-\texttt{\textbackslash{}end\{align*\}}
-
-LaTex align mode can achieve this. The \texttt{*} indicates no indexing of the equation. \texttt{\textbackslash{}\textbackslash{}} means newline, you have to use this to go to next line. \texttt{\&} in front of the \texttt{=} indicates where you want to align these functions.
-
-\chapter{Indentation}
-\label{sec:orgdd4a37b}
-\section{Paragraph indentation}
-\label{sec:org662aad3}
+\subsubsection{Indent of first line after a title}
+\label{sec:org50f443f}
+The immediate paragraph after a title may not be indented. Add following line at the beginning to solve this problem:
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \usepackage{indentfirst}
+\end{Verbatim}
+\subsubsection{Paragraph indentation}
+\label{sec:org94cef08}
 When exporting by LaTex (to pdf), use following line (at the beginning) to adjust the indentation rule for this whole file:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 #+LATEX_HEADER: \setlength\parindent{0pt}
-\end{verbatim}
+\end{Verbatim}
+
+If you want to add an extra line between paragraphs, you can use package:
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \usepackage{parskip}
+\end{Verbatim}
+This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the \texttt{\#+LATEX\_HEADER: \textbackslash{}setlength\textbackslash{}parindent\{0pt\}} line).
 
 \href{https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file}{Reference}
-\section{Indent of first line after a title}
-\label{sec:org47da7dc}
-The immediate paragraph after a title may not be indented. Add following line at the beginning to solve this problem:
-\begin{verbatim}
-#+LATEX_HEADER: \usepackage{indentfirst}
-\end{verbatim}
+\subsection{Inline Equation, Display Equation and Multi-lined EquationIn latex, \texttt{\textbackslash{}(\textbackslash{})} is for inline equation.}
+\label{sec:orge8e8f5a}
+
+In latex, \texttt{\textbackslash{}[\textbackslash{}]} is for single line display equation (without number).
+
+If you want to input a block that contains Multi-lined equation, you have to use:
+\begin{Verbatim}[frame=single]
+\begin{align*}
+a^2 + b^2 &= c^2 \\
+x + y &= z
+\end{align*}
+\end{Verbatim}
+
+LaTex align mode can achieve this. The \texttt{*} indicates no indexing of the equation. \texttt{\textbackslash{}\textbackslash{}} means newline, you have to use this to go to next line. \texttt{\&} in front of the \texttt{=} indicates where you want to align these functions.
+\subsection{Paragraph Skip}
+\label{sec:org9c80593}
+The most common way to quickly add spaces between paragraphs in \LaTeX{} is to use the parskip package. You can tell org-mode to include that in the \LaTeX{} header by adding the following line in beginning:
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \usepackage{parskip}
+\end{Verbatim}
+
+\href{https://emacs.stackexchange.com/questions/22755/separation-between-paragraphs-when-exporting-to-pdf-from-org-mode}{Reference}
+
+If you want to add extra space after a certain paragraph, add latex code \texttt{\textbackslash{}vspace\{<distance>\}} at the end of the paragraph. You have to insert this as in-line LaTex code, so you do:  \vspace{3cm}
+\begin{Verbatim}[frame=single]
+...and this is the end of the paragraph. @@latex:vspace{1cm}@@
+
+\end{Verbatim}
+
+
+
+\subsection{Set Default \TeX{} engine}
+\label{sec:org0fe3d94}
+You can set the default \TeX{}-engine by adding following line in .emacs file.
+\begin{Verbatim}[frame=single]
+(setq-default TeX-engine 'xetex)
+\end{Verbatim}
+where \texttt{xetex} is the name of the engine.
+\subsection{Table}
+\label{sec:org86ba24e}
+To create a simple table, just write:
+\begin{Verbatim}[frame=single]
+| Name  | Phone | Age |
+|-------+-------+-----|
+| Peter |  1234 |  17 |
+| Anna  |  4321 |  25 |
+\end{Verbatim}
+
+To make content in center:
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+layer & number of nodes & height of nodes on this layer\\
+\hline
+0 & 1 & h\\
+1 & 2 & h - 1\\
+2 & 2\textsuperscript{2} & h - 2\\
+\(\vdots\) & \(\vdots\) & \(\vdots\)\\
+h - 1 & 2\textsuperscript{h - 1} & 1\\
+h & 2\textsuperscript{h} & 0\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Export LaTex pdf File with Chinese}
+\label{sec:orgb35de4d}
+[not finished]
+When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \usepackage{ctex}
+\end{Verbatim}
+
+When compiling you have to use XeLaTex to compile the pdf. (not so sure how)
+
+\subsection{Internal  link \label{org3abc04a}}
+\label{sec:org4161ad1}
+You can add an anchor to anywhere in your article, and insert a link to this anchor. When user click the link, they will be brought to the place where the anchor is.
+
+To add an anchor, you have to first think about a \textbf{name} of the anchor. The name will be the identification of the anchor, so you must make sure they are unique. It will be used when you create a link to it. Assume the name is ``anchor\_name''. You navigate to the place you want to add this anchor and type:
+\begin{Verbatim}[frame=single]
+<<anchor_name>>
+\end{Verbatim}
+
+Then, you navigate to the place where you want to add a link to this anchor, just type:
+\begin{Verbatim}[frame=single]
+[[anchor_name][type in words that will show on the link here]]
+\end{Verbatim}
+
+I put an anchor at the starting of this section, the name is \texttt{example\_anchor}, now I type:
+\begin{Verbatim}[frame=single]
+[[example_anchor][go to my example anchor]]
+\end{Verbatim}
+
+You will see: \hyperref[org3abc04a]{go to my example anchor}. Click it, it will bring you back to the beginning. This is how it works.
+
+
+\subsection{Change default font}
+\label{sec:orgab3e5e4}
+We can use package \texttt{fontspec} to change default font. But you have to compile with \texttt{xelatex} engine (do it in command line is easier).
+
+\subsubsection{Org mode save \texttt{.tex} file and compile manually}
+\label{sec:org835d0a1}
+For example, I want to change the main font to Times New Roman, the monofont to Droid Sans Mono. You have to add following lines at the beginning:
+
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+\end{Verbatim}
+
+Then, you have to compile your \texttt{.tex} file in the command line using:
+\begin{Verbatim}[frame=single]
+xelatex -shell-escape <file_name>.tex
+\end{Verbatim}
+
+This is because we need to use xelatex engine to compile the \texttt{.tex} code to use \texttt{fontspec} package. And sometimes you have to compile twice to get table of contents displayed properly.
+
+\texttt{fontspec} has other options to set the font. For example, to set monofont a different size, you use:
+\begin{Verbatim}[frame=single]
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+\end{Verbatim}
+
+You can find other options in \href{http://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fontspec/fontspec.pdf}{fontspec's documentation}.
+
+
+\subsection{Add a Piece of LaTex Code}
+\label{sec:org0725c99}
+\href{https://orgmode.org/manual/Quoting-LaTeX-code.html}{Reference}
+
+There are 3 ways to do this. Check reference for details. Here will briefly introduce the third way: inserting as an export block in the org file, where the back-end exports any code between begin and end markers:
+\begin{Verbatim}[frame=single]
+#+BEGIN_EXPORT latex
+// latex code here
+#+END_EXPORT
+\end{Verbatim}
+
+
+
+\subsection{Add Box Around Verbatism}
+\label{sec:orgd038341}
+
+\subsubsection{Method 1}
+\label{sec:orgaffcd7a}
+Use mdframed to add a box around example block of latex export:
+\begin{Verbatim}[frame=single]
+
+#+LATEX_HEADER: \usepackage{mdframed}
+#+LATEX_HEADER: \BeforeBeginEnvironment{verbatim}
+                {\begin{mdframed}[linewidth=1pt]}
+#+LATEX_HEADER: \AfterEndEnvironment{verbatim}{\end{mdframed}}
+#+LATEX_HEADER: \mdfsetup{skipabove=5pt, skipbelow=5pt}
+
+\end{Verbatim}
+
+Not good as minted box.
+
+\subsubsection{Method 2 (good)}
+\label{sec:orga2cd247}
+
+Use \texttt{fancyvrb} package to do this job (\href{https://codeyarns.com/2012/12/21/how-to-draw-a-box-around-verbatim-text-in-latex/\#targetText=It is possible to draw,the frame parameter to single.}{reference}):
+\begin{Verbatim}[frame=single]
+\usepackage{fancyvrb}
+
+\begin{Verbatism}[frame=single]
+contents
+\end{Verbatism}
+
+\end{Verbatim}
+
+To use this feature, you have to change environment name from \texttt{verbatism} to \texttt{Verbatism} (first letter is upper case). However, the default org example block export to latex is lower case version. To workaround this, we can add an export filter, to replace each \texttt{\textbackslash{}begin\{verbatism\}} to \texttt{\textbackslash{}begin\{Verbatism\}[frame=single]}, and each \texttt{\textbackslash{}end\{verbatism\}} to \texttt{\textbackslash{}end\{Verbatism\}}, \href{https://emacs.stackexchange.com/questions/19903/how-can-i-customize-the-latex-export-of-org-babel-results}{reference}.
+
+
+
+
+\subsection{Add Box Around Code}
+\label{sec:orgd1ebf9f}
+Code block is controled by minted package. So we just need to change minted options in \texttt{.emacs} file:
+\begin{Verbatim}[frame=single]
+(setq org-latex-minted-options '(("breaklines" "true")
+  ("breakanywhere" "true") ("frame" "single") ("framesep" "10pt")))
+\end{Verbatim}
+
+
+\subsection{Add Box Around Text}
+\label{sec:orgafb793d}
+\href{https://tex.stackexchange.com/questions/25903/how-to-put-a-long-piece-of-text-in-a-box}{Reference}.
+
+To add box around text, we use two features of latex: \textbf{fbox} and \textbf{minipage}. fbox will give a frame to minipage, and we write latex text inside minipage.
+
+Take the title of COP4531 midterm for example:
+
+\fbox{
+\begin{minipage}[c]{\textwidth}
+\textbf{COP4531 --- Complexity and Analysis of Data Structures and Algorithms  Fall 2019} \vspace{3pt}
+
+\begin{center}
+Midterm, due 10/24 at 3pm \vspace{3pt}
+\end{center}
+\textit{Instructor: Viet Tung Hoang}
+
+\end{minipage}}
+
+The code is as follows:
+\begin{Verbatim}[frame=single]
+#+BEGIN_EXPORT latex
+
+\fbox{
+\begin{minipage}[c]{\textwidth}
+\textbf{COP4531 --- Complexity and Analysis of Data Structures and Algorithms
+Fall 2019} \vspace{3pt}
+
+\begin{center}
+Midterm, due 10/24 at 3pm \vspace{3pt}
+\end{center}
+\textit{Instructor: Viet Tung Hoang}
+
+\end{minipage}}
+
+#+END_EXPORT
+\end{Verbatim}
+
+
+Use \texttt{\textbackslash{}fbox\{\}} to enclose the content you want to enclose. Inside the brackets, you add the minipage block:
+\begin{Verbatim}[frame=single]
+\fbox{
+\begin{minipage}[c]{\textwidth}
+...(texts)
+\end{minipage}
+}
+\end{Verbatim}
+\texttt{[c]} is saying this minipage is centered, and \texttt{\{\textbackslash{}textwidth\}} is setting the minipage's width as the text width. You can use ordinary latex environments inside the minipage to format.
+
+
+
+\section{Useful links}
+\label{sec:org9dc40e7}
+\href{http://doc.norang.ca/org-mode.html}{General ORG tutorial}
+\section{Emacs}
+\label{sec:org4778dde}
+\subsection{Prevent editing collapsed subtree}
+\label{sec:org23572ad}
+You have to put following line in your .emacs:
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{lisp}
+(setq-default org-catch-invisible-edits 'smart)
+\end{minted}
+
+\href{https://emacs.stackexchange.com/questions/2086/org-mode-prevent-editing-of-text-within-collapsed-subtree}{Reference}
 \end{document}

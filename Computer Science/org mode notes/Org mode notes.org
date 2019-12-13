@@ -1,12 +1,15 @@
 #+STARTUP: indent
 #+OPTIONS: H:6
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
-#+LATEX_HEADER: \linespread {1.5}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \linespread {1.0}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
-#+LATEX_HEADER: \usepackage{parskip}
-#+LATEX_CLASS: book
-#+LATEX_CLASS_OPTIONS: [12pt]
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt]
 ** Basic Org Tutorial
 *** Insert Image
 **** Insert normal image
@@ -35,7 +38,7 @@ You can also adjust the size of your inserted file:
 #+BEGIN_EXAMPLE
 #+CAPTION: "image_caption"
 #+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 [[./img/1.jpg]]
 #+END_EXAMPLE
 
@@ -45,7 +48,7 @@ I use inkscape to create vector image. When I exported as .svg file, I couldn't 
 #+BEGIN_EXAMPLE
 #+CAPTION: "image_caption"
 #+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 [[./img/1.pdf]]
 #+END_EXAMPLE
 
@@ -63,9 +66,9 @@ the LaTex export back-end wraps the image in a floating 'figure' environment. So
 
 Example:
 #+BEGIN_EXAMPLE
-#+CAPTION: "image_caption"
-#+NAME: fig:"image_name"
-#+ATTR_LATEX: :width 200px
+#+CAPTION: figure_caption ("figure_caption" will be displayed under figure)
+#+NAME: fig:"image_name" (used for internal reference)
+#+ATTR_LATEX: :width 200pt
 #+ATTR_LATEX: :float nil
 [[./img/1.pdf]]
 #+END_EXAMPLE
@@ -116,6 +119,14 @@ The most common way to quickly add spaces between paragraphs in LaTeX is to use 
 #+END_EXAMPLE
 
 [[https://emacs.stackexchange.com/questions/22755/separation-between-paragraphs-when-exporting-to-pdf-from-org-mode][Reference]]
+
+If you want to add extra space after a certain paragraph, add latex code ~\vspace{<distance>}~ at the end of the paragraph. \vspace{3cm}
+#+BEGIN_EXAMPLE
+...and this is the end of the paragraph. latex:vspace{1cm}
+#+END_EXAMPLE
+
+
+
 *** Set Default TeX engine
 You can set the default TeX-engine by adding following line in .emacs file.
 #+BEGIN_EXAMPLE
@@ -143,6 +154,34 @@ To make content in center:
 |    h - 1    |    2^{h - 1}    |               1               |
 |      h      |      2^{h}      |               0               |
 |-------------+-----------------+-------------------------------|
+
+*Auto newline for wide table*
+
+If your table has some wide columns, you can use following tricks to fix the width, so the table won't execeed the range of the page:
+#+ATTR_LATEX: :environment longtable :align |l|p{10cm}|l|
+|------------------+------------------------------------------------------------------------------------+-----------------|
+| Field name       | Description                                                                        | Value           |
+|------------------+------------------------------------------------------------------------------------+-----------------|
+| ~BS_OEMName~     | OEM name identifier                                                                | ~mkfs.fat~      |
+| ~BPB_BytsPerSec~ | Bytes per sector                                                                   | ~512~           |
+| ~BPB_SecPerClus~ | Sectors per cluster                                                                | ~1~             |
+| ~BPB_TotSec32~   | Total # of sectors on the volume                                                   | ~0x20000~       |
+| ~BPB_RsvdSecCnt~ | # of sectors in reserved region                                                    | ~0x20~, ~32~    |
+| ~BPB_FATSz32~    | # of sectors occupied by one FAT                                                   | ~0x3F1~, ~1009~ |
+| ~BPB_NumFATs~    | # of File Allocation Table (FAT)                                                   | ~2~             |
+| ~BPB_RootClus~   | The cluster number of the first cluster of root directory, relative to data region | ~0x2~           |
+| ~BPB_FSInfo~     | Sector number of ~FSINFO~ structure in reserved region                             | ~0x1~           |
+| ~BPB_BkBootSec~  | Sector number in reserved region, stores backup of boot record                     | ~0x6~           |
+| ~BS_VolLab~      | Volume label. Matches the 11-byte volume label recorded in root                    | ~NO NAME~       |
+| ~BS_FilSysType~  | FAT type label. Just for informational only, does not determine                    | ~FAT32~         |
+|------------------+------------------------------------------------------------------------------------+-----------------|
+
+Notice that:
+#+BEGIN_EXAMPLE
+#+ATTR_LATEX: :environment longtable :align |l|p{10cm}|l|
+#+END_EXAMPLE
+
+Use ~p{10cm}~ inside the relative position of column you want to fix.
 
 
 *** Export LaTex pdf File with Chinese
@@ -173,6 +212,138 @@ I put an anchor at the starting of this section, the name is ~example_anchor~, n
 #+END_EXAMPLE
 
 You will see: [[example_anchor][go to my example anchor]]. Click it, it will bring you back to the beginning. This is how it works.
+
+
+*** Change default font
+We can use package ~fontspec~ to change default font. But you have to compile with ~xelatex~ engine (do it in command line is easier).
+
+**** Org mode save ~.tex~ file and compile manually
+For example, I want to change the main font to Times New Roman, the monofont to Droid Sans Mono. You have to add following lines at the beginning:
+
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+END_EXAMPLE
+
+Then, you have to compile your ~.tex~ file in the command line using:
+#+BEGIN_EXAMPLE
+xelatex -shell-escape <file_name>.tex
+#+END_EXAMPLE
+
+This is because we need to use xelatex engine to compile the ~.tex~ code to use ~fontspec~ package. And sometimes you have to compile twice to get table of contents displayed properly.
+
+~fontspec~ has other options to set the font. For example, to set monofont a different size, you use:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+END_EXAMPLE
+
+You can find other options in [[http://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fontspec/fontspec.pdf][fontspec's documentation]].
+
+
+*** Add a Piece of LaTex Code
+[[https://orgmode.org/manual/Quoting-LaTeX-code.html][Reference]]
+
+There are 3 ways to do this. Check reference for details. Here will briefly introduce the third way: inserting as an export block in the org file, where the back-end exports any code between begin and end markers:
+#+BEGIN_EXAMPLE
+#+BEGIN_EXPORT latex
+// latex code here
+#+END_EXPORT
+#+END_EXAMPLE
+
+
+
+*** Add Box Around Verbatism
+
+**** Method 1
+Use mdframed to add a box around example block of latex export:
+#+BEGIN_EXAMPLE
+
+#+LATEX_HEADER: \usepackage{mdframed}
+#+LATEX_HEADER: \BeforeBeginEnvironment{verbatim}
+                {\begin{mdframed}[linewidth=1pt]}
+#+LATEX_HEADER: \AfterEndEnvironment{verbatim}{\end{mdframed}}
+#+LATEX_HEADER: \mdfsetup{skipabove=5pt, skipbelow=5pt}
+
+#+END_EXAMPLE
+
+Not good as minted box.
+
+**** Method 2 (good)
+
+Use ~fancyvrb~ package to do this job ([[https://codeyarns.com/2012/12/21/how-to-draw-a-box-around-verbatim-text-in-latex/#targetText=It%20is%20possible%20to%20draw,the%20frame%20parameter%20to%20single.][reference]]):
+#+BEGIN_EXAMPLE
+\usepackage{fancyvrb}
+
+\begin{Verbatism}[frame=single]
+contents
+\end{Verbatism}
+
+#+END_EXAMPLE
+
+To use this feature, you have to change environment name from ~verbatism~ to ~Verbatism~ (first letter is upper case). However, the default org example block export to latex is lower case version. To workaround this, we can add an export filter, to replace each ~\begin{verbatism}~ to ~\begin{Verbatism}[frame=single]~, and each ~\end{verbatism}~ to ~\end{Verbatism}~, [[https://emacs.stackexchange.com/questions/19903/how-can-i-customize-the-latex-export-of-org-babel-results][reference]].
+
+
+
+
+*** Add Box Around Code
+Code block is controled by minted package. So we just need to change minted options in ~.emacs~ file:
+#+BEGIN_EXAMPLE
+  (setq org-latex-minted-options '(("breaklines" "true")
+    ("breakanywhere" "true") ("frame" "single") ("framesep" "10pt")))
+#+END_EXAMPLE
+
+
+*** Add Box Around Text
+[[https://tex.stackexchange.com/questions/25903/how-to-put-a-long-piece-of-text-in-a-box][Reference]].
+
+To add box around text, we use two features of latex: *fbox* and *minipage*. fbox will give a frame to minipage, and we write latex text inside minipage.
+
+Take the title of COP4531 midterm for example:
+#+BEGIN_EXPORT latex
+
+\fbox{
+\begin{minipage}[c]{\textwidth}
+\textbf{COP4531 --- Complexity and Analysis of Data Structures and Algorithms  Fall 2019} \vspace{3pt}
+
+\begin{center}
+Midterm, due 10/24 at 3pm \vspace{3pt}
+\end{center}
+\textit{Instructor: Viet Tung Hoang}
+
+\end{minipage}}
+
+#+END_EXPORT
+
+The code is as follows:
+#+BEGIN_EXAMPLE
+#+BEGIN_EXPORT latex
+
+\fbox{
+\begin{minipage}[c]{\textwidth}
+\textbf{COP4531 --- Complexity and Analysis of Data Structures and Algorithms
+Fall 2019} \vspace{3pt}
+
+\begin{center}
+Midterm, due 10/24 at 3pm \vspace{3pt}
+\end{center}
+\textit{Instructor: Viet Tung Hoang}
+
+\end{minipage}}
+
+#+END_EXPORT
+#+END_EXAMPLE
+
+
+Use ~\fbox{}~ to enclose the content you want to enclose. Inside the brackets, you add the minipage block:
+#+BEGIN_EXAMPLE
+\fbox{
+\begin{minipage}[c]{\textwidth}
+...(texts)
+\end{minipage}
+}
+#+END_EXAMPLE
+~[c]~ is saying this minipage is centered, and ~{\textwidth}~ is setting the minipage's width as the text width. You can use ordinary latex environments inside the minipage to format.
 
 
 

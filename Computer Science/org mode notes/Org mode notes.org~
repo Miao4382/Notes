@@ -1,11 +1,16 @@
 #+STARTUP: indent
 #+OPTIONS: H:6
+#+BIND: LATEX_COMPILER:xelatex
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
-#+LATEX_HEADER: \linespread {1.5}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \linespread {1.0}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
 #+LATEX_HEADER: \setcounter{secnumdepth} {6}
-#+LATEX_HEADER: \usepackage{parskip}
-#+LATEX_CLASS: book
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
 ** Basic Org Tutorial
 *** Insert Image
@@ -96,8 +101,7 @@ If you want to add an extra line between paragraphs, you can use package:
 This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the ~#+LATEX_HEADER: \setlength\parindent{0pt}~ line).
 
 [[https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file][Reference]]
-*** Inline Equation, Display Equation and Multi-lined Equation
-In latex, ~\(\)~ is for inline equation.
+*** Inline Equation, Display Equation and Multi-lined EquationIn latex, ~\(\)~ is for inline equation.
 
 In latex, ~\[\]~ is for single line display equation (without number).
 
@@ -145,8 +149,6 @@ To make content in center:
 |      h      |      2^{h}      |               0               |
 |-------------+-----------------+-------------------------------|
 
-
-
 *** Export LaTex pdf File with Chinese
 [not finished]
 When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:
@@ -155,6 +157,57 @@ When you have Chinses characters in your org file, you have to save it using utf
 #+END_EXAMPLE
 
 When compiling you have to use XeLaTex to compile the pdf. (not so sure how)
+
+*** Internal  link <<example_anchor>>
+You can add an anchor to anywhere in your article, and insert a link to this anchor. When user click the link, they will be brought to the place where the anchor is.
+
+To add an anchor, you have to first think about a *name* of the anchor. The name will be the identification of the anchor, so you must make sure they are unique. It will be used when you create a link to it. Assume the name is "anchor_name". You navigate to the place you want to add this anchor and type:
+#+BEGIN_EXAMPLE
+<<anchor_name>>
+#+END_EXAMPLE
+
+Then, you navigate to the place where you want to add a link to this anchor, just type:
+#+BEGIN_EXAMPLE
+[[anchor_name][type in words that will show on the link here]]
+#+END_EXAMPLE
+
+I put an anchor at the starting of this section, the name is ~example_anchor~, now I type:
+#+BEGIN_EXAMPLE
+[[example_anchor][go to my example anchor]]
+#+END_EXAMPLE
+
+You will see: [[example_anchor][go to my example anchor]]. Click it, it will bring you back to the beginning. This is how it works.
+
+
+*** Change default font
+We can use package ~fontspec~ to change default font. But you have to compile with ~xelatex~ engine (do it in command line is easier).
+
+**** Org mode save ~.tex~ file and compile manually
+For example, I want to change the main font to Times New Roman, the monofont to Droid Sans Mono. You have to add following lines at the beginning:
+
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+END_EXAMPLE
+
+Then, you have to compile your ~.tex~ file in the command line using:
+#+BEGIN_EXAMPLE
+xelatex -shell-escape <file_name>.tex
+#+END_EXAMPLE
+
+This is because we need to use xelatex engine to compile the ~.tex~ code to use ~fontspec~ package. And sometimes you have to compile twice to get table of contents displayed properly.
+
+~fontspec~ has other options to set the font. For example, to set monofont a different size, you use:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+END_EXAMPLE
+
+You can find other options in [[http://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fontspec/fontspec.pdf][fontspec's documentation]].
+
+
+
+
 ** Useful links
 [[http://doc.norang.ca/org-mode.html][General ORG tutorial]]
 ** Emacs

@@ -1,6 +1,6 @@
-% Created 2019-05-09 Thu 17:47
+% Created 2019-10-24 Thu 09:26
 % Intended LaTeX compiler: pdflatex
-\documentclass[12pt]{book}
+\documentclass[11pt]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -19,8 +19,11 @@
 \usepackage{parskip}
 \setlength\parindent{0pt}
 \linespread {1.0}
-\setcounter{tocdepth} {3}
-\setcounter{secnumdepth} {3}
+\setcounter{tocdepth} {6}
+\setcounter{secnumdepth} {6}
+\usepackage{fontspec}
+\usepackage{fancyvrb}
+\setmonofont{Droid Sans Mono}[SizeFeatures={Size=9}]
 \date{\today}
 \title{}
 \hypersetup{
@@ -36,14 +39,24 @@
 
 
 \part{C++ Generals}
-\label{sec:org9236a30}
+\label{sec:orgfeb6c32}
 Most of C++ generals content are from my \emph{Starting out with C++} notes. 
+
+\chapter{Expressions and Interactivity}
+\label{sec:org106d664}
+
+\section{cin object and stream extraction operator}
+\label{sec:org825d668}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
+cin >> a;
+\end{minted}
+
 \chapter{Inheritance, Polymorphism and Virtual Functions}
-\label{sec:orgb5ce505}
+\label{sec:org11548ce}
 \section{Inheritance}
-\label{sec:org2d692ea}
+\label{sec:org3e2c37e}
 \subsection{Concept}
-\label{sec:org37616e5}
+\label{sec:orga43abd6}
 \begin{itemize}
 \item Inheritance allows a new class to be based on an existing class;
 \item The new class inherits all the member variables and functions of the class it based on
@@ -51,12 +64,12 @@ Most of C++ generals content are from my \emph{Starting out with C++} notes.
 \end{itemize}
 
 \subsection{Origin of Inheritance: Generalization and Specialization}
-\label{sec:org94186fc}
+\label{sec:org73812aa}
 In the real world you can find many objects that are specialized versions of other more general objects. For example, dog is a specialized object of animal.
 
-Inheritance allows abstraction of this kind of relation: creating new class that is based on an existing class. When one object is a specialized version of another object, there is an "is a" relationship between them, for example: a tree is a plant, a dog is an animal.
+Inheritance allows abstraction of this kind of relation: creating new class that is based on an existing class. When one object is a specialized version of another object, there is an ``is a'' relationship between them, for example: a tree is a plant, a dog is an animal.
 
-When an "is a" relationship exists between classes, it means that the specialized class has all of the characteristics of the general class, plus additional characteristics that make it special. In object-oriented programming, inheritance is used to create an "is a" relationship between classes. 
+When an ``is a'' relationship exists between classes, it means that the specialized class has all of the characteristics of the general class, plus additional characteristics that make it special. In object-oriented programming, inheritance is used to create an ``is a'' relationship between classes. 
 
 Inheritance involves a base class and a derived class. The base class is the general class and the derived class is the specialized class. The derived class has following features:
 \begin{itemize}
@@ -66,9 +79,9 @@ Inheritance involves a base class and a derived class. The base class is the gen
 \end{itemize}
 
 \subsection{Syntax}
-\label{sec:orgb6931b7}
+\label{sec:orge1739a4}
 Suppose you have a \texttt{Base} class. Now you want to make a derived class from \texttt{Base} named \texttt{Derived}. You declare the \texttt{Derived} class in following way:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Derived : public Base {
   // class definition
   // goes here
@@ -76,7 +89,7 @@ class Derived : public Base {
 \end{minted}
 
 This declaration tells you that, \texttt{Derived} is a \texttt{Base}. Similarly, we can have:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Dog : public Animal; // Dog is an Animal
 class Tree : public Plant; // Tree is a plant
 class Ginkgo : public Tree; // Ginko is a Tree
@@ -91,9 +104,9 @@ If you declare the base class access specification as public, you can access the
 Inheritance does not work in reverse. It is not possible for a base class to call a member function of a derived class.
 
 \subsection{Class Access Specifications}
-\label{sec:org7dd71fc}
+\label{sec:orga1c78a1}
 There are three class access specifications between a base class and a derived class:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Derived : private Base;
 class Derived : protected Base;
 class Derived : public Base;
@@ -102,9 +115,9 @@ class Derived : public Base;
 \emph{Details omitted}
 
 \subsection{Constructors and Destructors in Base and Derived Classes}
-\label{sec:org818ca2d}
+\label{sec:org28ae43e}
 \subsubsection{Calling order}
-\label{sec:org9516779}
+\label{sec:org2bb215f}
 Suppose you have a Derived class and a Base class. Now you are defining an object of a Derived class. Then you exit the program so the Derived object is destroyed. The order of calling constructors and destructor is as follows:
 \begin{itemize}
 \item constructor of base class
@@ -114,16 +127,16 @@ Suppose you have a Derived class and a Base class. Now you are defining an objec
 \end{itemize}
 
 \subsubsection{Passing arguments to base class constructors}
-\label{sec:org3476747}
+\label{sec:orgebf992f}
 Consider following case:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Derived : public Base
 \end{minted}
 
 When you are creating a Derived object, you will first call the constructor of Base class. In order to pass arguments to Base class constructor, you have to let the Derived class constructor pass arguments to the Base class constructor.
 
 Now, suppose the Base class has a constructor that needs two arguments: length and width. And Derived class has a constructor that needs one argument: height. When you write the parameter list for constructor of Derived class, you can also include the parameter for constructor of Base class. Here is how you should write when you \textbf{implement the constructor}.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 Derived::Derived() : Base() {
   // implementation of default constructor 
 }
@@ -134,7 +147,7 @@ Derived::Derived(double len, double w, double h) : Base(len, w) {
 \end{minted}
 
 Pay attention that, calling and passing parameter to \texttt{Base()} is when you \textbf{IMPLEMENT} \texttt{Derived} class's constructor. When declaring constructor of \texttt{Derived} class, you write in the normal way:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 Derived();
 Derived(double len, double w, double h);
 \end{minted}
@@ -150,7 +163,7 @@ The Base class constructor is always executed before the Derived class construct
 If the Base class has no default constructor, then the Derived class must have a constructor that calls one of the Base class constructors. Because normally, if all the Derived class constructor don't call Base class constructor, when a Derived  class object is made, the default Base class constructor will be called.
 
 \subsubsection{Redefining \texttt{Base} class functions}
-\label{sec:org66c8bfe}
+\label{sec:orga803a46}
 You can redefine a Base class member function in its Derived  class. Its like an overloaded member function (because the function has the same name), however, there is a distinction between redefining a function and overloading a function:
 \begin{itemize}
 \item Overloading functions must have \textbf{DIFFERENT} function signature (same function name, but different parameter list)
@@ -158,12 +171,12 @@ You can redefine a Base class member function in its Derived  class. Its like an
 \end{itemize}
 
 Suppose you have following classes defined:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Derived : public Base
 \end{minted}
 
 There is a function \texttt{func(int num)} in Base class. Now you want to redefine \texttt{func()} in Derived class. You can directly declare it in header file of Derived class:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Derived : public Base {
 private:
   // declaration of private member
@@ -182,26 +195,26 @@ public:
 If you redefine the function. You have to use the scope resolution operator :: to call the original function in Base class. C++ cast static binding to re-defined member function. That is, function call and the corresponding function is bound together when compiling.
 
 \part{Data Structures}
-\label{sec:org6fe9dac}
+\label{sec:orgc859dee}
 \chapter{Vector}
-\label{sec:org671922f}
+\label{sec:org94c793b}
 \chapter{List}
-\label{sec:orgfaa9105}
+\label{sec:orgeaecb39}
 Some portion of this section is copied from my \emph{Starting out with C++} notes. The implementation is from my project 2 of COP 4530 course.
 \section{General Idea}
-\label{sec:org0ffd31e}
+\label{sec:org57f545f}
 Suppose you design a program that will dynamically allocate data structures, and you want to manage them. You can use linked list to do this job.
 
 Dynamically allocated data structures may be linked together in memory to form a chain (linked list), each dynamically allocated data structure in that linked list is called \textbf{node}. A linked list can easily grow or shrink in size. Also, compared with vector, it is very efficient for a linked list to insert an element into the middle of the list, or delete an element that is in the middle. For a vector, to access a middle element you have to move all the element after that position, while for a linked list, none of the other nodes have to be moved.
 
-A linked list is a series of connected nodes, where each node is a data structure. By saying "connected", it means that there is a pointer in each node that points to next node, thus the term "connected". Data members hold the data that this node contain (one or more members). In addition to the data, each node contains a pointer, which can point to another node (the next node). A linked list is formed when each node points to the next node. A \textbf{doubly linked list} is when each node contains two pointers, which can link to the previous node and the next node.
+A linked list is a series of connected nodes, where each node is a data structure. By saying ``connected'', it means that there is a pointer in each node that points to next node, thus the term ``connected''. Data members hold the data that this node contain (one or more members). In addition to the data, each node contains a pointer, which can point to another node (the next node). A linked list is formed when each node points to the next node. A \textbf{doubly linked list} is when each node contains two pointers, which can link to the previous node and the next node.
 \section{Simple Implementation}
-\label{sec:org6ce33c8}
+\label{sec:org4ce7888}
 In this section, we'll implemente a doubly linked list, which has similar interface as the STL list. We'll also implement a nested iterator class in the list.
 \subsection{Outline of List Class}
-\label{sec:orgf5aa46f}
+\label{sec:org7b4e22f}
 We'll encapsulate three types in \texttt{List} class: 1. the node structure; 2. the nested constant iterator; 3. the nested iterator. Our \texttt{List} class will also support similar interface with STL list. Aside from member functions, our \texttt{List} class has the following data members:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 int theSize; // number of elements in the list
 Node* head; // store head node
 Node* tail; // store the tail node
@@ -212,7 +225,7 @@ To scope a \texttt{List} structure, we'll use two \texttt{Node*} type variable: 
 We'll also define a namespace named \texttt{cop4530}, and we will put the \texttt{List} class into namespace \texttt{cop4530}.
 
 The complete header is listed below:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #ifndef DL_LIST_H
 #define DL_LIST_H
 #include <iostream>
@@ -318,9 +331,9 @@ namespace cop4530 {
 
 \end{minted}
 \subsection{\texttt{Node} Structure}
-\label{sec:org972a7d2}
+\label{sec:org4a7aecd}
 The structure is defined as the basic unit of our list. \texttt{List} is composed of multiple nodes that are connected with each other. Thus, one node structure should have three members: one for storing data, another will store the address of previous node and next node. The code for the \texttt{Node} structure is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 struct Node {
   T data;
   Node* prev;
@@ -335,12 +348,12 @@ struct Node {
 \end{minted}
 
 In the constructor, we give default argument. Notice this line:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 const T& d = T{}
 \end{minted}
 this is actually calling the zero parameter constructor of class \texttt{T} to build an object \texttt{d}, this default object will be used as the default data member stored by the node.
 \subsection{Iterator Support}
-\label{sec:org5843aeb}
+\label{sec:org95331e4}
 Some containers can just use pointer to do jobs an iterator do. For example, \texttt{std::vector}. This is because, internally, elements of vector is stored in an array, their internal memory address is consecutive. Thus, you can use operators such \texttt{++}, \texttt{-{}-} to navigate through the container. And other operations such as dereference (\texttt{*}), comparison (\texttt{==}), etc.
 
 For containers whose elements are not stored consecutively in memory, we can't use the above mentioned feature. Since they are very handy to use (to navigate the whole container), and more importantly, since we want to provide a universal operating interface for all the containers, we want to implement such data type to these containers too. An iterator class is constructed just to do that.
@@ -349,39 +362,39 @@ Back to our specific problem, we want to design an iterator class for our \textt
 
 We'll define two versions of iterator: a constant one and a non-constant one. The constant one can't be used to modify the item it referenced to. These two iterator share most of the member functions, so we may want to declare one as \textbf{base} class, the other one as \textbf{derived} class. We'll provide the header declaration here. The implementation of member function of iterator will be provided later.
 \subsubsection{Nested \texttt{const\_iterator}}
-\label{sec:org0ce4897}
+\label{sec:org1510f33}
 We'll first define a constant iterator as the base class. Later, we'll declare the non-constant version of iterator as derived class, based on our constant iterator.
 
 The \textbf{CORE} or the iterator class is the protected member: a pointer whose type is the type you want the iterator to reference. After all, the iterator should act like a pointer that can dereference each element in the container, while navigate through the container. So we have the following data member in \texttt{protected} section of our \texttt{const\_iterator} class:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 Node* current; // pointer to node in list 
 \end{minted}
 
 We declare a function interface to handle retriving reference operation:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 T& retrieve() const;
 \end{minted}
 
 The specifier \texttt{const} simpliy suggests that this function will not change anything inside \texttt{const\_iterator} class (pay attention that it does not mean this function cannot change the \texttt{Node} element it reference to).
 
 We also have a protected constructor which accepts a pointer to \texttt{Node} to create a \texttt{const\_iterator} type:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 const_iterator(Node* p);
 \end{minted}
 
 At last, we declare class \texttt{List<T>} as the friend our this \texttt{const\_iterator} class, which means class \texttt{List<T>} can access the private and protected member of \texttt{const\_iterator} class. Some routines in \texttt{List} may need to access:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 friend class List<T>;
 \end{minted}
 
 To provide \texttt{const\_iterator} class the ability to dereference an element, we provide the routine for \texttt{operator*()}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 const T& operator*() const;
 \end{minted}
 Notice that, the return type is a constant left value reference type. This is because we are implementing the \texttt{operator\textasciitilde{}()} of constant iterator, so the \texttt{Node} being dereferenced should not be changed.
 
 The next property we wish to add to our iterator class is the ability to navigate through the container. For pointers to array elements, we can use \texttt{operator++()}, \texttt{operator-{}-()} to navigate around the array (because memories of the elements are stored adjacently). For our iterator class, we have to manually implement this behavior. Also, we want to enable comparison operators so we can use iterators to check whether the boundary of our container is reached (\texttt{itr == container.end()}). These routines are declared as follows:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // increment/decrement operators
 const_iterator & operator++();
 const_iterator operator++(int);
@@ -394,7 +407,7 @@ bool operator!=(const const_iterator &rhs) const;
 \end{minted}
 
 The whole declaration of \texttt{const\_iterator} is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class const_iterator {
   public:
     const_iterator(); // default zero parameter constructor
@@ -419,22 +432,22 @@ class const_iterator {
 };
 \end{minted}
 \subsubsection{Nested \texttt{iterator}}
-\label{sec:orgd5dc90e}
+\label{sec:orgdf013d3}
 We'll declare our \texttt{iterator} class as derived class of \texttt{const\_iterator} since they share a lot of common functions. To declare a derived class from \texttt{const\_iterator}, we use:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class iterator : public const_iterator {
 
 };
 \end{minted}
 
 Since this is not constant iterator, we must \textbf{redefine} the function of \texttt{operator*()} to provide a version that can return reference (\texttt{T\&}), rather than the constant reference (\texttt{const T\&}) brought by the original \texttt{operator*()} function defined in base class \texttt{const\_iterator}. We also wish to provide the constant version of the function, so we have:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 T& operator*(); // return reference
 const T& operator*(); // return constant reference
 \end{minted}
 
 Also, all functions that should have different return types should be redefined:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 iterator & operator++();
 iterator operator++(int);
 iterator & operator--();
@@ -442,32 +455,32 @@ iterator operator--(int);
 \end{minted}
 
 At last, we declare the constructor of our \texttt{iterator} class:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 iterator(Node* p);
 \end{minted}
 \subsection{\texttt{const\_iterator} Implementation}
-\label{sec:orgac88cd9}
+\label{sec:orgda3bd4a}
 \subsubsection{Zero parameter \texttt{const\_iterator()}}
-\label{sec:org58afcb4}
+\label{sec:orge1978f5}
 Initialize \texttt{current} with \texttt{nullptr}.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::const_iterator::const_iterator() : current {nullptr} {}
 \end{minted}
 
 Notice that the use of scope resolution operator. We are defining a function in \texttt{const\_iterator} class, which is in \texttt{List} class.
 \subsubsection{One parameter \texttt{const\_iterator}}
-\label{sec:org489ea41}
+\label{sec:orgc32bc09}
 It accepts a pointer to a \texttt{Node}, will initialize \texttt{current} with this pointer.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::const_iterator::const_iterator(Node *p) : current{ p } {};
 \end{minted}
 
 \subsubsection{\texttt{operator*()}}
-\label{sec:orgb42b3e8}
+\label{sec:org1db0791}
 Function \texttt{retrieve()} will be called to get the reference.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //returns a reference to the corresponding element in the list by calling retrieve() member function
 template <typename T>
 const T& List<T>::const_iterator::operator*() const {
@@ -475,9 +488,9 @@ const T& List<T>::const_iterator::operator*() const {
 }
 \end{minted}
 \subsubsection{\texttt{operator++()}}
-\label{sec:org611c8d8}
+\label{sec:orga6459ff}
 No \texttt{int} in the parenthese, so this is an prefix increment operator. We want to move the iterator to the \textbf{NEXT} node. We know that \texttt{Node.next} is storing the memory address of next node, that's how we move to it:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //increment_prefix
 template <typename T>
 typename List<T>::const_iterator& List<T>::const_iterator::operator++() {
@@ -487,9 +500,9 @@ typename List<T>::const_iterator& List<T>::const_iterator::operator++() {
 \end{minted}
 Also notice that a keyword \texttt{typename} is in front of the \texttt{List<T>::const\_iterator}, this tells compiler that, \texttt{List<T>::const\_iterator} is a name of a type, which is the return type of the function defined in this line later.
 \subsubsection{\texttt{operator++(int)}}
-\label{sec:org177d7c9}
+\label{sec:org770f331}
 Postfix increment. We need to return the iterator before the increment. Since the function will return during this process, we can't first return and then do the increment. We can only make a copy of it and return later. This is why postfix increment may have less efficiency compared with prefix increment: another copy is necessary.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //increment_postfix
 template <typename T>
 typename List<T>::const_iterator List<T>::const_iterator::operator++(int) {
@@ -499,9 +512,9 @@ typename List<T>::const_iterator List<T>::const_iterator::operator++(int) {
 }
 \end{minted}
 \subsubsection{\texttt{operator-{}-()}}
-\label{sec:org6fa0838}
+\label{sec:orgec611a2}
 Similar with \texttt{operator++()}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 typename List<T>::const_iterator& List<T>::const_iterator::operator--() {
   current = current->prev;
@@ -509,9 +522,9 @@ typename List<T>::const_iterator& List<T>::const_iterator::operator--() {
 }
 \end{minted}
 \subsubsection{\texttt{operator-{}-(int)}}
-\label{sec:orgce735b5}
+\label{sec:org83e80b2}
 Similar with \texttt{operator++()}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 typename List<T>::const_iterator List<T>::const_iterator::operator--(int) {
   const_iterator old = *this;
@@ -520,68 +533,68 @@ typename List<T>::const_iterator List<T>::const_iterator::operator--(int) {
 }
 \end{minted}
 \subsubsection{\texttt{operator==()}}
-\label{sec:org6c7d37d}
+\label{sec:org81e9b7f}
 If two pointers in two iterators are the same, we say two iterators are equal:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 bool List<T>::const_iterator::operator==(const const_iterator& rhs) const {
   return current == rhs.current;
 }
 \end{minted}
 \subsubsection{\texttt{operator!=()}}
-\label{sec:org920c83f}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org0c31d09}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 bool List<T>::const_iterator::operator!=(const const_iterator& rhs) const {
   return !(*this == rhs);
 }
 \end{minted}
 \subsubsection{\texttt{retrieve()}}
-\label{sec:orgae2e42d}
+\label{sec:orgdd4f220}
 The internal \texttt{retrieve()} function will return a non-constant reference to the data the node holds. So this retrieve function can be re-used by the non-constant iterator. Function \texttt{const\_iterator::operator*()} will return a constant reference, so don't worry.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 T& List<T>::const_iterator::retrieve() const {
   return current->data;
 }
 \end{minted}
 \subsection{\texttt{iterator} Implementation}
-\label{sec:org6f8303c}
+\label{sec:org7444eff}
 This section is just about redefining functions so reference, rather than constant reference, will be returned by member functions of \texttt{iterator} class.
 \subsubsection{Zero parameter \texttt{iterator()}}
-\label{sec:org1335f48}
+\label{sec:org853c43c}
 Do nothing, constructor of base class \texttt{const\_iterator()} will initialize \texttt{current} with \texttt{nullptr}.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::iterator::iterator() {}
 \end{minted}
 \subsubsection{One parameter \texttt{iterator()}}
-\label{sec:orgfeaaedd}
+\label{sec:org8ea0b20}
 Will call base class's one parameter constructor and pass the parameter to it.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::iterator::iterator(Node *p) : const_iterator{ p } {};
 \end{minted}
 \subsubsection{\texttt{operator*()}}
-\label{sec:org4aa48c4}
+\label{sec:org9154e98}
 Will call \texttt{const\_iterator::retrieve()} to return a reference:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 T& List<T>::iterator::operator*() {
   return const_iterator::retrieve();
 }
 \end{minted}
 \subsubsection{constant \texttt{operator*()}}
-\label{sec:org5dd6a7c}
+\label{sec:org3e07dde}
 Since \texttt{const\_iterator::operator*()} has been redefined, when we want constant reference be returned, we'll not call \texttt{const\_iterator::operator*()} automatically, so we have to also redefine a version of \texttt{iterator::operator*()} to return constant reference. This is useful when other routines requires a constant reference from a non-constant iterator.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 const T& List<T>::iterator::operator*() const {
   return const_iterator::operator*();
 }
 \end{minted}
 \subsubsection{\texttt{operator++()}}
-\label{sec:orgd9de5c6}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org2f474eb}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //prefix
 template <typename T>
 typename List<T>::iterator& List<T>::iterator::operator++() {
@@ -590,8 +603,8 @@ typename List<T>::iterator& List<T>::iterator::operator++() {
 }
 \end{minted}
 \subsubsection{\texttt{operator++(int)}}
-\label{sec:orgcfe101f}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org8d662f1}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // postfix
 template <typename T>
 typename List<T>::iterator List<T>::iterator::operator++(int) {
@@ -601,8 +614,8 @@ typename List<T>::iterator List<T>::iterator::operator++(int) {
 }
 \end{minted}
 \subsubsection{\texttt{operator-{}-()}}
-\label{sec:org3fc7718}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org8a5a49a}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // prefix
 template <typename T>
 typename List<T>::iterator& List<T>::iterator::operator--() {
@@ -611,8 +624,8 @@ typename List<T>::iterator& List<T>::iterator::operator--() {
 }
 \end{minted}
 \subsubsection{\texttt{operator-{}-(int)}}
-\label{sec:org801c724}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org106b41b}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // postfix
 template <typename T>
 typename List<T>::iterator List<T>::iterator::operator--(int) {
@@ -622,16 +635,16 @@ typename List<T>::iterator List<T>::iterator::operator--(int) {
 }
 \end{minted}
 \subsection{\texttt{List()}  [zero]}
-\label{sec:org0f3c037}
+\label{sec:orgb8c0222}
 Will call \texttt{init()} to initialize list member variables
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::List() {
   init();
 }
 \end{minted}
 \subsection{\texttt{List()} [copy]}
-\label{sec:org2f6ec28}
+\label{sec:org23b5f8b}
 Working steps:
 \begin{itemize}
 \item Call \texttt{init()} to initialize list
@@ -639,7 +652,7 @@ Working steps:
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>::List(const List& rhs) {
   init();
@@ -648,8 +661,8 @@ List<T>::List(const List& rhs) {
 }
 \end{minted}
 \subsection{\texttt{List()} [move]}
-\label{sec:orgd427cf9}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgbe5c8c6}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //move constructor
 template <typename T>
 List<T>::List(List&& rhs) : theSize{ rhs.theSize }, head{ rhs.head }, tail{ rhs.tail } {
@@ -659,8 +672,8 @@ List<T>::List(List&& rhs) : theSize{ rhs.theSize }, head{ rhs.head }, tail{ rhs.
 }
 \end{minted}
 \subsection{\texttt{List()} [two parameter]}
-\label{sec:org3664aff}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgdf869ab}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //constructor which accepts number of elements (num) and value for each element
 //Construct a list with num elements, all initialized with value val.
 template <typename T>
@@ -671,9 +684,9 @@ List<T>::List(int num, const T& val) {
 }
 \end{minted}
 \subsection{\texttt{List()} [accept two iterators]}
-\label{sec:orgab4f877}
+\label{sec:orgcb21e3d}
 It accepts two iterators indicating the range of a list, and will construct a copy of this range of list.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //constructs with elements [start, end)
 template <typename T>
 List<T>::List(const_iterator start, const_iterator end) {
@@ -683,9 +696,9 @@ List<T>::List(const_iterator start, const_iterator end) {
 }
 \end{minted}
 \subsection{\texttt{\textasciitilde{}List()}}
-\label{sec:orge39a62d}
+\label{sec:org3077467}
 Call \texttt{clear()} routine.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //destructor
 template <typename T>
 List<T>::~List() {
@@ -695,9 +708,9 @@ List<T>::~List() {
 }
 \end{minted}
 \subsection{\texttt{operator=()} [copy]}
-\label{sec:orgd094e5b}
+\label{sec:org1706bc2}
 Will apply copy constructor and \texttt{std::swap()}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 const List<T>& List<T>::operator=(const List& rhs) {
   List copy = rhs; //apply copy constructor
@@ -706,9 +719,9 @@ const List<T>& List<T>::operator=(const List& rhs) {
 }
 \end{minted}
 \subsection{\texttt{operator=()} [move]}
-\label{sec:org605efcc}
+\label{sec:org9f07473}
 Apply \texttt{std::swap()}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 List<T>& List<T>::operator=(List&& rhs) {
   std::swap(theSize, rhs.theSize);
@@ -719,8 +732,8 @@ List<T>& List<T>::operator=(List&& rhs) {
 }
 \end{minted}
 \subsection{\texttt{size()}}
-\label{sec:org91ba56e}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgd9bf3ca}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return the number of elements in the List
 template <typename T>
 int List<T>::size() const {
@@ -728,8 +741,8 @@ int List<T>::size() const {
 }
 \end{minted}
 \subsection{\texttt{empty()}}
-\label{sec:org0a3a4c2}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgf9ee40f}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return true if no element is in the list; otherwise, return false
 template <typename T>
 bool List<T>::empty() const {
@@ -737,9 +750,9 @@ bool List<T>::empty() const {
 }
 \end{minted}
 \subsection{\texttt{clear()}}
-\label{sec:org0224fb4}
+\label{sec:orgd50e324}
 Use \texttt{pop\_front()} routine to delete elements one by one.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //delete all the elements in the list
 template <typename T>
 void List<T>::clear() {
@@ -748,8 +761,8 @@ void List<T>::clear() {
 }
 \end{minted}
 \subsection{\texttt{reverse()}}
-\label{sec:org004aa25}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org75c7361}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //reverse the order of the elements in the list
 template <typename T>
 void List<T>::reverse() {
@@ -761,8 +774,8 @@ void List<T>::reverse() {
 }
 \end{minted}
 \subsection{\texttt{front()}}
-\label{sec:org07ca41b}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org88460a3}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return reference to the first element in the list
 //reference
 template <typename T>
@@ -771,16 +784,16 @@ T& List<T>::front() {
 }
 \end{minted}
 \subsection{\texttt{front()} [const]}
-\label{sec:org1542283}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgd3bce3f}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 const T& List<T>::front() const {
   return *begin();
 }
 \end{minted}
 \subsection{\texttt{back()}}
-\label{sec:orgca65fae}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgd022481}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return reference to the last element in the list
 //reference 
 template <typename T>
@@ -789,17 +802,17 @@ T& List<T>::back() {
 }
 \end{minted}
 \subsection{\texttt{back()} [const]}
-\label{sec:orgfe75ede}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org815d5ea}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 const T& List<T>::back() const {
   return *(--end());
 }
 \end{minted}
 \subsection{\texttt{push\_front()}}
-\label{sec:orgd6aba10}
+\label{sec:org7c56b7f}
 Will call \texttt{insert()} routine
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //insert the new object as the first element into the list
 //copy version 
 template <typename T>
@@ -808,8 +821,8 @@ void List<T>::push_front(const T& val) {
 }
 \end{minted}
 \subsection{\texttt{push\_front()} [move]}
-\label{sec:orgbe4cfe1}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgf5ae1af}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //move version 
 template <typename T>
 void List<T>::push_front(T&& val) {
@@ -817,9 +830,9 @@ void List<T>::push_front(T&& val) {
 }
 \end{minted}
 \subsection{\texttt{push\_back()}}
-\label{sec:org48c9d61}
+\label{sec:org1c9d1dc}
 Will call \texttt{insert()} routine.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //push_back(): insert the new object as the last element into the list
 //copy version 
 template <typename T>
@@ -828,17 +841,17 @@ void List<T>::push_back(const T& val) {
 }
 \end{minted}
 \subsection{\texttt{push\_back()} [move]}
-\label{sec:org26331fd}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org0a6985d}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void List<T>::push_back(T&& val) {
   insert(end(), std::move(val));
 }
 \end{minted}
 \subsection{\texttt{pop\_front()}}
-\label{sec:org7ca942f}
+\label{sec:org52e95cb}
 Will call \texttt{erase()} routine
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //delete the first element 
 template <typename T>
 void List<T>::pop_front() {
@@ -846,17 +859,17 @@ void List<T>::pop_front() {
 }
 \end{minted}
 \subsection{\texttt{pop\_back()}}
-\label{sec:orgeb2e2cd}
+\label{sec:orgcd5b9f1}
 Will call \texttt{erase()} routine
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void List<T>::pop_back() {
   erase(--end());
 }
 \end{minted}
 \subsection{\texttt{remove()}}
-\label{sec:orge00c523}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orge56c63c}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //delete all nodes with value equal to val from the list
 template <typename T>
 void List<T>::remove(const T& val) {
@@ -869,8 +882,8 @@ void List<T>::remove(const T& val) {
 }
 \end{minted}
 \subsection{\texttt{print()}}
-\label{sec:orgb7ea0f9}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgda110ba}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //print all elements in the list
 template <typename T>
 void List<T>::print(std::ostream& os, char ofc) const {
@@ -880,8 +893,8 @@ void List<T>::print(std::ostream& os, char ofc) const {
 }
 \end{minted}
 \subsection{\texttt{begin()}}
-\label{sec:orgc52ce4c}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org75b5bc3}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return iterator to the first element in the list
 //not const version
 template <typename T>
@@ -890,8 +903,8 @@ typename List<T>::iterator List<T>::begin() {
 }
 \end{minted}
 \subsection{\texttt{begin()} [const]}
-\label{sec:orgc66d587}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org6c3a1ef}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //const version 
 template <typename T>
 typename List<T>::const_iterator List<T>::begin() const {
@@ -899,8 +912,8 @@ typename List<T>::const_iterator List<T>::begin() const {
 }
 \end{minted}
 \subsection{\texttt{end()}}
-\label{sec:orgd4962b9}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org5183556}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //return iterator to the tail node (after the last element) in the list 
 //not const version 
 template <typename T>
@@ -909,8 +922,8 @@ typename List<T>::iterator List<T>::end() {
 }
 \end{minted}
 \subsection{\texttt{end()} [const]}
-\label{sec:orgc4900be}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org1a6150f}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //const version 
 template <typename T>
 typename List<T>::const_iterator List<T>::end() const {
@@ -918,31 +931,31 @@ typename List<T>::const_iterator List<T>::end() const {
 }
 \end{minted}
 \subsection{\texttt{insert()}}
-\label{sec:org4b7f2bf}
+\label{sec:org70538cb}
 This function accepts two parameters: a iterator \texttt{itr} indicates where to insert the value, and a \texttt{T} type \texttt{val}, which is value to be inserted into the list. A \texttt{Node} will be constructed using \texttt{val}, and will be inserted into the previous spot where \texttt{itr} points to. \texttt{theSize} will be updated in the process.
 
 The three steps to insert a node is shown below.
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-insert-1.pdf}
-\captionof{figure}{\label{fig:org8de2dec}
+\includegraphics[width=350pt]{./img/List-insert-1.pdf}
+\captionof{figure}{\label{fig:org825e867}
 Insert a node in a list. Step 1: construct a node}
 \end{center}
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-insert-2.pdf}
-\captionof{figure}{\label{fig:org9aaf5ff}
+\includegraphics[width=350pt]{./img/List-insert-2.pdf}
+\captionof{figure}{\label{fig:orgd400d86}
 Insert a node in a list. Step 2: link node}
 \end{center}
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-insert-3.pdf}
-\captionof{figure}{\label{fig:orgf4d7d0d}
+\includegraphics[width=350pt]{./img/List-insert-3.pdf}
+\captionof{figure}{\label{fig:orgf2744e2}
 Insert a node in a list. Step 3: link node}
 \end{center}
 
 The code is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 typename List<T>::iterator List<T>::insert(iterator itr, const T& val) {
   // update the size of the list
@@ -962,14 +975,14 @@ typename List<T>::iterator List<T>::insert(iterator itr, const T& val) {
 \end{minted}
 
 Notice that we are calling the following constructor of \texttt{iterator}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 iterator(Node* p);
 \end{minted}
 
 This is why we need to declare \texttt{List<T>} as friend of our iterator class (this constructor is in protected region).
 
 Move version of insert is similar, except for the use of \texttt{std::move()}. We'll simplify the above code in just one line:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // move version of insert()
 template <typename T>
 typename List<T>::iterator List<T>::insert(iterator itr, T&& val) {
@@ -978,29 +991,29 @@ typename List<T>::iterator List<T>::insert(iterator itr, T&& val) {
 }
 \end{minted}
 \subsection{\texttt{erase()}}
-\label{sec:orgc58653c}
+\label{sec:org4cddcc5}
 This function accepts an iterator. It will delete the node referenced by the iterator and return the iterator to the next node. Content referenced by \texttt{itr} will be reclaimed by \texttt{delete}. The size of the list will also update. The process of deleting a node in list is shown below.
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-delete-1.pdf}
-\captionof{figure}{\label{fig:orga9971e9}
+\includegraphics[width=350pt]{./img/List-delete-1.pdf}
+\captionof{figure}{\label{fig:orgf35be22}
 Delete a node in a list. Step 1: convenient renaming}
 \end{center}
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-delete-2.pdf}
-\captionof{figure}{\label{fig:org539d1ec}
+\includegraphics[width=350pt]{./img/List-delete-2.pdf}
+\captionof{figure}{\label{fig:orgbe5efee}
 Delete a node in a list. Step 2: reconnect node}
 \end{center}
 
 \begin{center}
-\includegraphics[width=350px]{./img/List-delete-3.pdf}
-\captionof{figure}{\label{fig:org436b2f0}
+\includegraphics[width=350pt]{./img/List-delete-3.pdf}
+\captionof{figure}{\label{fig:orgc50d265}
 Delete a node in a list. Step 3: delete node}
 \end{center}
 
 Also, pay attention that we want to return an iterator referencing the next node. So we want to keep copy of that first, and return at the end of the function. The code is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 typename List<T>::iterator List<T>::erase(iterator itr) {
   Node* p = itr.current;
@@ -1014,9 +1027,9 @@ typename List<T>::iterator List<T>::erase(iterator itr) {
 }
 \end{minted}
 \subsection{\texttt{erase()} [range based]}
-\label{sec:org23806f8}
+\label{sec:org19e357a}
 We'll call the \texttt{erase()} function we have just defined.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 typename List<T>::iterator List<T>::erase(iterator start, iterator end) {
   for (iterator itr = start; itr != end;)
@@ -1026,9 +1039,9 @@ typename List<T>::iterator List<T>::erase(iterator start, iterator end) {
 }
 \end{minted}
 \subsection{\texttt{init()}}
-\label{sec:orgdb52c76}
+\label{sec:org6cd8418}
 This function will initialize the data member of an empty \texttt{List} object. It will connect \texttt{head} and \texttt{tail} together.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void List<T>::init() {
   theSize = 0;
@@ -1039,12 +1052,12 @@ void List<T>::init() {
 }
 \end{minted}
 \subsection{Nonclass global functions}
-\label{sec:orgbbbbfbc}
+\label{sec:org92533c6}
 We also defined some global functions that related to \texttt{List} operations. Pay attention that they are not part of the \texttt{List} class. 
 \subsubsection{\texttt{operator==()}}
-\label{sec:org8804392}
+\label{sec:orge62c4a8}
 Two \texttt{List} object is said equal, if they have same number of elements and all the corresponding elements are the same.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 bool cop4530::operator==(const List<T>& lhs, const List<T>& rhs) {
   if (lhs.size() != rhs.size())
@@ -1060,18 +1073,18 @@ bool cop4530::operator==(const List<T>& lhs, const List<T>& rhs) {
 }
 \end{minted}
 \subsubsection{\texttt{operator!=()}}
-\label{sec:org581f4e7}
+\label{sec:orgc07734d}
 Call \texttt{operator==()} to finish the work.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 bool cop4530::operator!=(const List<T>& lhs, const List<T>& rhs) {
   return !(lhs == rhs);
 }
 \end{minted}
 \subsubsection{\texttt{operator<<()}}
-\label{sec:org0d13592}
+\label{sec:org0c08b59}
 If implemented globally, \texttt{operator<<()} may not acces the private member of \texttt{List}. I used to declare this function as friend of \texttt{List} inside the header of \texttt{List} class. But actually, you have defined a public interface \texttt{List<T>::print()}, so we can just call that function and pass the \texttt{std::ostream} object. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 std::ostream& cop4530::operator<<(std::ostream& os, const List<T>& l) {
   l.print(os);
@@ -1079,11 +1092,11 @@ std::ostream& cop4530::operator<<(std::ostream& os, const List<T>& l) {
 }
 \end{minted}
 \chapter{Stack}
-\label{sec:org1c98855}
+\label{sec:orge056c33}
 \section{General Idea}
-\label{sec:org4d1d85b}
+\label{sec:org429ab49}
 A stack is a data structure that can manage elements in a \textbf{Last-in-First-out} manner, or \textbf{LIFO}. Stacks are useful data structures for algorithms that work first with the last saved element of a series. For example, you have a program that looks like this:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 {
   {
     {
@@ -1102,12 +1115,12 @@ A stack is a data structure that can manage elements in a \textbf{Last-in-First-
 
 Stacks can be implemented as an adapter class --- it uses another container as underlying storage container, and we implement routines that support the \textbf{LIFO} behavior.
 \section{Simple Implementation}
-\label{sec:org065c174}
+\label{sec:orgab4c18d}
 In this section, I'll implement a stack template. The default underlying container is \texttt{std::deque}, but can be named other. The \texttt{Stack} class will be implemented in namespace cop4530.
 \subsection{Outline of \texttt{cop4530::Stack}}
-\label{sec:org2f36295}
+\label{sec:org7efe8e8}
 We declare the \texttt{Stack} class as follows:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container = std::deque<T>>
 class Stack {
 
@@ -1115,7 +1128,7 @@ class Stack {
 \end{minted}
 
 Notice how we declare the default type of container as \texttt{std::deque<T>}. The whole outline of \texttt{cop4530::Stack} is as follows. When we implement the member functions, we can use the corresponding functions of the underlying container. 
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #ifndef MY_STACK_H
 #define MY_STACK_H
 #include <deque>
@@ -1182,36 +1195,36 @@ namespace cop4530 {
 #endif
 \end{minted}
 \subsection{\texttt{Stack()} [zero]}
-\label{sec:org3c93043}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org6e2dcc0}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //use initialization list to call zero-parameter constructor of the internal Container 
 template <typename T, typename Container>
 Stack<T, Container>::Stack() : c() {}
 \end{minted}
 \subsection{\texttt{\textasciitilde{}Stack()}}
-\label{sec:orga3609a8}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orga69d901}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //do nothing; destructor of data member (the container c) will be called automatically
 template <typename T, typename Container>
 Stack<T, Container>::~Stack() {}
 \end{minted}
 \subsection{\texttt{Stack()} [copy]}
-\label{sec:orgeb36640}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgf5b10de}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //utilize copy constructor of the internal container
 template <typename T, typename Container>
 Stack<T, Container>::Stack(const Stack<T, Container>& rhs) : c{rhs.c} {}
 \end{minted}
 \subsection{\texttt{Stack()} [move]}
-\label{sec:org3b7fd29}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org73ad319}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // utilize move constructor of the internal container
 template <typename T, typename Container>
 Stack<T, Container>::Stack(Stack<T, Container>&& rhs) : c {std::move(rhs).c} {}
 \end{minted}
 \subsection{\texttt{operator=()} [copy]}
-\label{sec:org3463465}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orga7bbfbc}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 Stack<T, Container>& Stack<T, Container>::operator=(const Stack<T, Container>& rhs) {
   c = rhs.c; //apply copy assignment operator of the internal container
@@ -1219,46 +1232,46 @@ Stack<T, Container>& Stack<T, Container>::operator=(const Stack<T, Container>& r
 }
 \end{minted}
 \subsection{\texttt{operator=()} [move]}
-\label{sec:org25bb810}
+\label{sec:org3d9604e}
 template <typename T, typename Container>
 Stack<T, Container>\& Stack<T, Container>::operator=(Stack<T, Container>\&\& rhs) \{
   c = std::move(rhs).c;
   return *this;
 \}
 \subsection{\texttt{empty()}}
-\label{sec:orge8d37aa}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org71e51b7}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 bool Stack<T,Container>::empty() const {
   return c.empty();
 }
 \end{minted}
 \subsection{\texttt{clear()}}
-\label{sec:orgd02f210}
+\label{sec:org91209b2}
 template <typename T, typename Container>
 void Stack<T,Container>::clear() \{
   c.clear();
 \}
 \subsection{\texttt{push()}}
-\label{sec:org63f0843}
+\label{sec:org4f1222c}
 Copy version:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 void Stack<T,Container>::push(const T& x) {
   c.push_back(x);
 }
 \end{minted}
 \subsection{\texttt{pop()}}
-\label{sec:org813c397}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org22a1eb2}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 void Stack<T,Container>::pop() {
   c.pop_back();
 }
 \end{minted}
 \subsection{\texttt{top()}}
-\label{sec:org65331bd}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgb9d0a13}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //const version 
 template <typename T, typename Container>
 const T& Stack<T,Container>::top() const {
@@ -1266,24 +1279,24 @@ const T& Stack<T,Container>::top() const {
 }
 \end{minted}
 \subsection{\texttt{top()} reference version}
-\label{sec:org09a1bb2}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org0854c21}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 T& Stack<T,Container>::top() {
   return c.back();
 }
 \end{minted}
 \subsection{\texttt{size()}}
-\label{sec:org6a5ba27}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orga08ad61}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 int Stack<T,Container>::size() const {
   return c.size();
 }
 \end{minted}
 \subsection{\texttt{print()}}
-\label{sec:orgfcba48c}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org9386590}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 void Stack<T,Container>::print(std::ostream& os, char ofc) const {
   //check if the container is empty
@@ -1299,11 +1312,11 @@ void Stack<T,Container>::print(std::ostream& os, char ofc) const {
 }
 \end{minted}
 \subsection{Non-member Global functions}
-\label{sec:org1ba0669}
+\label{sec:org860d94f}
 For the following functions, we'll implement in different ways. \texttt{operator<<()} will not require access to \texttt{Stack}'s private/protected member, it only calls the \texttt{print()} routine from the \texttt{Stack} class. For other three operators (\texttt{==}, \texttt{!=} and \texttt{<=}), we declare them as friend of \texttt{Stack} class, so they can access private/protected members of \texttt{Stack} class. (it is also possible to define a public function in \texttt{Stack}, and call by these operators).
 \subsubsection{\texttt{operator<<()}}
-\label{sec:orgd45c8ce}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org3ab7f89}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 std::ostream& operator<<(std::ostream& os, const Stack<T,Container>& a) {
   a.print(os);
@@ -1311,9 +1324,9 @@ std::ostream& operator<<(std::ostream& os, const Stack<T,Container>& a) {
 }
 \end{minted}
 \subsubsection{\texttt{operator==()}}
-\label{sec:orgdef4a6c}
+\label{sec:org075481e}
 In header of \texttt{Stack}, we declare this function as the friend of \texttt{Stack}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename A, typename B>
 friend bool operator==(const Stack<A, B>& lhs, const Stack<A, B>& rhs);
 \end{minted}
@@ -1321,7 +1334,7 @@ friend bool operator==(const Stack<A, B>& lhs, const Stack<A, B>& rhs);
 Pay attention that, you are declaring a function template as the friend of \texttt{Stack}, so you must provide full description of the header of the function template.
 
 After this, we can implement the function template outside of \texttt{Stack} class:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 bool operator==(const Stack<T,Container>& lhs, const Stack<T,Container>& rhs) {
   //check size first
@@ -1337,24 +1350,24 @@ bool operator==(const Stack<T,Container>& lhs, const Stack<T,Container>& rhs) {
 }
 \end{minted}
 \subsubsection{\texttt{operator!=()}}
-\label{sec:org2b6852d}
+\label{sec:orgb289c37}
 We will call \texttt{operator==()} to finish the work.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 bool operator!=(const Stack<T,Container>& lhs, const Stack<T,Container>& rhs) {
   return !(lhs == rhs);
 }
 \end{minted}
 \subsubsection{\texttt{operator<=()}}
-\label{sec:org4afa985}
+\label{sec:orgc934748}
 Similarly, we declare this function template as friend of \texttt{Stack}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename A, typename B>
 friend bool operator<=(const Stack<A, B>& lhs, const Stack<A, B>& rhs);
 \end{minted}
 
 Then, we implement it outside of \texttt{Stack}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T, typename Container>
 bool operator<=(const Stack<T,Container>& lhs, const Stack<T,Container>& rhs) {
   //test if the size of lhs is larger than rhs, if so, return false
@@ -1373,18 +1386,18 @@ bool operator<=(const Stack<T,Container>& lhs, const Stack<T,Container>& rhs) {
 \end{minted}
 
 \chapter{Queue}
-\label{sec:org6327b06}
+\label{sec:org9e9b9da}
 \chapter{Tree}
-\label{sec:orgb47daf6}
+\label{sec:org37102a5}
 \section{Binary Search Tree}
-\label{sec:org5cd786c}
+\label{sec:orgd6c81b1}
 \subsection{General Idea}
-\label{sec:orgd0564e9}
+\label{sec:orga4e00f1}
 A binary search tree is a binary tree implemented with the following rule: a node's left child is no larger than the node; a node's right child is no smaller than the node; Under this rule, it is clear that the smallest node in binary search tree is the leftmost node, while the largest node is the rightmost node.
 \subsection{Simple Implementation}
-\label{sec:orgecb0a3a}
+\label{sec:org6cde362}
 In this section, a simple binary search tree template will be implemented. The header of the class would be:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 class BinarySearchTree {
 
@@ -1393,7 +1406,7 @@ class BinarySearchTree {
 \texttt{comparable} is the name of a class that supports comparison by \texttt{operator<()}. Since the building of binary search tree requires ordering of nodes.
 
 The header file of binary search tree class template is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #pragma once
 #include <iostream>
 
@@ -1460,9 +1473,9 @@ public:
 An object of \texttt{BinarySearchTree} class holds a private data member \texttt{root}, which is a pointer to \texttt{TreeNode} type, holds the address of the root of a binary tree. The implementation of \texttt{TreeNode} structure and other member functions are detailed below.
 
 \subsubsection{Tree node structure}
-\label{sec:org0f78c54}
+\label{sec:org808d683}
 A tree node contains three data members, one is \texttt{comparable} type and is used to hold the data of that node. The other two are pointer to tree node, which will be used to hold the address of the node's left and right child. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 struct BinaryNode {
   comparable element;//data stored in the node, and it is comparable (at least one comparable routine is defined for this type)
   BinaryNode* left;
@@ -1477,17 +1490,17 @@ struct BinaryNode {
 \end{minted}
 
 \subsubsection{\texttt{zero parameter constructor}}
-\label{sec:org12323dd}
+\label{sec:org6b8b31e}
 Just initialize \texttt{root} pointer as \texttt{nullptr}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>::BinarySearchTree() : root {nullptr} {}
 \end{minted}
 
 \subsubsection{\texttt{copy constructor}}
-\label{sec:org8da9a01}
+\label{sec:org80fc9bc}
 This constructor accepts another object of \texttt{BinarySearchTree} class. It will call an internal recursive routine \texttt{clone()} to finish copying and building. The details of the process is in \texttt{clone()} function. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>::BinarySearchTree(const BinarySearchTree& rhs) {
   root = clone(rhs.root);
@@ -1495,9 +1508,9 @@ BinarySearchTree<comparable>::BinarySearchTree(const BinarySearchTree& rhs) {
 \end{minted}
 
 \subsubsection{\texttt{move constructor}}
-\label{sec:org2bcc144}
-It is very simple to move, we just need to "bring" rhs's root to our root, and redirect \texttt{rhs.root} to \texttt{nullptr}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org0f52297}
+It is very simple to move, we just need to ``bring'' rhs's root to our root, and redirect \texttt{rhs.root} to \texttt{nullptr}. Code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>::BinarySearchTree(BinarySearchTree&& rhs) {
   root = rhs.root;
@@ -1506,9 +1519,9 @@ BinarySearchTree<comparable>::BinarySearchTree(BinarySearchTree&& rhs) {
 \end{minted}
 
 \subsubsection{\texttt{destructor}}
-\label{sec:orgf239813}
+\label{sec:org157d77b}
 Just call \texttt{makeEmpty()} routine, all memories will be recycled. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>::~BinarySearchTree() {
   makeEmpty();
@@ -1516,9 +1529,9 @@ BinarySearchTree<comparable>::~BinarySearchTree() {
 \end{minted}
 
 \subsubsection{\texttt{copy assignment operator}}
-\label{sec:org6e79723}
+\label{sec:orgd155ea9}
 We call \texttt{clone()} to do the copy and building work. Since this is assignment operator, don't forget return value. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>& BinarySearchTree<comparable>::operator=(const BinarySearchTree& rhs) {
   root = clone(rhs.root);
@@ -1527,9 +1540,9 @@ BinarySearchTree<comparable>& BinarySearchTree<comparable>::operator=(const Bina
 \end{minted}
 
 \subsubsection{\texttt{move assignment operator}}
-\label{sec:orgf715a9a}
+\label{sec:org65c71d2}
 Take \texttt{rhs}'s root directly. Remember the return. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 BinarySearchTree<comparable>& BinarySearchTree<comparable>::operator=(BinarySearchTree&& rhs) {
   root = rhs.root;
@@ -1539,9 +1552,9 @@ BinarySearchTree<comparable>& BinarySearchTree<comparable>::operator=(BinarySear
 \end{minted}
 
 \subsubsection{public \texttt{findMin()}}
-\label{sec:orgd68f251}
+\label{sec:org6ddf514}
 This function is in \texttt{public} domain. It will return the constant reference of the minimum node in the tree. Like many other public member functions, this function will call a private version of \texttt{findMin()} to actually finish the job. This is because of the recursive nature of the tree data structure, many functions will work recursively. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 const comparable& BinarySearchTree<comparable>findMin() const {
   return (findMin(root))->element;
@@ -1549,9 +1562,9 @@ const comparable& BinarySearchTree<comparable>findMin() const {
 \end{minted}
 
 \subsubsection{public \texttt{findMax()}}
-\label{sec:orgdddd89d}
+\label{sec:orga158aa8}
 Similar with \texttt{findMin()}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 const comparable& BinarySearchTree<comparable>::findMax() const {
   return (findMax(root))->element;
@@ -1559,9 +1572,9 @@ const comparable& BinarySearchTree<comparable>::findMax() const {
 \end{minted}
 
 \subsubsection{public \texttt{contains()}}
-\label{sec:org6da3ac3}
+\label{sec:orgc24b1c7}
 This function accepts a parameter \texttt{val} of type \texttt{comparable}. It will search the tree for the existence of \texttt{val}. It will call a private recursive version of \texttt{contains()}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool BinarySearchTree<comparable>::contains(const comparable& val) const {
   return contains(val, root);
@@ -1569,9 +1582,9 @@ bool BinarySearchTree<comparable>::contains(const comparable& val) const {
 \end{minted}
 
 \subsubsection{public \texttt{makeEmpty()}}
-\label{sec:orga833f89}
+\label{sec:org850faee}
 This function will clear all nodes (reclaim their memory) in the tree. It will call a private recursive version of \texttt{makeEmpty()}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::makeEmpty() {
   makeEmpty(root);
@@ -1579,9 +1592,9 @@ void BinarySearchTree<comparable>::makeEmpty() {
 \end{minted}
 
 \subsubsection{public \texttt{insert()}}
-\label{sec:orgfc991f1}
+\label{sec:orgdb79281}
 This function accepts a parameter \texttt{val} of type \texttt{comparable}. It will call a private recursive version of \texttt{insert()} to insert \texttt{val} into the tree (to the proper position where \texttt{val} should go). Code (copy version):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::insert(const comparable& val) {
   insert(val, root);
@@ -1589,9 +1602,9 @@ void BinarySearchTree<comparable>::insert(const comparable& val) {
 \end{minted}
 
 \subsubsection{public \texttt{remove()}}
-\label{sec:orgc19de53}
+\label{sec:org68e4978}
 This function accepts a parameter \texttt{val} of type \texttt{comparable}. It will call a private recursive version of \texttt{remove()} to remove \texttt{val} from the tree. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::remove(const comparable& val) {
   remove(val, root);
@@ -1599,9 +1612,9 @@ void BinarySearchTree<comparable>::remove(const comparable& val) {
 \end{minted}
 
 \subsubsection{public \texttt{isEmpty()}}
-\label{sec:orgc2900c3}
+\label{sec:org0c77c8c}
 This function will check if the tree is empty. The criteria is simple: if the root is \texttt{nullptr}, then the tree is empty. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool BinarySearchTree<comparable>::isEmpty() const {
   if (root == nullptr)
@@ -1612,9 +1625,9 @@ bool BinarySearchTree<comparable>::isEmpty() const {
 \end{minted}
 
 \subsubsection{public \texttt{printTree()}}
-\label{sec:orgdc15de1}
+\label{sec:org84fc3d4}
 This function accepts a \texttt{std::ostream} object \texttt{out}. It will call a private version of \texttt{printTree()} and pass this object into it, to print the tree in in-order (in ascending order). Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::printTree(std::ostream& out) const {
   printTree(root, out);
@@ -1622,7 +1635,7 @@ void BinarySearchTree<comparable>::printTree(std::ostream& out) const {
 \end{minted}
 
 \subsubsection{\texttt{insert()}}
-\label{sec:org5a23f9e}
+\label{sec:orge7221e2}
 The private recursive version of \texttt{insert()}. Implemented recursively. It accepts two parameters: a \texttt{comparable} type \texttt{val}, and a pointer to \texttt{TreeNode} type \texttt{t}. The function can insert the value into the subtree whose root is indicated by \texttt{t}. Its working steps are:
 \begin{itemize}
 \item check if \texttt{t} is pointing to \texttt{nullptr}, if so, this is the base case: an empty branch is found, and \texttt{val} should be inserted there;
@@ -1635,7 +1648,7 @@ The private recursive version of \texttt{insert()}. Implemented recursively. It 
 \end{itemize}
 
 Code (copy version):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::insert(const comparable& val, BinaryNode* & t) {  
   //base case1: t is pointing to nullptr
@@ -1658,7 +1671,7 @@ void BinarySearchTree<comparable>::insert(const comparable& val, BinaryNode* & t
 Notice that the passed in \texttt{TreeNode} pointer type is referenced type, this is because we will change the memory address stored in pointer itself when we allocate new chunk of memory and store the new tree node.
 
 \subsubsection{\texttt{remove()}}
-\label{sec:orgcba29f4}
+\label{sec:orga79c5d3}
 This is internal private version of \texttt{remove()}. It accepts two parameters: a \texttt{comparable} type \texttt{val}, a reference to pointer of \texttt{TreeNode} type (we need to change the address stored in pointer, so we need reference type pointer). This function works recursively. It will remove the node containing \texttt{val} in subtree whose root is pointed by \texttt{t}. When we remove a node from the tree, its children are disconnected from the tree (because this node connects them to the tree). We need to reconnect them to the tree. The details of reconnecting protocol is up to programmer's choice, here we'll introduce a simple way.
 \begin{itemize}
 \item there are four base cases
@@ -1676,7 +1689,7 @@ This is internal private version of \texttt{remove()}. It accepts two parameters
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::remove(const comparable& val, BinaryNode* & t) {
   //base case 1: t is pointing to nullptr, no match
@@ -1717,9 +1730,9 @@ void BinarySearchTree<comparable>::remove(const comparable& val, BinaryNode* & t
 \end{minted}
 
 \subsubsection{\texttt{findMin()}}
-\label{sec:orgeb46433}
+\label{sec:orgf21fea3}
 This function will return a pointer of \texttt{TreeNode} type which points to the left most leaf of the tree whose root is pointed by the passed in \texttt{TreeNode} pointer \texttt{t}. If \texttt{t == nullptr}, \texttt{nullptr} will be returned. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>::findMin(BinaryNode* t) const {
   if (t == nullptr)
@@ -1733,15 +1746,15 @@ typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>:
 \end{minted}
 
 Pay attention to the return type keyword:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 typename BinarySearchTree<comparable>::BinaryNode*
 \end{minted}
 If you are returning a nested class type, for example, in the above code you are returning a pointer to \texttt{BinaryNode}, which itself is a structure defined in \texttt{BinarySearchTree}, you have to add the keyword \texttt{typename} to indicate this is a type to be returned.
 
 \subsubsection{\texttt{findMax()}}
-\label{sec:org9c8bbd9}
+\label{sec:org6c33701}
 Similar with \texttt{findMin()}, this function will return a pointer to the right most node. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>::findMax(BinaryNode* t) const {
   if (t == nullptr)
@@ -1755,9 +1768,9 @@ typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>:
 \end{minted}
 
 \subsubsection{\texttt{contains()}}
-\label{sec:orgac20ff3}
+\label{sec:orga9f6b6f}
 Steps to find a specific node is similar with \texttt{remove()}. Code:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool BinarySearchTree<comparable>::contains(const comparable& val, BinaryNode* t) const {
   //base case: t == nullptr, no match found
@@ -1777,7 +1790,7 @@ bool BinarySearchTree<comparable>::contains(const comparable& val, BinaryNode* t
 \end{minted}
 
 \subsubsection{\texttt{makeEmpty()}}
-\label{sec:org598e249}
+\label{sec:org0236142}
 This function accepts a pointer of \texttt{TreeNode} type \texttt{t}. It will reclaim all memory used by this node and all its children. Working steps:
 \begin{itemize}
 \item check if base case reached (\texttt{t == nullptr}), if so, do nothing, return
@@ -1787,7 +1800,7 @@ This function accepts a pointer of \texttt{TreeNode} type \texttt{t}. It will re
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::makeEmpty(BinaryNode* & t) {
   //base case 
@@ -1803,9 +1816,9 @@ void BinarySearchTree<comparable>::makeEmpty(BinaryNode* & t) {
 \end{minted}
 
 \subsubsection{\texttt{printTree()}}
-\label{sec:org4692747}
+\label{sec:orga36c71a}
 The idea is similar with \texttt{makeEmpty()}, the only difference is in \texttt{printTree}, you are printing rather than deleting. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void BinarySearchTree<comparable>::printTree(BinaryNode* t, std::ostream& out) const {
   //base case 
@@ -1820,9 +1833,9 @@ void BinarySearchTree<comparable>::printTree(BinaryNode* t, std::ostream& out) c
 \end{minted}
 
 \subsubsection{\texttt{clone()}}
-\label{sec:org407dd6a}
+\label{sec:org31862ef}
 This function accepts a pointer to \texttt{TreeNode} type \texttt{t}. It will return a pointer to a newly constructed \texttt{TreeNode}, whose element is the same as \texttt{t->element}, left child is the same as \texttt{t->left}, right child is the same as \texttt{t->right}. It works in a recursive way. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>::clone(BinaryNode* t) const {
   /** pay attention that what you clone is a BinaryNode! **/
   //base case 
@@ -1837,7 +1850,7 @@ typename BinarySearchTree<comparable>::BinaryNode* BinarySearchTree<comparable>:
 Pay attention that, the returned pointer is constructed by the address generated by the \texttt{new} operation (allocating new memory spaces).
 
 \subsection{Problem with Simple Binary Search Tree}
-\label{sec:orgc11adaa}
+\label{sec:org9bde72f}
 The binary search tree can only guarantee \(O(\log{N})\) complexity when the tree is nearly \textbf{BALANCED}, which means for any node in the binary search tree, the number of nodes in its left subtree is roughly the same as its right subtree. However, this may not be the case during practical uses of this simple binary search tree. Consider two cases:
 \begin{enumerate}
 \item We insert an ordered array into the tree by calling \texttt{insert()} repeatedly for all the elements in array in order. We'll create a linked list rather than a binary tree. If its in ascending order, only right subtree will be used; If its in descending order, only left subtree will be used. Many operations will be \(O(N)\) complexity.
@@ -1847,18 +1860,18 @@ The binary search tree can only guarantee \(O(\log{N})\) complexity when the tre
 In both cases, we may face increased time complexity. Thus, we want to come up with ways to build \textbf{balanced} binary search tree.
 
 \section{AVL Tree}
-\label{sec:org1d98b6b}
+\label{sec:org55f5f7a}
 \subsection{General Idea}
-\label{sec:orgc9d84f7}
+\label{sec:org35bc09b}
 An AVL tree is identical to a binary search tree, except that for every node in the tree, the height of the left and right subtrees can differ by most 1 (the height of an empty tree is defined to be -1).
 
 Let \(S(h)\) be the minimum number of nodes that an AVL tree of height \(h\) needs. Then we have: \(S(h) = S(h - 1) + S(h - 2) + 1\), where \(S(h - 1)\) is the number of nodes of the higher child of \texttt{root}, \(S(h - 2)\) is the number of nodes of the lower child of \texttt{root}, 1 corresponds to one layer from child to \texttt{root}.
 \subsection{AVL-property Loss and Fix}
-\label{sec:org50377d9}
+\label{sec:orge6b7ec6}
 In this section, we'll talk about the cause of AVL-property loss and ways to fix it. Both insertion and deletion operation can violate AVL-property, since they can bring height change to the tree. We'll analyze them one by one.
 \subsubsection{Insertion caused unbalance and fix}
-\label{sec:org5f0b20e}
-In Figure \ref{fig:orgec590ce}, before insertion, N's left and right subtree's height was already differred by 1 (dashed line indicates possible insertion site). After a node is inserted into one of its subtree (LL, LR, RL, RR), the height of N's left and right subtree is now differred by two, AVL property lost for node N. There are four possible cases:
+\label{sec:org70b7661}
+In Figure \ref{fig:org96450ae}, before insertion, N's left and right subtree's height was already differred by 1 (dashed line indicates possible insertion site). After a node is inserted into one of its subtree (LL, LR, RL, RR), the height of N's left and right subtree is now differred by two, AVL property lost for node N. There are four possible cases:
 \begin{enumerate}
 \item Insert into \texttt{N->left->left} (insert into LL)
 \item Insert into \texttt{N->left->right} (insert into LR)
@@ -1868,22 +1881,22 @@ In Figure \ref{fig:orgec590ce}, before insertion, N's left and right subtree's h
 
 
 \begin{center}
-\includegraphics[width=200px]{./img/AVL-illustration.pdf}
-\captionof{figure}[Figure]{\label{fig:orgec590ce}
+\includegraphics[width=200pt]{./img/AVL-illustration.pdf}
+\captionof{figure}[Figure]{\label{fig:org96450ae}
 AVL tree illustration}
 \end{center}
 
-Case 1 and case 4 are illustrated in a greater detail in Figure \ref{fig:org6e6e208}. Case 2 and case 3 are illustrated in a greater detail in Figure \ref{fig:org6644503}.
+Case 1 and case 4 are illustrated in a greater detail in Figure \ref{fig:orgc165b0f}. Case 2 and case 3 are illustrated in a greater detail in Figure \ref{fig:orgaed53a5}.
 
 \begin{center}
-\includegraphics[width=500px]{./img/AVL-LL-RR-insertion.pdf}
-\captionof{figure}[Figure]{\label{fig:org6e6e208}
+\includegraphics[width=500pt]{./img/AVL-LL-RR-insertion.pdf}
+\captionof{figure}[Figure]{\label{fig:orgc165b0f}
 Left-left insertion and right-right insertion}
 \end{center}
 
 \begin{center}
-\includegraphics[width=500px]{./img/AVL-LR-RL-insertion.pdf}
-\captionof{figure}[Figure]{\label{fig:org6644503}
+\includegraphics[width=500pt]{./img/AVL-LR-RL-insertion.pdf}
+\captionof{figure}[Figure]{\label{fig:orgaed53a5}
 Left-right insertion and right-left insertion}
 \end{center}
 
@@ -1895,16 +1908,16 @@ To fix AVL-property loss by LL-insertion and RR-insertion, we can perform a sing
 \item to fix RR-insertion, we rotate node \texttt{N} with its right child. In this process, \texttt{N} will become \texttt{N->right}'s left child, while \texttt{N->right}'s left child will become \texttt{N}'s right child.
 \end{itemize}
 
-The process is illustrated in Figure \ref{fig:orgc8cd2a1}. The letters in node represents the original position of the node.
+The process is illustrated in Figure \ref{fig:org8237354}. The letters in node represents the original position of the node.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=500px]{./img/AVL-LL-RR-insertion-fix.pdf}
-\caption[Figure]{\label{fig:orgc8cd2a1}
+\includegraphics[width=500pt]{./img/AVL-LL-RR-insertion-fix.pdf}
+\caption[Figure]{\label{fig:org8237354}
 Single rotation to fix AVL-property loss caused by Left-left insertion and right-right insertion}
 \end{figure}
 
-From Figure \ref{fig:orgc8cd2a1}, we can see that single rotation can modify the height of node \texttt{LL} or \texttt{RR}, no matter \texttt{A} or \texttt{B} is inserted.
+From Figure \ref{fig:org8237354}, we can see that single rotation can modify the height of node \texttt{LL} or \texttt{RR}, no matter \texttt{A} or \texttt{B} is inserted.
 
 
 To fix AVL-property loss by LR-insertion and RL-insertion, we have to perform two rotations. Specifically:
@@ -1921,28 +1934,28 @@ To fix AVL-property loss by LR-insertion and RL-insertion, we have to perform tw
 \end{itemize}
 \end{itemize}
 
-The process to fix LR-insertion is illustrated in Figure \ref{fig:org5a0b9d0}. The process to fix RL-insertion is illustrated in Figure \ref{fig:org9eef5b9}.
+The process to fix LR-insertion is illustrated in Figure \ref{fig:org933a468}. The process to fix RL-insertion is illustrated in Figure \ref{fig:org6fc9e78}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=400px]{./img/AVL-LR-insertion-fix.pdf}
-\caption[Figure]{\label{fig:org5a0b9d0}
+\includegraphics[width=400pt]{./img/AVL-LR-insertion-fix.pdf}
+\caption[Figure]{\label{fig:org933a468}
 Double rotation to fix AVL-property loss caused by Left-right insertion}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=400px]{./img/AVL-RL-insertion-fix.pdf}
-\caption[Figure]{\label{fig:org9eef5b9}
+\includegraphics[width=400pt]{./img/AVL-RL-insertion-fix.pdf}
+\caption[Figure]{\label{fig:org6fc9e78}
 Double rotation to fix AVL-property loss caused by Right-left insertion}
 \end{figure}
 \subsubsection{Deletion caused unbalance and fix}
-\label{sec:org8db6689}
-There are four cases of AVL-property loss by deletion. They are shown in Figure \ref{fig:org46b88fb}. The dashed node E indicates where deletion occured. Node E represent the only child of its parent node (doesn't matter if its left or right child). After deleting, its parent's height will be reduced by 1.
+\label{sec:org9ec0299}
+There are four cases of AVL-property loss by deletion. They are shown in Figure \ref{fig:orgacd8cf6}. The dashed node E indicates where deletion occured. Node E represent the only child of its parent node (doesn't matter if its left or right child). After deleting, its parent's height will be reduced by 1.
 
 \begin{center}
-\includegraphics[width=350px]{./img/AVL-deletion.pdf}
-\captionof{figure}{\label{fig:org46b88fb}
+\includegraphics[width=350pt]{./img/AVL-deletion.pdf}
+\captionof{figure}{\label{fig:orgacd8cf6}
 AVL-property loss by deletion}
 \end{center}
 
@@ -1966,36 +1979,36 @@ Case 4: \texttt{height(N->right) > height(N->left) + 1}
 
 Take a closer look, case 1 is similar with LL-insertion case, because they both can be solved with a single rotation of \texttt{N} with \texttt{N->left}. This is because, a single rotation of \texttt{N} with \texttt{N->left} can lower node \texttt{R} one layer, so the height difference between \texttt{R} and bottom nodes will reduced from 2 to 1. Although it can also rise node \texttt{LL} one layer, it will not violate AVL-property since \texttt{height(LL) == height(LR)} before single rotation. After the single rotation, \texttt{heigh(LL)} and \texttt{height(LR)} differ by 1, which is within the requirement. However, this may not be the case when \texttt{height(LL) < height(LR)} initially. Because single rotation will cause \texttt{height(LL) < height(LR) + 1}. This is actually case 2, which is similar with LR-insertion case. They both can be solved with a double rotation: first rotate \texttt{L} with \texttt{L->right}, then rotate \texttt{N} with \texttt{N->left}. The double rotation will rise the height of both node \texttt{C} and \texttt{D}, and will lower the heigh of \texttt{R} by 1 (first single rotation: rise \texttt{D}, lower \texttt{LL}; second single rotation: rise \texttt{LL} and \texttt{C}, lower \texttt{R}).
 
-Using same argument, case 3 is similar with RR-insertion case, and can be fixed by a single rotation of \texttt{N} with \texttt{N->right}. Case 4 is similar with RL-insertion, and can be fixed by a double rotation: first rotate \texttt{R} with \texttt{R->left}, then rotate \texttt{N} with \texttt{N->right}. The fixing for case 2 is the same shown in Figure \ref{fig:org5a0b9d0}. The fixing for case 4 is the same shown in Figure \ref{fig:org9eef5b9}. The fixing for case 1 and case 3 is similar with \ref{fig:orgc8cd2a1}, they are drawn one more time in Figure \ref{fig:orgd03971b} and Figure \ref{fig:org0f7593e}.
+Using same argument, case 3 is similar with RR-insertion case, and can be fixed by a single rotation of \texttt{N} with \texttt{N->right}. Case 4 is similar with RL-insertion, and can be fixed by a double rotation: first rotate \texttt{R} with \texttt{R->left}, then rotate \texttt{N} with \texttt{N->right}. The fixing for case 2 is the same shown in Figure \ref{fig:org933a468}. The fixing for case 4 is the same shown in Figure \ref{fig:org6fc9e78}. The fixing for case 1 and case 3 is similar with \ref{fig:org8237354}, they are drawn one more time in Figure \ref{fig:org002b49e} and Figure \ref{fig:orga178778}.
 
 \begin{center}
-\includegraphics[width=400px]{./img/AVL-deletion-LL-fix.pdf}
-\captionof{figure}{\label{fig:orgd03971b}
+\includegraphics[width=400pt]{./img/AVL-deletion-LL-fix.pdf}
+\captionof{figure}{\label{fig:org002b49e}
 Balancing AVL tree. When left subtree is too high and its two branches have same height}
 \end{center}
 
 \begin{center}
-\includegraphics[width=400px]{./img/AVL-deletion-RR-fix.pdf}
-\captionof{figure}{\label{fig:org0f7593e}
+\includegraphics[width=400pt]{./img/AVL-deletion-RR-fix.pdf}
+\captionof{figure}{\label{fig:orga178778}
 Balancing AVL tree. When right subtree is too high and its two branches have same height}
 \end{center}
 \subsubsection{Summary}
-\label{sec:org16abe5c}
+\label{sec:org98b547e}
 From the above analyze, we can see that, if we want to restore the balance for a node \texttt{N}, we first check which side is \textbf{TOO} high (which means the height difference is larger than 1). Then we check if the \textbf{inner} branch of this side is higher than the \textbf{outter} branch, if so, we use double rotation to fix (only double rotation can fix the issue caused by higher inner branch), otherwise, we use single rotation (single rotation is enough to fix issue caused by higher outter branch).
 
 \subsection{Simple Implementation (recursive)}
-\label{sec:org737dc02}
+\label{sec:orgce988fb}
 In this section, a simple implementation of AVL tree is discussed. It uses recursive algorithm. Unlike ordinary binary search tree, we have to store extra information in each tree node, which is the height of the node.
 
 \subsubsection{header}
-\label{sec:orgdb9b292}
+\label{sec:orge0d095f}
 We define a nested structure \texttt{AvlNode} inside the \texttt{AVLTree} class. The data member of \texttt{AVLTree} class is just a pointer to \texttt{AvlNode} type, which will be used to hold the root of the AVL tree. We also define a static constant integer variable to indicate the maximum allowed imbalance:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 static const int ALLOWED_IMBALANCE = 1;
 \end{minted}
 
 Similar with binary tree, we'll use recursive function to implement the AVL tree. It may have slower performance, but is easier to read and understand. What is unique about AVL tree is that we keep it balanced, which is done by the following routines:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 void balance(AvlNode* &t); //internal balance routine
 void rotateWithLeftChild(AvlNode* &t);
 void rotateWithRightChild(AvlNode* &t);
@@ -2004,7 +2017,7 @@ void doubleWithRightChild(AvlNode* &t);
 \end{minted}
 
 We'll discuss each later. The code for the whole header file is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #pragma once
 #include <iostream>
 #include <algorithm>
@@ -2078,9 +2091,9 @@ public:
 \end{minted}
 
 \subsubsection{AVL node structure}
-\label{sec:orgf111e9d}
+\label{sec:org4fd27b1}
 The node of AVL tree uses a variable to hold the height information of the node. During construction, the default height is 0, the constructor accepts an integer to pass it to the height member, setting the height during construction. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 struct AvlNode {
   comparable element;//data stored in the node, and it is comparable (at least one comparable routine is defined for this type)
   AvlNode* left;
@@ -2095,25 +2108,25 @@ struct AvlNode {
 };
 \end{minted}
 \subsubsection{\texttt{zero parameter constructor}}
-\label{sec:orge8bd780}
+\label{sec:orgc02b40a}
 \texttt{root} will be initialized to \texttt{nullptr}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 AVLTree<comparable>::AVLTree() : root {nullptr} {}
 \end{minted}
 \subsubsection{\texttt{copy constructor}}
-\label{sec:org13ee83c}
+\label{sec:org6eaf9f0}
 \texttt{clone()} routine will be used, similar with binary search tree. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 AVLTree<comparable>::AVLTree(const AVLTree& rhs) {
   root = clone(rhs.root);
 }
 \end{minted}
 \subsubsection{\texttt{move constructor}}
-\label{sec:orgc9b48d8}
+\label{sec:org72400a7}
 Same as binary search tree, code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 AVLTree<comparable>::AVLTree(AVLTree&& rhs) {
   root = rhs.root;
@@ -2121,27 +2134,27 @@ AVLTree<comparable>::AVLTree(AVLTree&& rhs) {
 }
 \end{minted}
 \subsubsection{\texttt{destructor}}
-\label{sec:org7fca1d4}
+\label{sec:orgc6fad5f}
 Same as binary search tree, code:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 AVLTree<comparable>::~AVLTree() {
   makeEmpty();
 }
 \end{minted}
 \subsubsection{\texttt{copy assignment operator}}
-\label{sec:org52cf2fb}
+\label{sec:org14bc0f6}
 Same as binary search tree, code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 AVLTree<comparable>& AVLTree<comparable>::operator=(const AVLTree& rhs) {
   root = clone(rhs.root);
   return *this;
 }
 \end{minted}
 \subsubsection{\texttt{move assignment operator}}
-\label{sec:orgd71e1db}
+\label{sec:org39d672b}
 Same as binary search tree, code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 AVLTree<comparable>& AVLTree<comparable>::operator=(AVLTree&& rhs) {
   root = rhs.root;
@@ -2150,59 +2163,59 @@ AVLTree<comparable>& AVLTree<comparable>::operator=(AVLTree&& rhs) {
 }
 \end{minted}
 \subsubsection{public \texttt{findMin()}}
-\label{sec:org58f7e18}
+\label{sec:org23cf28e}
 Same as binary search tree, code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 const comparable& AVLTree<comparable>::findMin() const {
   return (findMin(root))->element;
 }
 \end{minted}
 \subsubsection{public \texttt{findMax()}}
-\label{sec:org81016f2}
+\label{sec:org38ca6a4}
 Same as binary search tree, code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 const comparable& AVLTree<comparable>::findMax() const {
   return (findMax(root))->element;
 }
 \end{minted}
 \subsubsection{public \texttt{contains()}}
-\label{sec:org6e1fd01}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgbfcb98d}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool AVLTree<comparable>::contains(const comparable& val) const {
   return contains(val, root);
 }
 \end{minted}
 \subsubsection{public \texttt{makeEmpty()}}
-\label{sec:orgf6fe61e}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgcf45433}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::makeEmpty() {
   makeEmpty(root);
 }
 \end{minted}
 \subsubsection{public \texttt{insert()}}
-\label{sec:orga6e1800}
+\label{sec:orgf41d0c2}
 Copy version:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::insert(const comparable& val) {
   insert(val, root);
 }
 \end{minted}
 \subsubsection{public \texttt{remove()}}
-\label{sec:org80b99ed}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org103d783}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::remove(const comparable& val) {
   remove(val, root);
 }
 \end{minted}
 \subsubsection{public \texttt{isEmpty()}}
-\label{sec:org9d72a76}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgf723b97}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool AVLTree<comparable>::isEmpty() const {
   if (root == nullptr)
@@ -2212,15 +2225,15 @@ bool AVLTree<comparable>::isEmpty() const {
 }
 \end{minted}
 \subsubsection{public \texttt{printTree()}}
-\label{sec:org813484b}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orga9e7e11}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::printTree(std::ostream& out) const {
   printTree(root, out);
 }
 \end{minted}
 \subsubsection{\texttt{insert()}}
-\label{sec:org5a64759}
+\label{sec:org3fa24a5}
 This function accepts a pointer to \texttt{AvlNode} type \texttt{t} and a \texttt{AvlNode} type variable \texttt{val}. It will try to insert \texttt{val} into subtree started with \texttt{t}. The inserting process is the same as binary search tree. After inserting, \texttt{balance()} will be called to:
 \begin{enumerate}
 \item check if balance of \texttt{t} is violated
@@ -2229,7 +2242,7 @@ This function accepts a pointer to \texttt{AvlNode} type \texttt{t} and a \textt
 \end{enumerate}
 
 Code (copy version):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::insert(const comparable& val, AvlNode* & t) {  
   //base case1: t is pointing to nullptr
@@ -2248,9 +2261,9 @@ void AVLTree<comparable>::insert(const comparable& val, AvlNode* & t) {
 }
 \end{minted}
 \subsubsection{\texttt{remove()}}
-\label{sec:org126dca5}
+\label{sec:orgea98de3}
 Similar with \texttt{insert()}, \texttt{balance(t)} will be called after removing the node (which may cause potential height change). Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::remove(const comparable& val, AvlNode* & t) {
   //base case 1: t is pointing to nullptr, no match
@@ -2292,8 +2305,8 @@ void AVLTree<comparable>::remove(const comparable& val, AvlNode* & t) {
 }
 \end{minted}
 \subsubsection{\texttt{findMin()}}
-\label{sec:orgc9b41af}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgdb72e37}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::findMin(AvlNode* t) const {
   if (t == nullptr)
@@ -2306,8 +2319,8 @@ typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::findMin(AvlNode* t) 
 }
 \end{minted}
 \subsubsection{\texttt{findMax()}}
-\label{sec:orgd555630}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org02be89c}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::findMax(AvlNode* t) const {
   if (t == nullptr)
@@ -2320,8 +2333,8 @@ typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::findMax(AvlNode* t) 
 }
 \end{minted}
 \subsubsection{\texttt{contains()}}
-\label{sec:org8a59429}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org5620db0}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 bool AVLTree<comparable>::contains(const comparable& val, AvlNode* t) const {
   //base case: t == nullptr, no match found
@@ -2340,8 +2353,8 @@ bool AVLTree<comparable>::contains(const comparable& val, AvlNode* t) const {
 }
 \end{minted}
 \subsubsection{\texttt{makeEmpty()}}
-\label{sec:orgad266c4}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org1066456}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::makeEmpty(AvlNode* & t) {
   //base case 
@@ -2356,8 +2369,8 @@ void AVLTree<comparable>::makeEmpty(AvlNode* & t) {
 }
 \end{minted}
 \subsubsection{\texttt{printTree()}}
-\label{sec:org206b1c6}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgdb1c5ec}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::printTree(AvlNode* t, std::ostream& out) const {
   //base case 
@@ -2371,8 +2384,8 @@ void AVLTree<comparable>::printTree(AvlNode* t, std::ostream& out) const {
 }
 \end{minted}
 \subsubsection{\texttt{clone()}}
-\label{sec:org22f960e}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org2aee1cd}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::clone(AvlNode* t) const {
   /** pay attention that what you clone is an AvlNode! **/
@@ -2385,10 +2398,10 @@ typename AVLTree<comparable>::AvlNode* AVLTree<comparable>::clone(AvlNode* t) co
 }
 \end{minted}
 \subsubsection{\texttt{rotateWithLeftChild()}}
-\label{sec:org9b88680}
-This function accepts a pointer to \texttt{AvlNode} type: \texttt{t}, and the AVL property of \texttt{*t} is violated. It will fix it by performing rotation of \texttt{t} with \texttt{t->left}. The process is illustrated in Figure \ref{fig:orgc8cd2a1}. Pay attention that, besides rotating, you have to also update the height of each altered node, i.e. \texttt{t} and \texttt{t->left}. Then you reconnect \texttt{t->left} back to tree. \texttt{std::max()} is used to return the larger height of a node. And the node's height is obtained by calling \texttt{height()} routine.
+\label{sec:orga353f6e}
+This function accepts a pointer to \texttt{AvlNode} type: \texttt{t}, and the AVL property of \texttt{*t} is violated. It will fix it by performing rotation of \texttt{t} with \texttt{t->left}. The process is illustrated in Figure \ref{fig:org8237354}. Pay attention that, besides rotating, you have to also update the height of each altered node, i.e. \texttt{t} and \texttt{t->left}. Then you reconnect \texttt{t->left} back to tree. \texttt{std::max()} is used to return the larger height of a node. And the node's height is obtained by calling \texttt{height()} routine.
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::rotateWithLeftChild(AvlNode* &t) {
   // rotate
@@ -2405,9 +2418,9 @@ void AVLTree<comparable>::rotateWithLeftChild(AvlNode* &t) {
 }
 \end{minted}
 \subsubsection{\texttt{rotateWithRightChild()}}
-\label{sec:orgc1de62b}
+\label{sec:orgd0d404d}
 This is similar with \texttt{rotateWithLeftChild()}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::rotateWithRightChild(AvlNode* &t) {
   AvlNode* temp = t->right;
@@ -2423,9 +2436,9 @@ void AVLTree<comparable>::rotateWithRightChild(AvlNode* &t) {
 }
 \end{minted}
 \subsubsection{\texttt{doubleWithLeftChild()}}
-\label{sec:orgf344199}
-This function will perform a double rotation. The process is illustrated in \ref{fig:org5a0b9d0}. Notice that you can call single rotation routine to rotate (height change is also taken care of by single rotation routine). Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:org6075a56}
+This function will perform a double rotation. The process is illustrated in \ref{fig:org933a468}. Notice that you can call single rotation routine to rotate (height change is also taken care of by single rotation routine). Code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::doubleWithLeftChild(AvlNode* &t) {
   rotateWithRightChild(t->left);
@@ -2433,9 +2446,9 @@ void AVLTree<comparable>::doubleWithLeftChild(AvlNode* &t) {
 }
 \end{minted}
 \subsubsection{\texttt{doubleWithRightChild()}}
-\label{sec:orgc2d093f}
-This function will perform a double rotation. The process is illustrated in \ref{fig:org9eef5b9}. Notice that you can call single rotation routine to rotate (height change is also taken care of by single rotation routine). Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\label{sec:orgbd01de2}
+This function will perform a double rotation. The process is illustrated in \ref{fig:org6fc9e78}. Notice that you can call single rotation routine to rotate (height change is also taken care of by single rotation routine). Code:
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::doubleWithRightChild(AvlNode* &t) {
   rotateWithLeftChild(t->right);
@@ -2443,9 +2456,9 @@ void AVLTree<comparable>::doubleWithRightChild(AvlNode* &t) {
 }
 \end{minted}
 \subsubsection{\texttt{balance()}}
-\label{sec:org21ca51c}
+\label{sec:org6a88c44}
 This function accepts a pointer to \texttt{AvlNode} type: \texttt{t}. It will first check if the AVL property is violated, if so, it will try to fix it using the four rotation routines. The algorithm is based on previous analysis. Pay attention that you sould update the height of the current node.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 void AVLTree<comparable>::balance(AvlNode* &t) {
   //check nullptr
@@ -2472,9 +2485,9 @@ void AVLTree<comparable>::balance(AvlNode* &t) {
 }
 \end{minted}
 \subsubsection{\texttt{height()}}
-\label{sec:orge69b0d6}
+\label{sec:org206fd90}
 By default, the height of an empty AVL tree is -1. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename comparable>
 int AVLTree<comparable>::height(AvlNode* t) const {
   return t == nullptr ? -1 : t->height;
@@ -2482,36 +2495,36 @@ int AVLTree<comparable>::height(AvlNode* t) const {
 \end{minted}
 
 \section{Red Black Tree}
-\label{sec:orgdf5d7d6}
+\label{sec:orgce3dfc5}
 \subsection{General Idea}
-\label{sec:org07c3af6}
+\label{sec:org9f753fa}
 \chapter{Hash Table}
-\label{sec:orgf62326e}
+\label{sec:org454023a}
 Hash table ADT is a way of organizing data. It only allows a subset of operations of binary search tree. However, Hash table has higher efficiency on these supported operations than binary search tree. For example, Hash table can perform insertion, deletion and find in \textbf{CONSTANT} average time.
 
 One point should be made clear that, Hash table does not support operation that requires ordering information.
 \section{General Idea}
-\label{sec:orga153ded}
+\label{sec:orgcc49382}
 \subsection{Key}
-\label{sec:org33856f9}
+\label{sec:org6d235ef}
 
 A key is part of the data item that is used to perform searching by some methods. We search the \textbf{key} and find the match item, then we declare that we have found the item.
 \subsection{Vector/Array}
-\label{sec:orgeeb8e56}
+\label{sec:org17c009f}
 
 The ideal Hash table data structure is merely an array (which has a fixed size) containing our data items. Imagine we have a bunch of data items to be put into an array. In order to achieve constant time access, we may think design a certain rule of how to put items into the array. This rule can be a mapping from a specific key to the actual index in that array. We can define some part of our data item as the \textbf{KEY} to be used to get the index through the mapping. So, for each data item, we can find out where we should put it in the array. And we can also find out the existence of a specific data item by using the corresponding key in constant time.
 
-Basically, hash table is an array that manages the position of data items by their key, rather than their sequence of inserting into the array. Figure \ref{fig:org2fe9e3e} shows the comparison between array storage and hash table storage.
+Basically, hash table is an array that manages the position of data items by their key, rather than their sequence of inserting into the array. Figure \ref{fig:orgd23e753} shows the comparison between array storage and hash table storage.
 
 \begin{center}
-\includegraphics[width=200px]{./img/Hash-hashtable-illustration.pdf}
-\captionof{figure}{\label{fig:org2fe9e3e}
+\includegraphics[width=200pt]{./img/Hash-hashtable-illustration.pdf}
+\captionof{figure}{\label{fig:orgd23e753}
 Comparison between array storage and hash table storage}
 \end{center}
 
 
 \section{Hash Function}
-\label{sec:org64d86c5}
+\label{sec:org244f4d6}
 
 The mapping we mentioned above is called a hash function. Ideally, a hash function should:
 \begin{enumerate}
@@ -2532,9 +2545,9 @@ If the input keys are not integer, our strategy contains two steps:
 In practice, the function that fullfills step 1 is called hash function. The second step is trival.
 
 \subsection{Hash Function Object}
-\label{sec:orgf760231}
+\label{sec:orgf37d24f}
 We have to design the details of how hash function convert a non-integer data type into integer value. For example, to convert a string object to integer value. We can just directly write a function that accepts \texttt{std::string} and returns \texttt{size\_t}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 size_t hash(const std::string& key) {
   size_t hashVal = 0;
   for (char ch:key)
@@ -2544,7 +2557,7 @@ size_t hash(const std::string& key) {
 \end{minted}
 
 To do this job in a more generic way, we can define a hash function object. A function object (also called a functor) is a class object with \texttt{operator()} defined. This operator is called function call operator, which can make the object be used like a function. For example:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 class Add {
 public:
   int operator()(int a, int b) {
@@ -2554,13 +2567,13 @@ public:
 \end{minted}
 
 In the above code, we defined a class named \texttt{Add}. It has only one public member function \texttt{operator()}, which accepts two integer parameters \texttt{a} and \texttt{b}. It will return the result of \texttt{a + b}. To use it, we can:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 Add addition; // declare an object
 std::cout << "1 + 1 is: " << addition(1, 1); // operator() is called
 \end{minted}
 
 We can also write a template:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class T>
 class Add {
 public:
@@ -2571,13 +2584,13 @@ public:
 \end{minted}
 
 To use it:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 Add addition<int>; // declare an object
 std::cout << "1 + 1 is: " << addition(1, 1); // operator() is called
 \end{minted}
 
 You can also write a \textbf{specialization} of the template for a spefic type. For example:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // for generic type T
 template <class T>
 class Add {
@@ -2600,7 +2613,7 @@ public:
 This is called template specialization. You write the implementation of the class using one specific type. Pay attention that, if all the template typename is designated, it will be implemented during compile.
 
 Back to our hash function object. We can first declare an empty template and write template specialization for different types of key we want to convert to integer. For example, in the following code, hash function for \texttt{std::string} and \texttt{double} are defined.
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #pragma once
 #include <string>
 //an empty function object template
@@ -2640,13 +2653,13 @@ public:
 The above code is wrapped in a header file (this header file is considered to store the hash function). When using hash table, we may want to use it to hold user-defined data type, like an object of user-defined class. It is your duty to provide usable hash function specialization that can convert the user-defined class into integer value. Generally, this specialization of hash function should be inside the declaration file of the class that is going to be put into hash table (so as long as you included the class, you can use it in hash table container). The keyword of the name of hash function is just that: \texttt{hash()}.
 
 For example, suppose I have a class named \texttt{Employee}. It has following private data member:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 std::string name;
 double salary;
 \end{minted}
 
 Now I want to use \texttt{name} as the key to generate the hash-value of an employee object. So I have to put following template specialization of hash function into the header file of \texttt{Employee} class (employee.h):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template<>
 class hash<Employee> {
 public:
@@ -2663,17 +2676,17 @@ The keyword \texttt{static} is just tell computer that only one copy of the \tex
 
 
 \subsection{Hash Function in C++ STL}
-\label{sec:orgef50188}
+\label{sec:org05d53ea}
 
 Designing a good hash function is usually very hard in practical, and is usually done by mathematicians working in related field. In C++ STL, we have predefined hash function for primitive types as well as types predefined in C++ STL (like \texttt{std::string}). To use it, you have to:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #include <functional>
 \end{minted}
 
 Hash function for \texttt{std::string} object is defined in \texttt{<string>} header file. Pay attention that you still need to write the specific version of hash function that accepts your own user-defined class (by giving a template specialization in the user-defined class).
 
 Using the same example in the previous section, the following code shows how to implement the hash function specialization for \texttt{Employee} class using C++ STL provided hash function instead:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #include <string> // enable C++ STL hash function for string
 template<>
 class hash<Employee> {
@@ -2686,7 +2699,7 @@ public:
 \end{minted}
 
 \section{Collision Management}
-\label{sec:org66cea72}
+\label{sec:orgb1e302b}
 Collision happens when inserting an element, it hashes to the same value as a previously inserted element. The probability of collision increases as the hash table gets full. There are various ways to manage collision, in this section following will be introduced briefly:
 \begin{itemize}
 \item separate chaining
@@ -2699,7 +2712,7 @@ Collision happens when inserting an element, it hashes to the same value as a pr
 \end{itemize}
 
 \subsection{Separate chaining}
-\label{sec:org9645c43}
+\label{sec:org549d1fd}
 
 This strategy will keep a doubly-linked list (\texttt{std::list}) of all elements that hash to the same value. The hash table array will not store data element directly, it keeps track of a doubly linked list of data element in the array instead. If collision happens, data element hashes to the same index value will be pushed into the list. Actually, any containers can be used beside linked list, for example: binary tree, another hash table.
 
@@ -2712,8 +2725,8 @@ so, load factor is also the average length of the linked list. A successful sear
 To reduce the chance of collision, we want to keep \(\lambda\) low. When \(\lambda \approx 1\), we may want to resize the hash table. When copying old items into new array, we have to use hash function to re-calculate the appropriate index for each of the item. This process is called rehash.
 
 \subsection{Probing}
-\label{sec:orgd7e9df2}
-In this strategy, if an element is hased to a slot that is already occupied, we try alternative slots until an empty cell is found. The operation of trying to find an empty alternative slot is called probing. So, how to calculate these "alternative" index value if the first hashed value is already occupied?
+\label{sec:org84681a4}
+In this strategy, if an element is hased to a slot that is already occupied, we try alternative slots until an empty cell is found. The operation of trying to find an empty alternative slot is called probing. So, how to calculate these ``alternative'' index value if the first hashed value is already occupied?
 
 We list the alternative indexes as:
 \[
@@ -2728,11 +2741,11 @@ with \(f(0) = 0\).
 The function \(f(i)\) is called the collision resolution strategy. A hash table doesn't use separate chaining requires a larger table than those use. Generally, \(\lambda\) should be kept below 0.5.
 
 \subsubsection{Linear probing}
-\label{sec:org8a72cad}
+\label{sec:org6004f57}
 Linear probing is to use linear function of \(i\), typically \(f(i) = i\). Basically, if one spot is occupied, we move to the adjacent spot. Repeat this process until we find an empty spot. As long as the table is big enough, an empty spot can clways be found. However, the time to do so cen get quite large (for both insertion and searching). Another issue is blocks of occupied slots start forming quickly, which is known as primary clustering. 
 
 \subsubsection{Quadritic probing}
-\label{sec:org2141d4f}
+\label{sec:org9cd057e}
 Quadritic probing is to use quadratic function of \(i\), typically \(f(i) = i^2\). If the table size is prime number, there is no guarantee of finding an empty cell once the table gets more than half full. This is because at most half of the table can be used as alternative location to resolve collisions for objects that hash to same index value in the begining (\(h_o(x)\)). Formally, we have the following theorem:
 
 \textbf{THEOREM}
@@ -2778,7 +2791,7 @@ Similarly, \(h_{i + 2}(x) = h_{i - 2}(x)\), if \(i = \lfloor \frac {N} {2} \rflo
 For an arbitrarily \(hash(x)\) value, the first \(\lceil \frac {N} {2} \rceil\) alternative locations are distinct. If a hash table has less than \(\lceil \frac {N} {2} \rceil\) positions occupied, an empty spot can always be found for any item inserted.
 
 \subsection{Double hashing}
-\label{sec:org943c933}
+\label{sec:orgfbf23d9}
 In this strategy, when an collision occurs, we use another hash function to probe:
 \[
 h_i(x) = [hash(x) + f(i)] \bmod \text{tableSize}
@@ -2794,12 +2807,12 @@ hash_2(x) = R - (x \bmod R)
 \]
 where \(R\) is a prime number smaller than tableSize.
 \section{Simple Implementation}
-\label{sec:orgfba7865}
+\label{sec:org161009d}
 \subsection{Separate Chaining}
-\label{sec:orgc27c3e0}
+\label{sec:org2eb3503}
 We'll implement a hash table class template in this section. It uses separate chaining strategy to manage collisions. It requires the object stored in it can provide a specialization of \texttt{hash()} function, so it can use it to generate index value. Take employee class as an example.
 
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #pragma once
 #include <iostream>
 #include <string> // for hash<std::string>
@@ -2856,7 +2869,7 @@ Notice that we have provided the \texttt{hash()} function specialization in the 
 
 
 The header for our hash table class is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 #pragma once
 #include <vector>
 #include <list>
@@ -2890,9 +2903,9 @@ private:
 Notice that we have declared a vector of list as our container for the hash table. The implementation is given below.
 
 \subsubsection{\texttt{Constructor}}
-\label{sec:orgafb4459}
+\label{sec:org948fda0}
 It accepts an integer value, will build up a vector of that size, and initialize each entry an empty list (by calling the default constructor of list).
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 HashTable<HashedObj>::HashTable(int size) {
   for (int i = 0; i < size; ++i)
@@ -2903,14 +2916,14 @@ HashTable<HashedObj>::HashTable(int size) {
 \end{minted}
 
 \subsubsection{\texttt{contains()}}
-\label{sec:org183306f}
+\label{sec:org92aa78c}
 this function tries to find if there is an element \texttt{x} stored in hash table. We do it in following ways:
 \begin{itemize}
 \item call \texttt{myhash(x)} to find out the index of \texttt{x}
 \item navigate the vector of lists to locate the list that should contain \texttt{x}, if \texttt{x} was inserted
 \item use \texttt{std::find()} to check if \texttt{x} exist in that list
 \end{itemize}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::contains(const HashedObj& x) const {
   auto& whichList = theLists[myhash(x)]; // whichList is reference to list!
@@ -2919,14 +2932,14 @@ bool HashTable<HashedObj>::contains(const HashedObj& x) const {
 \end{minted}
 
 \subsubsection{\texttt{makeEmpty()}}
-\label{sec:orgb562a2d}
+\label{sec:org7287433}
 This function will clear all lists stored in the vector of lists, and also reset the \texttt{currentSize} to 0.
 \begin{itemize}
 \item use a ranged for loop to traverse each list stored in theLists.
 \item use \texttt{std::list::clear()} to clear each list
 \item reset \texttt{currentSize}
 \end{itemize}
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 void HashTable<HashedObj>::makeEmpty() {
   for (auto& thisList : theLists)
@@ -2937,7 +2950,7 @@ void HashTable<HashedObj>::makeEmpty() {
 \end{minted}
 
 \subsubsection{\texttt{insert()}}
-\label{sec:orgce9feea}
+\label{sec:orgd0ef3c5}
 This function will insert an element \texttt{x} into the list. Steps are as follows:
 \begin{itemize}
 \item call \texttt{myhash(x)} to find out the index of \texttt{x}
@@ -2957,7 +2970,7 @@ This function will insert an element \texttt{x} into the list. Steps are as foll
 \end{itemize}
 
 The code is as follows (copy version):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::insert(const HashedObj& x) {
   auto& whichList = theLists[myhash(x)];
@@ -2978,7 +2991,7 @@ bool HashTable<HashedObj>::insert(const HashedObj& x) {
 \end{minted}
 
 \subsubsection{\texttt{remove()}}
-\label{sec:org95569d6}
+\label{sec:org1f75400}
 This function will remove an element \texttt{x} in the list. Steps are as follows:
 \begin{itemize}
 \item call \texttt{myhash(x)} to find out the index of \texttt{x}
@@ -2997,7 +3010,7 @@ This function will remove an element \texttt{x} in the list. Steps are as follow
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::remove(const HashedObj& x) {
   auto& whichList = theLists[myhash(x)];
@@ -3015,9 +3028,9 @@ bool HashTable<HashedObj>::remove(const HashedObj& x) {
 \end{minted}
 
 \subsubsection{\texttt{myhash()}}
-\label{sec:org6ef6475}
+\label{sec:orgffbeb74}
 This function accepts an element \texttt{x}, and will return the hashed index value for the input \texttt{x}. It requires a proper specialization of \texttt{hash()} defined for \texttt{x}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 size_t HashTable<HashedObj>::myhash(const HashedObj& x) const {
   static hash<HashedObj> hf;
@@ -3026,7 +3039,7 @@ size_t HashTable<HashedObj>::myhash(const HashedObj& x) const {
 \end{minted}
 
 \subsubsection{\texttt{rehash()}}
-\label{sec:orgb5da04a}
+\label{sec:org173b479}
 When the load factor \(\approx 1\), we should increase the hash table size to avoid performance reduction of the hash table (i.e. multiple collisions happen). The steps are as follows:
 \begin{itemize}
 \item declare a temporary vector of list (\texttt{temp}) to hold the current array (copy)
@@ -3036,7 +3049,7 @@ When the load factor \(\approx 1\), we should increase the hash table size to av
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 void HashTable<HashedObj>::rehash() {
   // create copy of old lists
@@ -3054,11 +3067,11 @@ void HashTable<HashedObj>::rehash() {
 \end{minted}
 
 \subsection{Quadratic Probing}
-\label{sec:org4a219d0}
+\label{sec:orgaa1815f}
 In this section, a hash table with quadratic probing collision management strategy will be implemented. Similar with the separate chaining example, we'll implement this hash table to hold generic type \texttt{HashedObj}, which is required to provide the specialization of \texttt{hash()} function.
 
 The public interface is:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 explicit HashTable(int size = 101);
 bool contains(const HashedObj& x) const;
 void makeEmpty();
@@ -3069,7 +3082,7 @@ enum EntryType {ACTIVE, EMPTY, DELETED};
 \end{minted}
 
 Notice that, an enumerated data type named \texttt{EntryType} has been declared (in header file of this hash table class). This will be used to indicate the status of a certain slot in hash table array. Why we need this? In probing strategy, we probe the slot to find available empty slot. We need the slot of the array hold not only \texttt{HashedObj}, but also information on this slot: is it empty? is it actively storing a \texttt{HashedObj}? or is it deleted (so we can insert new \texttt{HashedObj} to it). This demand prompts us to use an object to wrap our \texttt{HashedObj} and variable that can indicate the various states of where this object stored, and we insert this object into the slot of the hash table array. The detail of the object is shown below:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 struct HashEntry {
   HashedObj element; //hold the hashed object
   EntryType info; //hold the current status of the item
@@ -3082,7 +3095,7 @@ struct HashEntry {
 This declaration of structure named \texttt{HashEntry} is in private section of the hash table class. Notice that we have declared a variable named \texttt{info}, whose type is the enumerated type we have just defined: \texttt{EntryType}. The object of this struct will be stored in the entry of hash table array.
 
 Now let's take a look at the private member of our hash table class:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // member 
 std::vector<HashEntry> array;
 int currentSize;
@@ -3098,9 +3111,9 @@ Notice that the type of the hash table array is a vector of \texttt{HashEntry} t
 Let's take a look at the implementation.
 
 \subsubsection{\texttt{constructor}}
-\label{sec:org7030530}
+\label{sec:orgd61c538}
 The constructor accepts an integer value, which will be used to declare the underlying vector. Also, \texttt{currentSize} should be initialized to zero. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 HashTable<HashedObj>::HashTable(int size) : array(size) {
   currentSize = 0;
@@ -3108,7 +3121,7 @@ HashTable<HashedObj>::HashTable(int size) : array(size) {
 \end{minted}
 
 \subsubsection{\texttt{contains()}}
-\label{sec:org7578533}
+\label{sec:orgfe03f4e}
 This function accepts a \texttt{HashedObj} type parameter \texttt{x}, its working steps are as follows:
 \begin{itemize}
 \item call \texttt{findPos(x)} to get the index of \texttt{x}
@@ -3116,7 +3129,7 @@ This function accepts a \texttt{HashedObj} type parameter \texttt{x}, its workin
 \end{itemize}
 
 The index value returned by \texttt{findPos(x)} is the \textbf{SHOULD} index of \texttt{x} in the current array. If \texttt{x} is in the array, this index should be its index, however the status may not be \texttt{ACTIVE} (so we need to call \texttt{isActive} to determine). If \texttt{x} is not in the array, this index should be where it is inserted (if you are inserting \texttt{x}), so the status should be either \texttt{DELETED} or \texttt{EMPTY}. By checking the status of \texttt{array[index]}, we know whether \texttt{x} is in the hash table or not. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::contains(const HashedObj& x) const {
   return isActive(findPos(x));
@@ -3124,9 +3137,9 @@ bool HashTable<HashedObj>::contains(const HashedObj& x) const {
 \end{minted}
 
 \subsubsection{\texttt{makeEmpty()}}
-\label{sec:org5c75eb6}
+\label{sec:org6e0733e}
 This function will empty the entire hash table array. We use lazy deletion to achieve this task (we are using enumerated type to label the status of each slot, so changing the status to do lazy deletion is very intuitive). All we have to do is to reset \texttt{currentSize} and modify the status label of each slot to \texttt{EMPTY}. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 void HashTable<HashedObj>::makeEmpty() {
   currentSize = 0;
@@ -3136,7 +3149,7 @@ void HashTable<HashedObj>::makeEmpty() {
 \end{minted}
 
 \subsubsection{\texttt{insert()}}
-\label{sec:orgf1c5e33}
+\label{sec:org1045e3a}
 This function accepts a \texttt{HashedObj} type parameter \texttt{x}. It will insert \texttt{x} into the hash table. Working steps:
 \begin{itemize}
 \item call \texttt{findPos(x)} to find out the \textbf{SHOULD} index of \texttt{x}
@@ -3150,7 +3163,7 @@ This function accepts a \texttt{HashedObj} type parameter \texttt{x}. It will in
 \end{itemize}
 
 Code (copy version):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::insert(const HashedObj& x) {
   int currentPos = findPos(x);
@@ -3169,7 +3182,7 @@ bool HashTable<HashedObj>::insert(const HashedObj& x) {
 \end{minted}
 
 \subsubsection{\texttt{remove()}}
-\label{sec:orge435aa3}
+\label{sec:org0e5f1c5}
 This function search and removes the entry that is equal to passed in parameter \texttt{x}. Working steps:
 \begin{itemize}
 \item call \texttt{findPos(x)} to find out the \textbf{SHOULD} index of \texttt{x}
@@ -3182,7 +3195,7 @@ This function search and removes the entry that is equal to passed in parameter 
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::remove(const HashedObj& x) {
   int currentPos = findPos(x);
@@ -3195,9 +3208,9 @@ bool HashTable<HashedObj>::remove(const HashedObj& x) {
 \end{minted}
 
 \subsubsection{\texttt{isActive()}}
-\label{sec:org4dfaea3}
+\label{sec:orge52fd77}
 This function accepts an integer type \texttt{currentPos}, which is the index to check. If the status is \texttt{ACTIVE}, return true, otherwise, return false. Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 bool HashTable<HashedObj>::isActive(int currentPos) const {
   return array[currentPos].info == ACTIVE;
@@ -3205,7 +3218,7 @@ bool HashTable<HashedObj>::isActive(int currentPos) const {
 \end{minted}
 
 \subsubsection{\texttt{findPos()}}
-\label{sec:org144941d}
+\label{sec:orgd9e6b74}
 This is one of the most important function in our hash table class. It accepts a \texttt{HashedObj} type parameter \texttt{x}, and will return the \textbf{SHOULD} index of \texttt{x}. As mentioned above, this index is where \texttt{x} ashould be in the current hash table. If \texttt{x} is currently in the hash table, then this index is where it stored (the status may be \texttt{ACTIVE} or \texttt{DELETED}, though). If \texttt{x} is not in the hash table, then this index is where it should be inserted (i.e. this is the first non-ACTIVE slot of the series of available slots for \texttt{x}).
 
 The working steps are as follows:
@@ -3224,7 +3237,7 @@ We store \texttt{myhash(x) \% array.size()} to \texttt{currentPos}.
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 int HashTable<HashedObj>::findPos(const HashedObj& x) const {
   int stepSize = 0;
@@ -3241,7 +3254,7 @@ int HashTable<HashedObj>::findPos(const HashedObj& x) const {
 \end{minted}
 
 \subsubsection{\texttt{rehash()}}
-\label{sec:org2380cfd}
+\label{sec:org72697be}
 Similar with \texttt{rehash()} in separate chaining structure, we need to keep the old array first, then we expand the size of the current array. Then we insert back elements into the new array. One thing should be made clear is that, we only have to insert those \texttt{ACTIVE} elements back to the new array.
 
 Working steps:
@@ -3252,7 +3265,7 @@ Working steps:
 \end{itemize}
 
 Code:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename HashedObj>
 void HashTable<HashedObj>::rehash() {
   auto temp = array;
@@ -3267,9 +3280,9 @@ void HashTable<HashedObj>::rehash() {
 \end{minted}
 
 \chapter{Priority Queue}
-\label{sec:orgf679c59}
+\label{sec:org7add06b}
 \section{General Idea}
-\label{sec:org01b1011}
+\label{sec:org232e946}
 A priority queue is a special kind of queue. Elements in priority queue is weighted---they have an attribute to be used to determine the sequence they leave the queue. In this section, we assume the smallest element leaves the queue first.
 
 A priority queue is a data structure that allows at least the following two operations:
@@ -3285,10 +3298,10 @@ There are various ways to implement a priority queue. For example, we can implem
 
 However, this is not the ideal way because we may add complexity to the problem. It seems like some kind of overkill: we not only satisfy the requirement of prority queue, we also end up with a totally ordered data structure. In certain circumstances, we really only need the minimum. Keeping all other information seems like a waste of resources.
 \section{Simple Implementation}
-\label{sec:org18ad1f2}
+\label{sec:org178665c}
 Let's see a simple implementation of priority queue. We'll use a tree structure to implement the priority queue. Since binary search tree is overkill, we can implement a partially ordered binary search tree to achieve our goal, this is also called a binary \textbf{heap}.
 \subsection{Structure Property}
-\label{sec:org79b3450}
+\label{sec:orge319acf}
 
 A heap is a binary tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right, such a tree is known as a \textbf{complete binary tree}.
 
@@ -3311,11 +3324,11 @@ It can be shown that a complete binary tree can be represented by an array (with
 
 Now, we define the \textbf{partial order} of the complete binary tree. This \textbf{partial order} allows operations of priority queue to be performed quickly (its also called \textbf{heap-order-property}). Since we want to be able to find the minimum quickly, it makes sense that the smallest element should be at the root. If we consider that any subtree should also be a heap, then any node should be smaller than \textbf{ALL} of its descendants. Apply this logic, we arrive at the heap-order property: in a heap, for every node X, the key in the parent of X is smaller than (or equal to) the key in X, with the exception of root. This property suggests the minimum element can always be found at the root. Thus, \texttt{findMin} can operate in constant time.
 \subsection{Binary Heap Class}
-\label{sec:org087a421}
+\label{sec:orgeba8baa}
 
 Based on the above discussion, we can use an array to keep our heap. \texttt{std::vector} is a good choice. In our heap class, we also want to use an integer to keep track of the number of elements in heap: \texttt{currentSize}. Also, we'll use \texttt{array[1]} as the slot to hold the root of the heap (so \texttt{array[currentSize]} is the last element in the heap).
 \subsection{\texttt{insert()}}
-\label{sec:org5b180b9}
+\label{sec:orgfd4d477}
 
 Pay attention to following things:
 \begin{itemize}
@@ -3329,7 +3342,7 @@ Pay attention to following things:
 \end{itemize}
 \end{itemize}
 Code for \texttt{insert()} routine:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class T>
 void BinaryHeap<T>::insert(const T& x) {
   if (array.size() == currentSize + 1) {
@@ -3346,14 +3359,14 @@ void BinaryHeap<T>::insert(const T& x) {
 }
 \end{minted}
 \subsection{\texttt{deleteMin()}}
-\label{sec:org3a19483}
+\label{sec:orgc393808}
 
 The advantage of a heap is it can access it's smallest element at constant time, because it is stored at the root position (or the first item in the underlying array). On the other hand, heap is a complete binary tree, which means any addition or deletion should occur at the leftmost slot of the bottom layer (i.e. the last element in the underlying array).
 
 To delete the smallest item, we remove the element stored in hole and use \texttt{array[currentSize]} to fill into the hole. This operation will very likely violate the heap order, since preciously root holds the smallest element in the heap, now an element in bottom layer (which is larger than at least half of the heap) is placed into root. So, we have to re-build heap property.
 
 To re-build heap property, we use a routine \texttt{percolateDown()}. It accepts the position of a hole, and try to move it down to where it fits (i.e. to where the element in that hole satisfies heap order). This routine will be introduced in the following section. The code for \texttt{deleteMin()} is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 bool BinaryHeap<T>::deleteMin() {
   //check if the heap is empty 
   if (isEmpty())
@@ -3370,10 +3383,10 @@ bool BinaryHeap<T>::deleteMin() {
 \end{minted}
 
 \subsection{\texttt{percolateDown()}}
-\label{sec:org97b85f5}
+\label{sec:org546e6e1}
 
 The header of \texttt{percolateDown()} is as follows:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void BinaryHeap<T>::percolateDown(int hole)
 \end{minted}
@@ -3387,19 +3400,19 @@ It accepts an integer identifying the position of a hole (index of this hole in 
 \end{itemize}
 
 First, we define a child index:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 int child;
 \end{minted}
 
 Then, we keep the value of element stored in the hole:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 T tmp = std::move(array[hole]);
 \end{minted}
 
 We use a for loop to percolate down. We compare the value of \texttt{tmp}  with the value of its smaller child. If \texttt{tmp} is larger, we move it downward one layer, and lift the corresponding child up one layer. It is like you move the hole downward one layer. If \texttt{tmp} is smaller, then the current hole is the right spot to place \texttt{tmp} in, so we break the loop and place \texttt{tmp} to this spot.
 
 The code for this function is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void BinaryHeap<T>::percolateDown(int hole) {
   int child;
@@ -3426,9 +3439,9 @@ void BinaryHeap<T>::percolateDown(int hole) {
 \end{minted}
 
 \subsection{\texttt{buildHeap()}}
-\label{sec:org6fdb8e9}
+\label{sec:org5a8014d}
 \subsubsection{Analysis and Implementation}
-\label{sec:orgf888faf}
+\label{sec:org2e679c0}
 Imagine we have an input array of size \(N\). The arrangment of elements in this array is random. Now we want to build up heap order in this array, i.e. we want to rearrange the elements in this array so that they have heap property --- a complete binary tree that is represented by array, and each parent is smaller than its children (if it has any).
 
 In this section, a method with \(O(N)\) complexity will be introduced. First, we load the input array into our internal array. Assume the height of the heap is \(h\). Start from \((h - 1)\) layer (because node in \(h\) layer does not have any child), for each node in the heap that has at least one child, we try to percolate it down. We do this until the final node: the root. Then the whole array is built with heap order.
@@ -3460,7 +3473,7 @@ If \(N\) is even, \(\lceil \frac {N - 1} {2} \rceil = \frac {N} {2}\). If \(N\) 
 If we place the root in \texttt{array[1]}, then \texttt{N/2} is the index of the last node in heap that has at least one child, which needs percolateDown.
 
 The implementation is simple:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <typename T>
 void BinaryHeap<T>::buildHeap() {
   for (int i = currentSize / 2; i > 0; --i)
@@ -3468,7 +3481,7 @@ void BinaryHeap<T>::buildHeap() {
 }
 \end{minted}
 \subsubsection{Complexity Analysis}
-\label{sec:org16f2008}
+\label{sec:orgc296c09}
 
 The time complexity of \texttt{buildHeap()} can be bound by calculating the following terms:
 \begin{itemize}
@@ -3510,7 +3523,7 @@ Notice the relation between \(N\) and \(h\): \(N = 2^{h + 1} - 1\), so the time 
 O(N)
 \]
 \subsubsection{Build Heap by \texttt{insert()}}
-\label{sec:org90fb5e4}
+\label{sec:orgbb4b2f9}
 Another way to build heap is to traverse the input array, for each element encountered, we call \texttt{insert()} routine to insert it into our heap. From the implementation of \texttt{insert()} we know that, each inserted element will be percolated up to its proper position. Intuitively, this method has a higher time complexity than the percolate down method we just introduced. Let's call this \texttt{insert()} method as B, the percolating down method as A. We know:
 \begin{itemize}
 \item For A, all the nodes at \(h - 1\) level only need to percolate down \textbf{ONE} layer
@@ -3557,16 +3570,16 @@ The number of percolating in B is: \((N + 1)\log{N + 1} - 2N = O(N\log{N})\).
 
 Thus, building heap by calling \texttt{insert()} repeatedly has a much higher time complexity than the percolating down method.
 \part{Sorting}
-\label{sec:org87b7d0d}
+\label{sec:org9cf303b}
 \chapter{Bubble Sort}
-\label{sec:org86b728e}
+\label{sec:orge21ded5}
 \section{General Idea}
-\label{sec:org162df6f}
+\label{sec:org771581b}
 Bubble sort is a sorting algorithm that compares adjacent elements in the array. At each iteration of bubble sort, we compare the consecutive adjacent element. If they are out-of-order, we swap them to give order to the two adjacent elements, and label this iteration has \textbf{swapped}. Do this for all elements in the array. If one iteration has \textbf{swapped}, we do another. If we run through the array and no swapping happend, we know that the array is in order.
 \section{Implementation}
-\label{sec:org3f0f888}
+\label{sec:org932e17f}
 The code is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::bubbleSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   //define a variable to hold swapping information
@@ -3588,12 +3601,12 @@ void Sort::bubbleSort(RandomAccessIterator first, RandomAccessIterator last, Com
 Pay attention that the function object \texttt{comp} may not define cases that two elements are equal. You have to manually consider this situation, otherwise, you may run into an infinite loop, since two elements equal will be considered \textbf{NOT} in order, and swap them won't change this fact, so the loop will not stop.
 
 \chapter{Insertion Sort}
-\label{sec:orgad8b67d}
+\label{sec:org979e9d9}
 \section{General Idea}
-\label{sec:orgdd1fff0}
+\label{sec:orgd8b66fd}
 Given a random array with \(N\) elements, insertion sort will build a sorted sub-array at the front of the array by continuosly insert elements from the rest of the array into this ordered sub-array. Assume we're at \(p\)th iteration of insertion sort, then the subarray from \texttt{array[0]} to \texttt{array[p - 1]} are sorted, and we insert \texttt{array[p]} into the proper position in the ordered subarray, resulting an ordered subarray from \texttt{array[0]} to \texttt{array[p]}. We repeat this process until we traverse the array and have them sorted.
 \section{Implementation}
-\label{sec:org3601dc4}
+\label{sec:orgf6c5b77}
 Assume we are sorting an array in the range defined by two iterators: \texttt{[first, last)}. We'll take a look at \(p\)th iteration to determine how we insert. Assume we have an iterator \texttt{p} that is pointing to the element to be inserted. We use another iterator \texttt{i} to record its proper position (initially, \texttt{i = p}). We compare \texttt{*i} and \texttt{*(i - 1)} repeatedly (\texttt{i > first}). Two possible cases:
 \begin{itemize}
 \item \texttt{*(i - 1)} and \texttt{*i} are in order: we have found the proper position
@@ -3605,7 +3618,7 @@ After the above loop, we can accomplish the job of inserting \texttt{*p} into th
 We repeat this operation to all elements from element at \texttt{first + 1} to \texttt{last - 1}.
 
 The code is as follows (a function object is used to define order):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::insertionSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   for (RandomAccessIterator p = first + 1; p < last; ++p) {
@@ -3619,12 +3632,12 @@ void Sort::insertionSort(RandomAccessIterator first, RandomAccessIterator last, 
 }
 \end{minted}
 \section{Lower Bound}
-\label{sec:orgd84e87c}
+\label{sec:orgd3bd63b}
 It can be proved that all sorting algorithms that just swapping adjacent elements has a lower bound of \(\Omega(N^2)\). This is true for both bubble sort and insertion sort.
 \chapter{Shell Sort}
-\label{sec:org69342ff}
+\label{sec:org563f73b}
 \section{General Idea}
-\label{sec:org476bd8a}
+\label{sec:org2250ada}
 Shell sort tries to break the \(\Omega(N^2)\) (the quadratic time barrier) by comparing and swapping elements that are distant from each other. How distant? Shell sort uses a sequence: \(h_1, h_2, ..., h_t\) to represent the distance between two elements being compared. \(h_1\) is always equal to 1 and it is the last increment step the Shell sort will use. This means at the end, Shell sort will still sort adjacent elements. However, at that time, many inversions have been solved by previous sorting with increment step = \(h_2, h_3, ..., h_t\).
 
 Basically, Shell sort works in this way.
@@ -3635,31 +3648,31 @@ a_i, a_{i + h_t}, a_{i + 2h_t}, ...
 \end{equation*}
 The index goes to where \(i + kh_t\) is within the range. Apparently, \(i = 0, 1, 2, ..., h_t - 1\). For every \(i\), we sort the corresponding subarray (using insertion sort, for example. Just treat it like ordinary adjacent array). After we have sorted the subarray for all possible \(i\), the array is said to be \(h_t\)-sorted. Elements separated by \(h_t\) is in order. We repeat this process until we finish \(h_1\) sort, then the array is sorted. An important property of Shell sort is that if an \(h_k\)-sorted array goes through \(h_{k - 1}\)-sort (i.e. it is \(h_{k - 1}\)-sorted), it will remain \(h_k\)-sorted.
 \section{Implementation}
-\label{sec:orga666197}
+\label{sec:org8e311fd}
 The choice of increment sequence can greatly influence the performance of Shell sort. In this section, Shell's original increment sequence will be used to illustrate the implementation of Shell sort. Shell's increment sequence is:
 \[
 h_t = \frac {\text {size}} {2}, h_{t - 1} = \frac {\text{size}} {4}, ..., h_1 = 1
 \]
 
 We are going to implement a Shell sort routine which has three parameters. Two iterators that give range of the array to sort: \texttt{[first, last)}. One function object that with \texttt{operator()} defined to give order to two elements in the array: \texttt{comp}. The header of the routine is as follows:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::shellSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 \end{minted}
-We'll use insertion sort to sort each subarray, just treat each \(h_k\) apart element as "adjacent". We'll use a for loop to go over all \(h_k\) to sort the array:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+We'll use insertion sort to sort each subarray, just treat each \(h_k\) apart element as ``adjacent''. We'll use a for loop to go over all \(h_k\) to sort the array:
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 for (int h = (last - first) / 2; h > 0; h /= 2)
 \end{minted}
 
 For each iteration \(h_k\), we start at \texttt{*(first + h)} element (or \texttt{array[h]}). This is the second element from subarray \texttt{array[0], array[0 + h], array[0 + 2h], ...}. This is because the first element in the subarray is naturally sorted (only one element present), so we start with its second element and try to insert it into the ordered array. (Also pay attention that, \texttt{array[0], array[1], ..., array[h - 1]} are the first element in each subarray).
 
 To sort all the subarrays, rather than sort one subarray at a time, we can just sort all subarrays simultaneously. Specifically, after we deal with \texttt{array[h]}, we move to the next element, \texttt{array[h + 1]}, which is the second element from subarray \texttt{array[1], array[1 + h], array[1 + 2h], ...}. We insert this element into the corresponding ordered section of its subarray. Then we move on to \texttt{array[h + 2]}, and etc, all the way to the last element of the range. We use a for loop to do this:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 for (auto p = first + h; p != last; ++p)
 \end{minted}
 
 Notice that \texttt{p} is an iterator. For each element to be sorted in this for loop (for each \texttt{*p}), we perform an insertion operation:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 // keep value of *p
 auto temp = std::move(*p);
 // define an iterator to hold where *p should go
@@ -3672,7 +3685,7 @@ for (; j >= first + h && !comp(*(j - h), temp); j -= h)
 \end{minted}
 
 In this way, we have sorted the array by Shell sort algorithm. The combined code is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::shellSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
 
@@ -3691,7 +3704,7 @@ void Sort::shellSort(RandomAccessIterator first, RandomAccessIterator last, Comp
 }
 \end{minted}
 \section{Worst-Case (Shell's increment sequence)}
-\label{sec:org6b12c58}
+\label{sec:org5ba733a}
 \textbf{Proof} the upper bound of Shell sort using Shell's increment sequence is \(O(N^2)\).
 
 We proof this by the following steps:
@@ -3743,7 +3756,7 @@ O(N^2\sum_{i = 1}^{t} \frac {1} {h_i}) \sim O(N^2)
 
 The problem with Shell's original increment is that pairs of increments (\(h_k, h_{k + 1}\)) are not necessarily relatively prime: they may have common factor. One smaller increment may be the factor of previously larger increment, so it is spending time to sort elements already sorted by the larger increment (notice that checking if elements are sorted also takes time). This causes the smaller increment can have little effect in sorting array.
 \section{Hibbard's increment sequence}
-\label{sec:org96e55c5}
+\label{sec:org0c0b32c}
 In the following discussion, we'll assume sorting the array in ascending order.
 
 Hibbard's increment sequence is as follows:
@@ -3823,14 +3836,14 @@ Thus, we need at most \(j = 8h_k + 4\) steps to insert an unsorted element into 
 
 Is this bound suitable for all passes from \(h_t\) to \(h_1\), so the total bound is \(\sum_{i = 1}^{t}O(Nh_i)\)?
 
-Actually, not really. Intuitively, we can think that, as \(h_i\) becomes large, \((8h_i + 4)h_i\) will become so large, that \texttt{a[p - hi * (8 * hi + 4)]} goes beyond the beginning position, i.e. you will reach beginning before you reach a point whose distance bwteen \texttt{*p} can be linearyly expressed by \((h_{k + 1} - 1)(h_{k + 2} - 1)\). Our question becomes, how large \(h_k\) should bem if the "linear-combination sorted" case can be reached earlier than the worst-case of general insertion sort (reaching the begining)?
+Actually, not really. Intuitively, we can think that, as \(h_i\) becomes large, \((8h_i + 4)h_i\) will become so large, that \texttt{a[p - hi * (8 * hi + 4)]} goes beyond the beginning position, i.e. you will reach beginning before you reach a point whose distance bwteen \texttt{*p} can be linearyly expressed by \((h_{k + 1} - 1)(h_{k + 2} - 1)\). Our question becomes, how large \(h_k\) should bem if the ``linear-combination sorted'' case can be reached earlier than the worst-case of general insertion sort (reaching the begining)?
 
 To answer this question, let's consider an array of size \(N\). If \(N = 2^t\), then \(h_t = 2^t - 1\) is the largest step size in the increment sequence. The complexity of insertion sort is:
 \[
 O(\frac {N^2} {h_k})
 \]
 
-The complexity of "linear combination sorted" case is:
+The complexity of ``linear combination sorted'' case is:
 \[
 O(Nh_k)
 \]
@@ -3845,7 +3858,7 @@ solve it, we have:
 h_k = N^{\frac {1} {2}}
 \]
 
-This means, when \(h_k < N^{\frac {1} {2}}\), the "linear combination" case will apprear first before reaching to the beginning of the array. When \(h_k < N^{\frac {1} {2}}\), original insertion sort will be faster to reach the begining. Plug in \(N = 2^t\) into \(h_k = N^{\frac {1} {2}}\):
+This means, when \(h_k < N^{\frac {1} {2}}\), the ``linear combination'' case will apprear first before reaching to the beginning of the array. When \(h_k < N^{\frac {1} {2}}\), original insertion sort will be faster to reach the begining. Plug in \(N = 2^t\) into \(h_k = N^{\frac {1} {2}}\):
 \[
 h_k = 2^{\frac {t} {2}} \sim 2^{\frac {t} {2}} - 1 \sim \text {roughly } k = \frac {t} {2}
 \]
@@ -3886,18 +3899,18 @@ O(Nh_{\frac {t} {2}}) + O(\frac {N^2} {h_{\frac {t} {2}}}) = O(N^{\frac {3} {2}}
 The upper bound of Shell sort, using Hibbard's increments, is \(O(N^{\frac {3} {2}})\).
 
 \chapter{Heap Sort}
-\label{sec:orgfdee523}
+\label{sec:orge109f0a}
 \section{General Idea}
-\label{sec:orge4a6fa3}
-For an unordered array, we can first build heap order in it (by the \texttt{buildHeap()} routine). This step takes \(O(N)\) time. Then, we can perform \(N\) \texttt{deleteMin()} operations to extract the elements in the array in order. For each \texttt{deleteMin()}, time required is \(O(\log{N})\). So the total time required to "delete" all elements is \(O(N\log{N})\). We can move the deleted item into the last slot of the current array (where hole is created, of course, we still have to \texttt{currentSize-{}-}). In this way, we can sort the array in place, no need of extra memory space to hold the temporary array.
+\label{sec:orgacf93c9}
+For an unordered array, we can first build heap order in it (by the \texttt{buildHeap()} routine). This step takes \(O(N)\) time. Then, we can perform \(N\) \texttt{deleteMin()} operations to extract the elements in the array in order. For each \texttt{deleteMin()}, time required is \(O(\log{N})\). So the total time required to ``delete'' all elements is \(O(N\log{N})\). We can move the deleted item into the last slot of the current array (where hole is created, of course, we still have to \texttt{currentSize-{}-}). In this way, we can sort the array in place, no need of extra memory space to hold the temporary array.
 \section{Implementation}
-\label{sec:org78c3670}
+\label{sec:org82d69d5}
 \subsection{Analysis}
-\label{sec:orgf682a02}
+\label{sec:org06925d7}
 
 In this example, we assume the internal complete binary tree starts at \texttt{array[0]}.
 The header for my \texttt{heapSort()} function is as follows (which is part of \texttt{Sort} class):
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class Iterator, class Compare>
 void heapSort(Iterator first, Iterator last, Compare comp);
 \end{minted}
@@ -3911,14 +3924,14 @@ We implement the routine in the following steps:
 \item continue these steps until you traversed the range, sorting complete.
 \end{itemize}
 \subsection{Build up heap order}
-\label{sec:org376ac3a}
+\label{sec:org6c98963}
 
 Before diving into details, one thing must be made clear. From the function header, we know that we want to \textbf{SORT} the range by the logic defined by \texttt{comp}. However, as we can see from the mechanism of heap sort, the actual sequence is the inverse of the target sequence. In order to address this issue, we can build a heap order that is the inverse of the order defined by \texttt{comp}. In the following section, we'll apply this idea.
 
 
 To build up heap order, we start from the first node that has child in the range, percolate down one by one until we percolate down the root. The number of node that has at least one child in a heap of size \(N\) with root at \texttt{array[1]} is \(N/2\) (integer division). For a heap of size \(N\) with root at \texttt{array[0]} is \(N/2-1\). So, we start from \texttt{array[N/2-1]}, all the way until we percolate down \texttt{array[0]}.
 
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 //get the size of the range 
 int currentSize = last - first;
 for (int i = currentSize/2-1; i >= 0; --i) {
@@ -3933,7 +3946,7 @@ We used a routine \texttt{percolateDown()} in the above code. What it does is to
 \end{itemize}
 
 We declare the \texttt{percolateDown()} routine as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class Iterator, class Compare>
 void percolateDown(Iterator first, Iterator class, Compare comp, int hole ) {
   int child;
@@ -3964,9 +3977,9 @@ void percolateDown(Iterator first, Iterator class, Compare comp, int hole ) {
 
 \end{minted}
 \subsection{Sort Using Heap Order}
-\label{sec:org91341ef}
+\label{sec:orgda4e2ce}
 
-We need a routine to take away the element at the root and re-build the heap. This is similar with \texttt{deleteMin()} in binary heap class. The difference is that we keep the "deleted" element to build up a sorted array. The working steps are as follows:
+We need a routine to take away the element at the root and re-build the heap. This is similar with \texttt{deleteMin()} in binary heap class. The difference is that we keep the ``deleted'' element to build up a sorted array. The working steps are as follows:
 \begin{itemize}
 \item define an integer, \texttt{currentSize}, to hold the number of unsorted elements. Pay attention that we don't need to move the last element (its already in sorted position).
 \item use a for loop to operate \texttt{currentSize - 1} times. (begin at  \texttt{currentSize = last - first}, stop at \texttt{currentSize = 1}):
@@ -3979,7 +3992,7 @@ We need a routine to take away the element at the root and re-build the heap. Th
 
 
 Code for \texttt{heapSort()}:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 void Sort::heapSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   //first step: build up heap order 
   buildHeap(first, last, comp);
@@ -3996,15 +4009,15 @@ void Sort::heapSort(RandomAccessIterator first, RandomAccessIterator last, Compa
 
 \end{minted}
 \section{Complexity Analysis}
-\label{sec:orga8297d8}
+\label{sec:orgad75fab}
 (this section may be flawed, it is based on my calculation. I couldn't understand the textbook's derivation.)
 The heap sort contains two parts: (1) create heap order (heapify) inside the target range; (2) sort the array by repeatedly take the root of the heap (the first term in the array) to build up an ordered array.
 \subsection{Build Heap}
-\label{sec:orgb3ae80e}
+\label{sec:org4eed6ae}
 
 To build heap order in a random array, we start from the first node that has at least one child. We check if this node violates the heap order. If so, we swap it with one of its child. For a heap with height h, the total height is \(2^{h+1}-(h+1)-1\). This value is the total number of layers to percolate down for all the nodes (the worst case). On the other hand, the height of heap can be expressed by the number in the heap by: \(h = \log(N + 1) - 1\). Plug into the expression of total height, the number of operations is: \(N - \log(N + 1)\).
 \subsection{Sort}
-\label{sec:org270909d}
+\label{sec:org3cd3dc9}
 
 We assume the worst case, during every time of the iteration, we have to percolate the root down to bottom. Percolating down each layer requires two operations: (1) comparing the children of the node and determine which child to be used to compare with the node; (2) compare the chosen child with the node and determine if we have to swap the two. As analyzed before, for an array of size N, we only need to sort the first \((N - 1)\) elements. For \(i\)th iteration, we moved \(i\) elements to sorted section, and there are \(N - i\) elements unsorted. These \(N - i\) elements composed the remaining heap. Now we have to percolate down the element at root position all the way to bottom (for the worst case). For a \textbf{FULL} complete binary tree with \(N - i\) elements, the relation between height \(h\) and number of elements are: \(2^{h + 1} - 1 = N - i\). Thus: \(h = \log(N - i + 1) - 1\). In reality, the complete binary tree may not be full, so the \(h\) value calculated by the above expression is smaller than the worst case. We can fix that by
 \[h = 1 + \lfloor\log(N - i + 1) - 1\rfloor\ = \lfloor\log(N - i + 1)\rfloor\]
@@ -4016,24 +4029,24 @@ Thus, for \(i\)th iteration (i.e. after moving \(i\) elements to the sorted sect
 \end{equation*}
 (To be continued\ldots{})
 \chapter{Merge Sort}
-\label{sec:orgcc2d984}
+\label{sec:org285f93b}
 \section{General Idea}
-\label{sec:org3d0bf7f}
+\label{sec:org5dbd4c3}
 
 The foundamental operation in this sorting algorithm is merging two sorted lists \texttt{A} and \texttt{B}. We use another chunk of memory (\texttt{C}) which has the size of \texttt{A.size() + B.size()}. And we have three iterators (\texttt{a}, \texttt{b} and \texttt{c}) pointing to the beginning of \texttt{A}, \texttt{B} and \texttt{C}, respectively. We now start to merge \texttt{A} and \texttt{B} into a single array \texttt{C}. For each element we insert to \texttt{C}, We compare the element pointed by the \texttt{a} and \texttt{b}, and pick the one that satisfy the order into where \texttt{c} is pointing at, then we increment the iterator (which was pointing to the inserted element in \texttt{A} or \texttt{B}) and \texttt{c}, and begin next inserting. If \texttt{a} or \texttt{b} reaches the end, we inserting the remaining elements in the non-empty array into \texttt{c} in its original sequence. After these operations, we have obtained a sorted array \texttt{C}.
 
 Merge sort is a fine example of using divide and conquer strategy (with recursive algorithm). For a given array, we can use merge sort to sort its first half, then its second half, then we merge it into one array and copy back to the original array. The problem is \emph{divided} into smaller problems and solved recursively. The \emph{conquering} phase consists of patching together the answers.
 \section{Implementation}
-\label{sec:org1003fbd}
+\label{sec:org37c6437}
 
 I'll implement the merge sort which accepts three parameters: two iterators that mark the range of the array to be sorted, and one function object that provides a routine to determine the relative order of elements in the array (with \texttt{operator()} defined). The merge sort function will sort the array marked in \texttt{[first, last)}. The header is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::mergeSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 \end{minted}
 
 During the sorting, we have to use an extra space to hold the temporary sorted array. If we declare an array in each recursive call of merge sort, it would be a huge cost, roughly \(\log{N}\) in total. Notice that, at any given moment, we only use one temporary array to hold the result (because we'll only proceed to sort next sub-array once we finished current one). This means we can declare an array just for this purpose and pass it into internal private implementation of merge sort. The above header then describes the public routine to be called from outside. Namely:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::mergeSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   //base case: only one element in the array
@@ -4051,7 +4064,7 @@ void Sort::mergeSort(RandomAccessIterator first, RandomAccessIterator last, Comp
 \end{minted}
 By the way, the above code shows how to use a generic iterator to create a vector that can hold the same type as \texttt{*iterator}.
 
-The base case for merge sort recursive function is \texttt{first + 1 == last}. This means the passed in array has only one element, so it is "naturally" sorted. In this case, there is nothing to be done, just return.
+The base case for merge sort recursive function is \texttt{first + 1 == last}. This means the passed in array has only one element, so it is ``naturally'' sorted. In this case, there is nothing to be done, just return.
 
 We devide the array into two parts:
 \begin{itemize}
@@ -4061,7 +4074,7 @@ We devide the array into two parts:
 Then, we call merge sort to sort these two parts, then we merge them together (using the passed in array as the temporary storage space).
 
 The code for the internal private version of merge sort is as follows:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare, class Element>
 void Sort::mergeSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp, std::vector<Element>& sorted_array) {
   // base case 
@@ -4108,9 +4121,9 @@ void Sort::mergeSort(RandomAccessIterator first, RandomAccessIterator last, Comp
 
 \end{minted}
 \chapter{Quick Sort}
-\label{sec:org6453244}
+\label{sec:org9e68f52}
 \section{General Idea}
-\label{sec:org723fc9d}
+\label{sec:org43f0c6c}
 
 Average running time: \(O(N\log{N})\).
 
@@ -4124,7 +4137,7 @@ Quick sort uses same strategy as merge sort: divide and conquer recursive algori
 \end{itemize}
 The problem has been divided into two sub-problems: sort \texttt{s1} and \texttt{s2}. So, we call quick sort again to deal with \texttt{s1} and \texttt{s2}. After \texttt{s1} and \texttt{s2} are sorted, the whole array has been sorted.
 
-The process of dividing the array according to \texttt{pivot} is called \textbf{partition}. During the partition, we may encounter some elements that are equal with \texttt{pivot}. How to partition these elements remained an implementation issue. Intuitively, we would hope that about half of these duplicated elements go into \texttt{s1} and the other half go into \texttt{s2}, so the two sub-arrays are somewhat "balanced".
+The process of dividing the array according to \texttt{pivot} is called \textbf{partition}. During the partition, we may encounter some elements that are equal with \texttt{pivot}. How to partition these elements remained an implementation issue. Intuitively, we would hope that about half of these duplicated elements go into \texttt{s1} and the other half go into \texttt{s2}, so the two sub-arrays are somewhat ``balanced''.
 
 Two differences between quick sort and merge sort are:
 \begin{enumerate}
@@ -4134,7 +4147,7 @@ Two differences between quick sort and merge sort are:
 
 The details of how we pick the \texttt{pivot} and how we partition the array can greatly influence the performance of quick sort. There are many ways to do it, in this section, a widely accepted method will be explored. As before, we'll use sorting in increasing order as an example to illustrate.
 \section{Picking the Pivot}
-\label{sec:org9d6f405}
+\label{sec:org6801e69}
 For a given array, we find the median of the following three elements:
 \begin{enumerate}
 \item the first element in array
@@ -4142,20 +4155,20 @@ For a given array, we find the median of the following three elements:
 \item the last element in array
 \end{enumerate}
 \section{Partition Strategy}
-\label{sec:org0a7c075}
+\label{sec:orge59d304}
 After finding the \texttt{pivot} element, we use following steps to partition the array.
 \begin{enumerate}
 \item get the pivot element out of the way by swapping it with the last element.
 \item define two iterators \texttt{i} and \texttt{j}. \texttt{i} will be pointing to the first element in the array. \texttt{j} will be pointing to the next-to-last element (i.e. the first element before the \texttt{pivot}). The idea is to put elements that are smaller than the \texttt{pivot} at the front of the array, and elements that are bigger than the \texttt{pivot} at the back of the array.
 \item \texttt{i} start to move toward the end, \texttt{j} start to move toward the beginning. \texttt{i} and \texttt{j} kept moving until they encounter elements that are not supposed to be there---i.e. \texttt{i} has met element that is bigger than \texttt{pivot}, \texttt{j} has met element that is smaller than \texttt{pivot}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 while (*i < pivot)
   ++i;
 while (*j > pivot)
   ++j;
 \end{minted}
 After the above loop, both \texttt{i} and \texttt{j} are pointing to an element. At this moment, if \texttt{i} is still before \texttt{j}, we should swap the elements pointed by \texttt{i} and \texttt{j}, and increment \texttt{i}, \texttt{j}:
-\begin{minted}[breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 if (i < j)
   std::swap(*(i++), *(j--));
 \end{minted}
@@ -4167,12 +4180,12 @@ if (i < j)
 where \texttt{-} represents elements that are smaller than \texttt{pivot}; \texttt{+} represents elements that are greater than \texttt{pivot}.
 \end{enumerate}
 \section{Small Arrays}
-\label{sec:orgb9309d1}
+\label{sec:org742fb19}
 For very small arrays, quick sort does not perform as well as insertion sort. Furthermore, because quick sort is recursive, these cases will occur eventually, even if you are sorting a big array. A common solution is not to use quick sort recursively for small arrays, but instead use a sorting algorithm that is efficient for small arrays. A good cutoff is \texttt{N == 10}.
 \section{Implementations}
-\label{sec:org9d20060}
+\label{sec:orgb6ff4e8}
 Implementation of pivot() function:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::pivot(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   auto center = first + (last - first) / 2;
@@ -4193,7 +4206,7 @@ void Sort::pivot(RandomAccessIterator first, RandomAccessIterator last, Compare 
 \end{minted}
 
 Implementation of quick sort:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 template <class RandomAccessIterator, class Compare>
 void Sort::quickSort(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
   //base case: small array
@@ -4235,13 +4248,13 @@ void Sort::quickSort(RandomAccessIterator first, RandomAccessIterator last, Comp
 \end{minted}
 
 \part{Gimmicks}
-\label{sec:org54ed305}
+\label{sec:orga52e10e}
 \chapter{C++ Related}
-\label{sec:org3eda537}
+\label{sec:orge3356d9}
 \section{Create a Vector Using its Iterator}
-\label{sec:org7a6aa06}
+\label{sec:org174deec}
 Demand first encountered: when trying to write iterator implementation of merge sort. I have to define a generic vector, using its iterator. After some search on internet, I found the following tricks to do this:
-\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true]{c++}
+\begin{minted}[linenos,firstnumber=1,breaklines=true,breakanywhere=true,frame=single,framesep=10pt]{c++}
 std::vector<int> v1;
 auto itr = v1.begin();
 std::vector<typename std::remove_reference<decltype(*itr)>::type> v2;
