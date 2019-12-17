@@ -346,7 +346,8 @@ Use ~\fbox{}~ to enclose the content you want to enclose. Inside the brackets, y
 ~[c]~ is saying this minipage is centered, and ~{\textwidth}~ is setting the minipage's width as the text width. You can use ordinary latex environments inside the minipage to format.
 
 
-
+*** Fix the "^^I" problem
+Many of my code segment in the output pdf file rendered by xelatex has ~^^I~ before a line. This is because when exporting, certain length space will be replaced by tab, and the solution is to add a ~-8bit~ flag when compiling the pdf file using ~xelatex~. Check [[https://tex.stackexchange.com/questions/264461/xelatex-minted-code-block-represents-tabs-as-i][this]] to get more info. Now your xelatex should be: ~xelatex -8bit-shell-escape~.
 ** Useful links
 [[http://doc.norang.ca/org-mode.html][General ORG tutorial]]
 ** Emacs

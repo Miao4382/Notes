@@ -1,0 +1,34 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \linespread {1}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt]
+
+* Commands
+
+** ~grep~
+
+[[http://man7.org/linux/man-pages/man1/grep.1.html][Manual page]].
+
+Grep is used to find a pattern. Basic synopsis:
+#+BEGIN_EXAMPLE
+grep [OPTIONS] PATTERN [FILE...]
+#+END_EXAMPLE
+
+You have to provide the pattern so grep can search. By default, it will search the file provided in the command (~[FILE...]~). You can make it search the standard input by not providing file name, or providing a ~'-'~ (minus sign) as the file name. You can use ~-r~ option so it will recursively grep all files in current directory and its sub-directories.
+
+*** Patterns
+
+The pattern of ~grep~ can be a single word, a string in single quotation marks, or a regular expression in quotation marks (pay attention that you have to put the )
+
+
+
+
+* Place Holder
+

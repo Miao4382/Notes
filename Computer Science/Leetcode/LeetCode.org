@@ -4309,8 +4309,17 @@ public:
 *** Analysis
 **** Recursive Method
 Use recursiion to solve this problem.
-**** Iterative Method (using stack)
+**** Iterative Method (using stack to do DFS)
+We will use \(t_1\) to hold the merged tree. At the beginning, we shall check if \(t_1\) or \(t_2\) is \(nullptr\). If \(t_1\) is \(nullptr\), we just need to return \(t_2\). Similarliy, if \(t_2\) is \(nullptr\), we just need to return \(t_1\).
 
+We will use a stack to traverse the tree (DFS). Since we are merging two trees, each entry in the stack is going to be a pair of pointers referring nodes from \(t_1\) and \(t_2\). We'll only add existing node to the stack. In other words, if a pointer is pointing to ~nullptr~, we'll not added it to stack.
+
+We begin by pushing the root node pair to our stack. Then use a while loop to iterate the tree. Each iteration in the while loop, we pop the top pair in the stack and merge them (merge the value). Then we check if we're going to push their children into the stack. We have following situations:
+1. A child of ~t1~ is ~nullptr~: in this case, we assign this child of ~t1~ with the child of ~t2~ (they are at the same position). From this point on, ~t1~ will "copy" ~t2~'s sub-tree.
+2. A child of ~t1~ is not ~nullptr~, but the peer child of ~t2~ is ~nullptr~: in this case, we don't need to worry about merging all the subtrees from ~t1~ and ~t2~, because ~t2~ has no peer subtrees!
+3. Both of ~t1~ and ~t2~'s child is not ~nullptr~: in this case, we should push child of ~t1~ and ~t2~ to stack, so next iteration can merge them.
+
+We have to do this for both left child and right child. The while loop will run until the stack is empty. Then we just return ~t1~.
 *** Solution
 **** C++
 ***** Recursion Time (97.09%) Space(37.01%)
@@ -4342,9 +4351,51 @@ public:
 };
 #+end_src
 ***** Iterative
-*** todos [0/2]
-- [ ] read the other solution (iterate the tree using stack), and understand it
-- [ ] write code based on the other solution
+#+begin_src c++
+class Solution {
+public:
+  TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    // base case
+    if (t1 == nullptr)
+      return t2;
+    if (t2 == nullptr)
+      return t1;
+    
+    stack<pair <TreeNode*, TreeNode*>> s;
+    s.push(make_pair(t1, t2));
+    
+    pair <TreeNode*, TreeNode*> tp;
+    
+    while (!s.empty()) {
+        // get top element 
+        tp = s.top();
+        s.pop();
+        
+        // merge two nodes 
+        (tp.first)->val += (tp.second)->val;
+        
+        // check left child
+        if ((tp.first)->left == nullptr)
+          (tp.first)->left = (tp.second)->left;                         
+        else if ((tp.second)->left != nullptr)
+          s.push(make_pair((tp.first)->left, (tp.second)->left));
+        
+        // check right child 
+        if ((tp.first)->right == nullptr)
+          (tp.first)->right = (tp.second)->right;
+        else if ((tp.second)->right != nullptr)
+          s.push(make_pair((tp.first)->right, (tp.second)->right));      
+    }
+    
+    // after while loop, all nodes are considered
+    return t1;
+  }
+
+};
+#+end_src
+*** todos [2/2]
+- [X] read the other solution (iterate the tree using stack), and understand it
+- [X] write code based on the other solution
 ** 647. Palindromic Substrings
 *** Problem Statement
 [[https://leetcode.com/problems/palindromic-substrings/][Link]]
@@ -5110,7 +5161,7 @@ public:
 };
 #+end_src
 
-***** DFS (slow, 5% and 6%)
+***** DFS (slow)
 #+begin_src c++
 class Solution {
 public:
@@ -5165,7 +5216,6 @@ public:
   }
 };
 #+end_src
-
 *** todos [1/3]
 - [X] write down your analysis and solution (recursion and DFS)
 - [ ] check solution's DFS, study and re-implement
@@ -5258,3 +5308,5 @@ class Solution:
 *** todos [1/2]
 - [X] write down your own solution
 - [ ] check discussion page
+
+  

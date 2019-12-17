@@ -830,19 +830,19 @@ The three steps to insert a node is shown below.
 
 #+CAPTION: Insert a node in a list. Step 1: construct a node 
 #+NAME: fig:List-insert-1
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-insert-1.pdf]]
 
 #+CAPTION: Insert a node in a list. Step 2: link node 
 #+NAME: fig:List-insert-2
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-insert-2.pdf]]
 
 #+CAPTION: Insert a node in a list. Step 3: link node 
 #+NAME: fig:List-insert-2
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-insert-3.pdf]]
 
@@ -887,19 +887,19 @@ This function accepts an iterator. It will delete the node referenced by the ite
 
 #+CAPTION: Delete a node in a list. Step 1: convenient renaming 
 #+NAME: fig:List-delete-1
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-delete-1.pdf]]
 
 #+CAPTION: Delete a node in a list. Step 2: reconnect node 
 #+NAME: fig:List-delete-2
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-delete-2.pdf]]
 
 #+CAPTION: Delete a node in a list. Step 3: delete node 
 #+NAME: fig:List-delete-3
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/List-delete-3.pdf]]
 
@@ -1697,7 +1697,7 @@ In Figure [[fig:AVL-illustration]], before insertion, N's left and right subtree
 
 #+CAPTION[Figure]: AVL tree illustration
 #+NAME: fig:AVL-illustration
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-illustration.pdf]]
 
@@ -1705,13 +1705,13 @@ Case 1 and case 4 are illustrated in a greater detail in Figure [[fig:AVL-LL-RR-
 
 #+CAPTION[Figure]: Left-left insertion and right-right insertion
 #+NAME: fig:AVL-LL-RR-insertion
-#+ATTR_LATEX: :width 500px
+#+ATTR_LATEX: :width 500pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-LL-RR-insertion.pdf]]
 
 #+CAPTION[Figure]: Left-right insertion and right-left insertion
 #+NAME: fig:AVL-LR-RL-insertion
-#+ATTR_LATEX: :width 500px
+#+ATTR_LATEX: :width 500pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-LR-RL-insertion.pdf]]
 
@@ -1725,7 +1725,7 @@ The process is illustrated in Figure [[fig:AVL-LL-RR-insertion-fix]]. The letter
 
 #+CAPTION[Figure]: Single rotation to fix AVL-property loss caused by Left-left insertion and right-right insertion
 #+NAME: fig:AVL-LL-RR-insertion-fix
-#+ATTR_LATEX: :width 500px
+#+ATTR_LATEX: :width 500pt
 [[./img/AVL-LL-RR-insertion-fix.pdf]]
 
 From Figure [[fig:AVL-LL-RR-insertion-fix]], we can see that single rotation can modify the height of node ~LL~ or ~RR~, no matter ~A~ or ~B~ is inserted.
@@ -1743,19 +1743,19 @@ The process to fix LR-insertion is illustrated in Figure [[fig:AVL-LR-insertion-
 
 #+CAPTION[Figure]: Double rotation to fix AVL-property loss caused by Left-right insertion
 #+NAME: fig:AVL-LR-insertion-fix
-#+ATTR_LATEX: :width 400px
+#+ATTR_LATEX: :width 400pt
 [[./img/AVL-LR-insertion-fix.pdf]]
 
 #+CAPTION[Figure]: Double rotation to fix AVL-property loss caused by Right-left insertion
 #+NAME: fig:AVL-RL-insertion-fix
-#+ATTR_LATEX: :width 400px
+#+ATTR_LATEX: :width 400pt
 [[./img/AVL-RL-insertion-fix.pdf]]
 ***** Deletion caused unbalance and fix
 There are four cases of AVL-property loss by deletion. They are shown in Figure [[fig:AVL-deletion]]. The dashed node E indicates where deletion occured. Node E represent the only child of its parent node (doesn't matter if its left or right child). After deleting, its parent's height will be reduced by 1.
 
 #+CAPTION: AVL-property loss by deletion
 #+NAME: fig:AVL-deletion
-#+ATTR_LATEX: :width 350px
+#+ATTR_LATEX: :width 350pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-deletion.pdf]]
 
@@ -1783,13 +1783,13 @@ Using same argument, case 3 is similar with RR-insertion case, and can be fixed 
 
 #+CAPTION: Balancing AVL tree. When left subtree is too high and its two branches have same height
 #+NAME: fig:AVL-deletion-LL-fix
-#+ATTR_LATEX: :width 400px
+#+ATTR_LATEX: :width 400pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-deletion-LL-fix.pdf]]
 
 #+CAPTION: Balancing AVL tree. When right subtree is too high and its two branches have same height
 #+NAME: fig:AVL-deletion-RR-fix
-#+ATTR_LATEX: :width 400px
+#+ATTR_LATEX: :width 400pt
 #+ATTR_LATEX: :float nil
 [[./img/AVL-deletion-RR-fix.pdf]]
 ***** Summary
@@ -2278,7 +2278,7 @@ Basically, hash table is an array that manages the position of data items by the
 
 #+CAPTION: Comparison between array storage and hash table storage
 #+NAME: fig:Hash-hashtable-illustration
-#+ATTR_LATEX: :width 200px
+#+ATTR_LATEX: :width 200pt
 #+ATTR_LATEX: :float nil
 [[./img/Hash-hashtable-illustration.pdf]]
 
