@@ -1171,6 +1171,40 @@ public:
 *** Analysis
 **** Recursion
 A node's maximum depth, is the larger maximum depth of its left and right subtree plus one. Base case: if a node is nullptr, maximum depth is zero.
+**** Iterative (DFS_pushing pairs)
+We can use DFS to traverse the tree. It will go as deep as possible for each node it meets. We can simpily exhaust all deepest path, get the depth and compare to the ~max_depth~ we keep for this tree.
+
+Each stack in the entry is a pair of ~<TreeNode*, int>~, contains a pointer to the node and the depth of that node. When checking each entry in the stack, we first check if it is a leaf. If so, we compare its depth with our current ~max_depth~, update ~max_depth~ if current depth is larger than ~max_depth~. Otherwise, we will check its left and right child, and push them into the stack (if not ~nullptr~), where the depth is the current depth plus one.
+
+See the code for details.
+**** Iterative (DFS, using node value to store depth)
+In fact, we can store the depth info in the node's ~val~ member. So we don't have to use extra space to hold it (no need to use pair). Details in solution.
+**** Iterative (BFS, using node value to store depth)
+We can use BFS to traverse the tree. It goes as broad as possible for each layer. The last layer we goes to represents the deepest layer in the tree.
+
+To perform a BFS on a tree, use a queue (FIFO container). When pushing a child node to the queue, we update its depth. When there is no more node in the queue, we found the maximum depth and the corresponding node. The details are shown in the code.
+**** Iterative (BFS, another way)
+[[https://leetcode.com/problems/maximum-depth-of-binary-tree/discuss/34207/My-code-of-C%2B%2B-Depth-first-search-and-Breadth-first-search][Reference]].
+
+For breadth first search, we should go as wide as possible. We keep a counter to count the total number of layers we traversed, this is the maximum depth after we traversing the tree.
+
+Each iteration of the BFS, we try to add all child node of the nodes which are in the queue at the start of the current iteration. The loop looks like following:
+#+begin_src c++
+while(!q.empty()) {
+  ++depth;
+  // add all child of the node at the same layer
+  for(int i = 0, n = q.size(); i < n; ++ i) {
+    TreeNode *p = q.front();
+    q.pop();
+    
+    if(p -> left != NULL)
+      q.push(p -> left);
+    if(p -> right != NULL)
+      q.push(p -> right);
+  }
+}
+#+end_src
+
 *** Solution
 **** C++
 ***** Recursion. Time (88.44%) Space (91.28%)
@@ -1198,10 +1232,130 @@ public:
   }
 };
 #+end_src
-*** todos [0/3]
-- [ ] implement DFS approach
-- [ ] read about the discussion page for more methods and ideas
-- [ ] make notes in your data structure notes about DFS and BFS
+***** Iterative. DFS, adding pairs.
+#+begin_src c++
+class Solution {
+public:
+  int maxDepth(TreeNode* root) {
+    // base case
+    if (root == nullptr)
+      return 0;
+    
+    stack<pair<TreeNode*, int>> s;
+    pair<TreeNode*, int> temp;
+    int max_depth = 1;
+    
+    s.push(make_pair(root, max_depth));
+    
+    while (!s.empty()) {
+      // get the top node
+      temp = s.top();
+      s.pop();
+      // if this node is leaf, check its depth
+      if (((temp.first)->left == nullptr) && ((temp.first)->right == nullptr)) {
+        max_depth = max(temp.second, max_depth);
+      }
+      // push the child of this node to stack
+      if ((temp.first)->left != nullptr)
+        s.push(make_pair((temp.first)->left, temp.second + 1));
+      if ((temp.first)->right != nullptr)
+        s.push(make_pair((temp.first)->right, temp.second + 1));
+    }
+    
+    return max_depth;
+    
+  }
+};
+#+end_src
+***** Iterative. DFS, use node ~val~ to hold depth
+#+begin_src c++
+class Solution {
+public:
+  int maxDepth(TreeNode* root) {
+    // base case
+    if (root == nullptr)
+      return 0;
+    
+    stack<TreeNode*> s;
+    TreeNode* temp = nullptr;
+    int max_depth = 1;
+    root->val = 1;    // use member val to hold the current depth
+    s.push(root);
+    
+    while (!s.empty()) {
+      // get the top node
+      temp = s.top();
+      s.pop();
+      // if this node is leaf, check its depth
+      if ((temp->left == nullptr) && (temp->right == nullptr)) {
+        max_depth = max(temp->val, max_depth);
+        continue;
+      }
+      
+      // push the child of this node to stack
+      if (temp->left != nullptr) {
+        temp->left->val = temp->val + 1;
+        s.push(temp->left);
+      }
+      if (temp->right != nullptr) {
+        temp->right->val = temp->val + 1;
+        s.push(temp->right);
+      }
+    }
+    
+    return max_depth;
+    
+  }
+};
+#+end_src
+***** Iterative, BFS, use node ~val~ to hold depth
+#+begin_src c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  int maxDepth(TreeNode* root) {
+    // base case
+    if (root == nullptr)
+      return 0;
+    
+    queue<TreeNode*> q;
+    root->val = 1;
+    q.push(root);
+    TreeNode* temp = nullptr;
+    
+    while (1) {
+      temp = q.front();
+      q.pop();
+      
+      // check if it has children, if so, update height and push to queue
+      if (temp->left != nullptr) {
+        temp->left->val = temp->val + 1;
+        q.push(temp->left);
+      }
+      if (temp->right != nullptr) {
+        temp->right->val = temp->val + 1;
+        q.push(temp->right);
+      }        
+      
+      // if no more node in queue, this is the last entry, return the depth
+      if (q.empty())
+        return temp->val;
+    }
+  }
+};
+#+end_src
+*** todos [3/3]
+- [X] implement DFS approach
+- [X] read about the discussion page for more methods and ideas
+- [X] make notes in your data structure notes about DFS and BFS
 ** 108. Convert Sorted Array to Binary Search Tree
 *** Problem Statement
 [[https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/][Link]]
@@ -1691,6 +1845,8 @@ public:
 A hash table can be used to store the appearing information of each element. We can traverse the array, and try to find if each element encountered is in the hash table or not. If so, we remove it from the hash table. If not, we insert it into the hash table. The final remaining element would be the single number. This leads to hash table solution 1. The average time complexity for each hash table operation (~insert(), find(), erase()~) are constant, the worst case for them are linear. Thus, the total average case is \(O(N)\), the total worst case is \(O(N^2)\).
 
 We can improve this a little by using an integer ~sum~. Its initial value is zero. Each time we encounter an element, we check if it is in the hash table. If so, we subtract it from ~sum~. If not, we add it to ~sum~, and insert it into the hash table. This approach doesn't have to call ~erase()~, the subtraction does the job, and time complexity of this step is guaranteed constant. Although the total average and worst time complexity is the same as the above one, it can run faster for certain cases. This leads to hash table solution 2.
+**** Bit manipulation
+Using the fact that \(a \oplus a = 0\), and \(0 \oplus a = a\). We can just do exclusive or to all the numbers, the single number will be left over since it does not have the counter part to cancel.
 
 *** Solution
 **** C++
@@ -1737,13 +1893,26 @@ public:
   }
 };
 #+end_src
+***** bit manipulation:
+#+begin_src c++
+class Solution {
+public:
+  int singleNumber(vector<int>& nums) {
+    int ret = 0;
+    for (int num : nums) {
+      ret ^= num;
+    }
+    return ret;
+  }
+};
+#+end_src
 *** todos [3/4]
 - [X] write your solution step (in analysis part), analysis time and space complexity
 - [X] think about possible improvements
-- [-] read solution, do additional work (internalize it and write analysis and code)
+- [X] read solution, do additional work (internalize it and write analysis and code)
   - [X] brutal force: use another array to hold
-  - [ ] math
-  - [ ] bit manipulation
+  - [X] math
+  - [X] bit manipulation
 - [ ] read discussion, do additional work (internalize it and write analysis and code)
 ** 160. Intersection of Two Linked Lists
 *** Problem Statement
@@ -2028,8 +2197,41 @@ public:
 *** Problem Statement
 [[https://leetcode.com/problems/majority-element/][Link]]
 *** Analysis
-**** ~unordered_map~
+**** unordered_map
 This is a problem that record the frequency of the element. I use the number as key and the appearing times as value, build an unordered_map that store this information. As long as a number's appearing times is more than ~size / 2~, it will be the majority element.
+**** bit-manipulation
+This solution uses the following assumption: every bit of the majority element should be the majority bit. For example, if:
+#+begin_src c++
+major_element & (1 << 15) != 0;
+#+end_src
+we know that the majority bit value at ~1 << 15~ is 1. An integer has fixed number of bits, so we can examine the majority bit value at each bit location, and then combine them to form our majority element.
+
+We use a nested for loop to do the job. The outer for loop will traverse each bit in an integer, and for each bit location traversed, we use the inner for loop to check the majority bit at that location (by checking the bit value of each number in ~nums~. If the majority bit value is 1, we set the bit value of our majority element to be 1, otherwise, we set it as 0). After the nested for loop, we have set all bits in our majority element, just return it.
+
+The time complexity is \(O(n)\), we don't need extra spaces to hold information about each element in the array, so the space complexity is \(O(1)\).
+
+**** Boyer-Moore Voting Algorithm
+We keep a counter and a ~major_element~ variable. Counter will be used to count the frequency of current candidate of majority element ~major_element~. At the beginning, we make the first element in the array as candidate for the majority element. Then we go through the array. If the element we meet is the same as the candidate, we add one to the counter. Otherwise, we subtract one from the counter. If the counter changes to zero, we change the candidate to the current element, and reset the counter as one (corresponds to the current element).
+
+The majority element (whose frequency is more than \(\lfloor size / 2 \rfloor\)) will be selected out.
+
+**** Divide and conquer
+(PS: this is actually homework 2 of COP4531 course, the majority card problem)
+
+The intuition comes from the observation that, if we split the array into two halfs, the majority element of the original array should be the majority element of at least one subarray (if the majority element of original array occurs less than \(n/4\) times in both of the subarray, it will occur less than \(n/2\) when sumed-up, which contradicts to the assumption).
+
+We can write a helper function to find the index of the majority element in a range of the array. We first check the first half, then check the second half, if there is no majority element, the index would be -1. Then we have ~first_index~ and ~second_index~, if they are not -1, they will be the corresponding majority element.
+
+The next step would be check in the range, if the element ~nums[first_index]~ is the majority element in the range, and if the element ~nums[second_index]~ is the majority element in the range. This requires two linear search over the range and count the frequency of ~nums[first_index]~ and ~nums[second_index]~. If one of them is majority element, we return the index, otherwise, we return -1.
+
+*Time complexity*
+
+The recurrence gives us: \(T(n) = 2T(n/2) + 2n\), \(2n\) comes from the two linear search over the range. Using Master Theorem, the time complexity is \(\Theta(n\logn)\).
+
+**** Sort
+If the array is sorted, then the majority element must be at the middle (because by definition, majority element will occupy more than half of the array's slots). We can just simpily sort the array, and then return the element at \(\lfloor size / 2 \rfloor\).
+
+Time complexity of sorting is \(O(n\logn)\).
 *** Solutions
 **** C++
 ***** ~unordered_map~ (59%, 42%)
@@ -2052,6 +2254,53 @@ public:
     }
     
     return nums[0];
+  }
+};
+#+end_src
+***** bit manipulation
+#+begin_src c++
+class Solution {
+public:
+  int majorityElement(vector<int>& nums) {
+    int ret = 0;
+    int mb;
+    for (int i = 0; i < 8 * sizeof(int); i++) {
+      mb = 0;
+      for (int num : nums)
+        if (num & (1 << i))
+          mb++;
+
+      // after above for loop (counting number of 1s at the current bit)
+      // check if '1' is the majority bit
+      if (mb > nums.size())
+        ret |= (1 << i);
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+***** Boyer-Moore Voting Algorithm
+#+begin_src c++
+class Solution {
+public:
+  int majorityElement(vector<int>& nums) {
+    int major_element = nums[0];
+    int major_count = 1;
+    
+    for (int i = 1; i < nums.size(); i++) {
+      // check if the current element is the major element
+      major_count += ((nums[i] == major_element) ? 1 : -1);
+    
+      // if major_count == 0, change major element
+      if (major_count == 0) {
+        major_count = 1;
+        major_element = nums[i];
+      } else if (major_count > nums.size())
+        return major_element;
+    }
+    
+    return major_element;
   }
 };
 #+end_src
@@ -2377,6 +2626,24 @@ Notice that the ~head~ in this linked list is actually the first node in the lis
 This problem should have some simpler solution. My two solutions are just akward.
 **** Using Stack (my)
 **** Recursion (my)
+For the following linked list:
+\[
+1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow \phi
+\]
+
+We first call recursive function to reverse the linked list except for the first node (~reverseList(head->next)~), we would have:
+\[
+1 \rightarrow 5 \rightarrow 4 \rightarrow 3 \rightarrow 2 \rightarrow \phi
+\]
+
+Now, we have to work on this linked list to attach node \(1\) to the tail. I did a linear search to find the end node (which is currently node \(2\)), then let \(2 \rightarrow next = 1\), and let \(1 \rightarrow next = \phi\). 
+**** Iterative (~O(1)~ space, my)
+You can use three pointers to hold the linked list together: previous node, current node, next node. To invert, you do: ~current->next = previous~. We don't need to worry since the original ~current->next~ is stored in ~next~ pointer, we still have this address, so the linked list is not "broken".
+
+When we come to the end of the linked list, we could have: ~next == nullptr~ first. We keep monitoring if ~next == nullptr~. If so, we know ~current~ is the last node, and we simpily do ~current->next = previous~, no need to go further (updating ~previous~, ~current~ and ~next~).
+
+The code is listed in solution section. The code in solution page of leetcode is more concise than mine. I've implemented in C++, also listed in solution section.
+
 *** Solution
 **** C++
 ***** Using Stack. time (96%), space (5%)
@@ -2430,7 +2697,35 @@ public:
 #+end_src
 ***** Using Recursion. time (18%), space (21%)
 This approach is a very "akward" way to use recursion.
-*** todos [/]
+***** Iterative (\(O(1)\) space, my solution)
+#+begin_src c++
+class Solution {
+public:
+  ListNode* reverseList(ListNode* head) {
+    // base case
+    if (head == nullptr || head->next == nullptr)
+      return head;
+    
+    ListNode *p, *c, *n;
+    p = head;
+    c = head->next;
+    n = c->next;
+    head->next = nullptr;
+    
+    while (1) {
+      c->next = p;
+      if (n == nullptr)
+        break;
+      p = c;
+      c = n;
+      n = n->next;
+    }
+    
+    return c;
+  }
+};
+#+end_src
+*** todos [0/3]
 - [ ] try to think another way to work this problem
 - [ ] read solution, write down thinking process
 - [ ] time complexity analysis of your code and solution code 
@@ -2440,6 +2735,13 @@ This approach is a very "akward" way to use recursion.
 *** Analysis
 **** Recursion
 To solve this problem recursively, we first invert the left subtree of a node by calling this function, then we invert the right subtree of this node by calling this function. Then we return a pointer to this node. Base case: ~node == nullptr~, in this case we return the node directly, since the invert of a ~nullptr~ tree is itself.
+**** BFS
+Use BFS to traverse each node of the tree. First, we invert it, then we check if the node has any child. If so, we push to queue, and we'll invert those children in subsequent run.
+
+Since we'll invert each node in the queue, we'll eventually invert all the nodes. And the time complexity would be \(O(n)\).
+**** DFS
+Use DFS to traverse each node of the tree. Invert each node one by one. (This uses similar idea as BFS. It's just different order of traversing the nodes).
+
 *** Solution
 **** C++
 ***** Recursion. time (91.95%) space (5.15%)
@@ -2463,6 +2765,74 @@ public:
     TreeNode* temp = root->left;
     root->left = invertTree(root->right);
     root->right = invertTree(temp);
+    
+    return root;
+  }
+};
+#+end_src
+***** BFS
+#+begin_src c++
+class Solution {
+public:
+  TreeNode* invertTree(TreeNode* root) {
+    // base case
+    if (root == nullptr)
+      return root;
+    
+    // invert by BFS
+    queue<TreeNode*> q;
+    TreeNode* temp1 = nullptr;
+    TreeNode* temp2 = nullptr;
+    q.push(root);
+    
+    while (!q.empty()) {
+      temp1 = q.front();
+      q.pop();
+      
+      // invert the top node
+      temp2 = temp1->left;
+      temp1->left = temp1->right;
+      temp1->right = temp2;
+      
+      // push child node to the queue if there is any
+      if (temp1->left != nullptr)
+        q.push(temp1->left);
+      if (temp1->right != nullptr)
+        q.push(temp1->right);
+    }
+    
+    return root;
+  }
+};
+#+end_src
+***** DFS
+#+begin_src c++
+class Solution {
+public:
+  TreeNode* invertTree(TreeNode* root) {
+    // base case
+    if (root == nullptr)
+      return root;
+    
+    // invert by DFS
+    stack<TreeNode*> s;
+    TreeNode* temp1 = nullptr;
+    TreeNode* temp2 = nullptr;
+    s.push(root);
+
+    while (!s.empty()) {
+      temp1 = s.top();
+      s.pop();
+      // add child to stack if there is any
+      if (temp1->left != nullptr)
+        s.push(temp1->left);
+      if (temp1->right != nullptr)
+        s.push(temp1->right);
+      // invert the current node
+      temp2 = temp1->left;
+      temp1->left = temp1->right;
+      temp1->right = temp2;
+    }
     
     return root;
   }
@@ -2516,7 +2886,7 @@ public:
 [[https://leetcode.com/problems/move-zeroes/][Link]]
 *** Analysis
 Make sure you know well the problem statement. For example, in this problem, there is no requirement for the zero element be kepted.
-**** Two pointers
+**** Two pointers (my)
 We can use two iterators to scan and find out zero and non-zero elements in the array, and swap them. For example, we have the following array:
 #+BEGIN_EXAMPLE
 [3,1,0,5,4,6,0,9]
@@ -2546,9 +2916,12 @@ If the rest of the array are all zero, we can just return, because the array is 
        a           b
 #+END_EXAMPLE
 We do this until ~a~ goes to the end of the array or ~b~ encountered ~nums.end()~ while searching first non-zero
+**** Two pointers (solution)
+We use two pointers (one fast and one slow). The fast pointer is named ~explorer~, it will traverse the array one element at a time. The slow pointer is named ~recorder~, each time the ~explorer~ finds a non-zero element, ~recorder~ will recorde it in the front of the array (overwritting the elements it points to. This won't lose data since each element written is explored by ~explorer~).
 
+After ~explorer~ reaches the end of the array, we can fill the remaining slot in the array with 0.
 
-
+PS: for two pointer solution, you don't necessarily use actual pointer (like pointers or iterators). You can also use index.
 
 *** Solution
 **** C++
@@ -2607,7 +2980,7 @@ public:
   }
 };
 #+end_src
-***** two pointers. time (5%) space (80%)
+***** two pointers (swap) time (5%) space (80%)
 #+begin_src c++
 class Solution {
 public:
@@ -2627,12 +3000,62 @@ public:
   }
 };
 #+end_src
-*** todos [2/3]
+***** two pointers (fast and slow, iterator)
+#+begin_src c++
+class Solution {
+public:
+  void moveZeroes(vector<int>& nums) {
+    auto recorder = nums.begin();
+    auto explorer = nums.begin();
+    
+    while (explorer != nums.end()) {
+      // explorer will try to find non-zero element
+      while (*explorer == 0) {
+        ++explorer;
+        if (explorer == nums.end())
+          goto begin_to_fill_zero;
+      }
+      
+      // recorder will record this non-zero element
+      *(recorder++) = *(explorer++);
+    }
+    
+    begin_to_fill_zero:
+    while (recorder != nums.end())
+      *(recorder++) = 0;
+  }
+};
+#+end_src
+***** two pointers (fast and slow, index)
+#+begin_src c++
+class Solution {
+public:
+  void moveZeroes(vector<int>& nums) {
+    int explorer = 0, recorder = 0;
+    
+    while (explorer != nums.size()) {
+      // move explorer to first non-zero position
+      while (nums[explorer] == 0) {
+        ++explorer;
+        if (explorer == nums.size())
+          goto begin_fill_zero;
+      }
+      
+      // record this non-zero element 
+      nums[recorder++] = nums[explorer++];
+    }
+    begin_fill_zero:
+    while (recorder != nums.size())
+      nums[recorder++] = 0;
+  }
+};
+#+end_src
+*** todos [3/3]
 - [X] try to think another Solution
 - [X] write down two pointer solution
-- [ ] read the solution page and study
-  - [ ] analyze solutions, implement them
-  - [ ] analyze your solution: time complexity, any extra work performed so it is slow
+- [X] read the solution page and study
+  - [X] analyze solutions, implement them
+  - [X] analyze your solution: time complexity, any extra work performed so it is slow
 ** 344. Reverse String
 *** Problem Statement
 [[https://leetcode.com/problems/reverse-string/][Link]]
@@ -3090,6 +3513,9 @@ You can use either a new vector to hold the labeling information, or the origina
 **** Use Unordered-set
 Use an unordered-set to store all appeared number. Then traverse from 1 to N to find out if one number is in the set, if not, it is one disappearing number, push to result. This method's time complexity is \(O(N)\) on average, but \(O(N^2)\) for worst cases, due to the time complexity of ~insert()~ and ~find()~ in unordered-set.
 
+**** Label appeared number
+You can use sign to store the information of which number is encountered. If we encounter one number, say ~i~, just label element at ~nums[i - 1]~ as negative. This marks that ~i~ is encountered. Iterate the array once to do this job, and then go over the array again, if an element is positive, it means the corresponding index has not been encountered, we push it to the result vector.
+
 *** Solution
 **** C++
 ***** Label appearance of numbers (97%, 15%)
@@ -3137,9 +3563,31 @@ public:
 
 // Total complexity: average: O(N), worst: O(N^2), still bound by O(N^2)
 #+end_src
-*** todos [/]
-- [ ] think about using the original vector to hold labeling information
-- [ ] read other solutions
+***** Label appeared number (sign)
+#+begin_src c++
+class Solution {
+public:
+  vector<int> findDisappearedNumbers(vector<int>& nums) {
+    int index;
+    vector<int> ret;
+    // label appeared number: change value to negative (the absolute value is not changed)
+    for (int i = 0; i < nums.size(); i++) {
+      index = abs(nums[i]) - 1;
+      nums[index] = -abs(nums[index]);
+    }
+    // add unlabeled number to ret
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] > 0)
+        ret.push_back(i + 1);
+    }
+    
+    return ret;
+  }
+};
+#+end_src
+*** todos [2/3]
+- [X] think about using the original vector to hold labeling information
+- [X] read other solutions
 - [ ] generalize the problem
 ** 461. Hamming Distance <<P461>>
 *** Problem Statement
@@ -4142,10 +4590,10 @@ public:
 
 #+end_src
 
-*** todos [/]
-- [ ] check solution and study
-- [ ] implement solution by yourself
-- [ ] write down different ways of thinking about this problem  
+*** todos [3/3]
+- [X] check solution and study
+- [X] implement solution by yourself
+- [X] write down different ways of thinking about this problem  
 ** 557. Reverse Words in a String III
 *** Problem Statement
 [[https://leetcode.com/problems/reverse-words-in-a-string-iii/][Link]]

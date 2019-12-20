@@ -15,5 +15,5 @@ Some other manipulations are (~A~ and ~B~ are two integers):
   - 
 - remove last bit: 
 - get ~ALL_ONE_BITS~:
-- a ^ a =
-- 0 ^ a =
+- a ^ a = 
+- 0 ^ a = 
