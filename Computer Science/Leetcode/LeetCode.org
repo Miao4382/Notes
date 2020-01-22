@@ -17,8 +17,6 @@
 [[][]]
 *** Analysis
 
-*** Solution
-
 *** todos [0/5]
 - [ ] write down your own solution and analysis
 - [ ] time complexity analysis of your own solution
@@ -474,6 +472,25 @@ public:
 *** todos [1/2]
 - [X] write down your solution and analysis
 - [ ] check solution
+** 53. Maximum Subarray
+*** Problem Statement
+[[https://leetcode.com/problems/maximum-subarray/][Link]]
+*** Analysis
+**** Linear solution (DP-my)
+
+We keep track of a ~cur_sum~, which is the sum of current subarray since last "reset". When do we reset the ~cur_sum~? As long as when we get negative value of ~cur_sum~. We can always discard the negative part of our subarray so the sum of the subarray is higher.
+
+One case should be noticed that, if the numbers are all negative, we should pick the largest negative number as our maximum subarray sum.
+**** Linear solution (DP-better)
+In my solution, I worried about the case when all numbers are negative. I was planning to reset ~cur_sum~ to zero if it gets to negative, but I thought it may mess up with negative maximum sum (because zero is greater than negative value). So I used a bunch of awkward if statement to test different conditions. It turns out, you can just update ~cur_sum~ so it contains next element before you compare ~cur_sum~ and ~max_sum~, so ~cur_sum~ will not contain zero, but a real element in the array.
+*** Solution
+
+*** todos [0/5]
+- [ ] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] read solutions to refine your code
+- [ ] generalize this problem
 ** 62. Unique Paths
 *** Problem Statement
 [[https://leetcode.com/problems/unique-paths/][Link]]
@@ -1113,7 +1130,10 @@ By this method, we need a helper function that accepts two ~Treenode~ pointer (~
 1. ~a->val == b->val~, the root must have the same value
 2. ~a->left~ is symmetrically equal to ~b->right~
 3. ~a->right~ is symmetrically equal to ~b->left~
-Case 2, 3 can be determined by calling this function recursively. Case 1 can be determined directly. Also, we have to be aware of the base case (when ~a == nullptr~ or ~b == nullptr~.
+Case 2, 3 can be determined by calling this function recursively. Case 1 can be determined directly. Also, we have to be aware of the base case (when ~a == nullptr~ or ~b == nullptr~)
+**** Iterative
+You can use DFS or BFS to traverse the left subtree and right subtree. Use stack to do DFS, use queue to do BFS. One thing should be paid attention is, you have to add the "peer node" to the same position in stack or queue, then you pop and compare if two nodes are equal or not.
+
 
 *** Solution
 **** C++
@@ -1158,12 +1178,12 @@ public:
 };
 
 #+end_src
-*** todos [1/5]
+*** todos [5/5]
 - [X] write down your analysis (recursion)
-- [ ] think about iterative solution
-- [ ] write down analysis (iterative solution)
-- [ ] check solution and discussion to find out any other idea
-- [ ] generalize this problem
+- [X] think about iterative solution
+- [X] write down analysis (iterative solution)
+- [X] check solution and discussion to find out any other idea
+- [X] generalize this problem
   
 ** 104. Maximum Depth of Binary Tree <<P104>>
 *** Problem Statement
@@ -2612,11 +2632,11 @@ public:
 #+begin_src c++
 
 #+end_src
-*** todos [0/4]
-- [ ] write down your own solution and analysis
-- [ ] time complexity analysis of your own solution
-- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
-- [ ] generalize this problem
+*** todos [4/4]
+- [X] write down your own solution and analysis
+- [X] time complexity analysis of your own solution
+- [X] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [X] generalize this problem
 ** 206. Reverse Linked List
 *** Problem Statement
 [[https://leetcode.com/problems/reverse-linked-list/][Link]]
@@ -2841,6 +2861,29 @@ public:
 *** todos [0/2]
 - [ ] analyze why my code requires a lot more space than the divide and conquer method
 - [ ] read the discussion page for more solution
+** 234. Palindrome Linked List <<P234>>
+*** Problem Statement
+[[https://leetcode.com/problems/palindrome-linked-list/][Link]]
+
+*** Analysis
+
+**** Use a vector to store the linked list
+Traverse the linked list and store the value in each node to a vector (a container that we can access randomly). Then check if the vector is palindrome.
+
+The time complexity is \(O(n)\), and space complexity is \(O(n)\).
+
+**** Partially reverse the linked list
+[[][Reference]].
+
+
+*** Solution
+
+*** todos [0/5]
+- [ ] write down your own solution and analysis
+- [ ] time complexity analysis of your own solution
+- [ ] check solution/discussion page for more ideas, implement them, and write down corresponding analysis (including time and space complexity analysis
+- [ ] read solutions to refine your code
+- [ ] generalize this problem
 ** 242. Valid Anagram
 *** Problem Statement
 [[https://leetcode.com/problems/valid-anagram/][Link]]
@@ -3400,7 +3443,7 @@ public:
 *** Problem Statement
 [[https://leetcode.com/problems/path-sum-iii/][Link]]
 *** Analysis
-**** Double recursion (~50%, 50%)
+**** Double recursion
 The tricky part is that the path does not need to start or end at the root or a leaf. However, it must go downwards (traveling only from parent nodes to child nodes), this is to say that we don't consider the situation that the path is like: ~left_child -> node -> right_child~, which makes things easier.
 
 The tricky part means we may have some paths deep below that sum to the target value, these paths are not connected to the root. In fact, we can conclude that, given a tree (or subtree) starting at ~node~, the paths that sum to the target value are composed of following cases:
@@ -3424,6 +3467,100 @@ It will return the total number of path that containing ~root~ and sum to the ta
 3. ~+1 if root->val == sum~
 
 Case 3 is when a path only contains the ~root~. Pay attention that if ~root->left~ has a path sum to zero, and ~root->val == sum~, then ~left->root~ and ~root~ are considered two different pathes. If we think in a recursive way, this will account for those paths that from a node but not reaching leaf. The last node in the path is the node that ~node->val is equal to passed in sum~.
+
+*Update (2019/12/29)*
+
+For case 3, the total number of path that containing ~root~ and sum to the target is:
+#+begin_src c++
+continuousSum(root->left, sum - root->val) +
+continuousSum(root->right, sum - root->val) +
+count;
+#+end_src
+
+Notice the target value we seek from left and right subtree is ~sum - root->val~, because we have to take root into consideration. If we find a path from left (or right) subtree that adds up to ~sum - root->val~, we find a valid path because after adding the ~root~ node's value, we have a path adds up to ~sum~. The third quantity ~count~ is to check if the current node can form a path. If ~root->val == sum~, we set it as 1, because this means the current node is the last node of one path originated from previous node(s), otherwise it is 0.
+
+*Time Complexity (Balanced tree)*
+
+[[https://leetcode.com/problems/path-sum-iii/discuss/91889/Simple-Java-DFS/153028][Ref]]
+
+Ultimately, we call ~pathSum()~ to resolve each node. We perform two ~pathSum()~ search and one ~continuousSum()~ search.
+
+When the tree is balanced, the recurrence relation of ~continuousSum~ is:
+\[
+T(n) = 2T(n/2) + 1
+\]
+
+According to Master's theorem, \(k = 0 < \log_2(2) \), so the time complexity is \(O(n)\). 
+
+Then, the recurrence of ~pathSum~ would be (for balanced tree):
+\[
+T(n) = n + 2T(n/2)
+\]
+
+According to Master's theorem, \(k = 1 = \log_2(2) \), so the time complexity is \(O(n\log(n))\).
+
+So for balanced tree, the total time complexity is \(O(n\log(n))\).
+
+*Time Complexity (Degrade to Linked List)*
+
+Ultimately, we call ~pathSum()~ to resolve each node. We perform two ~pathSum()~ search and one ~continuousSum()~ search.
+
+When the tree is degraded to linked list, the recurrence relation of ~continuousSum~ is:
+\[
+T(n) = T(n - 1) + 1
+\]
+
+The time complexity is \(O(n)\).
+
+Then, the recurrence of ~pathSum~ would be (for balanced tree):
+\[
+T(n) = n + T(n - 1)
+\]
+
+Thus, the time complexity is \(O(1 + 2 + \cdots + n) = O(n^2)\).
+
+So for tree that degraded to linked list, the total time complexity is \(O(n^2)\).
+
+**** Prefix sum
+What is [[https://en.wikipedia.org/wiki/Prefix_sum][prefix sum]].
+
+This solution is given [[https://leetcode.com/problems/path-sum-iii/discuss/91878/17-ms-O(n)-java-Prefix-sum-method/96424][here]]. (my explanation may not be clear. Check kekezi's explanation, she is doing a great job!)
+
+Imagine one path in a tree looks like this:
+#+BEGIN_EXAMPLE
+     R
+    /
+   /
+  A
+   \
+    \
+     \
+      B
+#+END_EXAMPLE
+And \(R\) is the root node, \(A\) is one node in the middle of path from node \(R\) to node \(B\).
+
+We calculate the prefix sum of each node: that is, the sum from node \(R\) to each node. Let \(S_{RA}\) and \(S_{RB}\) be the prefix sum of node \(A\) and node \(B\). We know that:
+
+\[
+S_{AB} = S_{RB} - S_{RA}
+\]
+
+If we let \(S_{AB} = t\), where \(t\) is the target sum, then we have:
+
+\[
+S_{RA} = S_{RB} - t
+\]
+
+This means if we find a node before node \(B\), whose prefix sum is \(S_{RB} - t\), a path that sum to the target sum \(t\) is found, which is the path \(AB\). Thus, we can use a hash map to store ~<prefix_sum, frequency>~ information. For each node we calculate its prefix sum, and add it to the hashmap. Then we look into the hash map to see if there is any entry with prefix sum (the key) that equals to ~prefix_sum - target~. If so, we get the frequency. This will tell the total number of path, that begins at some node before the current node, and ends at the current node, the sum of the path between this two nodes is the target sum.
+
+For each node, we have to also count the number of such path which starts at its left and right child (since above method only count path ends at the node), so we have to recursively calculate the total number of path. 
+
+This is a DFS recursion, we will go to the deepest node possible and then starts to return the path number. Two things should be noticed:
+1. we should add ~<0, 1>~ pair to the hash map. This corresponds to the case when the value of a node is equal to the target.
+2. after we sum the total number of path (path that ends at current node, path that starts with its left child, path that starts with its right child), and before we return, we should remove the contribution of this node's prefix from the hash map, because once we returned, this node will not be used in the remaining recursion. This algorithm works in a DFS manner. If we don't remove the contribution of the deeper node to a certain prefix sum, we could count this node again, which is redundant (the path is not connected). 
+
+The time complexity of this algorithm is \(O(n)\), since we'll traverse each node in a DFS manner. At each node, we check the hash map, which is a constant time operation. Thus the total time complexity is \(O(n)\).
+
 *** Solution
 **** C++
 ***** double recursion
@@ -3463,10 +3600,10 @@ public:
   }
 };
 #+end_src
-*** todos [1/3]
+*** todos [3/3]
 - [X] write down your own solution (including analysis).
-- [ ] check discussion panel, find out other solutions. Understand and write analysis, implement the solution
-- [ ] write down these analysis
+- [X] check discussion panel, find out other solutions. Understand and write analysis, implement the solution
+- [X] write down these analysis
 ** 442. Find All Duplicates in an Array<<P442>>
 *** Problem Statement
 [[https://leetcode.com/problems/find-all-duplicates-in-an-array/][Link]]
