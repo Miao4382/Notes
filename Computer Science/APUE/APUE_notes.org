@@ -1,0 +1,160 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \linespread {1.5}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [12pt]
+* Process Environment
+** Introduction
+** ~main()~ Function
+A C program starts execution with a function called ~main()~. The prototype is as follows:
+#+begin_src c
+int main(int argc, char *argv[]);
+#+end_src
+The program is executed somewhere in the kernel by one of the ~exec()~ functions. The execution steps are:
+1. a special start-up routine is called first. Its job is taking values (like the command-line arguments and the environment) and sets things up so ~main()~ can be called.
+2. the ~main()~ function is called
+
+The special start-up routine is specified in the starting address of the program, so it is called first. This is set up by the link editor when it is invoked by the C compiler.
+** Process Termination
+There are 5 normal termination and 3 abnormal termination:
+
+*Normal Termination*
+- return from ~main()~
+- calling ~exit()~ (in ~stdlib.h~). ~exit()~ performs certain cleanup processing and then returns to kernal.
+- calling ~_exit()~ (in ~unistd.h~) or ~_Exit()~ (in ~stdlib.h~). They return to kernal immediately.
+- return of the last thread from its start routine
+- calling ~pthread_exit()~ from the last thread
+
+*Abnormal Termination*
+- calling ~abort()~
+- receipt of a signal
+- response of the last thread to a cancellation request
+
+We mentioned that there is a start-up routine that is called before ~main()~ is called. It is designed so that when ~main()~ returns, the ~exit()~ function in this start-up routine is also called. And we pass the return value of ~main()~ to the ~exit()~ function. If the start-up routine were coded in C, the call to ~main()~ could look like:
+#+begin_src c
+exit(main(argc, argv));
+#+end_src
+So inside the ~exit()~ function, ~main()~ is called, then until it finished, ~exit()~ is executed.
+
+When the ~exit()~ function is called, a clean shutdown of the standard I/O library will be performed. The ~fclose()~ function is called for all open streams.
+*** Example: file stream buffer flush
+Assume we opened a file, and use library call to write content to it. Then we don't close it but exit the ~main()~ function, then we check if content in buffer has been flushed into the file.
+
+#+begin_src c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+  FILE* fp = NULL;
+  fp = fopen("1.txt", "w");
+  fprintf(fp, "this is a buffered message\n");
+  
+  exit(0);
+}
+#+end_src
+
+Although we didn't call ~fclose()~, the content in the buffer was flushed into the file after ~exit()~.
+*** Check the exit code
+The exit code returned by the last command is stored in the environment variable ~$?~. To check the value of the exit code, you can ~echo~ that value:
+#+BEGIN_EXAMPLE
+> echo $?
+#+END_EXAMPLE
+** Environment List
+When every programe is executed, it is passed in an environment list. It is an array of ~char*~, which each ~char*~ points to a null-terminated C-string. The pointer to this array is stored in a global variable ~environ~:
+#+begin_src c
+extern char** environ;
+#+end_src
+This variable, is called environment pointer. The specific item in the array (the environment list), is called environment strings. The following example shows the an environment list containing 5 environment variables:
+#+BEGIN_EXAMPLE
+environ[0] ---> "HOME=/home/my\0"
+environ[1] ---> "PATH=:/bin:/usr/bin\0"
+environ[2] ---> "SHELL=/bin/bash\0"
+environ[3] ---> "USER=my\0"
+environ[4] ---> "LOGNAME=my\0"
+#+END_EXAMPLE
+
+Notice that, the environment variable consists of:
+#+BEGIN_EXAMPLE
+name=value
+#+END_EXAMPLE
+The assignment symbol is part of the string. ISO C defines a function that we can use to fetch ~value~ from the environment variable:
+#+begin_src c
+char* getenv(const char* name);
+#+end_src
+It will return a pointer to the ~value~ associated with the ~name~, or ~NULL~ if not found. We should always use ~getenv()~ to fetch a specific value from the environment, instead of accessing ~environ[]~ directly.
+*** Example: check the value of environment list
+Try to print each string in environment lis.
+
+#+begin_src c
+#include <stdio.h>
+
+extern char** environ;
+
+int main() {
+  char** ptr = environ;
+  while (*ptr)
+    printf("%s\n", *ptr++);
+  return 0;
+}
+#+end_src
+** Memory Layout of a C Program's process
+How does a C program's process occupy the memory? Historically, a C program is composed of the following parts:
+- *Text segment*: a read-only (often) area that contains machine instructions that the CPU executes.
+- *Initialized data segment*: often called data segment, contains variables that are globally defined and initialized in the program. Also, static variables in functions will be stored here too.
+- *Uninitialized data segment*: often called the "bss" segment, contains variables that are globally defined but not initialized, like a global variable of ~int sum[1000]~. Memory space that is large enough for these variables will be reserved and form the uninitialized data segment. Before the program starts executing, the segment is initialized by the kernel to arithmetic 0 or null pointers.
+- *Stack*: stack is related to functions in the program. It stores the local variable of a function (the automatic variables). Along with other information, like:
+  - address of where to return to
+  - certain information about the caller's environment (some of the machine registers, command-line arguments, environment variables)
+  The newly called function will allocate room on the stack for its automatic and temporary variables. For example, each time a recursive function calls itself, a new stack frame is used, so one set of variables doesn't interfere with the variables from another instance of the function. If too many recursive calls happen, stack will overflow.
+- *Heap*: if the program needs to dynamically allocate memory, it will use heap memory space to do so. Historically, the heap has been located between uninitialized data segment and the stack.
+
+Note that the uninitialized data segment are not stored in the program file on disk (they are just symbols stating the amount of memory space needed when *STARTING* the program, only when the program is executed, and a corresponding process created, the kernel will setup the required memory segment for those uninitialized data).
+** Shared Libraries
+What is a shared library? Shared libraries remove the common library routines from the executable file, instead maintaining a single copy of the library routines somewhere in memory that all processes can reference. As a result, the size of each executable file is reduced. By default, when you compile, the shared libraries will be used.
+
+If you compile a program using ~static~ flag, you statically link library routines to your program. You'll get a larger program, but the program doesn't have a dynamic linker to run (it has all it needs). This is similar with embedding a font file to a pdf file.
+** Memory Allocation
+ISO C specifies three functions for memory allocation:
+1. ~malloc()~: allocates a specified number of bytes of memory. The initial value of the memory is undefined.
+2. ~calloc()~: allocates space for a specified number of objects of a specified size. The initial value of these spaces are all set to 0 bit.
+3. ~realloc()~: increases or decreases the size of a previously allocated area.
+
+** Environment Variables
+We normally set environment variables in a shell start-up file to control the shell's actions. Environment variables are kept in the environment list ~environ[]~. We use ~getenv(name)~ to get the value of environment variable ~name~. Additionally, we have following functions: ~putenv()~, ~setenv()~, ~unsetenv()~.
+
+*** ~putenv()~
+The prototype of ~putenv()~ is:
+#+begin_src c
+int putenv(char* str);
+#+end_src
+It takes a string of the form ~name=value~ and places it in ~environ[]~. If ~name~ already exists in ~environ[]~, its old definition is first removed. If ~name~ is not in the ~environ[]~, this will be added as a new environment variable.
+
+After calling of this function, no matter what the previous states of ~environ[]~ is, it will have a slot with ~name=value~.
+
+This function will put ~str~ (the ~char*~) directly into ~environ[]~. So, it is illegal to pass a pointer that is pointing to stack space, since these stack space will be recycled after we return from the current function.
+
+*** ~setenv()~
+The prototype of ~setenv()~ is:
+#+begin_src c
+int setenv(const char* name, const char* value, int rewrite);
+#+end_src
+This function does similar things with ~putenv()~, except:
+1. you pass in ~name~ and ~value~ separately
+2. you can determine whether overwrite the old ~name~'s value if ~name~ already exists:
+   1. if ~rewrite~ is zero: old ~name~'s value doesn't change
+   2. if ~rewrite~ is non-zero: old ~name~'s value is set to ~value~
+3. If no ~name~ exits, a new string ~"name=value"~ will be inserted to ~environ[]~.
+
+Unlike ~putenv()~, ~setenv()~ will allocate memory to create the ~"name=value"~ string from the two arguments ~name~ and ~value~. So it can accept ~name~ and ~value~ from stack space.
+
+*** ~unsetenv()~
+The prototype of ~unsetenv()~ is:
+#+begin_src c
+int unsetenv(const char* name);
+#+end_src
+It will remove any definition of ~name~. It is not an error if such definition does not exist.
+* Place Holder

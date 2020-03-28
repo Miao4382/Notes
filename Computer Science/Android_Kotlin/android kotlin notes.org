@@ -1,0 +1,250 @@
+#+STARTUP: indent
+#+OPTIONS: H:6
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=9}]
+#+LATEX_HEADER: \usepackage[margin=1in] {geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \linespread {1}
+#+LATEX_HEADER: \setcounter{tocdepth} {6}
+#+LATEX_HEADER: \setcounter{secnumdepth} {6}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt]
+
+* Kotlin Basics
+
+** Control Structures
+
+*** ~For~ loop
+Example: python like for loop (iterates over anything that is iterable):
+#+begin_src kotlin
+val nums = IntArray(10) { it }
+for (num in nums)
+  println(num)
+#+end_src
+You can use ~..~ operator to create a range to work inside the for loop. It includes the end point:
+#+begin_src kotlin
+for (i in 0..10)
+  println(i)
+#+end_src
+Use ~until~ operator to exclude the end point:
+#+begin_src kotlin
+for (i in 0 until 10)
+  println(i)
+#+end_src
+To specify the step, you can add ~step~ after the range:
+#+begin_src kotlin
+for (i in 0..10 step 2)
+  println(i)
+#+end_src
+The step value must be positive. If you want to count down (for example, from 10 to 0), you may use ~downTo~ operator to generate the range:
+#+begin_src kotlin
+for (i in 10 downTo 0)
+  println(i)
+#+end_src
+~downTo~ operator will include the end point.
+
+
+* Basics: activity, layout and view
+
+** Activity
+What does ~MainActivity~ mean? This is a class inherited from ~AppCompatActivity~. It is the definition of an activity. In Andriod apps, one activity corresponds to one "screen", it represents a single screen with a user interface (layout). The entry point of one activity is the ~onCreate()~ function. We have to override the ~onCreate()~ function in our ~MainActivity~ class, so we can do things when the activity is loaded.
+
+The entry point of an app (which activity to run first when the app is launched) is determined by the field value in AndroidManifest.xml. Each activity used in the app is declared  in this xml file, for example:
+#+begin_src xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.msgs2">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+#+end_src
+If you want to use multiple activity in your app, declare them in this file. As shown above, in ~<activity android:name=".MainActivity">~, we are using intent filter to specify that this activity will be run when the app is launched:
+#+begin_src xml
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+#+end_src
+
+** Layout
+To display different "gadgets" on the activity, we use the idea of layout (defined by a xml file). One activity should have a specific layout attached to it. So when the activity is running, the corresponding layout will be loaded and displayed. To render a certain layout in one activity, we simply call ~setContentView()~ method inside our activity's entry point (the ~onCreate()~ method)and pass in the layout. To access the layout, we may use ~R.layout.xxx~, where ~xxx~ represents the layout name. ~R~ is a class that is accessible which contains the resources of the app.
+
+** View
+
+What is view? View is the "gardget" in your app. They display on top of your layout. You can have multiple views on a layout.
+
+* Basic Examples
+This section has some of the most basic examples
+** Use Android Log
+The ~Log~ class can be used to print message to Logcat. We can use it as a way of debugging (printing out information). Example:
+#+begin_src kotlin
+// print as information, have to specify tag and content
+Log.i("Tag", "content")
+
+// print as debugging, have to specify tag and content
+Log.d("Tag", "content")
+#+end_src
+** Toast a message to user
+The 
+** Add a button and define on click behavior
+A button is a view in your layout. You can use drag-and-drop to add a button in your layout, or just edit the xml file. Each view has an id, which should be unique in that layout. You can add the id of the view by adding following code in the xml file (the corresponding section):
+#+begin_src xml
+android:id="@+id/btnShowToast"
+#+end_src
+You can set the text of the button by adding:
+#+begin_src xml
+android:text="Show Toast"
+#+end_src
+After adding the button to the layout, we can setup the behavior when we click the button. We should go to the activity that will render this layout, go to the ~onCreate()~ method of this activity, then we write:
+#+begin_src kotlin
+btnShowToast.setOnClickListener { }
+#+end_src
+Using this syntax, we can specify the lambda expression as the behavior when this button is clicked, we put the lambda expression inside the ~{ }~.
+** Create second activity and use ~intent~ to switch to it
+You can use intent to start another activity (another screen). An intent is an abstract description of an operation to be performed.
+
+To switch to another activity, you should build the second activity first (as well as the corresponding layout to render on the activity). Then you have to goto AndroidManifest.xml file and add the new activity to your application (especially the name of the activity), so your application is able to access it. For example, if the name of the new activity is ~Activity2~, then you would add following snippet to the AndroidManifest.xml file:
+#+begin_src xml
+        <activity android:name=".Activity2"
+                  android:parentActivityName=".MainActivity">
+
+        </activity>
+#+end_src
+
+Then, go to the place where you want to start the new activity (this can be in a view's ~setOnClickListener~ method, for example, when you click the button, it will start the new activity). You'll have to declare an ~intent~:
+#+begin_src kotlin
+val intent = Intent(this, Activity2::class.java)
+#+end_src
+Notice that we called ~Intent()~ method to create the intent. The first parameter is the ~packageContext~, second parameter would be the activity you want to go to. In our case, it is ~Activity2~. We concatenate with ~::class.java~ to show this is an activity class (?).
+
+After creating the ~intent~, we call the method ~startActicity()~ (this is a method in ~Activity~ class) and pass in the intent to run the activity:
+#+begin_src kotlin
+startActivity(intent)
+#+end_src
+** Pass data from one activity to another activity
+When creating intent, add ~putExtra()~ and pass in the key of the information and value of the information. Key will be used to extract this piece of information in the new activity. Example:
+#+begin_src kotlin
+// globally defined constant
+const val EXTRA_NUM = "com.example.myfirstapp.NUM"
+
+/* ... */
+        // build an intent
+        val intent = Intent(this, DisplayMessageActivity::class.java).apply {
+            putExtra(EXTRA_NUM, num)
+        }
+#+end_src
+
+Then in the new activity's ~onCreate()~ method, we can call ~getExtra()~ to get the value using the key. There are different types of value to get, for example, if here we are passing in integer, then:
+#+begin_src kotlin
+    // 0 is the default value in case no int passed in the intent
+    val num = intent.getIntExtra(EXTRA_NUM, 0)
+#+end_src
+Notice that the ~getExtra()~ method is ~intent~'s member function.
+
+Similarly, if you want to pass string to the new activity, you wish to call ~getStringExtra()~ to get the string value.
+
+
+
+* Motion Sensor In Kotlin App
+[[https://expertise.jetruby.com/how-to-implement-motion-sensor-in-a-kotlin-app-b70db1b5b8e5][Reference]]
+
+** Get Sensor Manager
+Before working with sensors in our activity, we should declare a member in the activity class:
+#+begin_src kotlin
+class MainActivity : AppCompatActivity() {
+
+  // declares a private member of MainActivity, type is SensorManager
+  private lateinit var sensorManager: SensorManager
+  
+  override fun onCreate(savedInstanceState: Bundle?) {
+    // blablabla
+  }
+}
+#+end_src
+Notice that we used ~lateinit~ modifier, this is saying that this ~var~ is initialized later, after the constructor is called, which is common case for our framework here. ~SensorManager~ indicates the type of this variable will be a Android sensor manager.
+
+Then, in our constructor function ~onCreate()~, we obtain an instance of ~SensorManager~ by calling the ~getSystemService()~ function:
+#+begin_src kotlin
+this.sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+#+end_src
+We use Kotlin's safe case operator ~as~ to cast system service to the desired type. The ~as~ operator tries to cast a service instance to a ~SensorManager~ type and returns it. If service is not an instance of ~SensorManager~ or ~getSystemService()~ returned null itself, the ~as~ operator will return null.
+
+** Get Sensors
+By calling the ~getDefaultSensor(type: Int)~ member function in ~SensorManager~ class, we can get instance of sensors and assign it to variable (instances) in our ~MainActivity~ class. For example, the following code gets accelerometer, it is established in ~onCreate()~ method.
+#+begin_src kotlin
+sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.let {
+  this.accelerometer = it
+}
+#+end_src
+The question mark after the method call is a null check. It checks the returned value of ~getDefaultSensor()~ to see if it is null or not (if the device does not have the requested sensor, the returned value would be null). Then, we use the ~let~ function (standard Kotlin library function) to execute code inside the block {}, which will assign ~this.accelerometer~ with ~it~. ~it~ is the object that calls the ~let~ function. When an object is calling ~let~ function, ~let~ function will turn the object into a parameter of the lambda, referenced by ~it~. Notice that if the returned value is null, ~let()~ function won't be called.
+
+** Setup Sensor Event Listener
+
+When a sensor's monitoring data changed (for example, the acceleration changed, which is monitored by accelerometer), sensor event will be triggerred. If we want to collect data from the sensor, we have to implement so called ~SensorEventListener~ to listen to the occurence of such sensor event. Then we can extrac sensor data from the sensor event.
+
+The ~SensorEventListener~ interface defined two methods:
+#+begin_src kotlin
+onAccuracyChanged(sensor: Sensor?, accuracy: Int)
+onSensorChanged(event: SensorEvent?)
+#+end_src
+If you want to listen sensor event in your activity, you have to add the ~SensorEventListener~ interface to your class:
+#+begin_src kotlin
+class MainActivity : AppCompatActivity(), SensorEventListener {
+
+}
+#+end_src
+In this way, your ~MainActivity~ class should comply the interface defined by ~SensorEventListener~, i.e. you have to provide the implementation of the two methods mentioned above.
+
+*** ~onAccuracyChanged()~
+When a sensor's accuracy changes, the system invokes this method, and passes in two parameters (so you can use in this method):
+- ~sensor: Sensor?~: reference to the sensor object, which has changed
+- ~accuracy: Int~: the new accuracy of the sensor. It is one of four status constants:
+  - ~SENSOR_STATUS_ACCURACY_LOW~
+  - ~SENSOR_STATUS_ACCURACY_MEDIUM~
+  - ~SENSOR_STATUS_ACCURACY_HIGH~
+  - ~SENSOR_STATUS_ACCURACY_UNRELIABLE~
+
+If you don't need any accuracy indicators of the sensor, we can leave the implementation of this method empty.
+
+*** ~onSensorChanged()~
+When a sensor reports a new value (or even the same value in new time), the system invokes this method and passes in the corresponding sensor event,
+~event: SensorEvent?~. This ~SensorEvent~ object contains information about the new sensor data, which includes:
+- the raw data that the sensor recorded
+- data accuracy
+- the sensor that generated the data
+- the timestamp that the data was generated
+In our implementation of ~onSensorChanged()~ method, we first determine the type of the sensor that emits this event, then we make the corresponding calculations.
+
+For example, we are going to use ~when~ statement to check the sensor type:
+#+begin_src kotlin
+when (event?.sensor?.type) {
+  //..
+}
+#+end_src
+The ~when~ statement in Kotlin is like the ~switch~ statement in C++. Inside the parenthese, we use safe call to access the type of the sensor (if the ~event~ null? if not, if ~sensor~ in ~event~ null? if not, what would be type of this ~event.sensor~?).
+
+Then, we do different things based on the type of sensor that triggerred the event. For example, if the type is accelerometer:
+#+begin_src kotlin
+when (event?.sensor?.type) {
+
+}
+#+end_src
+
+
+* PH

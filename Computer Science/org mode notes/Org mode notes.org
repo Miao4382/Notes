@@ -2,6 +2,7 @@
 #+OPTIONS: H:6
 #+LATEX_HEADER: \usepackage[margin=1in] {geometry}
 #+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{xcolor}
 #+LATEX_HEADER: \setlength\parindent{0pt}
 #+LATEX_HEADER: \linespread {1.0}
 #+LATEX_HEADER: \setcounter{tocdepth} {6}
@@ -67,11 +68,41 @@ the LaTex export back-end wraps the image in a floating 'figure' environment. So
 Example:
 #+BEGIN_EXAMPLE
 #+CAPTION: figure_caption ("figure_caption" will be displayed under figure)
-#+NAME: fig:"image_name" (used for internal reference)
-#+ATTR_LATEX: :width 200pt
+#+NAME: image_name (image_name is set to be anchor used for internal reference)
+#+ATTR_LATEX: :width 200pt (or you can specify the height)
 #+ATTR_LATEX: :float nil
 [[./img/1.pdf]]
 #+END_EXAMPLE
+
+**** Insert figure reference
+If you have ~#+NAME~ tag setup in the figure header, you have created an anchor at the image, and you can use it to create references in the text. For example, if you have:
+#+BEGIN_EXAMPLE
+#+NAME: image_name
+#+END_EXAMPLE
+Then, you can add the internal link by using following syntax:
+#+BEGIN_EXAMPLE
+[[image_name]]
+#+END_EXAMPLE
+
+Also, you have to compile it twice, otherwise you will have "??" in the reference number field. The reason is:
+#+BEGIN_QUOTE
+The first time it figures out the reference numbers. On the second pass it fills in the reference numbers.
+#+END_QUOTE
+[[https://tex.stackexchange.com/questions/31786/i-get-double-question-marks-when-referring-to-labels-inside-figures][Reference]]
+
+*** Change font color
+[[https://tex.stackexchange.com/questions/17104/how-to-change-color-for-a-block-of-texts][Reference]]
+
+First you have to include the ~xcolor~ package:
+#+BEGIN_EXAMPLE
+#+LATEX_HEADER: \usepackage{xcolor}
+#+END_EXAMPLE
+Then you can use following syntax to write different colored text:
+#+BEGIN_EXAMPLE
+\textcolor{<color>}{<text>}
+#+END_EXAMPLE
+
+See documentation of the package for more information.
 
 *** Indentation
 **** Org Indentation Mode
@@ -99,8 +130,8 @@ If you want to add an extra line between paragraphs, you can use package:
 This will add an extra line between paragraphs. It will also automatically set the indentation of the first line of a paragraph to 0 (you don't have to set it manually like the above example, however, you can set other paragraph indentations using the ~#+LATEX_HEADER: \setlength\parindent{0pt}~ line).
 
 [[https://emacs.stackexchange.com/questions/16889/how-to-control-newline-and-indent-when-export-to-latex-from-org-mode-file][Reference]]
-*** Inline Equation, Display Equation and Multi-lined EquationIn latex, ~\(\)~ is for inline equation.
-
+*** Equations
+**** In-line, single-line and multi-line equation
 In latex, ~\[\]~ is for single line display equation (without number).
 
 If you want to input a block that contains Multi-lined equation, you have to use:
@@ -112,6 +143,24 @@ x + y &= z
 #+END_EXAMPLE
 
 LaTex align mode can achieve this. The ~*~ indicates no indexing of the equation. ~\\~ means newline, you have to use this to go to next line. ~&~ in front of the ~=~ indicates where you want to align these functions.
+**** Index of equation
+We have to use latex equation fragment, and add name to it (create an anchor to be referenced later, similar with figure number)
+#+BEGIN_EXAMPLE
+#+NAME: integralThreeTimes(put name of the equation here, which will be the anchor name)
+\begin{equation}
+
+\end{equation}
+#+END_EXAMPLE
+
+If you want to reference it later, use:
+#+BEGIN_EXAMPLE
+As shown in equation ([[integralThreeTimes]]), we integrated three times...
+#+END_EXAMPLE
+Notice how you would use the reference.
+
+
+
+
 *** Paragraph Skip
 The most common way to quickly add spaces between paragraphs in LaTeX is to use the parskip package. You can tell org-mode to include that in the LaTeX header by adding the following line in beginning:
 #+BEGIN_EXAMPLE
@@ -124,7 +173,6 @@ If you want to add extra space after a certain paragraph, add latex code ~\vspac
 #+BEGIN_EXAMPLE
 ...and this is the end of the paragraph. latex:vspace{1cm}
 #+END_EXAMPLE
-
 
 
 *** Set Default TeX engine
@@ -183,7 +231,6 @@ Notice that:
 
 Use ~p{10cm}~ inside the relative position of column you want to fix.
 
-
 *** Export LaTex pdf File with Chinese
 [not finished]
 When you have Chinses characters in your org file, you have to save it using utf-8 encoding system. And you also have to use the ctex package:
@@ -213,7 +260,6 @@ I put an anchor at the starting of this section, the name is ~example_anchor~, n
 
 You will see: [[example_anchor][go to my example anchor]]. Click it, it will bring you back to the beginning. This is how it works.
 
-
 *** Change default font
 We can use package ~fontspec~ to change default font. But you have to compile with ~xelatex~ engine (do it in command line is easier).
 
@@ -240,7 +286,6 @@ This is because we need to use xelatex engine to compile the ~.tex~ code to use 
 
 You can find other options in [[http://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fontspec/fontspec.pdf][fontspec's documentation]].
 
-
 *** Add a Piece of LaTex Code
 [[https://orgmode.org/manual/Quoting-LaTeX-code.html][Reference]]
 
@@ -250,7 +295,6 @@ There are 3 ways to do this. Check reference for details. Here will briefly intr
 // latex code here
 #+END_EXPORT
 #+END_EXAMPLE
-
 
 
 *** Add Box Around Verbatism
@@ -285,14 +329,12 @@ To use this feature, you have to change environment name from ~verbatism~ to ~Ve
 
 
 
-
 *** Add Box Around Code
 Code block is controled by minted package. So we just need to change minted options in ~.emacs~ file:
 #+BEGIN_EXAMPLE
   (setq org-latex-minted-options '(("breaklines" "true")
     ("breakanywhere" "true") ("frame" "single") ("framesep" "10pt")))
 #+END_EXAMPLE
-
 
 *** Add Box Around Text
 [[https://tex.stackexchange.com/questions/25903/how-to-put-a-long-piece-of-text-in-a-box][Reference]].
@@ -345,9 +387,8 @@ Use ~\fbox{}~ to enclose the content you want to enclose. Inside the brackets, y
 #+END_EXAMPLE
 ~[c]~ is saying this minipage is centered, and ~{\textwidth}~ is setting the minipage's width as the text width. You can use ordinary latex environments inside the minipage to format.
 
-
 *** Fix the "^^I" problem
-Many of my code segment in the output pdf file rendered by xelatex has ~^^I~ before a line. This is because when exporting, certain length space will be replaced by tab, and the solution is to add a ~-8bit~ flag when compiling the pdf file using ~xelatex~. Check [[https://tex.stackexchange.com/questions/264461/xelatex-minted-code-block-represents-tabs-as-i][this]] to get more info. Now your xelatex should be: ~xelatex -8bit-shell-escape~.
+Many of my code segment in the output pdf file rendered by xelatex has ~^^I~ before a line. This is because when exporting, certain length space will be replaced by tab, and the solution is to add a ~-8bit~ flag when compiling the pdf file using ~xelatex~. Check [[https://tex.stackexchange.com/questions/264461/xelatex-minted-code-block-represents-tabs-as-i][this]] to get more info. Now your xelatex should be: ~xelatex -8bit -shell-escape~.
 ** Useful links
 [[http://doc.norang.ca/org-mode.html][General ORG tutorial]]
 ** Emacs

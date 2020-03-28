@@ -7,14 +7,13 @@
 #+LATEX_HEADER: \setcounter{tocdepth} {3}
 #+LATEX_HEADER: \setcounter{secnumdepth} {3}
 #+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \usepackage{xcolor}
 #+LATEX_HEADER: \usepackage{fancyvrb}
 #+LATEX_HEADER: \setmonofont{Droid Sans Mono}[SizeFeatures={Size=10}]
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [11pt]
 
 ** 0. Template <<P>>
-*** Problem Statement
-[[][]]
 *** Analysis
 
 *** todos [0/5]
@@ -914,6 +913,9 @@ class Solution:
 - [X] write down your own solution and analysis
 - [ ] time complexity analysis of your solution
 - [ ] check discussion page for more solutions
+** 92. Reverse Linked List II
+*** Analysis
+
 ** 94. Binary Tree Inorder Traversal
 *** Problem Statement
 [[https://leetcode.com/problems/binary-tree-inorder-traversal/][Link]]
